@@ -1,0 +1,97 @@
+{
+  "_aciklama": "NPC kişiliği (adım 3.1). eksenler 1–5 (dışadönüklük, uyumluluk, sorumluluk, duygusal denge, açıklık) seed'den çekilir; ozellikler eksenlere uygun olanlar arasından 2–3 tane seçilir (kosul: eksen sınırları; zit: birlikte olamayanlar). gizliler: oyuncuya görünmeyen özellikler (Suç dünyası, Faz 3): taban olasılık + sakin türüne / örgüt yakınlığına göre çarpan. Dedikodu ağı (Faz 4) 'aktarim' alanını kullanır: geveze büyütür, ketum saklar, kıskanç çarpıtır.",
+
+  "eksenler": {
+    "disadonuk": { "ad": "dışadönüklük", "dusuk": "içine kapanık", "yuksek": "sosyal" },
+    "uyumlu": { "ad": "uyumluluk", "dusuk": "huysuz", "yuksek": "yumuşak başlı" },
+    "sorumlu": { "ad": "sorumluluk", "dusuk": "dağınık", "yuksek": "düzenli" },
+    "dengeli": { "ad": "duygusal denge", "dusuk": "kaygılı", "yuksek": "soğukkanlı" },
+    "acik": { "ad": "açıklık", "dusuk": "alışkanlıklarına bağlı", "yuksek": "meraklı" }
+  },
+
+  "ozellikler": [
+    { "id": "geveze", "ad": "geveze", "kosul": { "disadonuk": [4, 5] }, "zit": ["ketum"], "aktarim": "buyutur" },
+    { "id": "ketum", "ad": "ağzı sıkı", "kosul": { "disadonuk": [1, 3] }, "zit": ["geveze"], "aktarim": "saklar" },
+    { "id": "comert", "ad": "cömert", "kosul": { "uyumlu": [3, 5] }, "zit": ["cimri"] },
+    { "id": "cimri", "ad": "eli sıkı", "kosul": { "uyumlu": [1, 3] }, "zit": ["comert"] },
+    { "id": "alingan", "ad": "alıngan", "kosul": { "dengeli": [1, 2] }, "zit": ["umursamaz"] },
+    { "id": "umursamaz", "ad": "vurdumduymaz", "kosul": { "dengeli": [4, 5], "sorumlu": [1, 3] }, "zit": ["alingan", "titiz"] },
+    { "id": "sakaci", "ad": "şakacı", "kosul": { "disadonuk": [3, 5] }, "zit": ["asik_surat"] },
+    { "id": "asik_surat", "ad": "asık suratlı", "kosul": { "disadonuk": [1, 2] }, "zit": ["sakaci"] },
+    { "id": "merakli", "ad": "meraklı", "kosul": { "acik": [4, 5] }, "aktarim": "sorar" },
+    { "id": "kuskucu", "ad": "kuşkucu", "kosul": { "uyumlu": [1, 3] }, "zit": ["saf"] },
+    { "id": "saf", "ad": "saf", "kosul": { "uyumlu": [4, 5], "acik": [1, 3] }, "zit": ["kuskucu", "kurnaz"] },
+    { "id": "kurnaz", "ad": "kurnaz", "kosul": { "acik": [3, 5] }, "zit": ["saf"] },
+    { "id": "inatci", "ad": "inatçı", "kosul": { "uyumlu": [1, 3] }, "zit": ["uysal"] },
+    { "id": "uysal", "ad": "uysal", "kosul": { "uyumlu": [4, 5] }, "zit": ["inatci", "kavgaci"] },
+    { "id": "kavgaci", "ad": "kavgacı", "kosul": { "uyumlu": [1, 2], "dengeli": [1, 3] }, "zit": ["uysal"] },
+    { "id": "kiskanc", "ad": "kıskanç", "kosul": { "dengeli": [1, 3] }, "aktarim": "carpitir" },
+    { "id": "sadik", "ad": "sadık", "kosul": { "sorumlu": [3, 5], "uyumlu": [3, 5] }, "aktarim": "saklar" },
+    { "id": "gururlu", "ad": "gururlu", "kosul": { "dengeli": [2, 5] }, "zit": ["alcakgonullu"] },
+    { "id": "alcakgonullu", "ad": "alçakgönüllü", "kosul": { "uyumlu": [3, 5] }, "zit": ["gururlu", "gosterisci"] },
+    { "id": "gosterisci", "ad": "gösterişçi", "kosul": { "disadonuk": [3, 5] }, "zit": ["alcakgonullu"] },
+    { "id": "titiz", "ad": "titiz", "kosul": { "sorumlu": [4, 5] }, "zit": ["umursamaz", "daginik"] },
+    { "id": "daginik", "ad": "dağınık", "kosul": { "sorumlu": [1, 2] }, "zit": ["titiz"] },
+    { "id": "hayalperest", "ad": "hayalperest", "kosul": { "acik": [4, 5] }, "zit": ["ayagi_yere_basan"] },
+    { "id": "ayagi_yere_basan", "ad": "ayağı yere basan", "kosul": { "sorumlu": [3, 5], "acik": [1, 3] }, "zit": ["hayalperest"] },
+    { "id": "yardimsever", "ad": "yardımsever", "kosul": { "uyumlu": [4, 5] } },
+    { "id": "kaygili", "ad": "evhamlı", "kosul": { "dengeli": [1, 2] } },
+    { "id": "sabirli", "ad": "sabırlı", "kosul": { "dengeli": [4, 5] } },
+    { "id": "yalanci", "ad": "abartmayı seven", "kosul": { "sorumlu": [1, 3], "disadonuk": [3, 5] }, "aktarim": "buyutur" }
+  ],
+
+  "gizliler": {
+    "ihbarci": { "ad": "polisle bağlantılı", "taban": 0.02, "carpan": { "gece_calisani": 3, "kayit_disi": 2, "esnaf": 1.5 } },
+    "guvenilmez": { "ad": "güvenilmez", "taban": 0.08, "ozellikCarpan": { "kurnaz": 2.5, "yalanci": 2, "sadik": 0.1 } },
+    "borclu": { "ad": "gizli borcu var", "taban": 0.12, "carpan": { "esnaf": 1.8, "toki_sakini": 2, "yeni_zengin": 1.5, "kayit_disi": 1.5 } },
+    "hirsli": { "ad": "hırslı", "taban": 0.15, "carpan": { "beyaz_yaka": 2, "genc_girisimci": 2, "yeni_zengin": 2 } }
+  },
+
+  "alisanliklar": [
+    { "id": "cay_tiryakisi", "metin": "Günde yirmi bardak çay içer.", "agirlik": 5 },
+    { "id": "sigara", "metin": "Sigarayı sigarayla yakar.", "agirlik": 4, "yasMin": 16 },
+    { "id": "mac", "metin": "Demirspor'un hiçbir maçını kaçırmaz.", "agirlik": 3 },
+    { "id": "tavla", "metin": "Her akşam kahvede bir el tavla atar.", "agirlik": 3, "yasMin": 30 },
+    { "id": "namaz", "metin": "Beş vakit namazını kılar.", "agirlik": 3, "yasMin": 14 },
+    { "id": "sabah_yuruyusu", "metin": "Sabah altıda Kordon'da yürür.", "agirlik": 2, "yasMin": 35 },
+    { "id": "fal", "metin": "Kahve falına bakmadan güne başlamaz.", "agirlik": 2, "cinsiyet": "k" },
+    { "id": "dizi", "metin": "Akşam dizilerini sırayla takip eder.", "agirlik": 3 },
+    { "id": "radyo", "metin": "Radyoda hep eski şarkılar çalar.", "agirlik": 2, "yasMin": 45 },
+    { "id": "kus", "metin": "Balkonda kuşlara ekmek doğrar.", "agirlik": 1, "yasMin": 50 },
+    { "id": "bulmaca", "metin": "Körfez Postası'nın bulmacasını mürekkeple çözer.", "agirlik": 2, "yasMin": 40 },
+    { "id": "balik", "metin": "Hafta sonları iskelede olta sallar.", "agirlik": 2 },
+    { "id": "spor", "metin": "Spor salonundan çıkmaz.", "agirlik": 2, "yasMax": 45 },
+    { "id": "gece_kusu", "metin": "Sabaha karşı yatar, öğleye doğru kalkar.", "agirlik": 2, "yasMax": 40 },
+    { "id": "tartisma", "metin": "İnternette yabancılarla saatlerce tartışır.", "agirlik": 2, "yasMax": 50 },
+    { "id": "loto", "metin": "Her hafta aynı numaralarla piyango oynar.", "agirlik": 2, "yasMin": 30 },
+    { "id": "aksamci", "metin": "Akşam olunca bir duble rakısız sofraya oturmaz.", "agirlik": 2, "yasMin": 30 },
+    { "id": "kitap", "metin": "Cebinde hep bir kitap taşır.", "agirlik": 1, "acikMin": 4 },
+    { "id": "yemek", "metin": "Tanıdığı herkese yemek yapıp götürür.", "agirlik": 2, "uyumluMin": 4 },
+    { "id": "kumar", "metin": "Kâğıt masasından kalkamaz.", "agirlik": 0.6, "yasMin": 25 }
+  ],
+
+  "tuhafliklar": [
+    "Her cümleye 'neyse' diye başlar.",
+    "Telefonunu hep sessizde tutar, sonra kimse aramadı diye üzülür.",
+    "Tanıdığı herkesin doğum gününü bilir.",
+    "Konuşurken elleriyle her şeyi anlatır.",
+    "Hava durumunu kimseden önce bilir ve hep haklı çıkar.",
+    "Para üstünü saymadan cebine koymaz.",
+    "Her yere yarım saat erken gider.",
+    "Ünlü insanlarla bir yerde karşılaştığı hikâyeleri vardır; hiçbiri doğrulanamaz.",
+    "Cebinde hep naneli şeker taşır, herkese uzatır.",
+    "Gülerken elini ağzına kapatır.",
+    "İnsanlara lakap takar ve lakap tutar.",
+    "Eski bir şarkıyı hep yanlış sözlerle mırıldanır.",
+    "Konuşmanın ortasında susup bir süre uzağa bakar.",
+    "Kendinden üçüncü şahıs olarak bahseder.",
+    "Herkesin ayakkabısına bakar.",
+    "Bir şeye sinirlenince önce gülümser.",
+    "Her şeyi deftere yazar.",
+    "Kedilere isim verir ve onlarla konuşur.",
+    "Hiçbir zaman 'bilmiyorum' demez.",
+    "Telefonda konuşurken volta atar."
+  ],
+
+  "konusmaTikleri": ["valla", "yani", "şimdi şöyle", "neyse", "bak", "ne diyordum", "aynen", "hesapta", "tabii canım", "eh işte", "olur öyle", "bilemedim şimdi"]
+}

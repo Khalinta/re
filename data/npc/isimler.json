@@ -1,0 +1,40 @@
+{
+  "_aciklama": "NPC isim havuzları (adım 3.1). Adlar doğum dönemine göre (o yıllarda yaygın olan adlar); NPC'nin doğum yılı hangi döneme düşerse oradan seçilir, komşu dönemden de az olasılıkla. Soyadları yaygın Türk soyadlarıdır; hiçbiri belirli bir gerçek kişiyi anlatmaz. yabanci: yurt dışından gelen göçmenler için (köken → adlar). Adlar ek motoruna uygundur (iyelik yok); okunuşu farklı olanlar 'okunus' ile.",
+
+  "donemler": [
+    { "id": "d1940", "bas": 1935, "bit": 1959,
+      "erkek": ["Mehmet", "Ahmet", "Mustafa", "Hüseyin", "Hasan", "Ali", "İbrahim", "İsmail", "Osman", "Halil", "Süleyman", "Ramazan", "Recep", "Yusuf", "Abdullah", "Hüsnü", "Nuri", "Rıza", "Şükrü", "Kâzım", "Remzi", "Necati", "Sabri", "Cemil", "Hayri", "Şevket", "Fikret", "Zeki", "Bekir", "Nazım", "Rasim", "Hikmet", "Selahattin", "Muzaffer", "Orhan", "Erol", "Tahsin", "Ziya", "Rüstem", "Lütfi"],
+      "kadin": ["Fatma", "Ayşe", "Emine", "Hatice", "Zeynep", "Elif", "Meryem", "Şerife", "Zehra", "Sultan", "Hanife", "Havva", "Zübeyde", "Hacer", "Nazife", "Saadet", "Gülsüm", "Hayriye", "Fadime", "Naciye", "Leman", "Melahat", "Nermin", "Sevim", "Nebahat", "Gülten", "Mübeccel", "Perihan", "Türkan", "Saime", "Hasibe", "Münevver", "Nurten", "Behiye", "Feride"] },
+    { "id": "d1960", "bas": 1960, "bit": 1979,
+      "erkek": ["Mehmet", "Mustafa", "Ahmet", "Ali", "Hüseyin", "Hasan", "İbrahim", "İsmail", "Murat", "Ömer", "Kemal", "Halil", "Osman", "Yusuf", "Recep", "Cemal", "Erkan", "Sinan", "Levent", "Serdar", "Kenan", "Cengiz", "Ercan", "Selim", "Tarık", "Metin", "Nihat", "Hakan", "Bülent", "Sedat", "Turgay", "Haluk", "Ufuk", "Yaşar", "Vedat", "Kadir", "Aydın", "Özcan", "Necmi", "Şerif"],
+      "kadin": ["Fatma", "Ayşe", "Emine", "Hatice", "Zeynep", "Sevgi", "Gülşen", "Nurcan", "Hülya", "Filiz", "Serpil", "Sibel", "Aysel", "Songül", "Gönül", "Nermin", "Yasemin", "Dilek", "Sevda", "Arzu", "Selma", "Nazan", "Şükran", "Melek", "Hacer", "Birsen", "Nevin", "Gülizar", "Sema", "Ferda", "Nalan", "Figen", "Canan", "Aynur", "Leyla"] },
+    { "id": "d1980", "bas": 1980, "bit": 1994,
+      "erkek": ["Mehmet", "Mustafa", "Ahmet", "Murat", "Emre", "Hasan", "Ali", "Hüseyin", "Fatih", "Burak", "Serkan", "Volkan", "Gökhan", "Onur", "Uğur", "Cem", "Kaan", "Tolga", "Barış", "Deniz", "Erdem", "Tuncay", "Okan", "Özgür", "Sercan", "Cevat", "Tufan", "Kerem", "Umut", "Koray", "Sinan", "Orçun", "Engin", "Ferhat", "Yasin", "İlker", "Erhan", "Bayram", "Ercan", "Selçuk"],
+      "kadin": ["Zeynep", "Elif", "Ayşe", "Fatma", "Merve", "Esra", "Tuğba", "Büşra", "Gizem", "Özlem", "Derya", "Ebru", "Pınar", "Burcu", "Seda", "Aslı", "Ceren", "Duygu", "Gamze", "Sinem", "Didem", "Hande", "Ezgi", "Yeliz", "Selin", "Melike", "Emel", "Deniz", "Nur", "Banu", "Sevda", "Leyla", "Gülay", "İlknur", "Şule"] },
+    { "id": "d1995", "bas": 1995, "bit": 2012,
+      "erkek": ["Yusuf", "Eymen", "Emir", "Mustafa", "Ömer", "Ahmet", "Mehmet", "Berat", "Kerem", "Efe", "Arda", "Burak", "Emre", "Enes", "Furkan", "Batuhan", "Yiğit", "Alp", "Can", "Baran", "Mert", "Oğuz", "Berk", "Kaan", "Eren", "Doruk", "Umut", "Taha", "Hamza", "Ege", "Tuna", "Utku", "Çağan", "Sarp", "Atlas", "Selim", "Barış", "Onur", "Deniz", "Ozan"],
+      "kadin": ["Zeynep", "Elif", "Defne", "Ecrin", "Eylül", "Ela", "Azra", "Asel", "Nehir", "İrem", "Buse", "Sude", "Melisa", "Ceren", "Beren", "Dilara", "İpek", "Selin", "Simge", "Damla", "Ezgi", "Nisa", "Yağmur", "Esila", "Duru", "Hira", "Zehra", "Melis", "Tuana", "Gökçe", "Berfin", "Şevval", "Rana", "Deniz", "Lara"] }
+  ],
+
+  "soyadlari": ["Yılmaz", "Kaya", "Demir", "Şahin", "Çelik", "Yıldız", "Yıldırım", "Öztürk", "Aydın", "Özdemir", "Arslan", "Doğan", "Kılıç", "Aslan", "Çetin", "Kara", "Koç", "Kurt", "Özkan", "Şimşek", "Polat", "Özcan", "Korkmaz", "Çakır", "Erdem", "Akın", "Güler", "Karaca", "Uçar", "Tekin", "Bulut", "Aksoy", "Sarı", "Güneş", "Bozkurt", "Kocaman", "Yavuz", "Ateş", "Tunç", "Erdoğdu", "Keskin", "Uysal", "Aktaş", "Kaplan", "Toprak", "Cengiz", "Gündüz", "Bayram", "Dinç", "Altun", "Coşkun", "Akbulut", "Karakaya", "Güven", "Ekinci", "Aydemir", "Sezer", "Turan", "Taş", "Acar", "Yalçın", "Başaran", "Kalkan", "Erol", "Duman", "Oral", "Avcı", "Ok", "Er", "Bilgin", "Sönmez", "Ay", "Kandemir", "Ergin", "Yüksel", "Akgül", "Yüce", "Karataş", "Soylu", "Ünal", "Işık", "Gök", "Baş", "Tuna", "Çınar", "Öz", "Karadağ", "Çiftçi", "Yazıcı", "Durmaz", "Kahraman", "Savaş", "Ercan", "Önal", "Ilgaz", "Bozdağ", "Kocabaş", "Selvi", "Ulu", "Akyol", "Tatlı", "Deniz", "Elmas", "Gürsoy", "Albayrak", "Akkaya", "Demirci", "Kalaycı", "Sağlam", "Temiz", "Ceylan", "Yücel", "Kurtoğlu", "Balcı", "Topal", "Yaman", "Kılınç", "Altıntaş", "Uzun", "Kısa", "Dağlı", "Bilgiç"],
+  "yoreSoyadlari": {
+    "karadeniz": ["Karadeniz", "Hamsici", "Fındıkçı", "Uzunhasanoğlu", "Mollaoğlu", "Haliloğlu", "Sarıalioğlu", "Kuloğlu", "Topaloğlu", "Ayvazoğlu", "Hacısalihoğlu"],
+    "dogu": ["Erzurumlu", "Aras", "Bingöl", "Doğru", "Ağrılı", "Oruç", "Kılıçarslan", "Tuncer", "Yaşar", "Akbaba", "Karakoç", "Güzel"],
+    "guneydogu": ["Dicle", "Fırat", "Ay", "Kaya", "Ekinci", "Tekin", "Demir", "Ateş", "Yavuz", "Aktaş", "Bilen", "Ceylan"],
+    "mubadil": ["Selanikli", "Kavalalı", "Drama", "Rumeli", "Balkan", "Karadağlı", "Manastırlı", "Üsküplü", "Yanyalı", "Girit", "Muhacir", "Gümülcineli"],
+    "ege": ["Egeli", "Zeybek", "Çakır", "Efe", "Kartal", "Sarıkaya", "Yörük", "Akçay"]
+  },
+
+  "yabanci": {
+    "suriye": { "erkek": ["Ahmad", "Muhammed", "Halid", "Omar", "Yusuf", "Mahmud", "Bilal", "Hamza", "Samir", "Firas"], "kadin": ["Fatima", "Amina", "Nur", "Leyla", "Rima", "Hiba", "Mariam", "Sara", "Huda", "Dima"], "soyadlari": ["el-Halil", "Hamdan", "Haddad", "Mansur", "Nasser", "Şami", "Halebi", "Hamvi"] },
+    "afganistan": { "erkek": ["Ahmad", "Farid", "Habib", "Javed", "Karim", "Nasir", "Rahim", "Sami"], "kadin": ["Farzana", "Nadia", "Parisa", "Laila", "Zahra", "Mariam"], "soyadlari": ["Ahmadi", "Rahimi", "Karimi", "Hosseini", "Nazari", "Sultani"] },
+    "azerbaycan": { "erkek": ["Elvin", "Rauf", "Tural", "Ramin", "Orhan", "Vüsal"], "kadin": ["Aysel", "Günel", "Leyla", "Nigar", "Sevinc", "Aynur"], "soyadlari": ["Aliyev", "Hüseynov", "Memmedov", "Hasanov", "Guliyev", "Ismayılov"] },
+    "rusya": { "erkek": ["Dmitri", "Sergei", "Aleksei", "Ivan", "Nikolai"], "kadin": ["Olga", "Natalia", "Elena", "Irina", "Svetlana", "Anna"], "soyadlari": ["Ivanov", "Petrov", "Smirnov", "Volkov", "Kuznetsov"] },
+    "almanya": { "erkek": ["Markus", "Stefan", "Thomas", "Jan"], "kadin": ["Anna", "Julia", "Katrin", "Lena"], "soyadlari": ["Schneider", "Weber", "Becker", "Hoffmann"] }
+  },
+
+  "lakaplar": {
+    "erkek": ["Usta", "Reis", "Abi", "Hoca", "Dayı", "Amca", "Kaptan", "Baba"],
+    "kadin": ["Abla", "Teyze", "Hanım", "Yenge", "Ana", "Hala"]
+  }
+}

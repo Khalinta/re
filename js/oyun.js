@@ -13,6 +13,7 @@ import { metinCoz } from './core/metin.js';
 import { dunyaIlerlet } from './core/ilerleme.js';
 import { ekonomiDogrula } from './core/ekonomi.js';
 import * as konum from './core/konum.js';
+import { npcVeriDogrula } from './core/npc.js';
 import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
 
@@ -27,7 +28,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -46,7 +47,12 @@ export async function veriYukle() {
     jsonAl('./data/hava.json'),
     jsonAl('./data/ekonomi.json'),
     jsonAl('./data/gezi.json'),
+    jsonAl('./data/npc/isimler.json'),
+    jsonAl('./data/npc/memleket.json'),
+    jsonAl('./data/npc/kisilik.json'),
+    jsonAl('./data/npc/hayat.json'),
   ]);
+  veri.npc = { isimler, memleket, kisilik, hayat };
   veri.gezi = gezi;
   veri.ekonomi = ekonomi;
   const ekoSorunlari = ekonomiDogrula(ekonomi, { isTurleri: sirketler.isTurleri, hizmetler: mekanlar.hizmetler, ulasim });
@@ -56,6 +62,8 @@ export async function veriYukle() {
   veri.dunya = { sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar };
   const dunyaSorunlari = dunyaDogrula(veri.dunya);
   if (dunyaSorunlari.length) console.error('[dünya kitabı] tutarsızlık:', dunyaSorunlari);
+  const npcSorunlari = npcVeriDogrula(veri);
+  if (npcSorunlari.length) console.error('[npc] tutarsızlık:', npcSorunlari);
   veri.yaylar = Object.fromEntries(yaylar.yaylar.map(y => [y.id, y]));
   veri.sim = sim;
   veri.aksiyonlar = aks.aksiyonlar;

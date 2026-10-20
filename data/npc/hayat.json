@@ -1,0 +1,154 @@
+{
+  "_aciklama": "NPC hayat bileşenleri (adım 3.1). Koşul alanları (hepsi isteğe bağlı): yasMin/yasMax, gelirMin/gelirMax (semtin geliri 1–5), sakinTurleri, cinsiyet ('e'/'k'), medeni, durum (meslek durumu). yasAraligi: sakin türünün yaş aralığı. egitim: kuşağa göre ağırlık, sakin türü düzeltmesi. meslekler: sakin türüne göre (durum: calisiyor / kendi / emekli / issiz / ogrenci / ev). kancalar: zaman çizelgesindeki bir olayın izi (olay anında en az 'olaydaYas' yaşında olmalı; negatif = doğmadan önceki aile olayı); dünya kitabındaki kanca adlarıyla aynı. Hepsi seed'den seçilir; tutarlılık kuralları core/npc.js'de ve testte.",
+
+  "yasAraligi": {
+    "_varsayilan": [20, 70],
+    "esnaf": [28, 75], "emekli": [58, 88], "emekli_varlikli": [60, 88], "mubadil_ailesi": [25, 85], "balikci": [22, 75],
+    "liman_iscisi": [20, 60], "eski_tersaneci": [40, 80], "genc_girisimci": [24, 38], "beyaz_yaka": [23, 50], "serbest_meslek": [28, 70],
+    "zengin_aile": [25, 85], "yeni_zengin": [28, 60], "ogrenci": [18, 27], "akademisyen": [28, 68], "sanatci": [20, 60],
+    "gocmen": [18, 60], "tasra_gocu": [18, 75], "fabrika_iscisi": [18, 58], "sanayi_esnafi": [20, 70], "deri_ustasi": [45, 80],
+    "kucuk_memur": [24, 64], "gece_calisani": [19, 45], "yolcu": [18, 70], "kayit_disi": [16, 70], "bezhane_emeklisi": [62, 92],
+    "koylu": [30, 88], "toki_sakini": [25, 50]
+  },
+
+  "egitimSeviyeleri": {
+    "okumamis": "okuma yazması yok", "ilkokul": "ilkokul", "ortaokul": "ortaokul", "lise": "lise", "meslek_lisesi": "meslek lisesi",
+    "universite": "üniversite", "yuksek_lisans": "yüksek lisans"
+  },
+  "egitimKusak": {
+    "d1940": { "okumamis": 3, "ilkokul": 6, "ortaokul": 1.5, "lise": 1, "meslek_lisesi": 0.5, "universite": 0.6 },
+    "d1960": { "okumamis": 0.8, "ilkokul": 5, "ortaokul": 2, "lise": 2.5, "meslek_lisesi": 1.5, "universite": 1.2, "yuksek_lisans": 0.1 },
+    "d1980": { "ilkokul": 1.5, "ortaokul": 2, "lise": 4, "meslek_lisesi": 2, "universite": 3, "yuksek_lisans": 0.4 },
+    "d1995": { "ortaokul": 0.8, "lise": 3, "meslek_lisesi": 1.5, "universite": 5, "yuksek_lisans": 0.6 }
+  },
+  "egitimZorunlu": {
+    "ogrenci": ["lise"], "akademisyen": ["yuksek_lisans"], "serbest_meslek": ["universite", "yuksek_lisans"], "beyaz_yaka": ["universite", "yuksek_lisans", "lise"],
+    "kucuk_memur": ["lise", "universite"], "zengin_aile": ["universite", "lise", "yuksek_lisans"]
+  },
+
+  "meslekler": {
+    "esnaf": [{ "ad": "bakkal", "durum": "kendi" }, { "ad": "manav", "durum": "kendi" }, { "ad": "terzi", "durum": "kendi" }, { "ad": "berber", "durum": "kendi" }, { "ad": "kuyumcu", "durum": "kendi" }, { "ad": "çaycı", "durum": "kendi" }, { "ad": "tezgâhtar", "durum": "calisiyor", "isTuru": "satis" }, { "ad": "lokantacı", "durum": "kendi" }],
+    "emekli": [{ "ad": "emekli memur", "durum": "emekli" }, { "ad": "emekli işçi", "durum": "emekli" }, { "ad": "emekli öğretmen", "durum": "emekli" }, { "ad": "emekli esnaf", "durum": "emekli" }, { "ad": "emekli şoför", "durum": "emekli" }],
+    "emekli_varlikli": [{ "ad": "emekli doktor", "durum": "emekli" }, { "ad": "emekli mühendis", "durum": "emekli" }, { "ad": "emekli avukat", "durum": "emekli" }, { "ad": "emekli banka müdürü", "durum": "emekli" }],
+    "mubadil_ailesi": [{ "ad": "balıkçı", "durum": "kendi", "isTuru": "denizci" }, { "ad": "meyhaneci", "durum": "kendi" }, { "ad": "liman işçisi", "durum": "calisiyor", "isTuru": "depo" }, { "ad": "emekli öğretmen", "durum": "emekli", "yasMin": 58 }, { "ad": "terzi", "durum": "kendi" }],
+    "balikci": [{ "ad": "balıkçı", "durum": "kendi", "isTuru": "denizci" }, { "ad": "tayfa", "durum": "calisiyor", "isTuru": "denizci" }, { "ad": "balık halinde mezatçı", "durum": "calisiyor" }],
+    "liman_iscisi": [{ "ad": "forklift operatörü", "durum": "calisiyor", "isTuru": "depo" }, { "ad": "vinç operatörü", "durum": "calisiyor", "isTuru": "usta" }, { "ad": "taşeron liman işçisi", "durum": "calisiyor", "isTuru": "vasifsiz" }, { "ad": "işsiz liman işçisi", "durum": "issiz" }],
+    "eski_tersaneci": [{ "ad": "emekli kaynakçı", "durum": "emekli", "yasMin": 52 }, { "ad": "kaynakçı", "durum": "calisiyor", "isTuru": "usta" }, { "ad": "işsiz perçinci", "durum": "issiz" }, { "ad": "ustabaşı (emekli)", "durum": "emekli", "yasMin": 55 }],
+    "genc_girisimci": [{ "ad": "kafe sahibi", "durum": "kendi" }, { "ad": "seramik atölyesi sahibi", "durum": "kendi" }, { "ad": "serbest tasarımcı", "durum": "kendi", "isTuru": "tasarim" }, { "ad": "yazılımcı", "durum": "calisiyor", "isTuru": "yazilim" }],
+    "beyaz_yaka": [{ "ad": "muhasebeci", "durum": "calisiyor", "isTuru": "muhasebe" }, { "ad": "satış uzmanı", "durum": "calisiyor", "isTuru": "ofis" }, { "ad": "insan kaynakları uzmanı", "durum": "calisiyor", "isTuru": "ofis" }, { "ad": "banka memuru", "durum": "calisiyor", "isTuru": "ofis" }, { "ad": "yazılımcı", "durum": "calisiyor", "isTuru": "yazilim" }, { "ad": "işini kaybetmiş plaza çalışanı", "durum": "issiz" }],
+    "serbest_meslek": [{ "ad": "doktor", "durum": "calisiyor", "isTuru": "saglik" }, { "ad": "avukat", "durum": "kendi" }, { "ad": "mühendis", "durum": "calisiyor" }, { "ad": "mimar", "durum": "kendi" }, { "ad": "eczacı", "durum": "kendi" }, { "ad": "diş hekimi", "durum": "kendi" }],
+    "zengin_aile": [{ "ad": "aile şirketinde yönetici", "durum": "calisiyor", "isTuru": "yonetici" }, { "ad": "hiçbir şey yapmayan varis", "durum": "ev" }, { "ad": "hayırsever", "durum": "ev" }],
+    "yeni_zengin": [{ "ad": "müteahhit", "durum": "kendi" }, { "ad": "emlakçı", "durum": "kendi" }, { "ad": "galerici", "durum": "kendi" }, { "ad": "ithalatçı", "durum": "kendi" }],
+    "ogrenci": [{ "ad": "üniversite öğrencisi", "durum": "ogrenci" }, { "ad": "yarı zamanlı çalışan öğrenci", "durum": "ogrenci" }],
+    "akademisyen": [{ "ad": "öğretim üyesi", "durum": "calisiyor", "isTuru": "ogretmen" }, { "ad": "araştırma görevlisi", "durum": "calisiyor", "isTuru": "ogretmen" }],
+    "sanatci": [{ "ad": "müzisyen", "durum": "kendi" }, { "ad": "ressam", "durum": "kendi" }, { "ad": "tiyatrocu", "durum": "kendi" }, { "ad": "fotoğrafçı", "durum": "kendi" }],
+    "gocmen": [{ "ad": "atölye işçisi", "durum": "calisiyor", "isTuru": "fabrika" }, { "ad": "inşaat işçisi", "durum": "calisiyor", "isTuru": "insaat" }, { "ad": "seyyar satıcı", "durum": "kendi" }, { "ad": "işsiz", "durum": "issiz" }],
+    "tasra_gocu": [{ "ad": "inşaat işçisi", "durum": "calisiyor", "isTuru": "insaat" }, { "ad": "fabrika işçisi", "durum": "calisiyor", "isTuru": "fabrika" }, { "ad": "temizlikçi", "durum": "calisiyor", "isTuru": "temizlik" }, { "ad": "ev hanımı", "durum": "ev", "cinsiyet": "k" }, { "ad": "işsiz", "durum": "issiz" }, { "ad": "emekli işçi", "durum": "emekli", "yasMin": 55 }],
+    "fabrika_iscisi": [{ "ad": "tekstil işçisi", "durum": "calisiyor", "isTuru": "fabrika" }, { "ad": "pres operatörü", "durum": "calisiyor", "isTuru": "fabrika" }, { "ad": "vardiya amiri", "durum": "calisiyor", "isTuru": "fabrika" }, { "ad": "depo işçisi", "durum": "calisiyor", "isTuru": "depo" }],
+    "sanayi_esnafi": [{ "ad": "oto tamircisi", "durum": "kendi", "isTuru": "usta" }, { "ad": "tornacı", "durum": "kendi", "isTuru": "usta" }, { "ad": "kaportacı", "durum": "kendi", "isTuru": "usta" }, { "ad": "lastikçi", "durum": "kendi" }],
+    "deri_ustasi": [{ "ad": "deri ustası", "durum": "kendi", "isTuru": "usta" }, { "ad": "saraç", "durum": "kendi", "isTuru": "usta" }, { "ad": "emekli tabak", "durum": "emekli", "yasMin": 60 }],
+    "kucuk_memur": [{ "ad": "belediye memuru", "durum": "calisiyor", "isTuru": "ofis" }, { "ad": "adliye kâtibi", "durum": "calisiyor", "isTuru": "ofis" }, { "ad": "öğretmen", "durum": "calisiyor", "isTuru": "ogretmen" }, { "ad": "hemşire", "durum": "calisiyor", "isTuru": "saglik" }, { "ad": "postacı", "durum": "calisiyor" }],
+    "gece_calisani": [{ "ad": "garson", "durum": "calisiyor", "isTuru": "garson" }, { "ad": "barmen", "durum": "calisiyor", "isTuru": "garson" }, { "ad": "kapı görevlisi", "durum": "calisiyor", "isTuru": "guvenlik" }, { "ad": "gece resepsiyonisti", "durum": "calisiyor", "isTuru": "ofis" }, { "ad": "taksici", "durum": "calisiyor", "isTuru": "sofor" }],
+    "yolcu": [{ "ad": "iş için gelmiş biri", "durum": "calisiyor" }, { "ad": "akraba ziyaretine gelmiş biri", "durum": "ev" }, { "ad": "şehre yeni gelmiş, iş arayan biri", "durum": "issiz" }],
+    "kayit_disi": [{ "ad": "hamal", "durum": "calisiyor", "isTuru": "vasifsiz" }, { "ad": "seyyar satıcı", "durum": "kendi" }, { "ad": "hurdacı", "durum": "kendi" }, { "ad": "gündelikçi", "durum": "calisiyor", "isTuru": "vasifsiz" }, { "ad": "işsiz", "durum": "issiz" }],
+    "bezhane_emeklisi": [{ "ad": "emekli dokumacı", "durum": "emekli" }, { "ad": "emekli makine ustası", "durum": "emekli" }, { "ad": "emekli fabrika aşçısı", "durum": "emekli" }],
+    "koylu": [{ "ad": "bağcı", "durum": "kendi" }, { "ad": "bahçıvan", "durum": "kendi" }, { "ad": "arazisini satmış köylü", "durum": "ev" }, { "ad": "emekli çiftçi", "durum": "emekli", "yasMin": 60 }],
+    "toki_sakini": [{ "ad": "kasiyer", "durum": "calisiyor", "isTuru": "satis" }, { "ad": "servis şoförü", "durum": "calisiyor", "isTuru": "sofor" }, { "ad": "çağrı merkezi çalışanı", "durum": "calisiyor", "isTuru": "cagri_merkezi" }, { "ad": "ev hanımı", "durum": "ev", "cinsiyet": "k" }, { "ad": "memur", "durum": "calisiyor", "isTuru": "ofis" }]
+  },
+
+  "aile": {
+    "medeni": [
+      { "yasMax": 24, "agirlik": { "bekar": 9, "sevgilili": 4, "evli": 1 } },
+      { "yasMax": 34, "agirlik": { "bekar": 4, "sevgilili": 3, "evli": 6, "bosanmis": 0.6 } },
+      { "yasMax": 54, "agirlik": { "bekar": 1.5, "evli": 8, "bosanmis": 1.5, "dul": 0.3 } },
+      { "yasMax": 120, "agirlik": { "bekar": 0.6, "evli": 6, "bosanmis": 1, "dul": 3 } }
+    ],
+    "medeniAdlari": { "bekar": "bekâr", "sevgilili": "bir ilişkisi var", "evli": "evli", "bosanmis": "boşanmış", "dul": "eşini kaybetmiş" },
+    "cocukYasFarkiMin": 18,
+    "cocukAgirlik": { "0": 3, "1": 3, "2": 4, "3": 2, "4": 0.8, "5": 0.3 },
+    "kardesAgirlik": { "0": 1, "1": 3, "2": 3, "3": 2, "4": 1, "5": 0.6 },
+    "iliskiler": { "iyi": 5, "mesafeli": 3, "kus": 1, "kopuk": 0.6 },
+    "iliskiAdlari": { "iyi": "ailesiyle arası iyi", "mesafeli": "ailesiyle arası mesafeli", "kus": "ailesinden biriyle küs", "kopuk": "ailesiyle bağı kopmuş" }
+  },
+
+  "dertler": [
+    { "id": "kira", "metin": "Ev sahibi kirayı yine artırdı.", "gelirMax": 3, "yasMin": 20 },
+    { "id": "borc", "metin": "Kredi kartı borcu her ay büyüyor.", "yasMin": 22 },
+    { "id": "issizlik", "metin": "Aylardır iş arıyor.", "durum": ["issiz"] },
+    { "id": "saglik", "metin": "Doktor bir şey söyledi, kimseye anlatmadı.", "yasMin": 40 },
+    { "id": "anne_hasta", "metin": "Annesi hasta; bakımı onun üstünde.", "yasMin": 30, "yasMax": 65 },
+    { "id": "cocuk_okul", "metin": "Çocuğunun okul masrafları yetişmiyor.", "yasMin": 28, "yasMax": 55, "medeni": ["evli", "bosanmis", "dul"] },
+    { "id": "bosanma", "metin": "Boşanmanın ardından her şeye yeniden başlıyor.", "medeni": ["bosanmis"] },
+    { "id": "yalnizlik", "metin": "Akşamları ev çok sessiz.", "yasMin": 55 },
+    { "id": "oglu_issiz", "metin": "Oğlu üniversiteyi bitirdi, iş bulamıyor.", "yasMin": 48 },
+    { "id": "evlat_uzakta", "metin": "Çocukları başka şehirde, bayramdan bayrama geliyorlar.", "yasMin": 55 },
+    { "id": "donusum", "metin": "Evi 'riskli alan' çizgisinin içinde kaldı.", "semtler": ["tabakhane"] },
+    { "id": "maas", "metin": "Maaş ayın yirmisinde bitiyor.", "durum": ["calisiyor"], "gelirMax": 3 },
+    { "id": "patron", "metin": "Patronu ona eziyet ediyor, ama gidecek yeri yok.", "durum": ["calisiyor"] },
+    { "id": "sinav", "metin": "Final haftası; uyumuyor.", "durum": ["ogrenci"] },
+    { "id": "oturum", "metin": "Oturma izninin süresi doluyor.", "sakinTurleri": ["gocmen"] },
+    { "id": "dukkan", "metin": "Dükkânın cirosu yarıya düştü.", "durum": ["kendi"] },
+    { "id": "kalp", "metin": "Birine âşık ama söyleyemiyor.", "yasMax": 40 },
+    { "id": "deryapi", "metin": "Hâlâ hiç oturmadığı bir evin kredisini ödüyor.", "kanca": "deryapi_magduru" },
+    { "id": "koinpazar", "metin": "KoinPazar'da kaybettiği parayı ailesine hâlâ söyleyemedi.", "kanca": "kripto_magduru" },
+    { "id": "tazminat", "metin": "Fabrikadan alamadığı tazminat için yirmi yıldır dava sürüyor.", "kanca": "bezhane_emeklisi" },
+    { "id": "aidat", "metin": "Hiç bitmeyen apartman aidatı ve tadilat payları.", "gelirMin": 3 },
+    { "id": "sikinti", "metin": "Belli bir derdi yok; ama içi sıkılıyor.", "gelirMin": 4 }
+  ],
+
+  "hayaller": [
+    { "id": "dukkan", "metin": "Kendi dükkânını açmak.", "yasMax": 55 },
+    { "id": "koy", "metin": "Emekli olunca memleketine dönmek.", "yasMin": 40, "gocmus": true },
+    { "id": "cocuk_universite", "metin": "Çocuğunu üniversitede okutmak.", "yasMin": 28, "medeni": ["evli", "bosanmis", "dul"] },
+    { "id": "yurtdisi", "metin": "Yurt dışına gidip bir daha dönmemek.", "yasMax": 40 },
+    { "id": "ev", "metin": "Bir gün kendi evinin tapusunu görmek.", "gelirMax": 3, "yasMin": 25 },
+    { "id": "kitap", "metin": "Bir kitap yazmak; başlığı bile hazır.", "acikMin": 4 },
+    { "id": "sahne", "metin": "Bir kez, bir kez olsun sahnede şarkı söylemek." },
+    { "id": "demirspor", "metin": "Demirspor'u ölmeden bir kez daha Süper Lig'de görmek.", "yasMin": 30 },
+    { "id": "borc", "metin": "Borcunu kapatıp bir gece rahat uyumak.", "gelirMax": 3 },
+    { "id": "tekne", "metin": "Kendi teknesiyle denize açılmak.", "sakinTurleri": ["balikci", "liman_iscisi", "eski_tersaneci", "mubadil_ailesi"] },
+    { "id": "evlenmek", "metin": "Sevdiği insanla evlenmek.", "yasMax": 40, "medeni": ["bekar", "sevgilili"] },
+    { "id": "unlu", "metin": "Herkesin tanıdığı biri olmak.", "yasMax": 35 },
+    { "id": "huzur", "metin": "Kimseye muhtaç olmadan yaşlanmak.", "yasMin": 50 },
+    { "id": "tersane", "metin": "Tersanenin yeniden açıldığını görmek.", "sakinTurleri": ["eski_tersaneci"] },
+    { "id": "mezun", "metin": "Mezun olup bu şehirden gitmek.", "durum": ["ogrenci"] },
+    { "id": "kurtulus", "metin": "Bu hayattan, bu mahalleden çıkmak.", "gelirMax": 2, "yasMax": 35 },
+    { "id": "aile", "metin": "Dağılan ailesini bir sofrada toplamak.", "yasMin": 35 }
+  ],
+
+  "sirlar": [
+    { "id": "gizli_borc", "metin": "Eşinden gizli bir borcu var.", "medeni": ["evli"], "agirlik": 3 },
+    { "id": "eski_sabika", "metin": "Gençken bir hırsızlıktan birkaç ay yattı; kimse bilmiyor.", "yasMin": 30, "agirlik": 1.5 },
+    { "id": "kus_kardes", "metin": "Kardeşiyle yıllardır küs; sebebini kimseye söylemiyor.", "agirlik": 2 },
+    { "id": "gizli_ask", "metin": "Kimsenin bilmediği biriyle görüşüyor.", "yasMax": 60, "agirlik": 2 },
+    { "id": "is_yeri", "metin": "Çalıştığı yerden zaman zaman para aldı; fark edilmedi.", "durum": ["calisiyor"], "agirlik": 1 },
+    { "id": "memleket", "metin": "Asıl memleketini saklıyor.", "gocmus": true, "agirlik": 1 },
+    { "id": "diploma", "metin": "Okulu bitirmedi ama herkese bitirdi diyor.", "agirlik": 1.5 },
+    { "id": "kumar", "metin": "Kumar oynuyor; kaybettiklerini kimse bilmiyor.", "yasMin": 25, "agirlik": 1.5 },
+    { "id": "evlatlik", "metin": "Evlatlık olduğunu yıllar sonra öğrendi; hâlâ kimseye söylemedi.", "agirlik": 0.8 },
+    { "id": "hastalik", "metin": "Hastalığını ailesinden saklıyor.", "yasMin": 40, "agirlik": 1.5 },
+    { "id": "pismanlik", "metin": "Yıllar önce birine çok kötü bir şey yaptı; hâlâ rüyalarına giriyor.", "agirlik": 1.5 },
+    { "id": "yetenek", "metin": "Gizli gizli şiir yazıyor.", "agirlik": 2 },
+    { "id": "baskasi", "metin": "Aslında başka bir hayatın hayalini kuruyor; buradan gitmek için para biriktiriyor.", "yasMax": 50, "agirlik": 2 },
+    { "id": "tanik", "metin": "Bir gece limanda görmemesi gereken bir şey gördü.", "semtler": ["asagi_liman", "tersaneonu"], "agirlik": 1.5 },
+    { "id": "ihale", "metin": "Belediyedeki bir ihalenin önceden belli olduğunu biliyor.", "sakinTurleri": ["kucuk_memur", "yeni_zengin"], "agirlik": 1 },
+    { "id": "sirri_yok", "metin": "Gerçekten anlatmaya değer bir sırrı yok; bu da onun sırrı.", "agirlik": 0.8 }
+  ],
+
+  "kancalar": [
+    { "kanca": "mubadil_torunu", "sakinTurleri": ["mubadil_ailesi"], "olasilik": 1, "olaydaYas": -100 },
+    { "kanca": "gecekondu_cocugu", "semtler": ["kayalitepe"], "olasilik": 0.5, "olaydaYas": -100, "dogumMax": 1985 },
+    { "kanca": "grevci_ailesi", "sakinTurleri": ["eski_tersaneci", "liman_iscisi", "mubadil_ailesi"], "olasilik": 0.35, "olaydaYas": -30 },
+    { "kanca": "bezhane_emeklisi", "sakinTurleri": ["bezhane_emeklisi"], "olasilik": 1, "olaydaYas": 30 },
+    { "kanca": "sel_magduru", "semtler": ["tabakhane", "istasyon"], "olasilik": 0.4, "olaydaYas": 3 },
+    { "kanca": "tersane_issizi", "sakinTurleri": ["eski_tersaneci"], "olasilik": 0.9, "olaydaYas": 20 },
+    { "kanca": "demirspor_taraftari", "semtler": ["istasyon", "kayalitepe"], "olasilik": 0.35, "olaydaYas": 10 },
+    { "kanca": "deryapi_magduru", "semtler": ["kayalitepe", "ilicakoy"], "olasilik": 0.25, "olaydaYas": 22 },
+    { "kanca": "deryapi_calisani", "sakinTurleri": ["tasra_gocu", "fabrika_iscisi"], "olasilik": 0.06, "olaydaYas": 20 },
+    { "kanca": "liman_iscisi", "sakinTurleri": ["liman_iscisi"], "olasilik": 0.8, "olaydaYas": 18 },
+    { "kanca": "kripto_magduru", "sakinTurleri": ["beyaz_yaka", "ogrenci", "esnaf", "yeni_zengin", "kucuk_memur"], "olasilik": 0.12, "olaydaYas": 18 },
+    { "kanca": "koinpazar_calisani", "sakinTurleri": ["beyaz_yaka"], "olasilik": 0.04, "olaydaYas": 21 },
+    { "kanca": "tabakhane_nobetcisi", "semtler": ["tabakhane"], "olasilik": 0.3, "olaydaYas": 16 },
+    { "kanca": "medya_calisani", "sakinTurleri": ["beyaz_yaka", "sanatci"], "olasilik": 0.04, "olaydaYas": 22 }
+  ]
+}

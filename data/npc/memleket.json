@@ -1,0 +1,64 @@
+{
+  "_aciklama": "NPC memleketleri ve konuşma tarzları (adım 3.1). yoreler: Türkiye'nin bölgeleri (iller ve ağız), Balkan göçü ve yurt dışı. sakinMemleket: semtteki sakin türüne göre memleket ağırlıkları ('yerli' = Karaliman doğumlu). Yerli olanların bir kısmı göçmüş bir ailenin ikinci kuşağıdır (kokenOlasiligi): ağızları şehrinkidir ama evde ailenin yöresinden sözcükler kalmıştır. agizlar: hitaplar, ağız sözcükleri, cümle sonu alışkanlıkları ve örnek söz; Faz 4'teki sohbet sistemi bunları kullanır. Ağız taklidi abartılmaz, tek tük sözcükle hissettirilir. uslup: konuşma tonu (kişilikle ve eğitimle seçilir).",
+
+  "yoreler": {
+    "yerli": { "ad": "Karaliman", "iller": ["Karaliman"], "agiz": "karaliman" },
+    "marmara": { "ad": "Marmara", "iller": ["İstanbul", "Bursa", "Kocaeli", "Tekirdağ", "Balıkesir", "Sakarya"], "agiz": "standart" },
+    "karadeniz": { "ad": "Karadeniz", "iller": ["Trabzon", "Rize", "Ordu", "Giresun", "Samsun", "Artvin", "Kastamonu"], "agiz": "karadeniz" },
+    "dogu": { "ad": "Doğu Anadolu", "iller": ["Erzurum", "Kars", "Ağrı", "Van", "Muş", "Erzincan", "Bingöl"], "agiz": "dogu" },
+    "guneydogu": { "ad": "Güneydoğu", "iller": ["Diyarbakır", "Mardin", "Şanlıurfa", "Batman", "Siirt", "Adıyaman"], "agiz": "guneydogu" },
+    "ic_anadolu": { "ad": "İç Anadolu", "iller": ["Konya", "Sivas", "Yozgat", "Kayseri", "Çorum", "Kırşehir", "Aksaray"], "agiz": "ic_anadolu" },
+    "ege": { "ad": "Ege", "iller": ["İzmir", "Manisa", "Aydın", "Denizli", "Muğla", "Uşak"], "agiz": "ege" },
+    "akdeniz": { "ad": "Akdeniz", "iller": ["Adana", "Mersin", "Hatay", "Antalya", "Kahramanmaraş"], "agiz": "akdeniz" },
+    "balkan": { "ad": "Balkanlar", "iller": ["Bulgaristan", "Kuzey Makedonya", "Bosna", "Kosova"], "agiz": "rumeli" },
+    "yurtdisi": { "ad": "Yurt dışı", "iller": [], "agiz": "yabanci" }
+  },
+
+  "yurtdisiKokenler": { "suriye": 6, "afganistan": 2, "azerbaycan": 1, "rusya": 1, "almanya": 0.3 },
+  "yurtdisiUlkeAdi": { "suriye": "Suriye", "afganistan": "Afganistan", "azerbaycan": "Azerbaycan", "rusya": "Rusya", "almanya": "Almanya" },
+
+  "sakinMemleket": {
+    "_varsayilan": { "yerli": 7, "marmara": 1, "karadeniz": 1, "dogu": 1, "ic_anadolu": 1, "ege": 0.5 },
+    "mubadil_ailesi": { "yerli": 1 },
+    "tasra_gocu": { "karadeniz": 4, "dogu": 4, "guneydogu": 3, "ic_anadolu": 3, "akdeniz": 1 },
+    "gocmen": { "yurtdisi": 1 },
+    "ogrenci": { "yerli": 3, "marmara": 2, "ic_anadolu": 2, "ege": 2, "karadeniz": 2, "akdeniz": 1, "dogu": 1, "guneydogu": 1 },
+    "akademisyen": { "yerli": 2, "marmara": 3, "ege": 2, "ic_anadolu": 2, "karadeniz": 1 },
+    "beyaz_yaka": { "yerli": 4, "marmara": 3, "ege": 1, "ic_anadolu": 1, "karadeniz": 1 },
+    "yeni_zengin": { "yerli": 3, "marmara": 2, "karadeniz": 2, "ic_anadolu": 1, "yurtdisi": 0.5 },
+    "zengin_aile": { "yerli": 1 },
+    "fabrika_iscisi": { "yerli": 3, "karadeniz": 2, "dogu": 2, "guneydogu": 2, "ic_anadolu": 2 },
+    "kayit_disi": { "yerli": 2, "dogu": 2, "guneydogu": 2, "karadeniz": 1, "yurtdisi": 2 },
+    "yolcu": { "marmara": 2, "ic_anadolu": 2, "karadeniz": 2, "dogu": 2, "ege": 1, "yurtdisi": 1 },
+    "bezhane_emeklisi": { "yerli": 3, "balkan": 1, "karadeniz": 1, "ic_anadolu": 1 },
+    "koylu": { "yerli": 1 },
+    "toki_sakini": { "yerli": 4, "karadeniz": 1, "dogu": 1, "ic_anadolu": 1, "guneydogu": 1 },
+    "balikci": { "yerli": 5, "karadeniz": 2 },
+    "eski_tersaneci": { "yerli": 5, "karadeniz": 2, "balkan": 1 },
+    "deri_ustasi": { "yerli": 4, "dogu": 1, "guneydogu": 1 }
+  },
+  "kokenOlasiligi": 0.45,
+  "kokenAgirlik": { "karadeniz": 3, "dogu": 3, "guneydogu": 2, "ic_anadolu": 3, "balkan": 2, "mubadil": 2, "ege": 1, "akdeniz": 1 },
+
+  "agizlar": {
+    "karaliman": { "ad": "Karalimanlı", "hitaplar": ["abi", "abla", "kardeşim", "usta", "hacı"], "sozcukler": ["körfez", "valla", "bak hele", "eskiden"], "sonlar": ["be", "yahu"], "ornek": "Valla abi, körfez her şeyi geri getirir; bekle gör." },
+    "standart": { "ad": "İstanbul ağzı", "hitaplar": ["abi", "kardeşim", "hocam", "canım"], "sozcukler": ["yani", "aynen", "şey"], "sonlar": ["ya"], "ornek": "Yani, açıkçası ben de tam bilmiyorum ya." },
+    "karadeniz": { "ad": "Karadeniz ağzı", "hitaplar": ["uşağum", "kardeşim", "dayı", "abi"], "sozcukler": ["ula", "hayde", "da", "haçan"], "sonlar": ["da", "ula"], "ornek": "Ula ne diyrsun sen, hayde gel da bir çay iç." },
+    "dogu": { "ad": "Doğu ağzı", "hitaplar": ["lo", "kardaş", "bıra", "dadaş"], "sozcukler": ["hele", "gadan alım", "valla billa"], "sonlar": ["hele", "lo"], "ornek": "Hele otur kardaş, gadan alım, bir çay söyleyim." },
+    "guneydogu": { "ad": "Güneydoğu ağzı", "hitaplar": ["kekâ", "bıra", "abe", "kardaş"], "sozcukler": ["eyvallah", "vallahi", "bıji"], "sonlar": ["abe", "kekâ"], "ornek": "Vallahi kekâ, biz buraya ekmek için geldik, ekmek de bitmedi." },
+    "ic_anadolu": { "ad": "İç Anadolu ağzı", "hitaplar": ["gardaş", "emmi", "bacım", "yeğenim"], "sozcukler": ["hee", "napıyon", "gelivir"], "sonlar": ["gari", "ha"], "ornek": "Hee gardaş, bi gelivir de bakıvir şuna." },
+    "ege": { "ad": "Ege ağzı", "hitaplar": ["gız", "hacı", "uşak", "len"], "sozcukler": ["gari", "naapıyon", "di mi"], "sonlar": ["gari", "len"], "ornek": "Naapıyon len, otur gari biraz." },
+    "akdeniz": { "ad": "Akdeniz ağzı", "hitaplar": ["gardaş", "abi", "bacım"], "sozcukler": ["ne biçim", "ağam", "bırak"], "sonlar": ["ağam", "len"], "ornek": "Bırak ağam, bu sıcakta iş mi olur." },
+    "rumeli": { "ad": "Rumeli ağzı", "hitaplar": ["mari", "be", "baba", "kızım"], "sozcukler": ["mari", "ayde", "şindi"], "sonlar": ["be", "mari"], "ornek": "Ayde be mari, şindi gidersin, sonra pişman olursun." },
+    "yabanci": { "ad": "Yeni öğrenilmiş Türkçe", "hitaplar": ["abi", "abla", "arkadaş"], "sozcukler": ["tamam", "evet evet", "anlamadım"], "sonlar": [], "ornek": "Abi, tamam, ben anladım... biraz. Yavaş konuş, lütfen." }
+  },
+
+  "uslup": {
+    "kibar": { "ad": "kibar", "aciklama": "Sizli bizli konuşur, kelimelerini seçer." },
+    "sade": { "ad": "sade", "aciklama": "Dolandırmadan, kısa ve net konuşur." },
+    "sert": { "ad": "sert", "aciklama": "Ağzına geleni söyler, kırar ama yalan söylemez." },
+    "argo": { "ad": "argo", "aciklama": "Gençlerin ve sokağın dilini kullanır; 'kanka', 'olum', 'bro'." },
+    "esnaf": { "ad": "esnaf ağzı", "aciklama": "Tatlı dilli, pazarlıkçı, herkese 'abi' der." },
+    "kitabi": { "ad": "kitabi", "aciklama": "Uzun cümleler, yabancı sözcükler, alıntılar." }
+  }
+}

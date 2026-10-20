@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kapandı: 2026-10-20)
-- **Son tamamlanan adım:** 2.4 Kurumlar (35), şirketler (32, 22 iş türü), yerel figürler (26, gizli yanlarıyla) ve 4 kurgusal örgüt (bölgeler, kurallar, hiyerarşi, ilişkiler, paravan şirketler); `core/toplum.js` denetimi ve yardımcıları
-- **Sıradaki adım:** 2.5 Mekanlar (`data/dunya/mekanlar.json`): oyuncunun girip çıkacağı kahveler, lokantalar, dükkânlar, barlar, parklar; sahibi (NPC tohumu), saatleri, müşteri profili, geçmişi, dedikoduları, fırsatları, gizli bağlantıları — **büyük**
+- **Son tamamlanan adım:** 2.5 Mekanlar (`data/dunya/mekanlar.json`): 52 mekan (her semtte en az 2), 31 tohum sahip (Faz 3'te NPC), 63 dedikodu (doğru/yanlış, konulu), fırsatlar, 8 gizli örgüt bağı; `core/mekan.js` (açık mı, kalabalık, semtteki mekanlar, konu dedikoduları, müdavimler, denetim)
+- **Sıradaki adım:** 2.6 Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkân açılıp kapanması, fiyatlar, şehir olayları) — **orta**
 - **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). 0.1.5 ekran görüntüsüyle doğrulandı (şerit sekme çubuğuyla aynı renkte, yazılar tam): **Faz 1 kapandı.**
 - **Kullanıcıdan beklenen:** "devam" demesi (sıradaki: 2.2).
 
@@ -41,8 +41,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 2.2 | Semt ayrıntıları: karakter, sosyoekonomik durum, kira katsayısı, sakinler, ünlü yerler, gerilimler, semtler arası ilişkiler | orta | ✅ |
 | 2.3 | Ulaşım ağı: hatlar (metro, otobüs, vapur, dolmuş), duraklar, süreler, ücretler, yol bulma | orta | ✅ |
 | 2.4 | Kurumlar, şirketler (iş ilanlarına kaynak), yerel figürler, kurgusal suç örgütleri ve bölgeleri | büyük | ✅ |
-| 2.5 | Mekanlar: sahip (NPC tohumu), saatler, müşteri profili, geçmiş, dedikodular, fırsatlar | büyük | ⏳ |
-| 2.6 | Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkan açılıp kapanması, fiyatlar, şehir olayları) | orta | ⬜ |
+| 2.5 | Mekanlar: sahip (NPC tohumu), saatler, müşteri profili, geçmiş, dedikodular, fırsatlar | büyük | ✅ |
+| 2.6 | Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkan açılıp kapanması, fiyatlar, şehir olayları) | orta | ⏳ |
 | 2.7 | Ekonomi dosyası (asgari ücrete oranlı her şey), PROJE.md ekonomi tablosunun kesinleşmesi | orta | ⬜ |
 | 2.8 | Konum sistemi (kayıt şeması v2 + migration), Şehir sekmesi arayüzü, semtler arası gezinme | büyük | ⬜ |
 
@@ -144,7 +144,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   │                       etki (olay sonuçları), olay (olay motoru, zamanlayıcılar), metin (şablon, ton, çeşit),
 │   │                       rapor (hata raporu metni), dunya (dünya kitabı denetimi ve yardımcıları),
 │   │                       ulasim (hatlar, bekleme, trafik, ücret, yol bulma),
-│   │                       toplum (kurum, şirket, figür, örgüt yardımcıları ve denetimi)
+│   │                       toplum (kurum, şirket, figür, örgüt yardımcıları ve denetimi),
+│   │                       mekan (açık mı, kalabalık, dedikodular, mekan denetimi)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
@@ -155,7 +156,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── takvim.json         Resmi tatiller (1.5); bayram tarihleri ve okul takvimi Faz 2'de
 │   ├── ekonomi.json        Tüm fiyatlar (asgari ücrete oranlı) — Faz 2
 │   ├── dunya/              Dünya kitabı (Faz 2): sehir.json (2.1), semtler.json (2.2), ulasim.json (2.3),
-│   │                       kurumlar / sirketler / figurler / orgutler.json (2.4); mekanlar sırayla
+│   │                       kurumlar / sirketler / figurler / orgutler.json (2.4), mekanlar.json (2.5)
 │   ├── olay_ayarlari.json  Olayların çıkma sıklığı (1.9a)
 │   ├── yaylar.json         Hikaye yayı tanımları (1.9b)
 │   ├── olaylar/            Olay dosyaları (her dosya bir tema); _liste.json hepsini sayar — içerik Faz 5
@@ -360,6 +361,7 @@ Kurgusal, Marmara kıyısında, 4,18 milyonluk bir liman şehri. Çaybaşı Dere
 - **Şirketler (32):** Oransay Holding ve şirketleri, fabrikalar (Kuzey Sanayi), lojistik, kurye, inşaat (Şanlı Yapı; batık Deryapı), finans (Körfezbank, batık KoinPazar, Çarşı Döviz), ulaşım, taşeronlar, medya (Körfez Postası, KaralimanHaber, kapanan Liman TV), turizm, balıkçılık, küçük esnaf. Her biri: iş türleri (22'lik katalog, Faz 4 iş ilanları buradan), ücret katsayısı, sigorta (tam/eksik/yok), itibar, çalışma koşulları. Paravan şirketlerin örgüt bağı gizli (`paravan`).
 - **Figürler (26):** başkan ve oğlu, emniyet müdürü, Gar komiseri, Oransay baba-kız, müteahhitler, kaçak kurucular (Deryal, Çetinel), gazeteciler, unutulan spiker, kulüp başkanı, Rıza Usta, Gülizar Ateşoğlu, iki avukat, saatçi, muhtar, örgüt liderleri ve aileleri. Her biri: `kamuoyu` (şehrin bildiği) ve `gercek` (gizli; ipucu ve olaylarla öğrenilir), zaaf, istek, birbirleriyle ilişkiler (sır, borç, ortaklık, düşmanlık...). Faz 3'te sabit NPC olarak oyuna girecekler.
 - **Örgütler (4, kurgusal):** **Kalyoncular** (Aşağıliman'ın eski usul ailesi; liman, kaçakçılık, kara para; çıkışı en zor), **Karakaşlar** (İstasyon'un gece ekonomisi; kumar, koruma, masada borç), **Tepeliler** (Kayalıtepe'nin genç mahalle çetesi; sokak, çalıntı mal, tribün), **Sarraflar** (Bedesten'in arka odası; tefecilik, kara para). Her biri: zaman çizelgesine bağlı tarihçe, semt bölgeleri (güç 1–5; Tabakhane çekişmeli), kurallar ve ihlal bedeli, rütbe şablonu, faaliyetler (anlatı düzeyinde), karşılıklı ilişkiler (ateşkes, rekabet, düşmanlık, iş ortaklığı), itibar (korku/saygı), polisin bilgisi, giriş yolları, çıkış anlatımı ve zorluğu. Hazır kıvılcımlar: Kalyoncu'nun halef kavgası (Tufan / Cevat), Cevat'ın Tepeliler'le gizli işi, başkanın oğlunun Karakaş'a borcu, yeni emniyet müdürünün aradığı tanık.
+- **Mekanlar (2.5, 52):** her semtte 2–5 yer; kahvehane, çay ocağı, kafe, lokanta, büfe, meyhane, bar, gece kulübü, otel, pansiyon, fırın, bakkal, pazar, AVM, kitapçı, tamirci, park, hamam, spor salonu, özel kulüp, lokal, muhtarlık, kütüphane, kantin. Her biri: sahip (figür / şirket / kurum ya da Faz 3'te NPC olacak sabit bir **tohum**: ad, yaş, sakin türü, tanım), saatler (gece yarısını geçebilir; `kapaliGunler`, `her_zaman`), fiyat 1–5, hizmetler (aksiyonlar bunlara bağlanacak), müşteri profili (sakin türleri), dilime göre kalabalık 0–3, tasvir, geçmiş, müdavim figürler, dedikodular (`dogru` oyuncuya gizli; ~%35'i yanlış; `konu` bir figür/örgüt/şirket/kurum/mekan), fırsatlar (iş, tanışma, bilgi, eğlence, ucuz, beceri, yardım, sakinlik, güç, **suç kapısı**), gizli örgüt bağı. Paravan şirketin mekanı aynı örgüte gizli bağlı olmak zorunda (denetim). Her örgüt en az bir mekandan ve doğru bir dedikodudan keşfedilebilir (test). Her semtte sabah ve akşam açık bir yer var; gece 01:00–05:00 arası yalnızca İstasyon'un gece yerleri, bazı barlar ve sürekli açık yerler.
 - **Kural:** gizli bağlar kamuya açık metinlere (şirket açıklaması, figürün `kamuoyu`, kurum açıklaması) yazılmaz; test bunu denetler.
 
 ---
@@ -522,6 +524,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.9 | 2026-10-20 | Adım 2.5: `data/dunya/mekanlar.json` (52 mekan, 31 tohum sahip, 63 dedikodu, 8 gizli örgüt bağı; tür / hizmet / fırsat katalogları) ve `core/mekan.js` (açık mı — gece yarısını geçen saatler önceki güne sayılır, kalabalık, semtteki mekanlar, konu dedikoduları, müdavimler, denetim). Oyun dosyayı yüklüyor. 284 test. |
 | 0.1.8 | 2026-10-20 | Adım 2.4: `kurumlar.json` (35), `sirketler.json` (32 + 22 iş türü), `figurler.json` (26), `orgutler.json` (4 kurgusal örgüt); `core/toplum.js` (karakol, semtteki örgütler, iş verenler, paravanlar, üyeler; çapraz başvuru denetimi: karakol kapsamı, sahip/paravan/lider/rütbe, iki yönlü örgüt ilişkileri, yaş, iyelik şüphesi). Oyun dosyaları yüklüyor. 276 test. |
 | 0.1.7 | 2026-10-20 | Adım 2.3: `data/dunya/ulasim.json` (10 hat, 23 yol, tarife, trafik) ve `core/ulasim.js` (zamana bağlı yol bulma: toplu/yürüyüş/taksi, bekleme, trafik, Kent Kart aktarma indirimi, taksi ücreti, veri denetimi); dünya denetimine bağlandı, oyun dosyayı yüklüyor. 267 test. |
 | 0.1.6 | 2026-10-20 | Adım 2.2: `data/dunya/semtler.json` (14 semt ayrıntısı, 27 sakin türü, 56 ünlü yer, 41 gerilim, komşuluk ağı, ilişkiler); `core/dunya.js` semt denetimi (ölçekler, sakin türleri, iki yönlü komşuluk, olay başvuruları, iyelik şüphesi) ve yardımcılar (`semtBul` birleşik, `semtKomsulari`, `semtIliskisi`, `sakinTuruSec`); oyun dosyayı yüklüyor. 256 test. |

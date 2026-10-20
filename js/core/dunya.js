@@ -1,5 +1,6 @@
 import { ulasimDogrula } from './ulasim.js';
 import { toplumDogrula } from './toplum.js';
+import { mekanDogrula } from './mekan.js';
 
 // Dünya kitabı: yükleme sonrası yardımcılar ve tutarlılık denetimi.
 // "Hiçbir şey havada kalmasın": her başvuru (semt, olay, kurum...) gerçekten var olan bir şeye gitmeli.
@@ -151,5 +152,6 @@ export function dunyaDogrula(dunya) {
     h.push(...ulasimDogrula(dunya.ulasim, semtIdler, ciftler).map(x => 'ulaşım: ' + x));
   }
   h.push(...toplumDogrula(dunya, semtIdler, olayIdler));
+  if (dunya.mekanlar) h.push(...mekanDogrula(dunya, semtIdler, olayIdler));
   return h;
 }

@@ -4,7 +4,7 @@ import { yeniDurum, rngAl, anlatimKaydet, aksiyonKaydet, geriAlinabilir } from '
 import { zamanGecir } from './core/simulasyon.js';
 import { aksiyonDurumu, aksiyonMaliyeti, aksiyonUygula } from './core/aksiyon.js';
 import { olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec, vadesiGelenZamanlayici, olayUygunluk } from './core/olay.js';
-import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER, isoTarih, gunDakikasi } from './core/zaman.js';
+import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER, isoTarih, gunDakikasi, yas as yasHesapla } from './core/zaman.js';
 import { seedUret } from './core/rng.js';
 import { saat, tarih, tarihKisa, GUNLER, AYLAR, sure as sureYaz } from './core/format.js';
 import { kucuk } from './core/tr.js';
@@ -17,6 +17,8 @@ import * as insanlar from './core/insanlar.js';
 import { npcVeriDogrula } from './core/npc.js';
 import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
+import { karakterUret, hikayeyiUygula, hikayeVeriDogrula } from './core/hikaye.js';
+import { fizikTarifi, cekicilikAdi, karizmaAdi } from './core/npc.js';
 
 export const veri = {};
 let durum = null;
@@ -29,7 +31,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbet, gorunusVeri] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbet, gorunusVeri, arketipler, bilesenler] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -54,6 +56,8 @@ export async function veriYukle() {
     jsonAl('./data/npc/hayat.json'),
     jsonAl('./data/npc/sohbet.json'),
     jsonAl('./data/npc/gorunus.json'),
+    jsonAl('./data/hikaye/arketipler.json'),
+    jsonAl('./data/hikaye/bilesenler.json'),
   ]);
   veri.npc = { isimler, memleket, kisilik, hayat, sohbet, gorunus: gorunusVeri };
   veri.gezi = gezi;
@@ -67,6 +71,9 @@ export async function veriYukle() {
   if (dunyaSorunlari.length) console.error('[dünya kitabı] tutarsızlık:', dunyaSorunlari);
   const npcSorunlari = npcVeriDogrula(veri);
   if (npcSorunlari.length) console.error('[npc] tutarsızlık:', npcSorunlari);
+  veri.hikaye = { arketipler, bilesenler };
+  const hikayeSorunlari = hikayeVeriDogrula(veri);
+  if (hikayeSorunlari.length) console.error('[hikaye] tutarsızlık:', hikayeSorunlari);
   veri.yaylar = Object.fromEntries(yaylar.yaylar.map(y => [y.id, y]));
   veri.sim = sim;
   veri.aksiyonlar = aks.aksiyonlar;
@@ -112,19 +119,25 @@ function paragraflariKaydet(liste) {
   return liste;
 }
 
-export function yeniOyun({ seed = seedUret(), baslangic = bugunTurkiye() } = {}) {
+// secim: { tip, cinsiyet, ad } (yeni oyun ekranı 3.4'te); verilmeyenler seed'den
+export function yeniOyun({ seed = seedUret(), baslangic = bugunTurkiye(), secim = {} } = {}) {
   seed = seed || seedUret();
   baslangic = baslangic || bugunTurkiye();
-  durum = yeniDurum(veri.sim, { seed, baslangic, saat: 8, para: 2000, ev: konum.evSec(seed, veri.gezi) });
+  const k = karakterUret(seed, secim, veri, { baslangic });
+  durum = yeniDurum(veri.sim, { seed, baslangic, saat: 8, karakter: k.karakter, para: k.para, ev: k.ev });
+  hikayeyiUygula(durum, k);
   const t = tarihAl(baslangic, durum.zaman.dakika);
   const semt = semtBul(veri.dunya, durum.ev.semt);
-  const ctx = { durum, veri, baglam: { degisken: { semt } } };
+  const rng = rngAl(durum, 'metin');
+  const ctx = { durum, veri, baglam: { degisken: { semt, ev: durum.ev.ad } } };
+  const hk = durum.hikaye;
   const giris = paragraflariKaydet([
     ayrac(durum.zaman.dakika, true),
-    ...metinCoz(`${tarih(t)}. ${MEVSIMLER[mevsim(t)]}. {sehir.ad|de}, {semt|de} küçük bir odada uyanıyorsun.`, rngAl(durum, 'metin'), ctx),
+    ...metinCoz(`${tarih(t)}. ${MEVSIMLER[mevsim(t)]}. {sehir.ad}, {semt.ad}. {ev|de|bas} uyanıyorsun.`, rng, ctx),
     { tur: 'anlati', metin: semt.ozet },
-    { tur: 'anlati', metin: 'Kim olduğun, buraya nasıl geldiğin henüz yazılmadı; hikaye motoru Faz 3\'te gelecek. Şimdilik şehri kendi temponla yaşayabilirsin: dışarı çık, semtleri gez, bir kahveye otur, kulak ver. Zaman her şeyde akıyor.' },
-    { tur: 'icses', metin: 'Yeniden başlamak için bir sebep lazım değil. Bir sabah yeter.' },
+    ...hk.zincir.map(z => ({ tur: 'anlati', metin: z.metin })),
+    { tur: 'icses', metin: rng.sec(hk.icSes.ornekler) },
+    { tur: 'sistem', metin: 'Geçmişin, borçların ve hayatındaki insanlar: Hayatım → Karakter.' },
   ]);
   bildir(giris);
   return durum;
@@ -242,6 +255,19 @@ export const yolculukSecenekleri = hedef => konum.yolculukSecenekleri(durum, ver
 export const konumMetni = () => konum.konumMetni(durum, veri);
 export const duyulanlar = () => konum.duyulanlar(durum, veri);
 export const tanidiklarim = () => insanlar.tanidiklarim(durum, veri);
+
+// Hayatım → Karakter: kim olduğun (hikâye motorundan önce başlamış oyunlarda hikaye: null)
+export function karakterBilgisi() {
+  const c = durum.karakter, g = veri.npc.gorunus;
+  const n = c.fizik ? { ...c, ozellikler: c.ozellikler ?? [] } : null;
+  return {
+    karakter: c, hikaye: durum.hikaye ?? null,
+    yas: c.dogum ? yasHesapla(c.dogum, tarihAl(durum.zaman.baslangic, durum.zaman.dakika)) : null,
+    gorunus: n ? fizikTarifi(n, g) : null, cekicilik: n ? cekicilikAdi(n, g) : null, karizma: n ? karizmaAdi(n, g) : null,
+    ozellikler: (c.ozellikler || []).map(o => veri.npc.kisilik.ozellikler.find(x => x.id === o)?.ad).filter(Boolean),
+    egitim: veri.npc.hayat.egitimAdlari?.[c.egitim] ?? c.egitim,
+  };
+}
 export const mekandakiler = mekan => insanlar.mekandakiler(durum, veri, mekan, konum.mekanKalabaligi(durum, mekan)).map(id => ({ id, ad: insanlar.gorunenAd(durum, veri, id), tanidik: insanlar.tanisildiMi(durum, id) }));
 
 // Vakti gelmiş gecikmeli sonuç var mı? Varsa olayını başlat.

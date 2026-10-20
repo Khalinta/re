@@ -1,0 +1,110 @@
+{
+  "_aciklama": "Başlangıç hikayesinin ortak bileşenleri (adım 3.3). Karakterin kendisi NPC motoruyla üretilir (görünüş, kişilik eksenleri, memleket); burada onun üstüne giydirilenler var. gucluYanlar / kusurlar: kosul ile (eksen aralıkları: { \"disadonuk\": [4, 5] }; etiket: arketipin etiketlerinden biri; tip: zirveden/dipten) uyanlardan 2'şer tane seçilir. metin ikinci tekil şahısla. icSes: iç sesin tonu; puan kuralları (eksen eşikleri, hata payı, tip) en yüksek puanı alan tonu seçer. ornekler: o tonda iç ses cümleleri (başlangıçta ve anlatı aralarında). oyuncuKancalari: NPC motorunun karakter için kendiliğinden verebileceği şehir izleri (geri kalanı arketipten gelir). iplikler: hikâyenin açık uçlarının metin kalıpları ({ad}, {tutar}, {kisi}). ev: konut tipinin anlatıdaki adı. medeni: karakterin bugünkü medeni hali (yaşa göre ağırlık; eski eş bağlantısı varsa boşanmış). Çocuk yalnızca hikâyede bir çocuk bağlantısı varsa olur. paraEnAz: elde en az bu kadar nakit (AÜ).",
+
+  "paraEnAz": 0.012,
+
+  "medeni": [
+    { "yasMax": 26, "agirlik": { "bekar": 1 } },
+    { "yasMax": 34, "agirlik": { "bekar": 6, "bosanmis": 1 } },
+    { "yasMax": 99, "agirlik": { "bekar": 4, "bosanmis": 1.5, "dul": 0.3 } }
+  ],
+
+  "gucluYanlar": [
+    { "id": "insan_okur", "ad": "insan okursun", "metin": "Birinin yalan söylediğini çoğu zaman gözlerinden anlarsın.", "kosul": { "acik": [3, 5], "dengeli": [3, 5] } },
+    { "id": "dil_tatli", "ad": "dilin tatlıdır", "metin": "Konuşmaya başladığında insanlar dinler; kapıları bazen dilinle açarsın.", "kosul": { "disadonuk": [4, 5] } },
+    { "id": "inat", "ad": "pes etmezsin", "metin": "Yere düştüğün çok oldu; kalkmadığın hiç olmadı.", "kosul": { "sorumlu": [3, 5] } },
+    { "id": "soguk_kanli", "ad": "soğukkanlısın", "metin": "Herkes bağırırken sen susar, düşünürsün.", "kosul": { "dengeli": [4, 5] } },
+    { "id": "eli_is_tutar", "ad": "elin iş tutar", "metin": "Bozulan bir şeyi tamir etmeden içine sinmez.", "kosul": { "sorumlu": [3, 5], "acik": [1, 3] } },
+    { "id": "sadik", "ad": "sözünün eri", "metin": "Verdiğin sözü tutarsın; bu şehirde bunun bir değeri var.", "kosul": { "uyumlu": [3, 5], "sorumlu": [4, 5] } },
+    { "id": "merakli", "ad": "meraklısın", "metin": "Bilmediğin bir şey duyunca peşini bırakmazsın.", "kosul": { "acik": [4, 5] } },
+    { "id": "sabirli", "ad": "sabırlısın", "metin": "Beklemeyi bilirsin; çoğu insan bilmez.", "kosul": { "dengeli": [3, 5], "uyumlu": [3, 5] } },
+    { "id": "sicak", "ad": "insanlar sana açılır", "metin": "Yanına oturan bir yabancı on dakika sonra sana derdini anlatıyor olur.", "kosul": { "uyumlu": [4, 5] } },
+    { "id": "pratik", "ad": "pratik zekâlısın", "metin": "Elinde olanla bir yol bulursun; azla yetinmeyi öğrendin.", "kosul": { "tip": "dipten" } },
+    { "id": "sokak", "ad": "sokağı bilirsin", "metin": "Kimin kime selam verdiğini, hangi köşede durulmayacağını bilirsin.", "kosul": { "tip": "dipten", "etiket": ["mahalle", "sabika", "yoksul", "suc"] } },
+    { "id": "okumus", "ad": "okumuşsun", "metin": "Bir sözleşmeyi, bir dilekçeyi, bir faturayı çoğu insandan iyi okursun.", "kosul": { "etiket": ["egitimli"] } },
+    { "id": "beden", "ad": "bedenin güçlüdür", "metin": "Yorgunluğa çoğu insandan uzun dayanırsın.", "kosul": { "etiket": ["spor", "isci", "dayaniklilik"] } },
+    { "id": "tanidik", "ad": "eskiden tanıdığın çoktu", "metin": "Bir zamanlar şehrin yarısı numaranı kayıtlı tutardı; birkaçı hâlâ açar.", "kosul": { "tip": "zirveden" } },
+    { "id": "is_bilir", "ad": "iş bilirsin", "metin": "Bir işin nasıl döndüğünü, paranın nereden girip nereden çıktığını bilirsin.", "kosul": { "etiket": ["is"] } },
+    { "id": "mizah", "ad": "en kötü günde bile gülebilirsin", "metin": "Şakan hiç bitmez; bazen seni ayakta tutan tek şey bu.", "kosul": { "disadonuk": [3, 5], "dengeli": [2, 5] } },
+    { "id": "gozlemci", "ad": "gözünden bir şey kaçmaz", "metin": "Bir odaya girdiğinde kimin nerede oturduğunu, kimin kapıya baktığını görürsün.", "kosul": { "disadonuk": [1, 3], "acik": [3, 5] } }
+  ],
+
+  "kusurlar": [
+    { "id": "gurur", "ad": "gururlusun", "metin": "Yardım istemek boğazına düğümlenir; çoğu zaman istemezsin.", "kosul": { "tip": "zirveden" } },
+    { "id": "ofke", "ad": "öfken çabuk parlar", "metin": "Bir söz yeter; sonra pişman olacağın bir şey söylersin.", "kosul": { "uyumlu": [1, 2] } },
+    { "id": "kaygi", "ad": "kaygılısın", "metin": "Geceleri aynı düşünceler döner durur; uyku geç gelir.", "kosul": { "dengeli": [1, 2] } },
+    { "id": "erteleyici", "ad": "işleri ertelersin", "metin": "Yarın, yarın... Yarın çoğu zaman hiç gelmez.", "kosul": { "sorumlu": [1, 2] } },
+    { "id": "guvensiz", "ad": "kimseye güvenmezsin", "metin": "Bir kez yandın; şimdi herkesin bir hesabı olduğunu düşünürsün.", "kosul": { "etiket": ["ihanet", "sabika", "aile"] } },
+    { "id": "saf", "ad": "fazla çabuk güvenirsin", "metin": "Gülümseyen herkesi dost sanarsın; hayat sana bunu kaç kez ödetti.", "kosul": { "uyumlu": [4, 5] } },
+    { "id": "kapanik", "ad": "içine kapanırsın", "metin": "Kalabalıkta yalnız hissedersin; bir kapı çalınınca açmadan önce düşünürsün.", "kosul": { "disadonuk": [1, 2] } },
+    { "id": "harcama", "ad": "para elinde durmaz", "metin": "Cebine para girdiği gün çıkış yolunu da bulur.", "kosul": { "sorumlu": [1, 3], "etiket": ["kumar", "unlu", "para"] } },
+    { "id": "gecmis", "ad": "geçmişte yaşarsın", "metin": "Eskiyi anlatmaya başlayınca durmayı bilmezsin; şimdinin içinde kaybolursun.", "kosul": { "tip": "zirveden" } },
+    { "id": "kumar_durtusu", "ad": "risk seni çeker", "metin": "Bir şansın kokusunu aldığında aklın susar.", "kosul": { "etiket": ["kumar", "para"] } },
+    { "id": "inatci", "ad": "inatçısın", "metin": "Yanıldığını bilsen bile geri adım atmak zor gelir.", "kosul": { "uyumlu": [1, 3], "sorumlu": [3, 5] } },
+    { "id": "kirgin", "ad": "kırgınsın", "metin": "Sana yapılanları unutmazsın; bazen bu öfke seni yer bitirir.", "kosul": { "etiket": ["ihanet", "aile", "itibar"] } },
+    { "id": "uykusuz", "ad": "geceleri uyuyamazsın", "metin": "Gece üçte tavanı izlemek senin için olağan.", "kosul": { "dengeli": [1, 3] } },
+    { "id": "kucuk_gorulme", "ad": "küçük görülmeye dayanamazsın", "metin": "Biri sana tepeden bakınca içinde bir şey kabarır.", "kosul": { "tip": "dipten" } },
+    { "id": "dikkatsiz", "ad": "dağınıksın", "metin": "Anahtarını, faturanı, randevunu... bir şeyler hep kaybolur.", "kosul": { "sorumlu": [1, 2] } }
+  ],
+
+  "icSes": {
+    "alayci": {
+      "ad": "alaycı",
+      "puan": { "acik": [4, 2], "disadonuk": [4, 1], "dengeli": [3, 1] },
+      "ornekler": ["Harika. Tam da planladığın gibi.", "Bir sabah daha. Dünya seni hâlâ bekliyor; şaka şaka.", "Bir sonraki büyük hata için hazır mısın? Çünkü o hazır."]
+    },
+    "sert": {
+      "ad": "sert",
+      "puan": { "uyumlu": [-2, 2], "sorumlu": [4, 1], "hata": [0.6, 2] },
+      "ornekler": ["Kalk. Kimse senin yerine kalkmayacak.", "Ağlamak sonra. Şimdi iş.", "Bunu sen yaptın. Düzeltecek olan da sensin."]
+    },
+    "yumusak": {
+      "ad": "yumuşak",
+      "puan": { "uyumlu": [4, 2], "dengeli": [3, 1] },
+      "ornekler": ["Yavaş. Bir adım, sonra bir adım daha.", "Bugün kötüyse yarın başka bir gün.", "Kendine biraz iyi davranabilirsin; kimse bakmıyor."]
+    },
+    "kaygili": {
+      "ad": "kaygılı",
+      "puan": { "dengeli": [-2, 3], "hata": [-0.4, 1] },
+      "ornekler": ["Ya yine olursa?", "Kapı kilitli mi? Bir daha bak.", "Herkes bir şey biliyor ve sana söylemiyor gibi."]
+    },
+    "kirgin": {
+      "ad": "kırgın",
+      "puan": { "tip": ["zirveden", 1], "hata": [-0.3, 2] },
+      "ornekler": ["Sen ne yaptın da bu oldu? Hiçbir şey. Asıl mesele de bu.", "Herkes kendi hayatına devam etti. Sen burada kaldın.", "Haklıydın. Haklı olmak hiçbir şeyi kurtarmadı."]
+    },
+    "umutlu": {
+      "ad": "inatla umutlu",
+      "puan": { "tip": ["dipten", 1.5], "dengeli": [3, 1], "acik": [3, 1] },
+      "ornekler": ["Daha kötüsünü gördün. Bu da geçer.", "Şehir büyük. Bir yerde senin için bir kapı var.", "Hiç sahip olmadığın bir şeyi kaybedemezsin. O halde: kazan."]
+    },
+    "kayitsiz": {
+      "ad": "yorgun ve kayıtsız",
+      "puan": { "disadonuk": [-2, 1], "acik": [-2, 1], "sorumlu": [-2, 1] },
+      "ornekler": ["Olsun. Ne olacaksa olsun.", "Bir çay. Sonra bakarız.", "Uyumak daha kolay olurdu."]
+    }
+  },
+
+  "oyuncuKancalari": ["mubadil_torunu", "gecekondu_cocugu", "grevci_ailesi", "sel_magduru", "demirspor_taraftari", "tabakhane_nobetcisi"],
+
+  "ev": {
+    "oda": ["paylaşımlı bir evde küçük bir oda", "rutubetli, tek pencereli bir oda", "bir apartmanın çatı katında bir oda"],
+    "pansiyon": ["istasyon arkasında bir pansiyon odası", "haftalık ödenen bir pansiyon odası"]
+  },
+
+  "iplikler": {
+    "borc": "{kime|bas} {tutar} borcun var.",
+    "borcAylik": "{ad|bas}: her ay {tutar}.",
+    "borcNpc": "{kisi|e|bas} {tutar} borcun var; o unutmaz.",
+    "alacak": "{kimden|den|bas} {tutar} alacağın var; vermeye niyeti yok gibi.",
+    "kisiGergin": "{rol|le|bas} aranızda kapanmamış bir hesap var.",
+    "kisiYakin": "{rol|bas} hâlâ hayatında; belki tek dayanağın.",
+    "kisiDisarida": "{rol|bas} bu şehirde değil; bir gün arayacak, ya da sen arayacaksın.",
+    "sir": "Kimsenin bilmediği bir şey taşıyorsun."
+  },
+
+  "kimeAdlari": {
+    "banka": "bankaya", "kredi_karti": "kredi kartlarına", "tefeci": "bir tefeciye", "aile": "ailene", "arkadas": "bir arkadaşına",
+    "orgut": "yanlış insanlara", "nafaka": "eski eşine", "vergi": "vergi dairesine", "bakkal": "mahalle bakkalına"
+  }
+}

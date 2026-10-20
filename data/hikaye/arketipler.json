@@ -1,0 +1,3083 @@
+{
+  "_aciklama": "Başlangıç hikayesi arketipleri (adım 3.3). Bir arketip hikâyenin iskeletidir; motor (core/hikaye.js) her parçayı seed'den seçip birleştirir. tip: zirveden (her şeyini kaybetmiş) / dipten (hiç olmamış). agirlik: seçilme ağırlığı; nadir: uç hikâyeler. yas: bugünkü yaş aralığı. sakinTuru: karakterin geldiği çevre (görünüş, giyim, ağız buna göre). egitim: izin verilen eğitimler (yoksa kuşağa göre). cinsiyet: yalnızca bu cinsiyete uyan hikâyeler için. kancalar: dünya kitabının zaman çizelgesindeki olaylara bağ [{kanca, olaydaYas}] — olay anında en az o yaşta olmalı; yaş aralığı buna göre daraltılır. zincir: çöküşün (ya da hiç kalkamayışın) adımları, eskiden yeniye. Adımın yılı: yilOnce [a,b] (bugünden kaç yıl önce) ya da yas [a,b] (o zamanki yaşın) ya da yil (sabit, dünya olayı). yasMin: o adımda en az bu yaşta olmalı (değilse yıl ileri kayar). Yıllar hep artan sırada ve ≤ 2026. metin: çeşitlerden biri; { hata: [...], talih: [...] } ise 'hata' oranına göre biri seçilir. Şablon: {h.x} hikâye değişkenleri (havuz'dan seçilen ve bağlantıların adları: {h.ortak}), {y} adımın yılı, {yasO} o zamanki yaşın, {yas} bugünkü yaşın. havuz: hikâyeye özgü seçim listeleri (dize ya da {ad, olen: 'anne'|'baba'}). para: elde kalan nakit (AÜ). borclar: kime, ad, miktar (AÜ), olasılık; npc: alacaklı NPC; orgut; aylik: aylık ödeme. alacaklar: senin alacakların. baglantilar: geçmişten gelen kişiler, k:<rol> kimliğiyle gerçek NPC olurlar (figur verilirse dünya kitabındaki figürün kendisi). nerede: karaliman ya da disarida (dışarıdakiler telefonla, Faz 4). aile: soyadın ve memleketin aynı; yasFarki: senin yaşına eklenir; cinsiyet: ayni/karsi/e/k; esMi: eski eş; cocukMu: çocuğun; kancalar: o kişinin şehirdeki izleri. kalanlar: [id, ad, değer (AÜ)]. sirlar ve anilar ikinci tekil şahısla (iç ses). aile: {bilinmiyor: true} ailesini tanımayanlar için. bayraklar: başlangıçta kalıcı bayraklar. ev: şehirde nerede kalıyor (tip oda/pansiyon, semtler).",
+  "arketipler": [
+    {
+      "id": "aile_isletmesi",
+      "ad": "İflas eden aile işletmesi",
+      "tip": "zirveden",
+      "agirlik": 5,
+      "yas": [
+        27,
+        52
+      ],
+      "eskiMeslek": [
+        "aile şirketinde müdür",
+        "babasının dükkânını çeviren",
+        "aile lokantasının işletmecisi"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            12,
+            20
+          ],
+          "metin": [
+            "{h.isletme|bas}, dedenden babana, babandan sana kaldı.",
+            "Çocukluğun {h.isletme} arasında geçti; tezgâhın arkasında ödev yapardın.",
+            "Dükkânın tezgâhında ilk paranı saydığında on yaşındaydın; baban 'bu iş senin' demişti."
+          ]
+        },
+        {
+          "yilOnce": [
+            5,
+            9
+          ],
+          "metin": {
+            "hata": [
+              "{y} yılında işi büyütmek istedin; babanın 'acele etme' sözünü dinlemedin, krediyle ikinci bir yer açtın.",
+              "{y|de} bir yatırımcıya güvendin; işin yarısını ona açtın, imzaları okumadan attın.",
+              "{y|de} 'artık benim usulüm' deyip eski müşterileri küstürdün; yenileri hiç gelmedi."
+            ],
+            "talih": [
+              "{y|de} baban hastalandı; işin bütün yükü bir gecede senin omzuna bindi.",
+              "{y|de} kiralar ikiye katlandı; ev sahibi değişti, kontrat yenilenmedi.",
+              "{y|de} çarşının girişindeki yol çalışması bir yıl sürdü; müşteri yolu unuttu."
+            ]
+          },
+          "yasMin": 20
+        },
+        {
+          "yilOnce": [
+            2,
+            4
+          ],
+          "metin": [
+            "Borçlar faiziyle büyüdü. Önce çalışanları çıkardın; en son en eski ustayı, ki o seni kucağında büyütmüştü.",
+            "Marina AVM açılınca müşteri yarıya düştü; kepengi her sabah daha zor açtın.",
+            "Maaşları geciktirmeye başladın; her ayın biri bir yalanla geçti."
+          ]
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Sonunda haciz geldi. Babanın elleriyle astığı tabelayı başkası indirdi.",
+            "Dükkânı devrettin; aldığın para borcun ancak yarısını kapattı. Ailen sana bakmıyor artık; ya da sen onlara bakamıyorsun.",
+            "Son gün kepengi kendi elinle indirdin; kilidin sesi hâlâ kulağında."
+          ]
+        }
+      ],
+      "hata": [
+        0.2,
+        0.8
+      ],
+      "para": [
+        0.03,
+        0.2
+      ],
+      "borclar": [
+        {
+          "kime": "banka",
+          "ad": "İşletme kredisi (banka)",
+          "miktar": [
+            8,
+            25
+          ],
+          "olasilik": 0.9
+        },
+        {
+          "kime": "tefeci",
+          "ad": "Çarşıdaki 'Hacı'ya senet",
+          "miktar": [
+            2,
+            6
+          ],
+          "olasilik": 0.35,
+          "npc": "f:mahir_sarikaya"
+        },
+        {
+          "kime": "aile",
+          "ad": "Kardeşinden aldığın para",
+          "miktar": [
+            1,
+            4
+          ],
+          "olasilik": 0.4
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "eski_usta",
+          "ad": "dükkânın eski ustası",
+          "iliski": {
+            "yakinlik": 30,
+            "guven": 20,
+            "gerginlik": 6
+          },
+          "olasilik": 0.8,
+          "nerede": "karaliman",
+          "sakinTuru": "esnaf",
+          "yasFarki": [
+            15,
+            30
+          ]
+        },
+        {
+          "rol": "kardes",
+          "ad": "kardeşin",
+          "iliski": {
+            "yakinlik": 20,
+            "gerginlik": 12
+          },
+          "olasilik": 0.7,
+          "nerede": "karaliman",
+          "aile": true,
+          "yasFarki": [
+            -6,
+            6
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "tabela",
+          "dükkânın eski tabelasından bir harf",
+          0
+        ],
+        [
+          "anahtarlik",
+          "artık hiçbir kapıyı açmayan bir anahtarlık",
+          0
+        ],
+        [
+          "saat",
+          "babanın kol saati",
+          0.4
+        ]
+      ],
+      "sirlar": [
+        "Son ay kasadan para alıp borcun bir kısmını kapattın; kardeşin bunun hâlâ farkında değil.",
+        "Dükkânı kurtarabilecek bir teklifi gururundan reddettin."
+      ],
+      "anilar": [
+        "Babanın sabah kepengi açarken ıslık çalması.",
+        "Bayram arifelerinde dükkânın önündeki kuyruk."
+      ],
+      "etiketler": [
+        "is",
+        "aile",
+        "borc"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "eski_carsi",
+          "asagi_liman",
+          "bezhane"
+        ]
+      },
+      "sakinTuru": [
+        "esnaf"
+      ],
+      "havuz": {
+        "isletme": [
+          "Karaliman'da üç şubeli bir pastane",
+          "Eski Çarşı'da kırk yıllık bir kumaşçı",
+          "Kuzey Sanayi'de küçük bir yedek parça imalathanesi",
+          "Sahilyolu'nda bir balık lokantası",
+          "dedenden kalma bir matbaa"
+        ]
+      }
+    },
+    {
+      "id": "ortak_dolandirdi",
+      "ad": "Ortağı tarafından dolandırılan girişimci",
+      "tip": "zirveden",
+      "agirlik": 4,
+      "yas": [
+        26,
+        45
+      ],
+      "egitim": [
+        "universite",
+        "yuksek_lisans"
+      ],
+      "eskiMeslek": [
+        "yazılım girişimcisi",
+        "ithalat şirketi kurucusu",
+        "bir mobil uygulamanın kurucu ortağı",
+        "e-ticaret sitesi sahibi"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            6,
+            10
+          ],
+          "metin": [
+            "Üniversiteden arkadaşın {h.ortak} ile {y|de} bir şirket kurdunuz. Sen işi yapıyordun, o 'ilişkileri' yönetiyordu.",
+            "{y|de} {h.ortak} ile tanıştın; bir kahvede çizdiğiniz fikir iki yılda yirmi kişilik bir ofise dönüştü.",
+            "{y|de} {h.ortak} ile bir garaj katında başladınız; masanız iki kasa, bir kapı tahtasıydı."
+          ],
+          "yasMin": 20
+        },
+        {
+          "yilOnce": [
+            3,
+            5
+          ],
+          "metin": [
+            "Bir dönem dergilere çıktınız; 'Karaliman'ın parlayan girişimi' diye.",
+            "Yatırım geldi; adın ilk kez bir gazetede geçti. Annen o sayfayı çerçeveletti.",
+            "Bir dönem her hafta yeni biri işe girdi; sen bütün adları ezbere bilirdin."
+          ]
+        },
+        {
+          "yilOnce": [
+            1,
+            2
+          ],
+          "metin": {
+            "hata": [
+              "Muhasebeye hiç bakmadın; 'o işler onun' dedin. İmzalar senin adınaydı.",
+              "Uyaranlar oldu; 'kıskançlık' deyip geçtin.",
+              "Büyümek için her krediye imza attın; geri ödemenin nasıl olacağını {h.ortak} düşünür sandın."
+            ],
+            "talih": [
+              "Bir sabah şirket hesabı boştu. {h.ortak} telefonunu kapatmış, yurt dışına çıkmıştı.",
+              "Ortağın şirketi senden habersiz rehin göstermiş; öğrendiğinde iş işten geçmişti.",
+              "Büyük bir müşteri ödeme yapmadan battı; {h.ortak} o gece 'ben hallederim' dedi ve bir daha görünmedi."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Borçlar senin adına kaldı. Davalar sürüyor; avukatın 'yıllar sürer' diyor.",
+            "Ofisi boşalttın; son gün ışıkları sen kapattın.",
+            "Annen hâlâ çerçeveli gazete sayfasını duvardan indirmedi; sen de indirmesini isteyemiyorsun."
+          ]
+        }
+      ],
+      "hata": [
+        0.1,
+        0.5
+      ],
+      "para": [
+        0.02,
+        0.15
+      ],
+      "borclar": [
+        {
+          "kime": "banka",
+          "ad": "Şirket borçları (kefaletin)",
+          "miktar": [
+            10,
+            40
+          ],
+          "olasilik": 0.9
+        },
+        {
+          "kime": "kredi_karti",
+          "ad": "Kredi kartları",
+          "miktar": [
+            2,
+            6
+          ],
+          "olasilik": 0.7
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "ortak",
+          "ad": "seni dolandıran eski ortağın",
+          "iliski": {
+            "yakinlik": 0,
+            "gerginlik": 40
+          },
+          "olasilik": 1,
+          "nerede": "disarida",
+          "yasFarki": [
+            -3,
+            3
+          ]
+        },
+        {
+          "rol": "eski_calisan",
+          "ad": "şirketin eski çalışanı",
+          "iliski": {
+            "yakinlik": 15,
+            "gerginlik": 8
+          },
+          "olasilik": 0.6,
+          "nerede": "karaliman",
+          "sakinTuru": "beyaz_yaka",
+          "yasFarki": [
+            -8,
+            2
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "laptop",
+          "çizik bir dizüstü bilgisayar",
+          0.4
+        ],
+        [
+          "kartvizit",
+          "bir deste artık geçersiz kartvizit",
+          0
+        ],
+        [
+          "dergi",
+          "kapağında olduğun eski bir dergi",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Ortağının ne yaptığını aslında bir süredir seziyordun; kendine itiraf etmedin.",
+        "Davada lehine tanıklık edecek kişiyle aranı kendin bozdun."
+      ],
+      "anilar": [
+        "Ofisin açılış gecesi; balkondan körfeze bakıp 'başardık' demiştiniz.",
+        "İlk maaşları ödediğin gün eline titreyen kalem."
+      ],
+      "etiketler": [
+        "is",
+        "ihanet",
+        "borc",
+        "egitimli"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "camlik",
+          "tersaneonu",
+          "bezhane"
+        ]
+      },
+      "sakinTuru": [
+        "genc_girisimci",
+        "beyaz_yaka"
+      ]
+    },
+    {
+      "id": "sakat_sporcu",
+      "ad": "Sakatlanan sporcu",
+      "tip": "zirveden",
+      "agirlik": 3,
+      "yas": [
+        29,
+        38
+      ],
+      "kancalar": [
+        {
+          "kanca": "demirspor_oyuncusu",
+          "olaydaYas": 17
+        }
+      ],
+      "eskiMeslek": [
+        "Demirspor'un orta saha oyuncusu",
+        "Demirspor'un genç kalecisi",
+        "Demirspor'un kanat oyuncusu"
+      ],
+      "zincir": [
+        {
+          "metin": [
+            "Kuzey Tribünü'nün altında, toprak sahada top koşturan çocuktun; bir gözlemci seni gördü.",
+            "On dört yaşında Demirspor altyapısına girdin; annen ilk kramponlarını taksitle aldı.",
+            "Mahalle maçlarında top hep sende kalırdı; on üç yaşında Demirspor'un denemesine götürdüler."
+          ],
+          "yas": [
+            11,
+            14
+          ]
+        },
+        {
+          "yilOnce": [
+            7,
+            12
+          ],
+          "metin": [
+            "{y|de} ilk kez A takımda oynadın; tribün adını bağırdı.",
+            "Süper Lig yıllarında yedek kulübesinden çıkıp bir gece maçın yıldızı oldun; ertesi gün Körfez Postası'nın manşetindeydin.",
+            "İlk profesyonel sözleşmeni imzaladığın gün babanla iskelede balık ekmek yediniz; ikiniz de bir şey söylemediniz."
+          ]
+        },
+        {
+          "yilOnce": [
+            3,
+            7
+          ],
+          "metin": {
+            "hata": [
+              "Sakatlığı saklayıp oynadın; para kesilmesin, yer kaybetmeyeyim diye. Diz bir gece tamamen gitti.",
+              "Gece hayatı, geç saatler, 'bir şey olmaz'lar... Vücudun sana yetmez dedi.",
+              "Antrenmanları kaçırmaya başladın; 'yeteneğim yeter' diyordun. Hoca seni kadroya yazmadı, sen de kendini sakatlık iznine."
+            ],
+            "talih": [
+              "Bir ikili mücadelede dizin ters döndü; ambulans sahaya girdi, sen bir daha girmedin.",
+              "Kulüp borç batağındayken ameliyatın yarım yamalak yapıldı; diz bir daha eskisi gibi olmadı.",
+              "Bir deplasman dönüşü takım otobüsü kaza yaptı; en ağır yaralanan sendin."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            0,
+            2
+          ],
+          "metin": [
+            "Sözleşmen yenilenmedi. Kulübün sana olan borcu hâlâ ödenmedi; senin de birilerine.",
+            "Tribünde seni tanıyanlar azaldı; tanıyanlar da 'yazık oldu' diyor, ki bu daha kötü.",
+            "Şimdi sabahları dizin havayı senden önce haber veriyor."
+          ]
+        }
+      ],
+      "hata": [
+        0.1,
+        0.6
+      ],
+      "para": [
+        0.05,
+        0.4
+      ],
+      "borclar": [
+        {
+          "kime": "kredi_karti",
+          "ad": "Kredi kartları",
+          "miktar": [
+            2,
+            8
+          ],
+          "olasilik": 0.7
+        },
+        {
+          "kime": "banka",
+          "ad": "Araba kredisi (araba satıldı, borç kaldı)",
+          "miktar": [
+            4,
+            12
+          ],
+          "olasilik": 0.5
+        }
+      ],
+      "alacaklar": [
+        {
+          "kimden": "f:kazim_erturk",
+          "ad": "Demirspor'un ödenmemiş maaşların",
+          "miktar": [
+            3,
+            10
+          ]
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "eski_takim_arkadasi",
+          "ad": "eski takım arkadaşın",
+          "iliski": {
+            "yakinlik": 35,
+            "guven": 25
+          },
+          "olasilik": 0.9,
+          "nerede": "karaliman",
+          "sakinTuru": "beyaz_yaka",
+          "yasFarki": [
+            -3,
+            3
+          ],
+          "cinsiyet": "ayni"
+        },
+        {
+          "rol": "menajer",
+          "ad": "eski menajerin",
+          "iliski": {
+            "yakinlik": 5,
+            "gerginlik": 15
+          },
+          "olasilik": 0.5,
+          "nerede": "disarida",
+          "yasFarki": [
+            10,
+            20
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "forma",
+          "imzalı son forman",
+          0.1
+        ],
+        [
+          "madalya",
+          "bir şampiyonluk madalyası",
+          0.2
+        ],
+        [
+          "dizlik",
+          "dizliğin; hâlâ her sabah takıyorsun",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Sakatlığından önce bir şike teklifi aldın; kabul etmedin ama kimseye de söylemedin.",
+        "Kulübün doktoru 'oynama' demişti; sen oynadın."
+      ],
+      "anilar": [
+        "Gol attığın gece Kuzey Tribünü'nün adını bağırması; göğsünde bir şey patlamıştı.",
+        "Soyunma odasının merhem ve ter kokusu."
+      ],
+      "etiketler": [
+        "spor",
+        "saglik",
+        "unlu"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "istasyon",
+          "kayalitepe",
+          "bezhane"
+        ]
+      },
+      "sakinTuru": [
+        "beyaz_yaka"
+      ],
+      "cinsiyet": "e"
+    },
+    {
+      "id": "unutulan_unlu",
+      "ad": "Skandal sonrası unutulan ünlü",
+      "tip": "zirveden",
+      "agirlik": 2,
+      "yas": [
+        30,
+        58
+      ],
+      "kancalar": [
+        {
+          "kanca": "medya_calisani",
+          "olaydaYas": 24
+        }
+      ],
+      "eskiMeslek": [
+        "Liman TV'nin akşam programı sunucusu",
+        "yerel bir dizinin başrol oyuncusu",
+        "bir zamanlar şarkısı her yerde çalan şarkıcı"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            10,
+            18
+          ],
+          "metin": [
+            "Şehirde herkes yüzünü tanırdı; markette bile imza isterlerdi.",
+            "{y|de} ilk kez ekrana çıktın; o gece annen bütün akrabalarını aradı.",
+            "Bir dönem dergilerin arka sayfalarında 'şehrin en sevilenleri' listesindeydin."
+          ],
+          "yasMin": 18
+        },
+        {
+          "yilOnce": [
+            3,
+            6
+          ],
+          "metin": {
+            "hata": [
+              "Bir gece, bir kamera, söylememen gereken bir cümle. Video sabaha kadar yüz binlerce kez izlendi.",
+              "Bir yardım kampanyasının parasıyla ilgili soru işaretleri... Hepsi doğru değildi, ama bir kısmı doğruydu.",
+              "Bir röportajda öfkeyle eski bir arkadaşını küçümsedin; o arkadaş anlatacak çok şey biliyordu."
+            ],
+            "talih": [
+              "Hiç söylemediğin bir sözün videosu çıktı; kimse yalanlamanı dinlemedi.",
+              "Kanalın sahibiyle ters düştün; ertesi hafta seni anlatan haberler çıkmaya başladı.",
+              "Bir yapımcıyla aranızdaki dava basına sızdı; anlatılan hikâyede sen hep kötüydün."
+            ]
+          }
+        },
+        {
+          "metin": [
+            "Liman TV kapandı; tazminatını alamadın. Kimse arıyor, kimse sormuyor.",
+            "Davet listelerinden adın sessizce silindi. Telefonun önce az çaldı, sonra hiç.",
+            "Programın yayından kaldırıldı; son bölümü kimse izlemedi, sen bile."
+          ],
+          "yil": 2025
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Şimdi sokakta biri dönüp bakınca hâlâ kalbin hızlanıyor; sonra senin sandığın kişi olmadığını anlıyorsun.",
+            "Kirayı ödeyemediğin için Sahilyolu'ndaki evden çıktın.",
+            "Bir kafede eski bir programının tekrarı dönüyordu; garson ekrana bakıp sana baktı, sonra çay getirdi."
+          ]
+        }
+      ],
+      "hata": [
+        0.2,
+        0.8
+      ],
+      "para": [
+        0.05,
+        0.3
+      ],
+      "borclar": [
+        {
+          "kime": "banka",
+          "ad": "Ev kredisi (ev elden çıktı, borç kaldı)",
+          "miktar": [
+            6,
+            20
+          ],
+          "olasilik": 0.6
+        },
+        {
+          "kime": "kredi_karti",
+          "ad": "Kredi kartları",
+          "miktar": [
+            3,
+            10
+          ],
+          "olasilik": 0.8
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "eski_menajer",
+          "ad": "eski menajerin",
+          "iliski": {
+            "yakinlik": 10,
+            "gerginlik": 10
+          },
+          "olasilik": 0.6,
+          "nerede": "karaliman",
+          "sakinTuru": "serbest_meslek",
+          "yasFarki": [
+            5,
+            15
+          ]
+        },
+        {
+          "rol": "hayran",
+          "ad": "seni hâlâ hatırlayan bir hayranın",
+          "iliski": {
+            "yakinlik": 5
+          },
+          "olasilik": 0.5,
+          "nerede": "karaliman",
+          "yasFarki": [
+            -20,
+            10
+          ]
+        },
+        {
+          "rol": "gazeteci",
+          "figur": "f:deniz_ural",
+          "iliski": {
+            "gerginlik": 10
+          },
+          "olasilik": 0.5,
+          "ad": "seni yıllarca haber yapan gazeteci"
+        }
+      ],
+      "kalanlar": [
+        [
+          "odul",
+          "tozlanmış bir ödül heykelciği",
+          0.3
+        ],
+        [
+          "arsiv",
+          "eski programlarının kayıtlı olduğu bir disk",
+          0
+        ],
+        [
+          "takim",
+          "pahalı ama artık dar gelen bir takım",
+          0.2
+        ]
+      ],
+      "sirlar": [
+        "Skandalın çıkmasını engelleyebilecek birini tanıyordun; aramadın, çünkü bedelini biliyordun.",
+        "Bir dönem hayranlarının attığı mektupları okumadan çöpe attın; şimdi pişmansın."
+      ],
+      "anilar": [
+        "Stüdyonun ışıkları yandığı an midenin düğümlenip sonra çözülmesi.",
+        "İlk imza isteyen çocuk; adını yanlış yazmıştın."
+      ],
+      "etiketler": [
+        "unlu",
+        "itibar"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "sahilyolu",
+          "camlik",
+          "tersaneonu"
+        ]
+      },
+      "sakinTuru": [
+        "sanatci"
+      ]
+    },
+    {
+      "id": "kripto",
+      "ad": "Kriptoda her şeyini kaybeden",
+      "tip": "zirveden",
+      "agirlik": 4,
+      "yas": [
+        25,
+        50
+      ],
+      "kancalar": [
+        {
+          "kanca": "kripto_magduru",
+          "olaydaYas": 19
+        }
+      ],
+      "eskiMeslek": [
+        "banka memuru",
+        "muhasebeci",
+        "satış müdürü",
+        "mühendis"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            5,
+            7
+          ],
+          "metin": [
+            "Bir arkadaşın KoinPazar'ı anlattı; 'herkes kazanıyor' dedi. Sen de biraz yatırdın, sonra biraz daha.",
+            "Önce merakla başladın; ekranda yeşil rakamlar büyüdükçe merak başka bir şeye dönüştü.",
+            "İş yerindeki yemek masasında herkes aynı uygulamadan söz ediyordu; sen de indirdin."
+          ],
+          "yasMin": 18
+        },
+        {
+          "yilOnce": [
+            4,
+            5
+          ],
+          "metin": {
+            "hata": [
+              "Birikimini, sonra annenin altınlarını, sonra krediyi yatırdın. 'Bir yükseliş daha, sonra çekerim' diyordun.",
+              "Kazandığın her lirayı geri yatırdın; çevrene 'biz kurtulduk' dedin.",
+              "Gece yarıları ekrana bakmaktan uyumadın; işe uykusuz gittin, uyarı üstüne uyarı aldın."
+            ],
+            "talih": [
+              "Danışman dediği adam emeklilik birikimini oraya yönlendirdi; sen de güvendin.",
+              "Bankada çalışırken müşterilere bile önerdin; o kadar güvenliydi ki.",
+              "Platformun 'güvence fonu' diye anlattığı şeye herkes gibi sen de inandın; reklamlarda ünlüler vardı."
+            ]
+          },
+          "yasMin": 19
+        },
+        {
+          "metin": [
+            "3 Kasım 2022 gecesi KoinPazar kapandı. Sabah telefonunu açtığında hesabında sıfır yazıyordu.",
+            "Çöküş gecesi Marina'daki o restoranın önündeydin; kurucunun herkesin hesabını ödediği gece. Hiç unutamıyorsun.",
+            "Çöküş haberini önce bir mesaj grubundan duydun; inanmadın, sonra telefon hiç susmadı."
+          ],
+          "yil": 2022
+        },
+        {
+          "yilOnce": [
+            0,
+            2
+          ],
+          "metin": [
+            "Davalar sürüyor. Her ayın üçünde adliye önünde birkaç yüz kişi; her ay daha az.",
+            "İşini kaybettin, sonra evini. Ailen hâlâ her şeyi bilmiyor.",
+            "Mağdurlar grubunda her gün yeni bir söylenti: 'para bulundu', 'para gitti'. Artık okumuyorsun bile."
+          ]
+        }
+      ],
+      "hata": [
+        0.4,
+        0.9
+      ],
+      "para": [
+        0.02,
+        0.12
+      ],
+      "borclar": [
+        {
+          "kime": "banka",
+          "ad": "İhtiyaç kredisi",
+          "miktar": [
+            6,
+            18
+          ],
+          "olasilik": 0.8
+        },
+        {
+          "kime": "kredi_karti",
+          "ad": "Kredi kartları",
+          "miktar": [
+            3,
+            8
+          ],
+          "olasilik": 0.9
+        },
+        {
+          "kime": "aile",
+          "ad": "Annenin altınları",
+          "miktar": [
+            2,
+            6
+          ],
+          "olasilik": 0.4
+        },
+        {
+          "kime": "tefeci",
+          "ad": "Hacı'ya senet",
+          "miktar": [
+            1,
+            4
+          ],
+          "olasilik": 0.25,
+          "npc": "f:mahir_sarikaya"
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "seni_sokan_arkadas",
+          "ad": "seni KoinPazar'a sokan arkadaşın",
+          "iliski": {
+            "yakinlik": 10,
+            "gerginlik": 20
+          },
+          "olasilik": 0.8,
+          "nerede": "karaliman",
+          "sakinTuru": "beyaz_yaka",
+          "yasFarki": [
+            -5,
+            5
+          ]
+        },
+        {
+          "rol": "magdur_dernegi",
+          "ad": "Mağdurlar Derneği'nden biri",
+          "iliski": {
+            "yakinlik": 12
+          },
+          "olasilik": 0.5,
+          "nerede": "karaliman",
+          "sakinTuru": "kucuk_memur",
+          "yasFarki": [
+            0,
+            20
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "telefon",
+          "ekranı çatlak bir telefon; uygulama hâlâ yüklü",
+          0.1
+        ],
+        [
+          "dosya",
+          "KoinPazar davasının dosyası",
+          0
+        ],
+        [
+          "kitap",
+          "'Zengin Olmanın Yolları' diye bir kitap",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Kayıplarının bir kısmı, kimseye söylemediğin başka bir kumardı; sonuna kadar 'yatırım' dedin.",
+        "Seni oraya sokan arkadaşına kızıyorsun; ama sen de iki kişiyi soktun."
+      ],
+      "anilar": [
+        "Ekranda ilk kez yedi haneli bir rakam gördüğün gece; balkonda tek başına bağırmıştın.",
+        "Çöküş sabahı annenin telefonda 'Bir şey mi oldu?' diye sorması; sesinden anlamıştı."
+      ],
+      "etiketler": [
+        "kumar",
+        "borc",
+        "para"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "kayalitepe",
+          "bezhane",
+          "tabakhane",
+          "camlik"
+        ]
+      },
+      "sakinTuru": [
+        "beyaz_yaka",
+        "kucuk_memur"
+      ]
+    },
+    {
+      "id": "kumar",
+      "ad": "Kumarda her şeyini kaybeden",
+      "tip": "zirveden",
+      "agirlik": 3,
+      "yas": [
+        26,
+        55
+      ],
+      "eskiMeslek": [
+        "emlakçı",
+        "kuyumcu",
+        "oto galerici",
+        "inşaat taşeronu",
+        "restoran işletmecisi"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            6,
+            12
+          ],
+          "metin": [
+            "İşlerin iyiydi; bir arkadaş Gar Palas'ın bodrumundaki masaları anlattı. 'Bir kere gel, sevmezsen gelme.'",
+            "Önce maç tahminleriydi, küçük paralar. Sonra bir gece birisi seni bir masaya davet etti.",
+            "İşinde iyiydin; para hep bir yerden geliyordu. Bir gece birkaç arkadaşla, eğlence olsun diye başladı."
+          ],
+          "yasMin": 20
+        },
+        {
+          "yilOnce": [
+            2,
+            5
+          ],
+          "metin": {
+            "hata": [
+              "Kaybettikçe daha büyük oynadın; kazanmak değil, kaybettiğini geri almak istiyordun.",
+              "Eşine 'iş yemeği' dediğin gecelerin hepsi o bodrumdaydı.",
+              "Bir kazanç gecesinden sonra işe gitmeyi bıraktın; 'masada daha çok kazanıyorum' dedin."
+            ],
+            "talih": [
+              "Bir ortağın kumar borcuna kefil oldun; o kaçtı, borç sende kaldı.",
+              "Bir dönem hep kazandın; 'şanslıyım' sandın. Masa, sana kazanmayı tattırınca bırakmıyor.",
+              "Kazandığın bir gecenin ardından birileri seni 'şanslı' ilan etti; o şans seni bir daha bırakmadı."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            1,
+            2
+          ],
+          "metin": [
+            "Masada borç yazıldı; masadan kalkınca ödenmesi gerekiyordu. Ödeyemedin. Selda Hanım'ın defterine adın geçti.",
+            "İşini, arabanı, sonra evini sattın. Defterdeki rakam küçülmedi.",
+            "Telefonun bilinmeyen numaralardan çalmaya başladı; açmayı bıraktın."
+          ]
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Ailen artık seninle konuşmuyor. Defterdeki borç hâlâ duruyor; tahsildarlar kibar, şimdilik.",
+            "Şehri terk etmeyi düşündün; ama bu şehirde borçlular gitmez, bulunur.",
+            "Gar Palas'ın önünden geçerken başını öbür yana çeviriyorsun; yine de bodrumun ışığını görüyorsun."
+          ]
+        }
+      ],
+      "hata": [
+        0.6,
+        0.95
+      ],
+      "para": [
+        0.01,
+        0.08
+      ],
+      "borclar": [
+        {
+          "kime": "orgut",
+          "ad": "Gar Palas masası borcu (Karakaşlar)",
+          "miktar": [
+            3,
+            10
+          ],
+          "olasilik": 1,
+          "npc": "f:selda_karakas",
+          "orgut": "karakaslar"
+        },
+        {
+          "kime": "kredi_karti",
+          "ad": "Kredi kartları",
+          "miktar": [
+            2,
+            6
+          ],
+          "olasilik": 0.8
+        },
+        {
+          "kime": "arkadas",
+          "ad": "Eski bir arkadaştan borç",
+          "miktar": [
+            1,
+            3
+          ],
+          "olasilik": 0.5
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "eski_es",
+          "ad": "eski eşin",
+          "iliski": {
+            "yakinlik": 5,
+            "gerginlik": 25
+          },
+          "olasilik": 0.5,
+          "nerede": "karaliman",
+          "yasFarki": [
+            -5,
+            3
+          ],
+          "cinsiyet": "karsi",
+          "esMi": true
+        },
+        {
+          "rol": "masa_arkadasi",
+          "ad": "masa arkadaşın",
+          "iliski": {
+            "yakinlik": 15,
+            "guven": 0
+          },
+          "olasilik": 0.7,
+          "nerede": "karaliman",
+          "sakinTuru": "gece_calisani",
+          "yasFarki": [
+            -10,
+            10
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "zar",
+          "cebinde taşıdığın bir zar; neden attığını bilmiyorsun",
+          0
+        ],
+        [
+          "yuzuk",
+          "nişan yüzüğün",
+          0.3
+        ]
+      ],
+      "sirlar": [
+        "Son gece masada kaybettiğin para aslında başkasının parasıydı.",
+        "Hâlâ arada bir 'son bir kez' diye düşünüyorsun."
+      ],
+      "anilar": [
+        "İlk büyük kazancın gecesi; sabaha karşı Kordon'da yürürken kendini yenilmez sanmıştın.",
+        "Sevdiğin birinin doğum gününü o bodrumda geçirdiğin akşam."
+      ],
+      "etiketler": [
+        "kumar",
+        "suc",
+        "borc"
+      ],
+      "ev": {
+        "tip": "pansiyon",
+        "semtler": [
+          "istasyon"
+        ]
+      },
+      "sakinTuru": [
+        "esnaf",
+        "gece_calisani",
+        "beyaz_yaka"
+      ]
+    },
+    {
+      "id": "haksiz_isten_atilan",
+      "ad": "Haksız yere işten atılan",
+      "tip": "zirveden",
+      "agirlik": 4,
+      "yas": [
+        30,
+        58
+      ],
+      "eskiMeslek": [
+        "fabrikada vardiya amiri",
+        "bankada şube müdür yardımcısı",
+        "belediyede şef",
+        "hastanede başhemşire",
+        "özel okulda öğretmen"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            10,
+            25
+          ],
+          "metin": [
+            "Yıllarını aynı kuruma verdin; sabah ilk sen gelir, akşam son sen çıkardın.",
+            "Çalıştığın yerde herkes 'onsuz olmaz' derdi; sen de inandın.",
+            "Yıllarca işini evden önce sevdin; tatillerde bile telefonun açıktı."
+          ],
+          "yasMin": 18
+        },
+        {
+          "yilOnce": [
+            1,
+            3
+          ],
+          "metin": {
+            "hata": [
+              "Bir toplantıda müdüre herkesin önünde ağır bir söz söyledin; haklıydın ama yanlış yerde.",
+              "Bir hatayı örtbas etmek için küçük bir yalan söyledin; yalan büyüdü.",
+              "Yeni sisteme uyum sağlamayı reddettin; 'yıllardır böyle yapıyoruz' dedin."
+            ],
+            "talih": [
+              "Yeni gelen yönetim kadroyu 'gençleştirmek' istedi; listede adın vardı.",
+              "Bir usulsüzlüğü fark edip yukarıya bildirdin; bir ay sonra suçlu sen oldun.",
+              "Şirket el değiştirdi; yeni sahipler eski kadroyu bir excel tablosundan sildi."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Tazminat davası sürüyor; avukat 'kazanırız ama zaman alır' diyor. Kira beklemiyor.",
+            "Yaşın 'fazla', tecrübe 'fazla', maaş beklentin 'fazla'. Her iş görüşmesinde aynı cümleler.",
+            "İşsizlik maaşı bitti; şimdi her sabah ilan sitelerinde aynı ilanları yeniden okuyorsun."
+          ]
+        }
+      ],
+      "hata": [
+        0.05,
+        0.5
+      ],
+      "para": [
+        0.1,
+        0.5
+      ],
+      "borclar": [
+        {
+          "kime": "banka",
+          "ad": "Konut kredisi taksitleri",
+          "miktar": [
+            5,
+            15
+          ],
+          "olasilik": 0.5
+        },
+        {
+          "kime": "kredi_karti",
+          "ad": "Kredi kartları",
+          "miktar": [
+            1,
+            4
+          ],
+          "olasilik": 0.6
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "eski_is_arkadasi",
+          "ad": "eski iş arkadaşın",
+          "iliski": {
+            "yakinlik": 25,
+            "guven": 15
+          },
+          "olasilik": 0.9,
+          "nerede": "karaliman",
+          "yasFarki": [
+            -10,
+            10
+          ]
+        },
+        {
+          "rol": "eski_mudur",
+          "ad": "seni çıkaran müdür",
+          "iliski": {
+            "gerginlik": 30
+          },
+          "olasilik": 0.6,
+          "nerede": "karaliman",
+          "sakinTuru": "beyaz_yaka",
+          "yasFarki": [
+            -5,
+            10
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "plaket",
+          "yirmi yıllık hizmet plaketi",
+          0
+        ],
+        [
+          "kart",
+          "artık geçmeyen giriş kartın",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Kovulduğunu hâlâ bazı akrabalarına söylemedin; sabahları evden çıkıp parkta oturuyordun.",
+        "Usulsüzlüğün bir kısmına sen de göz yummuştun, yıllarca."
+      ],
+      "anilar": [
+        "Emeklilik planları yaptığın akşam yemekleri.",
+        "Odandaki saksı çiçeği; giderken almayı unuttun."
+      ],
+      "etiketler": [
+        "is",
+        "adaletsizlik"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "bezhane",
+          "kayalitepe",
+          "ilicakoy",
+          "asagi_liman"
+        ]
+      },
+      "sakinTuru": [
+        "beyaz_yaka",
+        "fabrika_iscisi",
+        "kucuk_memur"
+      ]
+    },
+    {
+      "id": "evden_cikarilan",
+      "ad": "Evden çıkarılan genç",
+      "tip": "dipten",
+      "agirlik": 4,
+      "yas": [
+        18,
+        24
+      ],
+      "eskiMeslek": [
+        "lise mezunu, işsiz",
+        "üniversiteyi bırakmış",
+        "kafede yarı zamanlı çalışan"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            3,
+            8
+          ],
+          "metin": [
+            "Evde bağırmalar hiç bitmezdi; odanın kapısı tek sığınağındı.",
+            "Annen gittikten sonra ev bir eve benzemedi; babanın yeni eşiyle aranız hiç ısınmadı.",
+            "Kendi odan vardı ama kapısının kilidi yoktu; bunu hep düşünürdün."
+          ]
+        },
+        {
+          "yilOnce": [
+            1,
+            2
+          ],
+          "metin": {
+            "hata": [
+              "Okulu bıraktın; geceleri gelmedin, sabahları kalkmadın. 'Kimse beni anlamıyor' diyordun, belki haklıydın.",
+              "Bir gece evden bir şey eksildi; suçu sana attılar. Bir kısmı doğruydu.",
+              "Bir tartışmada babana el kaldırdın; o gece kimse uyumadı, sabah çantan hazırdı."
+            ],
+            "talih": [
+              "Kim olduğunu söylediğin gece kapının önüne bir çanta konmuştu.",
+              "Ev satıldı; yeni evde senin için bir oda yoktu.",
+              "Üvey ailenin yeni çocuğu doğunca evde sana yer daraldı; sonunda hiç kalmadı."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            0,
+            0
+          ],
+          "metin": [
+            "Bir sırt çantası, birkaç kıyafet ve cebinde bir avuç para. Karaliman'da bir odaya sığdın; kirası iki ay ödenmiş, sonrası belirsiz.",
+            "Arkadaşların kanepesinden kanepesine geçtin; sonunda ucuz bir oda buldun.",
+            "İlk gece bir parkta, bankta oturarak sabahı ettin; sonra bir arkadaş kapısını açtı."
+          ]
+        }
+      ],
+      "hata": [
+        0.1,
+        0.6
+      ],
+      "para": [
+        0.03,
+        0.1
+      ],
+      "borclar": [
+        {
+          "kime": "arkadas",
+          "ad": "Bir arkadaştan aldığın kira parası",
+          "miktar": [
+            0.3,
+            1
+          ],
+          "olasilik": 0.6
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "kardes",
+          "ad": "küçük kardeşin; seninle gizlice mesajlaşıyor",
+          "iliski": {
+            "yakinlik": 40,
+            "guven": 30
+          },
+          "olasilik": 0.7,
+          "nerede": "disarida",
+          "aile": true,
+          "yasFarki": [
+            -8,
+            -2
+          ]
+        },
+        {
+          "rol": "en_yakin_arkadas",
+          "ad": "en yakın arkadaşın",
+          "iliski": {
+            "yakinlik": 45,
+            "guven": 35
+          },
+          "olasilik": 0.8,
+          "nerede": "karaliman",
+          "yasFarki": [
+            -1,
+            1
+          ],
+          "sakinTuru": "ogrenci"
+        }
+      ],
+      "kalanlar": [
+        [
+          "kulaklik",
+          "kulaklıklar; dünyayı susturmanın tek yolu",
+          0.1
+        ],
+        [
+          "fotograf",
+          "annenle bir fotoğraf",
+          0
+        ],
+        [
+          "kitap",
+          "çocukken okuduğun, köşesi kıvrık bir kitap",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Evden çıkmadan önce babanın cüzdanından para aldın; hâlâ kimse bilmiyor ama sen biliyorsun.",
+        "Annenin yeni adresini biliyorsun; gitmeye cesaret edemiyorsun."
+      ],
+      "anilar": [
+        "Çocukken balkonda annenle çekirdek çitlediğiniz yaz akşamları.",
+        "İlk kez evden kaçtığın gece; dolmuş durağında sabahı beklemiştin."
+      ],
+      "etiketler": [
+        "genc",
+        "aile"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "camlik",
+          "tabakhane",
+          "kayalitepe"
+        ]
+      },
+      "sakinTuru": [
+        "ogrenci"
+      ],
+      "egitim": [
+        "ortaokul",
+        "lise"
+      ]
+    },
+    {
+      "id": "bosanma",
+      "ad": "Boşanma sonrası sıfırlanan",
+      "tip": "zirveden",
+      "agirlik": 4,
+      "yas": [
+        28,
+        55
+      ],
+      "eskiMeslek": [
+        "memur",
+        "satış temsilcisi",
+        "öğretmen",
+        "ev hanımı / ev erkeği",
+        "esnaf"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            8,
+            20
+          ],
+          "metin": [
+            "{y|de} evlendin; düğün Bezhane'nin lojman bahçesinde olmuştu, bütün mahalle gelmişti.",
+            "Evlendiğinizde her şey yolundaydı; ya da öyle görünüyordu.",
+            "{y|de} bir arkadaşının düğününde tanıştınız; bir yıl sonra kendi düğününüzdeydiniz."
+          ],
+          "yasMin": 20
+        },
+        {
+          "yilOnce": [
+            1,
+            4
+          ],
+          "metin": {
+            "hata": [
+              "Hep işteydin, hep yorgundun; evde konuşulacak bir şey kalmadı. Bir de o mesajlar...",
+              "Sinirine hâkim olamadığın bir gece her şeyi değiştirdi.",
+              "Para sıkıntısını eşinden sakladın; öğrendiğinde asıl kızdığı borç değil yalandı."
+            ],
+            "talih": [
+              "Bir gün eşin 'ben gidiyorum' dedi; sebebini hâlâ tam bilmiyorsun.",
+              "Eşinin ailesi aranıza girdi; sen dayanamadın, o seçemedi.",
+              "Eşin başka bir şehirde iş buldu; sen gidemedin, o kalmadı. Mesafe gerisini halletti."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Ev ona kaldı; borçlar ikinize, ama sen ödüyorsun. Çocukları hafta sonları görüyorsun.",
+            "Boşanma bitti; avukat masrafı, nafaka, yeni bir oda. {yas} yaşında bir valizle yeniden başlamak.",
+            "Mahkeme salonunun önündeki bankta yan yana oturdunuz; yıllardır bu kadar yakın oturmamıştınız."
+          ]
+        }
+      ],
+      "hata": [
+        0.2,
+        0.7
+      ],
+      "para": [
+        0.05,
+        0.3
+      ],
+      "borclar": [
+        {
+          "kime": "banka",
+          "ad": "Ortak kredi (sana kaldı)",
+          "miktar": [
+            4,
+            12
+          ],
+          "olasilik": 0.6
+        },
+        {
+          "kime": "nafaka",
+          "ad": "Aylık nafaka",
+          "miktar": [
+            0.3,
+            0.6
+          ],
+          "olasilik": 0.5,
+          "aylik": true
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "eski_es",
+          "ad": "eski eşin",
+          "iliski": {
+            "yakinlik": 10,
+            "gerginlik": 20
+          },
+          "olasilik": 1,
+          "nerede": "karaliman",
+          "yasFarki": [
+            -5,
+            3
+          ],
+          "cinsiyet": "karsi",
+          "esMi": true
+        },
+        {
+          "rol": "cocuk",
+          "ad": "çocuğun",
+          "iliski": {
+            "yakinlik": 50,
+            "guven": 30
+          },
+          "olasilik": 0.6,
+          "nerede": "karaliman",
+          "aile": true,
+          "cocukMu": true
+        }
+      ],
+      "kalanlar": [
+        [
+          "alyans",
+          "çıkaramadığın alyans",
+          0.2
+        ],
+        [
+          "albüm",
+          "düğün albümü",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Ayrılık kararını aslında sen vermiştin; herkese onun gittiğini söyledin.",
+        "Eski eşini hâlâ özlüyorsun; kimseye söyleyemezsin."
+      ],
+      "anilar": [
+        "Düğün gecesi lojman bahçesinde dans eden yaşlı Bezhaneliler.",
+        "Çocuğun ilk adımı; salonun ortasında, iki koltuk arasında."
+      ],
+      "etiketler": [
+        "aile",
+        "ask"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "bezhane",
+          "cumhuriyet",
+          "camlik",
+          "ilicakoy"
+        ]
+      },
+      "sakinTuru": [
+        "beyaz_yaka",
+        "kucuk_memur",
+        "esnaf"
+      ]
+    },
+    {
+      "id": "yurtdisindan_donen",
+      "ad": "Yurt dışından eli boş dönen",
+      "tip": "zirveden",
+      "agirlik": 3,
+      "yas": [
+        25,
+        50
+      ],
+      "eskiMeslek": [
+        "Almanya'da garson",
+        "Londra'da kurye",
+        "Hollanda'da depo işçisi",
+        "Dubai'de otel çalışanı"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            4,
+            10
+          ],
+          "metin": [
+            "{y|de} 'bu şehirde gelecek yok' deyip gittin. Havalimanında annen ağlıyordu, sen gülüyordun.",
+            "Bir akrabanın 'iş hazır' sözüne güvenip gittin; iş hazır değildi.",
+            "{y|de} bir çanta ve bir telefon numarasıyla yola çıktın; numara yurt dışında açılmadı."
+          ],
+          "yasMin": 19
+        },
+        {
+          "yilOnce": [
+            1,
+            4
+          ],
+          "metin": {
+            "hata": [
+              "Oradaki hayatı herkese olduğundan iyi anlattın; fotoğraflarda hep gülümsüyordun.",
+              "Kazandığını oradaki gecelere harcadın; 'nasılsa döneceğim' diyordun.",
+              "Oradaki ilk işinden kavga edip çıktın; ikincisi daha kötüydü."
+            ],
+            "talih": [
+              "Vizen yenilenmedi; birkaç hafta içinde her şeyi toplayıp dönmek zorunda kaldın.",
+              "Çalıştığın yer kapandı; kâğıtsız biri olarak orada kalamazdın.",
+              "Oradaki şirket iflas etti; çalışma izni şirkete bağlıydı, sen de onunla birlikte 'fazlalık' oldun."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            0,
+            0
+          ],
+          "metin": [
+            "Bir valiz ve 'eee, nasıldı?' sorularıyla döndün. Cevabı hâlâ hazırlamadın.",
+            "Döndüğünde şehir değişmişti; kiralar ikiye katlanmış, arkadaşların evlenmiş.",
+            "Havalimanında seni karşılayan olmadı; otobüse binip şehrin ışıklarını camdan izledin."
+          ]
+        }
+      ],
+      "hata": [
+        0.2,
+        0.6
+      ],
+      "para": [
+        0.1,
+        0.5
+      ],
+      "borclar": [
+        {
+          "kime": "aile",
+          "ad": "Bilet ve ilk ayların için aileden borç",
+          "miktar": [
+            1,
+            4
+          ],
+          "olasilik": 0.7
+        },
+        {
+          "kime": "kredi_karti",
+          "ad": "Yurt dışı kartı (dövizli borç)",
+          "miktar": [
+            1,
+            5
+          ],
+          "olasilik": 0.4
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "anne",
+          "ad": "annen",
+          "iliski": {
+            "yakinlik": 45,
+            "guven": 30,
+            "gerginlik": 8
+          },
+          "olasilik": 0.8,
+          "nerede": "karaliman",
+          "aile": true,
+          "yasFarki": [
+            22,
+            32
+          ],
+          "cinsiyet": "k"
+        },
+        {
+          "rol": "gurbet_arkadasi",
+          "ad": "gurbetteki arkadaşın",
+          "iliski": {
+            "yakinlik": 30
+          },
+          "olasilik": 0.6,
+          "nerede": "disarida",
+          "yasFarki": [
+            -5,
+            5
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "valiz",
+          "kapağı çatlak bir valiz",
+          0
+        ],
+        [
+          "doviz",
+          "cebinde kalan birkaç yabancı para",
+          0.05
+        ],
+        [
+          "dil",
+          "orada öğrendiğin yarım yamalak bir dil",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Orada bir ilişkin vardı; dönmeden önce kimseye söylemeden bitirdin.",
+        "Dönüşünün asıl sebebini annene söylemedin."
+      ],
+      "anilar": [
+        "Yabancı bir şehirde, kar yağarken, telefonda annenin sesini duyup ağladığın gece.",
+        "Uçaktan Karaliman'ın ışıklarını gördüğün an."
+      ],
+      "etiketler": [
+        "gurbet",
+        "dil"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "asagi_liman",
+          "tersaneonu",
+          "kayalitepe",
+          "camlik"
+        ]
+      },
+      "sakinTuru": [
+        "beyaz_yaka",
+        "serbest_meslek"
+      ]
+    },
+    {
+      "id": "yetistirme_yurdu",
+      "ad": "Yetiştirme yurdundan çıkan",
+      "tip": "dipten",
+      "agirlik": 3,
+      "yas": [
+        18,
+        21
+      ],
+      "eskiMeslek": [
+        "yurtta büyümüş, yeni reşit",
+        "meslek lisesi mezunu"
+      ],
+      "zincir": [
+        {
+          "metin": [
+            "Ailen hakkında bildiğin tek şey bir dosyadaki birkaç satır.",
+            "{yasO} yaşından beri yurttasın; 'ailem' dediğin, yanındaki ranzada uyuyanlar.",
+            "Küçükken her ziyaret gününde kapının açılmasını beklerdin; sonra beklememeyi öğrendin."
+          ],
+          "yas": [
+            5,
+            8
+          ]
+        },
+        {
+          "metin": [
+            "Yurtta bir eğitmen sana inandı; kitap verdi, 'sen başkasın' dedi. Sonra tayini çıktı.",
+            "Yurttaki kavgalar, kurallar, kaçma planları... Bir kere kaçtın, iki gün sonra döndün.",
+            "Yurtta futbol takımının kaptanıydın; kupayı müdürün odasına koydular, sen bir kez bile dokunmadın."
+          ],
+          "yas": [
+            13,
+            16
+          ]
+        },
+        {
+          "yilOnce": [
+            0,
+            0
+          ],
+          "metin": [
+            "On sekiz yaşını doldurdun; yurdun kapısında elinde bir poşet ve bir harçlıkla bekledin. Kimse almaya gelmedi.",
+            "Devletin verdiği küçük bir para ve bir iş başvuru listesi. Şehir senin için şimdi başlıyor.",
+            "Yurttan çıkarken müdür elini sıktı, 'yolun açık olsun' dedi; yolun nereye gittiğini söylemedi."
+          ]
+        }
+      ],
+      "hata": [
+        0,
+        0.3
+      ],
+      "para": [
+        0.05,
+        0.2
+      ],
+      "borclar": [],
+      "baglantilar": [
+        {
+          "rol": "yurt_kardesi",
+          "ad": "yurttan kardeşin",
+          "iliski": {
+            "yakinlik": 55,
+            "guven": 45
+          },
+          "olasilik": 0.9,
+          "nerede": "karaliman",
+          "yasFarki": [
+            -1,
+            2
+          ],
+          "sakinTuru": "kayit_disi"
+        },
+        {
+          "rol": "egitmen",
+          "ad": "yurttaki eğitmenin",
+          "iliski": {
+            "yakinlik": 30,
+            "guven": 30
+          },
+          "olasilik": 0.5,
+          "nerede": "disarida",
+          "yasFarki": [
+            20,
+            35
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "dosya",
+          "kendi dosyanın bir fotokopisi; bir adres yazıyor",
+          0
+        ],
+        [
+          "poset",
+          "bir poşet kıyafet",
+          0
+        ],
+        [
+          "kolye",
+          "bebekken üstünde bulunan bir kolye",
+          0.1
+        ]
+      ],
+      "sirlar": [
+        "Dosyandaki adrese bir kez gittin; kapıyı çalmadan döndün.",
+        "Yurtta bir arkadaşının başını belaya soktun; o seni hâlâ suçluyor mu bilmiyorsun."
+      ],
+      "anilar": [
+        "Bayram sabahları yurdun yemekhanesinde verilen harçlık zarfları.",
+        "Bir ziyaret gününde kimsenin seni ziyarete gelmeyeceğini anladığın an."
+      ],
+      "etiketler": [
+        "genc",
+        "yalniz"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "tabakhane",
+          "kayalitepe",
+          "istasyon"
+        ]
+      },
+      "sakinTuru": [
+        "kayit_disi"
+      ],
+      "aile": {
+        "bilinmiyor": true
+      },
+      "egitim": [
+        "lise",
+        "meslek_lisesi"
+      ]
+    },
+    {
+      "id": "afet",
+      "ad": "Afette her şeyini kaybeden",
+      "tip": "zirveden",
+      "agirlik": 2,
+      "yas": [
+        25,
+        60
+      ],
+      "eskiMeslek": [
+        "esnaf",
+        "çiftçi",
+        "öğretmen",
+        "küçük bir otelin sahibi"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            5,
+            20
+          ],
+          "metin": [
+            "Bir evin, bir işin, bir düzenin vardı; kimseye muhtaç değildin.",
+            "Kendi emeğinle bir hayat kurmuştun; ufak ama sağlam.",
+            "Mahallede herkes adını bilirdi; bayramlarda kapın hiç kapanmazdı."
+          ],
+          "yasMin": 20
+        },
+        {
+          "yilOnce": [
+            1,
+            3
+          ],
+          "metin": [
+            "{y|de}, {h.afet}, her şey bir gecede gitti. Ev, eşyalar, fotoğraflar.",
+            "{h.afet|bas} hayatın ikiye bölündü: öncesi ve sonrası.",
+            "{y|de}, {h.afet}, gözünü açtığında her yer tozdu; sesin kimseye ulaşmadı, sonra ulaştı."
+          ]
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Yardımlar geldi, gitti. Sigorta 'kapsam dışı' dedi. Karaliman'a bir akrabanın yanına geldin, sonra bir odaya.",
+            "Şimdi her yüksek seste irkiliyorsun; geceleri ayakkabıların yatağın yanında duruyor.",
+            "Çadır, konteyner, akraba evi... Bir yıl boyunca yatağının nerede olacağını hiç bilmedin."
+          ]
+        }
+      ],
+      "hata": [
+        0,
+        0.15
+      ],
+      "para": [
+        0.05,
+        0.3
+      ],
+      "borclar": [
+        {
+          "kime": "banka",
+          "ad": "Yıkılan evin kredisi (hâlâ ödeniyor)",
+          "miktar": [
+            5,
+            20
+          ],
+          "olasilik": 0.5
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "akraba",
+          "ad": "seni ilk günlerde yanına alan akraban",
+          "iliski": {
+            "yakinlik": 35,
+            "guven": 25
+          },
+          "olasilik": 0.8,
+          "nerede": "karaliman",
+          "aile": true,
+          "yasFarki": [
+            -10,
+            20
+          ]
+        },
+        {
+          "rol": "afetzede",
+          "ad": "o gece seninle birlikte olan biri",
+          "iliski": {
+            "yakinlik": 30,
+            "guven": 30
+          },
+          "olasilik": 0.5,
+          "nerede": "disarida",
+          "yasFarki": [
+            -15,
+            15
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "fotograf",
+          "enkazdan çıkan tek fotoğraf",
+          0
+        ],
+        [
+          "anahtar",
+          "artık var olmayan evin anahtarı",
+          0
+        ]
+      ],
+      "sirlar": [
+        "O gece birine yardım edemedin; hâlâ rüyalarına giriyor.",
+        "Yardım paralarından birini ihtiyacın olmadığı halde aldın."
+      ],
+      "anilar": [
+        "Evinin mutfağındaki o sabah ışığı.",
+        "Afetin sabahı, toz içinde bir yabancının sana su uzatması."
+      ],
+      "etiketler": [
+        "travma",
+        "kayip"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "ilicakoy",
+          "bezhane",
+          "kayalitepe",
+          "tabakhane"
+        ]
+      },
+      "sakinTuru": [
+        "esnaf",
+        "koylu",
+        "kucuk_memur"
+      ],
+      "havuz": {
+        "afet": [
+          "başka bir şehirdeki depremde",
+          "Ilıcaköy'deki bağ evi yangınında",
+          "bir sel gecesinde",
+          "evinin bulunduğu binanın çökmesiyle"
+        ]
+      }
+    },
+    {
+      "id": "hasta_bakan",
+      "ad": "Uzun yıllar hasta bakıp hayatı duran",
+      "tip": "dipten",
+      "agirlik": 3,
+      "yas": [
+        28,
+        55
+      ],
+      "eskiMeslek": [
+        "üniversiteyi yarıda bırakmış",
+        "bir dönem muhasebe bürosunda çalışmış",
+        "hayalleri askıya alınmış biri"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            8,
+            18
+          ],
+          "metin": [
+            "{y|de} {h.hasta} hastalandı. 'Birkaç ay' dediler; yıllar oldu.",
+            "Kardeşlerin evlendi, gitti; sen kaldın. Biri kalmalıydı.",
+            "{y|de} {h.hasta} ilk kez seni tanımadı; sonra tanıdı, sonra yine tanımadı."
+          ],
+          "yasMin": 14
+        },
+        {
+          "yilOnce": [
+            2,
+            8
+          ],
+          "metin": [
+            "Okul yarım kaldı, iş yarım kaldı, aşk yarım kaldı. İlaç saatleri hayatının saati oldu.",
+            "Arkadaşların düğünlerine gidemedin; sonra davet etmeyi bıraktılar.",
+            "Hastane koridorlarını evin koridorlarından iyi bilir oldun; hemşireler adını ezberledi."
+          ]
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Geçen kış hasta olan gitti. Ev satıldı, miras paylaşıldı; sana 'zaten orada oturuyordun' denildi.",
+            "Cenazeden sonra ev çok sessizdi. İlk kez kendi hayatına ne yapacağını düşündün ve hiçbir fikrin yoktu.",
+            "Miras paylaşılırken kimse senin yıllarını hesaba katmadı; sen de bir şey demedin."
+          ]
+        }
+      ],
+      "hata": [
+        0,
+        0.2
+      ],
+      "para": [
+        0.1,
+        0.6
+      ],
+      "borclar": [
+        {
+          "kime": "kredi_karti",
+          "ad": "İlaç ve bakım masrafları (kart)",
+          "miktar": [
+            1,
+            4
+          ],
+          "olasilik": 0.6
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "kardes",
+          "ad": "kardeşin",
+          "iliski": {
+            "yakinlik": 15,
+            "gerginlik": 20
+          },
+          "olasilik": 0.8,
+          "nerede": "disarida",
+          "aile": true,
+          "yasFarki": [
+            -8,
+            8
+          ]
+        },
+        {
+          "rol": "komsu",
+          "ad": "yıllarca kapına çorba getiren komşun",
+          "iliski": {
+            "yakinlik": 40,
+            "guven": 35
+          },
+          "olasilik": 0.7,
+          "nerede": "karaliman",
+          "sakinTuru": "emekli",
+          "yasFarki": [
+            20,
+            35
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "ilac_kutusu",
+          "dolu bir ilaç kutusu; atamıyorsun",
+          0
+        ],
+        [
+          "hirka",
+          "hastanın hırkası",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Bazı geceler 'artık bitsin' diye dua ettin; şimdi bunun suçluluğunu taşıyorsun.",
+        "Kardeşlerine ilacın parasını olduğundan fazla söyledin; aradaki parayla bir kez tatile gittin."
+      ],
+      "anilar": [
+        "Hastanın iyi bir gününde birlikte balkonda güneşlendiğiniz o tek öğle.",
+        "Hastane koridorunda, gece üçte, otomattan aldığın sıcak çorba."
+      ],
+      "etiketler": [
+        "yalniz",
+        "aile",
+        "fedakarlik"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "bezhane",
+          "cumhuriyet",
+          "asagi_liman"
+        ]
+      },
+      "sakinTuru": [
+        "kayit_disi",
+        "fabrika_iscisi"
+      ],
+      "havuz": {
+        "hasta": [
+          {
+            "ad": "annen",
+            "olen": "anne"
+          },
+          {
+            "ad": "baban",
+            "olen": "baba"
+          }
+        ]
+      }
+    },
+    {
+      "id": "tersane_cocugu",
+      "ad": "Tersane kapanınca dağılan ailenin çocuğu",
+      "tip": "dipten",
+      "agirlik": 3,
+      "yas": [
+        24,
+        40
+      ],
+      "eskiMeslek": [
+        "kaynakçı çırağı",
+        "meslek lisesi mezunu",
+        "gündelikçi"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            18,
+            24
+          ],
+          "metin": [
+            "Baban tersanede kaynakçıydı; sen her akşam vinçlerin ışıklarını sayarak uyurdun.",
+            "Çocukluğun Tersaneönü'nde geçti; düdük çalınca bütün mahalle saatini ayarlardı.",
+            "Babanın baretini kafana geçirip mahallede gezerdin; herkes 'usta geliyor' diye gülerdi."
+          ],
+          "yasMin": 4
+        },
+        {
+          "metin": [
+            "Aralık 2008'de tersane kapandı. Baban bir gecede işsiz kaldı; ev bir daha eskisi gibi olmadı.",
+            "Tersane kapandıktan sonra babanın sesi kısıldı; kahveden eve, evden kahveye.",
+            "Tersanenin kapandığı gün baban eve erken geldi; bir daha hiç geç gelmedi."
+          ],
+          "yil": 2008
+        },
+        {
+          "yilOnce": [
+            3,
+            10
+          ],
+          "metin": {
+            "hata": [
+              "Okulu bırakıp para kazanmaya başladın; yanlış insanlarla, yanlış işlerde.",
+              "Babanın öfkesini sen de devraldın; iki işten kavga edip çıktın.",
+              "Bir gece kavgada birinin camını kırdın; karakoldan babanın getirdiği kefalet parasıyla çıktın."
+            ],
+            "talih": [
+              "Meslek lisesinin gemi bölümü kapandı; öğrendiğin şeyin bu şehirde karşılığı kalmadı.",
+              "Kuzey Sanayi'de iş buldun, sonra fabrika küçüldü; ilk çıkanlardan sen oldun.",
+              "Çıraklık yaptığın atölye kapandı; usta 'bu işin geleceği yok' deyip seni yolcu etti."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Şimdi elinde bir meslek yarısı, cebinde bir avuç para ve babanın 'bu şehir bizi bitirdi' sözü var.",
+            "Ustalar Kahvesi'nin önünden her geçişinde babanın baret çivisine bakıyorsun.",
+            "Bugün tersanenin yerine yapılacak projenin tabelası duruyor; babanın adı hiçbir yerde yok."
+          ]
+        }
+      ],
+      "hata": [
+        0.1,
+        0.5
+      ],
+      "para": [
+        0.03,
+        0.12
+      ],
+      "borclar": [
+        {
+          "kime": "arkadas",
+          "ad": "Mahalleden bir arkadaşa borç",
+          "miktar": [
+            0.5,
+            2
+          ],
+          "olasilik": 0.6
+        },
+        {
+          "kime": "tefeci",
+          "ad": "Hacı'ya küçük bir senet",
+          "miktar": [
+            0.5,
+            2
+          ],
+          "olasilik": 0.2,
+          "npc": "f:mahir_sarikaya"
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "baba",
+          "ad": "baban",
+          "iliski": {
+            "yakinlik": 20,
+            "gerginlik": 15
+          },
+          "olasilik": 0.8,
+          "nerede": "karaliman",
+          "aile": true,
+          "yasFarki": [
+            24,
+            32
+          ],
+          "cinsiyet": "e",
+          "sakinTuru": "eski_tersaneci",
+          "kancalar": [
+            "tersane_issizi"
+          ]
+        },
+        {
+          "rol": "mahalle_arkadasi",
+          "ad": "mahalleden çocukluk arkadaşın",
+          "iliski": {
+            "yakinlik": 40,
+            "guven": 25
+          },
+          "olasilik": 0.8,
+          "nerede": "karaliman",
+          "yasFarki": [
+            -1,
+            1
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "baret",
+          "babanın eski bareti",
+          0
+        ],
+        [
+          "kaynak_maskesi",
+          "bir kaynak maskesi",
+          0.1
+        ]
+      ],
+      "sirlar": [
+        "Rıza Usta'nın grev hakkında bildiği bir şeyi, babandan duydun; kimseye söylemedin.",
+        "Bir dönem Tepeliler için birkaç küçük iş yaptın; çıktın, ama unutmadılar."
+      ],
+      "anilar": [
+        "Tersanenin son günü babanın baretini sana takması.",
+        "Vinçlerin tepesinden körfeze bakan bir çocuk olmak."
+      ],
+      "etiketler": [
+        "isci",
+        "aile",
+        "mahalle"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "tersaneonu",
+          "asagi_liman",
+          "kayalitepe"
+        ]
+      },
+      "sakinTuru": [
+        "kayit_disi",
+        "fabrika_iscisi"
+      ],
+      "egitim": [
+        "ortaokul",
+        "lise",
+        "meslek_lisesi"
+      ]
+    },
+    {
+      "id": "tahliye",
+      "ad": "Cezaevinden yeni çıkan",
+      "tip": "dipten",
+      "agirlik": 2,
+      "yas": [
+        24,
+        50
+      ],
+      "eskiMeslek": [
+        "eski oto tamircisi",
+        "eski kurye",
+        "eski gece kulübü çalışanı",
+        "eski şoför"
+      ],
+      "zincir": [
+        {
+          "metin": [
+            "Mahallede 'iyi çocuk' bilinirdin; ama iyi çocuklar da bazen yanlış masaya oturur.",
+            "Para lazımdı; biri kolay bir yol gösterdi.",
+            "Okulu bıraktığında kimse bir şey demedi; seni arayan ilk kişi yanlış biriydi."
+          ],
+          "yas": [
+            14,
+            22
+          ]
+        },
+        {
+          "yilOnce": [
+            3,
+            6
+          ],
+          "metin": {
+            "hata": [
+              "{h.suc|bas} içeri girdin. Mahkemede yalan söylemedin; söyleseydin belki daha az yatardın.",
+              "{h.suc|bas} yattın. O gece ne yaptığını biliyordun; bedelini de biliyordun.",
+              "{h.suc|bas} hüküm giydin. Kimseyi ele vermedin; vermeyince de bütün yük sana kaldı."
+            ],
+            "talih": [
+              "{h.suc|bas} hüküm giydin; yarısı doğruydu, yarısını başkası için taşıdın.",
+              "Avukatın seni bir kere bile ziyarete gelmedi; {h.suc} yattın.",
+              "{h.suc|bas} içeri girdin; o gece orada olmaman gerekiyordu, ama oradaydın."
+            ]
+          },
+          "yasMin": 18
+        },
+        {
+          "yilOnce": [
+            0,
+            0
+          ],
+          "metin": [
+            "Geçen ay tahliye oldun. Kapıdan çıktığında kimse yoktu; bir otobüs bileti ve bir poşet.",
+            "Denetimli serbestlik: haftada iki imza. Bir tane kaçırırsan her şey baştan.",
+            "Dışarıda her şey hızlanmış: telefonlar, fiyatlar, insanlar. Sen hâlâ koğuşun saatiyle uyanıyorsun."
+          ]
+        }
+      ],
+      "hata": [
+        0.4,
+        0.9
+      ],
+      "para": [
+        0.02,
+        0.1
+      ],
+      "borclar": [
+        {
+          "kime": "orgut",
+          "ad": "İçerideyken ailene bakan 'abilere' borç",
+          "miktar": [
+            1,
+            4
+          ],
+          "olasilik": 0.5,
+          "npc": "f:volkan_serter",
+          "orgut": "tepeliler"
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "kogus_arkadasi",
+          "ad": "koğuş arkadaşın",
+          "iliski": {
+            "yakinlik": 35,
+            "guven": 20
+          },
+          "olasilik": 0.8,
+          "nerede": "karaliman",
+          "sakinTuru": "kayit_disi",
+          "yasFarki": [
+            -10,
+            15
+          ]
+        },
+        {
+          "rol": "anne",
+          "ad": "annen; her görüş gününe gelen tek kişi",
+          "iliski": {
+            "yakinlik": 50,
+            "guven": 40
+          },
+          "olasilik": 0.7,
+          "nerede": "karaliman",
+          "aile": true,
+          "yasFarki": [
+            20,
+            32
+          ],
+          "cinsiyet": "k"
+        }
+      ],
+      "kalanlar": [
+        [
+          "mektup",
+          "annenin içeriye yazdığı mektuplar",
+          0
+        ],
+        [
+          "tespih",
+          "koğuşta yapılmış bir tespih",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Asıl suçlunun kim olduğunu biliyorsun; o hâlâ dışarıda, mahallede dolaşıyor.",
+        "İçerideyken birine bir söz verdin; dışarıda tutman gerekiyor."
+      ],
+      "anilar": [
+        "Görüş günlerinde camın arkasından annenin elini tutmaya çalışmak.",
+        "Tahliye sabahı yüzüne vuran ilk rüzgâr."
+      ],
+      "etiketler": [
+        "suc",
+        "sabika"
+      ],
+      "ev": {
+        "tip": "pansiyon",
+        "semtler": [
+          "istasyon"
+        ]
+      },
+      "bayraklar": [
+        "sabika",
+        "denetimli_serbestlik"
+      ],
+      "sakinTuru": [
+        "kayit_disi"
+      ],
+      "havuz": {
+        "suc": [
+          "bir kavgada adam yaralamaktan",
+          "çalıntı mal satmaktan",
+          "başkasının suçunu üstlenmekten",
+          "bir soygunda gözcülükten"
+        ]
+      },
+      "egitim": [
+        "ilkokul",
+        "ortaokul",
+        "lise",
+        "meslek_lisesi"
+      ]
+    },
+    {
+      "id": "hic_sansi_olmamis",
+      "ad": "Hiçbir zaman bir şeyi olmamış",
+      "tip": "dipten",
+      "agirlik": 5,
+      "yas": [
+        19,
+        45
+      ],
+      "eskiMeslek": [
+        "gündelikçi",
+        "garson",
+        "depo işçisi",
+        "kasiyer",
+        "temizlikçi"
+      ],
+      "zincir": [
+        {
+          "metin": [
+            "Kalabalık bir evde büyüdün; tek tencerede pişen yemek, sırayla giyilen montlar.",
+            "Babanın yüzünü pek hatırlamıyorsun; annen üç işte birden çalışırdı.",
+            "Kışları sobanın yanında, yazları sokakta büyüdün; evde sana ayrılmış bir köşe hiç olmadı."
+          ],
+          "yas": [
+            5,
+            10
+          ]
+        },
+        {
+          "metin": [
+            "Okulu erken bıraktın; eve para lazımdı. O günden beri ne iş bulduysan yaptın.",
+            "Hiçbir işte uzun kalmadın; ya iş seni bıraktı ya sen işi.",
+            "İlk işin bir fırında hamur taşımaktı; ilk maaşını annenin avucuna koyduğunda o ağladı, sen anlamadın."
+          ],
+          "yas": [
+            13,
+            16
+          ]
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Bugün elinde ne bir meslek var ne bir birikim. Ama hâlâ ayaktasın; bu da bir şey.",
+            "Herkes 'şansın dönecek' diyor. Dönecek bir şansın hiç olmadı ki.",
+            "Günler geçti, cebin değişmedi. Yine de her sabah kalkıyorsun; bu da bir şey."
+          ]
+        }
+      ],
+      "hata": [
+        0,
+        0.4
+      ],
+      "para": [
+        0.03,
+        0.12
+      ],
+      "borclar": [
+        {
+          "kime": "bakkal",
+          "ad": "Mahalle bakkalına veresiye",
+          "miktar": [
+            0.1,
+            0.4
+          ],
+          "olasilik": 0.6
+        },
+        {
+          "kime": "arkadas",
+          "ad": "Bir arkadaştan borç",
+          "miktar": [
+            0.3,
+            1
+          ],
+          "olasilik": 0.4
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "anne",
+          "ad": "annen",
+          "iliski": {
+            "yakinlik": 40,
+            "guven": 30
+          },
+          "olasilik": 0.7,
+          "nerede": "karaliman",
+          "aile": true,
+          "yasFarki": [
+            18,
+            30
+          ],
+          "cinsiyet": "k"
+        },
+        {
+          "rol": "mahalle_arkadasi",
+          "ad": "çocukluk arkadaşın",
+          "iliski": {
+            "yakinlik": 40,
+            "guven": 30
+          },
+          "olasilik": 0.7,
+          "nerede": "karaliman",
+          "yasFarki": [
+            -1,
+            1
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "mont",
+          "evde sırayla giyilen eski bir mont; artık senin",
+          0
+        ],
+        [
+          "defter",
+          "içinde hayallerini yazdığın bir defter",
+          0
+        ]
+      ],
+      "sirlar": [
+        "Bir zamanlar şarkı söylerdin; bir yarışmaya başvurdun, kimseye söylemedin, çağrılmadın.",
+        "Ailene yardım etmek için bir kere sınırı geçtin; o gece hiç anlatılmadı."
+      ],
+      "anilar": [
+        "Bir bayram, annenin sana yeni bir ayakkabı aldığı gün.",
+        "Kordon'da ilk kez denizi seyrederken kendi kendine 'bir gün' dediğin an."
+      ],
+      "etiketler": [
+        "yoksul",
+        "dayaniklilik"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "tabakhane",
+          "kayalitepe",
+          "istasyon",
+          "bezhane"
+        ]
+      },
+      "sakinTuru": [
+        "kayit_disi",
+        "fabrika_iscisi",
+        "tasra_gocu"
+      ],
+      "egitim": [
+        "ilkokul",
+        "ortaokul",
+        "lise"
+      ]
+    },
+    {
+      "id": "ulkenin_konustugu",
+      "ad": "Bir zamanlar ülkenin konuştuğu biri",
+      "tip": "zirveden",
+      "agirlik": 0.4,
+      "nadir": true,
+      "yas": [
+        30,
+        55
+      ],
+      "eskiMeslek": [
+        "bir yarışma programının şampiyonu",
+        "bir viral videoyla ünlenen kahraman",
+        "olimpiyat madalyalı bir sporcu"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            8,
+            15
+          ],
+          "metin": [
+            "{y} yılında {h.olay}. Bir hafta boyunca her kanalda yüzün vardı.",
+            "{y}: {h.olay|bas}. Adın sokaklara, kafelere, okullara verildi.",
+            "{y|de} {h.olay}. Sabah uyandığında telefonunda iki yüz cevapsız arama vardı."
+          ],
+          "yasMin": 18
+        },
+        {
+          "yilOnce": [
+            4,
+            8
+          ],
+          "metin": {
+            "hata": [
+              "Şöhrete hazır değildin; gelen her teklife evet dedin, her davete gittin, her parayı harcadın.",
+              "Etrafına 'dost' diye toplananların hepsine güvendin; çoğu seni bir hikâye olarak kullandı.",
+              "Etrafındakilerin seni yönetmesine izin verdin; imzaladığın sözleşmeleri hiç okumadın."
+            ],
+            "talih": [
+              "Bir menajer seni kötü sözleşmelere bağladı; kazandığının büyük kısmı ona gitti.",
+              "Bir skandala adın yanlışlıkla karıştı; düzeltme haberi kimse okumadı.",
+              "Şöhretin bir yıl sürdü; sonra ülke başka birini konuşmaya başladı ve seni sessizce unuttu."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            0,
+            2
+          ],
+          "metin": [
+            "Bugün biri seni tanıdığında 'Siz o değil misiniz?' diyor, sonra adını hatırlayamıyor.",
+            "Ülkenin konuştuğu kişi şimdi Karaliman'da küçük bir odada; kimse buna inanmazdı.",
+            "Bir televizyon programı 'Şimdi nerede?' diye seni aradı; çıkmayı reddettin, çünkü cevap buydu."
+          ]
+        }
+      ],
+      "hata": [
+        0.3,
+        0.8
+      ],
+      "para": [
+        0.05,
+        0.3
+      ],
+      "borclar": [
+        {
+          "kime": "vergi",
+          "ad": "Ödenmemiş vergiler",
+          "miktar": [
+            5,
+            20
+          ],
+          "olasilik": 0.7
+        },
+        {
+          "kime": "banka",
+          "ad": "Batık yatırımların kredisi",
+          "miktar": [
+            10,
+            40
+          ],
+          "olasilik": 0.6
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "eski_menajer",
+          "ad": "seni sömüren eski menajerin",
+          "iliski": {
+            "gerginlik": 35
+          },
+          "olasilik": 0.8,
+          "nerede": "disarida",
+          "yasFarki": [
+            5,
+            20
+          ]
+        },
+        {
+          "rol": "gazeteci",
+          "figur": "f:deniz_ural",
+          "iliski": {
+            "yakinlik": 5
+          },
+          "olasilik": 0.6,
+          "ad": "seni ilk haber yapan gazeteci"
+        }
+      ],
+      "kalanlar": [
+        [
+          "madalya",
+          "o günden kalan bir madalya ya da plaket",
+          0.5
+        ],
+        [
+          "kupur",
+          "senin hakkında çıkmış gazete küpürleri",
+          0
+        ]
+      ],
+      "sirlar": [
+        "O ünlü anın tam anlatıldığı gibi olmadı; bir kısmını sen de abarttın ve şimdi geri dönemiyorsun.",
+        "Şöhretin en parlak gecesi en yakın arkadaşını kırdın; hiç özür dilemedin."
+      ],
+      "anilar": [
+        "Ülkenin dört bir yanından gelen mektuplar.",
+        "Bir çocuğun 'büyüyünce sen olacağım' demesi."
+      ],
+      "etiketler": [
+        "unlu",
+        "itibar",
+        "borc"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "sahilyolu",
+          "eski_carsi",
+          "camlik"
+        ]
+      },
+      "sakinTuru": [
+        "sanatci"
+      ],
+      "havuz": {
+        "olay": [
+          "bir yarışma programında arka arkaya kırk gün kazanıp ülkenin sevgilisi olmuştun",
+          "bir yangında yedi kişiyi kurtardığın videon bütün ülkede izlenmişti",
+          "uluslararası bir şampiyonada madalya almıştın; şehir seni otobüsün üstünde karşılamıştı"
+        ]
+      }
+    },
+    {
+      "id": "piyango",
+      "ad": "Piyangoyu vurup her şeyi kaybeden",
+      "tip": "zirveden",
+      "agirlik": 0.3,
+      "nadir": true,
+      "yas": [
+        30,
+        60
+      ],
+      "eskiMeslek": [
+        "eski bir fabrika işçisi",
+        "eski bir kasiyer",
+        "emekli olmayı bekleyen bir memur"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            6,
+            10
+          ],
+          "metin": [
+            "{y|in} yılbaşı gecesi Kumbara Market'in önündeki bayiden aldığın bilete büyük ikramiye çıktı.",
+            "Her hafta aynı numaraları oynuyordun; {y|de} bir pazartesi sabahı numaralar tuttu.",
+            "{y|de}, bir kış sabahı, gazetedeki numaraları üç kez okudun; sonra mutfağın ortasında oturup kaldın."
+          ],
+          "yasMin": 22
+        },
+        {
+          "yilOnce": [
+            2,
+            6
+          ],
+          "metin": {
+            "hata": [
+              "Herkese ev aldın, araba aldın; kendine bir yat, bir de 'kesin kazandıran' bir iş.",
+              "Paraya 'bitmez' dedin. Bitti.",
+              "Her gelen 'yatırım' teklifine evet dedin; hiçbirini anlamadın, hepsine imza attın."
+            ],
+            "talih": [
+              "Akrabalar, eski dostlar, yeni dostlar... Herkesin bir derdi vardı; sen kimseyi geri çeviremedin.",
+              "Paranı emanet ettiğin danışman ortadan kayboldu.",
+              "Bankadaki hesabın bir dolandırıcılıkta boşaltıldı; dava hâlâ sürüyor."
+            ]
+          }
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": [
+            "Bugün o bayinin önünden geçerken başını çeviriyorsun.",
+            "Aldığın evlerde oturan akrabaların telefonunu açmıyor.",
+            "Şimdi eskisi gibi her hafta aynı numaraları oynuyorsun; bu kez kimseye söylemeden."
+          ]
+        }
+      ],
+      "hata": [
+        0.4,
+        0.9
+      ],
+      "para": [
+        0.05,
+        0.3
+      ],
+      "borclar": [
+        {
+          "kime": "vergi",
+          "ad": "Vergi borcu",
+          "miktar": [
+            3,
+            10
+          ],
+          "olasilik": 0.6
+        },
+        {
+          "kime": "banka",
+          "ad": "Yat kredisi (yat satıldı, borç kaldı)",
+          "miktar": [
+            5,
+            15
+          ],
+          "olasilik": 0.5
+        }
+      ],
+      "baglantilar": [
+        {
+          "rol": "akraba",
+          "ad": "ev aldığın kuzenin",
+          "iliski": {
+            "yakinlik": 10,
+            "gerginlik": 20
+          },
+          "olasilik": 0.8,
+          "nerede": "karaliman",
+          "aile": true,
+          "yasFarki": [
+            -10,
+            10
+          ]
+        }
+      ],
+      "kalanlar": [
+        [
+          "bilet",
+          "kazanan biletin fotokopisi; çerçeveli",
+          0
+        ],
+        [
+          "saat",
+          "pahalı bir saat; satmaya kıyamadığın",
+          1.5
+        ]
+      ],
+      "sirlar": [
+        "Kazancının bir kısmını ailenden saklamıştın; o da ilk giden kısım oldu.",
+        "Hâlâ her hafta aynı numaraları oynuyorsun."
+      ],
+      "anilar": [
+        "Biletin tuttuğunu anladığın an; bayinin önünde dizlerinin titremesi.",
+        "Annene ev anahtarını verdiğin gün."
+      ],
+      "etiketler": [
+        "para",
+        "aile",
+        "kumar"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "bezhane",
+          "kayalitepe",
+          "ilicakoy"
+        ]
+      },
+      "sakinTuru": [
+        "fabrika_iscisi",
+        "kucuk_memur"
+      ]
+    },
+    {
+      "id": "tanik",
+      "ad": "Görmemesi gereken bir şeyi gören",
+      "tip": "zirveden",
+      "agirlik": 0.4,
+      "nadir": true,
+      "yas": [
+        24,
+        50
+      ],
+      "eskiMeslek": [
+        "liman işçisi",
+        "gece bekçisi",
+        "taksi şoförü",
+        "muhasebeci"
+      ],
+      "zincir": [
+        {
+          "yilOnce": [
+            3,
+            8
+          ],
+          "metin": [
+            "Düzenli bir hayatın vardı: bir iş, bir ev, hafta sonları balık.",
+            "İşin seni hep gece saatlerinde limana, depolara götürürdü.",
+            "Gece vardiyalarını severdin; şehir uyurken limanın sesi sana ait gibiydi."
+          ],
+          "yasMin": 18
+        },
+        {
+          "yilOnce": [
+            1,
+            2
+          ],
+          "metin": [
+            "Bir gece, gece vardiyasında, ışıksız bir teknenin yanaşmasını ve indirilen yükü gördün. Yüzünü de gördüler.",
+            "Bir gece bir depoda, kayıtta olmayan bir yükün ve tanımadığın üç adamın arasında kaldın.",
+            "Bir gece işten dönerken arkandan ağır ağır gelen bir araba seni evine kadar takip etti."
+          ]
+        },
+        {
+          "yilOnce": [
+            0,
+            1
+          ],
+          "metin": {
+            "hata": [
+              "Susmak için sana bir zarf uzatıldı; aldın. Şimdi hem susmak zorundasın hem de susmanın bedelini taşıyorsun.",
+              "Polise gitmeyi düşündün; gitmedin. Ama birileri gittiğini sandı.",
+              "Gördüklerini bir akşam meyhanede birine anlattın; ertesi gün bunu herkes biliyordu."
+            ],
+            "talih": [
+              "Ertesi hafta işten çıkarıldın, ev sahibin kontratı yenilemedi; kimse bir şey söylemedi, ama herkes bir şey biliyordu.",
+              "Sana kibar bir şekilde 'şehirden bir süre uzaklaşmanın iyi olacağı' söylendi. Uzaklaştın; ve şimdi döndün.",
+              "Kimseye bir şey söylemedin; yine de bir sabah kapına isimsiz bir zarf bırakıldı."
+            ]
+          }
+        }
+      ],
+      "hata": [
+        0.2,
+        0.6
+      ],
+      "para": [
+        0.05,
+        0.4
+      ],
+      "borclar": [],
+      "baglantilar": [
+        {
+          "rol": "tehdit",
+          "figur": "f:cevat_kalyoncu",
+          "iliski": {
+            "gerginlik": 30
+          },
+          "olasilik": 0.7,
+          "ad": "o gece gördüğün yüzlerden biri"
+        },
+        {
+          "rol": "polis",
+          "figur": "f:nermin_aksoy",
+          "iliski": {
+            "yakinlik": 0
+          },
+          "olasilik": 0.4,
+          "ad": "sana kartvizitini bırakan emniyet müdürü"
+        }
+      ],
+      "kalanlar": [
+        [
+          "not",
+          "o gece cebine koyduğun bir konteyner numarası",
+          0
+        ],
+        [
+          "zarf",
+          "zarftan kalan paranın son kısmı",
+          0.3
+        ]
+      ],
+      "sirlar": [
+        "O gece gördüğün yüzlerden birini şehirde her gün görüyorsun.",
+        "Emniyet'ten bir kartvizit taşıyorsun; aramadın."
+      ],
+      "anilar": [
+        "O geceki deniz kokusu ve mazot; hâlâ midenin bulanması.",
+        "Eskiden hafta sonları iskelede oltanın başında geçen saatler."
+      ],
+      "etiketler": [
+        "suc",
+        "tehlike"
+      ],
+      "ev": {
+        "tip": "oda",
+        "semtler": [
+          "camlik",
+          "bezhane",
+          "ilicakoy"
+        ]
+      },
+      "sakinTuru": [
+        "liman_iscisi",
+        "kucuk_memur"
+      ]
+    }
+  ]
+}

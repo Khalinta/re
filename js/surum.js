@@ -1,2 +1,2 @@
 // Oyunun sürümü. Her yayında artırılır; PROJE.md sürüm geçmişiyle aynı olmalı.
-export const OYUN_SURUMU = '0.1.16';
+export const OYUN_SURUMU = '0.1.17';

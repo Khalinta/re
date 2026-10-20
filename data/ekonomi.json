@@ -4,6 +4,7 @@
   "asgariUcret": 28000,
 
   "konut": {
+    "pansiyon": { "ad": "Pansiyon odası (haftalık, faturası dahil)", "kira": 0.42, "fatura": 0.01 },
     "oda": { "ad": "Paylaşımlı evde oda", "kira": 0.55, "fatura": 0.08 },
     "studyo": { "ad": "Stüdyo daire", "kira": 0.95, "fatura": 0.1 },
     "1+1": { "ad": "1+1 daire", "kira": 1.2, "fatura": 0.12 },

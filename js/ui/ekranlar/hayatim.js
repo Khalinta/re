@@ -1,13 +1,14 @@
-// "Hayatım" ekranı: şimdilik duyduklarım (2.8) + gelecek bölümlerin yer tutucuları.
+// "Hayatım" ekranı: karakter (3.3), tanıdıklarım (3.2), duyduklarım (2.8) + gelecek bölümlerin yer tutucuları.
 import { h, bosalt } from '../dom.js';
 import { IKON } from '../ikonlar.js';
 import { bilgiGoster, panelAc } from '../panel.js';
 import * as oyun from '../../oyun.js';
 import { mekanBul } from '../../core/mekan.js';
 import { gunNo } from '../../core/zaman.js';
+import { para } from '../../core/format.js';
+import { ek } from '../../core/tr.js';
 
 const GELECEK = [
-  ['Karakter', 'Geçmişin, güçlü yanların, kusurların.', 'Faz 3'],
   ['Beceriler', 'Kullandıkça gelişir.', 'Faz 4'],
   ['Envanter', 'Elinde kalanlar.', 'Faz 4'],
   ['Günlük', 'Hayatının kendi ağzından kaydı.', 'Faz 6'],
@@ -46,6 +47,8 @@ function kisiPaneli(t) {
     h('p', { class: 'panel-metin' }, t.tanim),
     t.gorunus ? h('p', { class: 'panel-metin soluk' }, t.gorunus) : null,
     h('div', { class: 'ozet-satir' }, h('span', {}, 'Aranız'), h('span', { class: 'soluk' }, t.gerginlik >= 4 ? 'gergin' : `${yakinlikAdi(t.yakinlik)} · ${KATMAN_ADI[t.katman] ?? ''}`)),
+    t.gecmis ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Geçmişinden'), h('span', { class: 'soluk' }, t.gecmis)) : null,
+    t.disarida ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Nerede'), h('span', { class: 'soluk' }, 'şehir dışında')) : null,
     t.nerede ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Tanıştığınız yer'), h('span', { class: 'soluk' }, mekanBul(oyun.veri.dunya, t.nerede)?.ad ?? '')) : null,
     t.dert ? h('p', { class: 'panel-metin' }, h('b', {}, 'Derdi: '), t.dert) : null,
     t.hayal ? h('p', { class: 'panel-metin' }, h('b', {}, 'Hayali: '), t.hayal) : null,
@@ -54,6 +57,40 @@ function kisiPaneli(t) {
     ...(t.anilar || []).slice().reverse().map(a => h('p', { class: 'soluk kucuk' }, a.metin)),
   ];
   panelAc({ baslik: t.tamAd, icerik: h('div', {}, satirlar) });
+}
+
+const EGITIM = { okumamis: 'okula gitmedin', ilkokul: 'ilkokul mezunusun', ortaokul: 'ortaokul mezunusun', lise: 'lise mezunusun', meslek_lisesi: 'meslek lisesi mezunusun', universite: 'üniversite mezunusun', yuksek_lisans: 'yüksek lisans yaptın' };
+const bolum = (baslik, ...icerik) => [h('h3', { class: 'bolum-baslik' }, baslik), ...icerik.flat().filter(Boolean)];
+const metin = (m, sinif = 'panel-metin') => h('p', { class: sinif }, m);
+
+function karakterPaneli() {
+  const b = oyun.karakterBilgisi();
+  const c = b.karakter, hk = b.hikaye;
+  const nereli = c.yore && c.yore !== 'yerli' ? `aslen ${ek(c.memleket, 'li')}` : 'Karalimanlısın';
+  const icerik = [
+    metin(`${b.yas} yaşındasın, ${nereli}. ${EGITIM[c.egitim] ? EGITIM[c.egitim][0].toLocaleUpperCase('tr') + EGITIM[c.egitim].slice(1) : ''}${c.eskiMeslek ? `; eskiden ${c.eskiMeslek}.` : '.'}`),
+    b.ozellikler.length ? metin(`İnsanlar seni ${b.ozellikler.join(', ')} biri olarak bilir.`, 'panel-metin soluk') : null,
+  ];
+  if (!hk) {
+    icerik.push(metin('Bu oyun hikâye motorundan önce başladı; geçmişin yazılmadı. Yeni bir oyunda kim olduğun ve buraya nasıl geldiğin baştan belli olur.', 'soluk kucuk'));
+    return panelAc({ baslik: c.tamAd ?? c.ad, icerik: h('div', {}, icerik) });
+  }
+  const kisiler = oyun.tanidiklarim().filter(t => hk.baglantilar.some(x => x.id === t.id));
+  icerik.push(
+    ...bolum('Aynada', b.gorunus ? metin(b.gorunus) : null),
+    ...bolum('Buraya nasıl geldin', hk.zincir.map(z => h('p', { class: 'panel-metin' }, h('b', {}, z.yil + ' · '), z.metin))),
+    ...bolum('Güçlü yanların', hk.gucluYanlar.map(x => h('p', { class: 'panel-metin' }, h('b', {}, x.ad[0].toLocaleUpperCase('tr') + x.ad.slice(1) + '. '), x.metin))),
+    ...bolum('Kusurların', hk.kusurlar.map(x => h('p', { class: 'panel-metin' }, h('b', {}, x.ad[0].toLocaleUpperCase('tr') + x.ad.slice(1) + '. '), x.metin))),
+    ...bolum('İç sesin', metin(`Kafanın içindeki ses ${hk.icSes.ad}.`, 'panel-metin soluk'), metin('“' + hk.icSes.ornekler[0] + '”')),
+    ...bolum('Borçların', hk.borclar.length ? hk.borclar.map(x => h('div', { class: 'ozet-satir' }, h('span', {}, x.ad), h('span', { class: 'soluk' }, para(x.tutar) + (x.aylik ? ' / ay' : '')))) : metin('Kimseye borcun yok. Bu şehirde az kişi bunu söyleyebilir.', 'soluk kucuk')),
+    hk.alacaklar.length ? bolum('Alacakların', hk.alacaklar.map(x => h('div', { class: 'ozet-satir' }, h('span', {}, x.ad), h('span', { class: 'soluk' }, para(x.tutar))))) : [],
+    ...bolum('Elinde kalanlar', hk.kalanlar.map(x => h('div', { class: 'ozet-satir' }, h('span', {}, x.ad), h('span', { class: 'soluk' }, x.deger ? '≈ ' + para(x.deger) : 'parayla ölçülmez')))),
+    ...bolum('Geçmişinden insanlar', kisiler.length ? kisiler.map(t => satir(t.tamAd, (t.gecmis ?? '') + (t.disarida ? ' · şehir dışında' : ''), () => kisiPaneli(t))) : metin('Geride kimse kalmadı; ya da sen kimseyi bırakmadın.', 'soluk kucuk')),
+    ...bolum('Sırların', hk.sirlar.map(x => metin(x))),
+    ...bolum('Anıların', hk.anilar.map(x => metin(x, 'panel-metin soluk'))),
+    ...bolum('Açık uçlar', hk.iplikler.map(x => metin('· ' + x.metin, 'panel-metin'))),
+  );
+  panelAc({ baslik: c.tamAd ?? c.ad, icerik: h('div', {}, icerik) });
 }
 
 function tanidiklarimPaneli() {
@@ -74,6 +111,7 @@ function ciz() {
   bosalt(kap, h('div', { class: 'sayfa-kaydir' },
     h('div', { class: 'sayfa-ust' }, h('h1', {}, 'Hayatım'), h('p', { class: 'soluk' }, 'Kim olduğun, neyin olduğu, kimin olduğu.')),
     h('div', { class: 'kart-liste' },
+      satir('Karakter', oyun.durumAl().karakter.tamAd ?? 'Kim olduğun, nereden geldiğin', karakterPaneli),
       satir('Tanıdıklarım', oyun.tanidiklarim().length ? `${oyun.tanidiklarim().length} kişi` : 'Henüz kimseyle tanışmadın', tanidiklarimPaneli),
       satir('Duyduklarım', n ? `${n} şey duydun` : 'Henüz bir şey duymadın', duyduklarimPaneli),
       ...GELECEK.map(([ad, alt, faz]) => satir(ad, alt, () => bilgiGoster(ad, `${alt}\n\nBu bölüm ${faz} içinde geliyor.`))))));

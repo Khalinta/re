@@ -81,6 +81,7 @@ export function npcUret(seed, id, sablon, veri) {
 
   // Ad
   if (sablon.ad) Object.assign(b, adCoz(sablon.ad, v.isimler));
+  if (sablon.soyad) b.soyad ??= sablon.soyad; // aileden gelen soyadı (başlangıç hikayesinin bağlantıları)
   if (!b.ad || !b.soyad) {
     if (b.yore === 'yurtdisi') {
       const y = v.isimler.yabanci[b.ulke];

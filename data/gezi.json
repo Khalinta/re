@@ -1,5 +1,5 @@
 {
-  "_aciklama": "Gezinme ve mekan aksiyonları (adım 2.8). evAdaylari: yeni oyunda evin olabileceği semtler (seed seçer). sureler: dakika. mekanAksiyonlari: mekanın her hizmeti için bir aksiyon (ad, süre, etki, metin); fiyat ekonomi.json'dan (mekanın fiyat seviyesi). urunSecimi: hizmetin mekan türüne göre hangi ürünle ücretlendirileceği. kulakVer: mekanın dedikodularından birini duyma olasılığı kalabalığa göre. Metinlerde {mekan.ad}, {semt.ad} kullanılabilir.",
+  "_aciklama": "Gezinme ve mekan aksiyonları (adım 2.8). evAdaylari: yeni oyunda evin olabileceği semtler (seed seçer). sureler: dakika. mekanAksiyonlari: mekanın her hizmeti için bir aksiyon (ad, süre, etki, metin); fiyat ekonomi.json'dan (mekanın fiyat seviyesi). urunSecimi: hizmetin mekan türüne göre hangi ürünle ücretlendirileceği. kulakVer: kalabalığa göre bir şey duyma olasılığı; havuz = mekanın henüz duyulmamış dedikoduları + son 'haberGun' günün gündemi; ikisi de varsa 'dedikoduOnceligi' olasılıkla dedikodu. Duyulacak bir şey kalmayınca seçenek kapanır. Metinlerde {mekan.ad}, {semt.ad} kullanılabilir.",
 
   "evAdaylari": ["tabakhane", "kayalitepe", "bezhane", "asagi_liman", "istasyon", "tersaneonu"],
   "ev": { "tip": "oda", "ad": "küçük bir oda" },
@@ -28,6 +28,8 @@
     "yagmurdaIslandin": ["Yağmur seni sırılsıklam etti.", "Ayakkabıların su aldı; üşüyorsun."],
     "kulakVerBos": ["Bir süre etrafı dinliyorsun ama kimse işine yarar bir şey konuşmuyor.", "Konuşulanlar havadan sudan; yeni bir şey yok."],
     "kulakVerGiris": ["Yan masadakiler sesini alçaltmadan konuşuyor:", "Tezgâhın önünde iki kişi fısıldaşıyor; birkaç kelime kulağına çalınıyor:", "Biri yanındakine anlatıyor:"],
+    "haberGiris": ["Masadakiler şehrin gündemini konuşuyor:", "Biri elindeki gazeteden yüksek sesle okuyor:", "Tezgâhtaki radyoda haberler var; biri sesini açıyor:"],
+    "kulakVerBitti": ["Burada konuşulanların hepsini duydun gibi; yenisi için başka bir gün ya da başka bir yer.", "Bu masaların anlatacakları şimdilik bu kadar."],
     "konusanlar": ["Yan masadan biri", "Tezgâhtaki adam", "Yaşlı bir kadın", "Genç bir çocuk", "Garson", "Biri"]
   },
 
@@ -61,5 +63,5 @@
       "metin": ["Raflara, vitrinlere bakıyorsun; almasan da bakmak bir şey.", "Fiyat etiketlerine bakıp iç çekiyorsun."] }
   },
 
-  "kulakVer": { "ad": "Etrafa kulak ver", "sure": 30, "olasilik": [0, 0.4, 0.7, 0.85] }
+  "kulakVer": { "ad": "Etrafa kulak ver", "sure": 30, "olasilik": [0, 0.4, 0.7, 0.85], "dedikoduOnceligi": 0.7, "haberGun": 7 }
 }

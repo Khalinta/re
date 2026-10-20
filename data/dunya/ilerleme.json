@@ -44,5 +44,5 @@
     { "id": "cumhuriyet_kutlama", "tur": "kultur", "agirlik": 6, "tekrar": 300, "kosul": { "tatil": "Cumhuriyet Bayramı" }, "metin": ["Cumhuriyet Meydanı'nda tören ve akşam fener alayı; Kordon bayraklarla süslendi."] },
     { "id": "yilbasi_baca", "tur": "kultur", "agirlik": 6, "tekrar": 300, "kosul": { "tatil": "Yılbaşı" }, "metin": ["Bezhane Bacası'na bu yıl da gece yarısı bir bayrak asıldı. Kimin astığı yine bilinmiyor."] }
   ],
-  "gundemOlasiligi": 0.35
+  "gundemOlasiligi": 0.55
 }

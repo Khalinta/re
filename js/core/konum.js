@@ -84,7 +84,8 @@ export function baglamAksiyonlari(durum, veri) {
       ekle('mekan:' + hz, t.adlar?.[m.tur] ?? t.ad, { dakika: t.sure, para: f || undefined }, sebep);
     }
     const kv = g.kulakVer;
-    ekle('mekan:kulak', kv.ad, { dakika: kv.sure }, kapali ? 'Kapanıyor; çıkman gerek.' : mekanKalabaligi(durum, m) === 0 ? 'Etrafta konuşacak kimse yok.' : null);
+    ekle('mekan:kulak', kv.ad, { dakika: kv.sure }, kapali ? 'Kapanıyor; çıkman gerek.' : mekanKalabaligi(durum, m) === 0 ? 'Etrafta konuşacak kimse yok.'
+      : !konusulacaklar(durum, veri, m).length ? 'Burada bugün yeni bir şey konuşulmuyor.' : null);
     ekle('gezi:cik', 'Dışarı çık', { dakika: s.mekandanCik });
   } else {
     if (durum.ev && k.semt === durum.ev.semt) ekle('gezi:eve', 'Eve dön', { dakika: s.eveGir });
@@ -235,20 +236,41 @@ export function mekanAksiyonuYap(durum, veri, rng, hizmet) {
   return { tamam: true, paragraflar };
 }
 
-// Mekanın dedikodularından henüz duyulmamış birini duyma şansı (kalabalığa göre)
+// Mekanda henüz duyulmamış ne konuşuluyor: mekanın dedikoduları + şehrin son günlerdeki gündemi
+// (Faz 1 telefon testi: dedikodular bitince "kulak ver" saatlerce boşa gidiyordu; artık seçenek kapanır.)
+const haberAnahtari = g => `${g.gun}|${g.id ?? g.tur}`;
+export function konusulacaklar(durum, veri, m) {
+  const duyulan = durum.bilgi?.dedikodular || {}, haberler = durum.bilgi?.haberler || {};
+  const bugun = gunNo(durum.zaman.dakika);
+  return [
+    ...(m.dedikodular || []).filter(d => !duyulan[d.id]).map(d => ({ tur: 'dedikodu', d })),
+    ...(durum.dunya?.gundem || []).filter(g => bugun - g.gun <= veri.gezi.kulakVer.haberGun && !(haberAnahtari(g) in haberler)).map(g => ({ tur: 'haber', g })),
+  ];
+}
+
+// Duyulmamış bir şeyi duyma şansı kalabalığa göre; önce mekanın kendi dedikoduları
 function kulakVer(durum, veri, rng, m, ctx) {
   const kv = veri.gezi.kulakVer, mt = veri.gezi.metinler;
   const paragraflar = [{ tur: 'secim', metin: kv.ad }];
   const olasilik = kv.olasilik[mekanKalabaligi(durum, m)] ?? 0;
   zamanGecir(durum, kv.sure, 'dinlenme', veri.sim);
   durum.bilgi.dedikodular ??= {};
-  const yeni = (m.dedikodular || []).filter(d => !durum.bilgi.dedikodular[d.id]);
-  if (yeni.length && rng.olasilik(olasilik)) {
-    const d = rng.sec(yeni);
-    durum.bilgi.dedikodular[d.id] = { gun: gunNo(durum.zaman.dakika), mekan: m.id };
-    paragraflar.push(...yaz(mt.kulakVerGiris, rng, ctx));
-    paragraflar.push({ tur: 'konusma', konusan: rng.sec(mt.konusanlar), metin: d.metin });
-    paragraflar.push({ tur: 'sistem', metin: 'Duyduklarına eklendi' });
+  durum.bilgi.haberler ??= {};
+  const havuz = konusulacaklar(durum, veri, m);
+  const dedikodu = havuz.filter(x => x.tur === 'dedikodu');
+  if (havuz.length && rng.olasilik(olasilik)) {
+    const x = dedikodu.length && (dedikodu.length === havuz.length || rng.olasilik(kv.dedikoduOnceligi)) ? rng.sec(dedikodu) : rng.sec(havuz.filter(y => y.tur === 'haber'));
+    if (x.tur === 'dedikodu') {
+      durum.bilgi.dedikodular[x.d.id] = { gun: gunNo(durum.zaman.dakika), mekan: m.id };
+      paragraflar.push(...yaz(mt.kulakVerGiris, rng, ctx));
+      paragraflar.push({ tur: 'konusma', konusan: rng.sec(mt.konusanlar), metin: x.d.metin });
+      paragraflar.push({ tur: 'sistem', metin: 'Duyduklarına eklendi' });
+    } else {
+      durum.bilgi.haberler[haberAnahtari(x.g)] = gunNo(durum.zaman.dakika);
+      paragraflar.push(...yaz(mt.haberGiris, rng, ctx));
+      paragraflar.push({ tur: 'konusma', konusan: rng.sec(mt.konusanlar), metin: x.g.metin });
+    }
+    if (!konusulacaklar(durum, veri, m).length) paragraflar.push(...yaz(mt.kulakVerBitti, rng, ctx, 'icses'));
   } else paragraflar.push(...yaz(mt.kulakVerBos, rng, ctx));
   aksiyonKaydet(durum, 'kulak', { mekan: m.id });
   return { tamam: true, paragraflar };

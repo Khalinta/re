@@ -104,3 +104,23 @@ test('olayların yeri: ev olayları yalnızca evde', () => {
   assert.equal(olayYeriTutuyor(d, { id: 'y', yer: 'sokak' }), true);
   assert.equal(olayYeriTutuyor({ zaman: {} }, olay), true); // konumsuz eski durum
 });
+
+test('kulak ver: duyulacak bir şey kalmayınca seçenek kapanır; şehrin gündemi de konuşulur', () => {
+  const d = yeni(9);
+  konum.disariCik(d, veri, rng());
+  konum.mekanaGir(d, veri, rng(), 'debbag_iskembecisi');
+  d.dunya.gundem.push({ gun: 0, iso: '2026-10-20', tur: 'spor', metin: 'Demirspor kazandı.' });
+  const r = rng();
+  let haber = false;
+  for (let i = 0; i < 20 && konum.baglamAksiyonlari(d, veri).find(a => a.id === 'mekan:kulak').tamam; i++) {
+    d.zaman.dakika = 9 * 60;
+    const s = konum.mekanAksiyonuYap(d, veri, r, 'kulak');
+    if (s.paragraflar.some(p => p.metin === 'Demirspor kazandı.')) haber = true;
+  }
+  assert.ok(haber);
+  const kulak = konum.baglamAksiyonlari(d, veri).find(a => a.id === 'mekan:kulak');
+  assert.equal(kulak.tamam, false);
+  assert.match(kulak.sebep, /yeni bir şey/);
+  // Haberler Duyduklarım'a girmez; yalnızca dedikodular
+  assert.ok(konum.duyulanlar(d, veri).every(x => x.id !== 'Demirspor'));
+});

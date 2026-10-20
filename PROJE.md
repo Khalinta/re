@@ -14,8 +14,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 - **Sıradaki adım:** kullanıcının telefonda Faz 2 testi (aşağıdaki liste). Sonra Faz 3 (başlangıç hikayesi motoru, NPC üretimi) — ilk adımı **orta**
 - **Kullanıcı isteği (2026-10-20):** "Benim deneyeceğim bir şey gelene kadar devam et." → 2.6, 2.7, 2.8 arka arkaya; 2.8'de (Şehir sekmesi, gezinme, mekanlar) durup telefonda denemesi istenecek.
 - **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). 0.1.5 ekran görüntüsüyle doğrulandı (şerit sekme çubuğuyla aynı renkte, yazılar tam): **Faz 1 kapandı.**
-- **Kullanıcıdan beklenen:** uygulamayı güncelleyip (0.1.12) denemesi:
-  1. Daha Fazla'da sürüm 0.1.12 mi?
+- **Faz 2 telefon testi, 1. rapor (0.1.12, 2026-10-20):** hata yok; eski kayıt v3'e sorunsuz taşındı (Bezhane'de evde); gezinme, mekanlar, kulak verme, yolculuk çalışıyor. Bulunan sorun: bir mekanın dedikoduları bitince "Etrafa kulak ver" boşa saatler harcatıyordu (16 deneme, 8 saat). 0.1.13'te düzeltildi (aşağıda).
+- **Kullanıcıdan beklenen:** uygulamayı güncelleyip (0.1.13) denemeye devam etmesi:
+  1. Daha Fazla'da sürüm 0.1.13 mü?
   2. Şimdi: "Dışarı çık" → Şehir sekmesi: semt, mekanlar (açık/kapalı, kalabalık), "Semt hakkında".
   3. Bir mekana gir; çay/yemek gibi bir şey yap (para düşüyor mu?); "Etrafa kulak ver" birkaç kez → Hayatım → Duyduklarım.
   4. Şehir → başka bir semte toplu taşıma / yürüyüş / taksi ile git; süre ve ücret mantıklı mı?
@@ -535,6 +536,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 ## 🐞 BİLİNEN HATALAR / SINIRLAR
 
 ### Düzeltilen hatalar (kayıt için)
+- **Faz 2 telefon testi → 0.1.13:** Mekanın dedikoduları bitince "Etrafa kulak ver" hep açık kalıyor, her denemede 30 dakika boşa gidiyordu. Artık duyulacak bir şey kalmayınca seçenek kapanır ("Burada bugün yeni bir şey konuşulmuyor."), son şey duyulunca oyuncuya söylenir. Kulak verince şehrin son 7 günlük gündemi de konuşulabilir (haberler Duyduklarım'a girmez). Gündem olasılığı günde %35 → %55 (3 günde tek haber çıkmıştı). Yan hata: ilk gün duyulan haber "duyulmamış" sayılıyordu (0 değeri yanlış okunuyordu); test yakaladı.
 - **Faz 1 telefon testi → 0.1.2:** iPhone'da ana ekrandan açınca altta boş koyu bir şerit kalıyordu. Sebep: iOS standalone modda `innerHeight` / `visualViewport.height` durum çubuğu kadar (59 pt) eksik bildiriyor (rapor: ekran 932, pencere 873); gövde yüksekliği bu değerden alınıyordu. Düzeltme: gövde `position: fixed; inset: 0` ile tüm ekranı kaplar; görünür yükseklik yalnızca klavye açıkken kullanılır.
 - **1.3 → 1.11:** İlk ziyarette service worker kontrolü alınca sayfa gereksiz yere yeniden yükleniyordu (yarıda kalan indirmeler sahte hata olarak kaydediliyordu). Düzeltildi: yalnızca gerçekten bir önceki sürümden geçilirken yenilenir.
 - **1.6 → 1.11:** Güncelleme bandındaki "Yenile" çalışmıyordu: service worker kaydını tutan yerel değişkenin adı (`kayit`) kayıt modülünü gölgeliyordu; "önce kaydet" adımı hata verip yenilemeyi engelliyordu. 1.10'daki hata kaydı sayesinde bulundu. Düzeltildi; ayrıca kayıt hata verse bile güncelleme artık sürer. Bu tür hatalar için ESLint teste eklendi (K44).
@@ -579,6 +581,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.13 | 2026-10-20 | Faz 2 telefon testi düzeltmesi: kulak verme bitince kapanıyor, gündem de konuşuluyor; gündem sıklığı arttı. 312 test. |
 | 0.1.12 | 2026-10-20 | Adım 2.8: konum sistemi (`core/konum.js`, `data/gezi.json`; kayıt sürümü 3 + migration), Şehir sekmesi (`ui/ekranlar/sehir.js`), Hayatım → Duyduklarım (`ui/ekranlar/hayatim.js`), yolculuk, mekana girme, mekanda fiyatlı aksiyonlar, kulak verme; olaylarda `yer`; aksiyonlarda `yer`; durum panelinde konum; hata raporunda konum. Faz 2 kodu bitti. 311 test. |
 | 0.1.11 | 2026-10-20 | Adım 2.7: `data/ekonomi.json` + `core/ekonomi.js` (esnaf yuvarlaması, fiyat/ücret endeksi, ürün ve hizmet fiyatı, kira, maaş aralığı, denetim); ekonomi tablosu kesinleşti. 302 test. |
 | 0.1.10 | 2026-10-20 | Adım 2.6: bayramlar 2026–2036, okul/üniversite takvimi (`core/takvim.js`, koşul dilinde `okul`, `universite`); hava modeli (`core/hava.js`, `data/hava.json`; ayraçta ve durum panelinde hava; fırtınada vapur yok); kendi ilerleyen dünya (`core/ilerleme.js`, `data/dunya/ilerleme.json`: enflasyon, zam, Demirspor, gündem, mekan kapanmaları). Kayıt sürümü 2 + migration. 296 test. |

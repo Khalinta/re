@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.2 Çekirdek yardımcılar (rng, Türkçe ek motoru, biçimler, 154 test)
-- **Sıradaki adım:** 1.3 PWA kabuğu (manifest, service worker, ikon, açılış ekranı) — **orta**
+- **Son tamamlanan adım:** 1.3 PWA kabuğu (manifest, service worker, ikonlar, açılış ekranı, güncelleme akışı)
+- **Sıradaki adım:** 1.4 Arayüz iskeleti (sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar) — **büyük**
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -20,8 +20,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 |---|---|---|---|
 | 1.1 | PROJE.md, CLAUDE.md, klasör yapısı, yer tutucu sayfa | küçük | ✅ |
 | 1.2 | Seed RNG, Türkçe ek motoru, biçimlendirme (para/tarih/saat), tr-TR sıralama, Node testleri | orta | ✅ |
-| 1.3 | PWA kabuğu: manifest, service worker (çevrimdışı), ikon, açılış ekranı | orta | ⏳ |
-| 1.4 | Arayüz iskeleti: alt sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar, yazı boyutu, safe-area | büyük | ⬜ |
+| 1.3 | PWA kabuğu: manifest, service worker (çevrimdışı), ikon, açılış ekranı | orta | ✅ |
+| 1.4 | Arayüz iskeleti: alt sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar, yazı boyutu, safe-area | büyük | ⏳ |
 | 1.5 | Oyun durumu, takvim, zaman dilimleri, durumlar (enerji, açlık, stres...), aksiyon döngüsü | orta | ⬜ |
 | 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ⬜ |
 | 1.7 | Dışa/içe aktarma: dosya + sıkıştırılmış metin kodu, sağlama (checksum) | orta | ⬜ |
@@ -61,6 +61,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K10 | **Service worker "önce önbellek, sonra ağ" + sürümlü önbellek adı.** Yeni sürümde eski önbellek silinir, kullanıcıya "güncelleme hazır" denir. | Tam çevrimdışı çalışma; güncellemeler kontrollü. |
 | K11 | **NPC'ler tembel üretim:** dünyada yalnızca NPC kimliği + seed'i durur; ayrıntılar ilk karşılaşmada seed'den üretilir, kayda sadece *değişen* şeyler (ilişki, anılar, hayat olayları) yazılır. | Binlerce NPC'de bile kayıt küçük ve tutarlı kalır. |
 | K13 | **Ek motoru kalıp gösterimi:** ekler kısa adla (`'in'`, `'e'`, `'de'`) ya da kalıpla (`'(y)lA'`, `'DAn'`) verilir. A=a/e, I=ı/i/u/ü, D=d/t, C=c/ç; `(y)(n)(s)` yalnız ünlüden sonra, `(I)` yalnız ünsüzden sonra. Sayılar okunuşlarına göre (2026 → "altı" → 2026'da), kısaltmalar harf okunuşuna göre (THY → "ye" → THY'ye) ya da okunabiliyorsa sözcük gibi (NATO'ya). | Tek fonksiyon bütün eklerde doğru sonuç verir; yeni ek eklemek bir satır. |
+| K14 | **Service worker önbellek listesi otomatik:** `node tools/sw-liste.mjs` tüm dosyaları tarar, listeyi ve içerik özetinden türeyen önbellek sürümünü `sw.js`'e yazar. `tests/sw.test.js` liste güncel değilse başarısız olur. | Dosya eklemeyi unutmak = çevrimdışında bozuk oyun. Elle liste tutmak yerine araç + test. Herhangi bir dosya değişince sürüm kendiliğinden değişir. |
+| K15 | **Güncelleme akışı:** açılışta bekleyen sürüm varsa (oyun henüz yüklenmemişken) hemen geçilir; oyun sırasında gelirse alttan "Yeni sürüm hazır — Yenile" bandı çıkar. Uygulama her öne geldiğinde güncelleme kontrol edilir. | Oyun ortasında habersiz yenileme olmaz (veri kaybı riski yok); kullanıcı eski sürümde takılı da kalmaz. 1.6'dan sonra "Yenile" önce kayıt alacak. |
+| K16 | **İkon ve açılış görselleri `icons/ikon.svg`'den üretilir** (`NODE_PATH=$(npm root -g) node tools/gorsel-uret.mjs`). 11 iPhone ekran boyutu için açılış görseli var. Görsel: ufuktan doğan güneş (yeniden doğuş). | Tek kaynak; ikon değişirse hepsi tek komutla yenilenir. |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -71,7 +74,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 /
 ├── index.html              Uygulamanın tek sayfası
 ├── manifest.webmanifest    PWA tanımı (1.3)
-├── sw.js                   Service worker — kökte olmalı ki tüm siteyi kapsasın (1.3)
+├── sw.js                   Service worker — kökte olmalı ki tüm siteyi kapsasın. Listesi otomatik (K14)
+├── tools/                  Geliştirici araçları (sw listesi, ikon üretimi) — oyun bunları kullanmaz
 ├── .nojekyll               GitHub Pages'in dosyaları işlememesi için
 ├── package.json            Sadece Node testleri için (oyun bunu kullanmaz)
 ├── PROJE.md                Bu dosya
@@ -79,6 +83,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ├── css/                    Stiller
 ├── icons/                  Uygulama ikonları, açılış ekranı görselleri
 ├── js/
+│   ├── main.js             Giriş noktası: açılış, service worker, güncelleme
+│   ├── surum.js            Oyun sürümü
 │   ├── core/               Saf mantık: rng, tr (ek motoru), format, zaman, durum, kayıt, olay motoru
 │   ├── ui/                 Ekranlar, sekmeler, bottom sheet, anlatım akışı
 │   └── dev/                Gizli geliştirici paneli
@@ -231,7 +237,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 
 ### Ek fikirler — kullanıcı kararları (2026-10-20)
 
-1. **Alışkanlık sistemi** — ❔ Kullanıcı henüz yanıt vermedi.
+1. **Alışkanlık sistemi** — ❌ Kullanıcı istemedi (2026-10-20). Yapılmayacak.
 2. **Dedikodu ağı** — ✅ Onaylandı, **şartlı**: basit bir "itibar +/-" sistemi olacaksa yapılmayacak. Yapılacaksa detaylı ve akıllı olmalı:
    - Bilgi NPC'den NPC'ye gerçek tanışıklık ağı üzerinden yayılır (kim kimi tanıyor, ne kadar yakın).
    - Her NPC kişiliğine göre aktarır: geveze büyütür, sadık olan saklar, düşman çarpıtır.
@@ -250,4 +256,5 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.3 | 2026-10-20 | Adım 1.3: manifest, service worker (tam çevrimdışı, otomatik dosya listesi), ikonlar, 11 iPhone açılış görseli, HTML açılış ekranı, güncelleme bandı. Alışkanlık sistemi kullanıcı isteğiyle iptal. |
 | 0.0.2 | 2026-10-20 | Adım 1.2: `js/core/rng.js` (seed, alt akışlar, ağırlıklı seçim), `js/core/tr.js` (ek motoru, tr-TR harf/sıralama), `js/core/format.js` (para, tarih, saat, süre), 154 Node testi. Ek fikir kararları işlendi. |

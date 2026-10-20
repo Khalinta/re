@@ -1,0 +1,19 @@
+{
+  "name": "Yeniden",
+  "short_name": "Yeniden",
+  "description": "Türkçe, metin tabanlı bir hayat simülasyonu.",
+  "lang": "tr",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1b1916",
+  "theme_color": "#1b1916",
+  "icons": [
+    { "src": "icons/ikon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/ikon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/ikon-maskeli-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

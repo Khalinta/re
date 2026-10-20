@@ -1,0 +1,22 @@
+/* Temel stiller — 1.4'te tam arayüz iskeletiyle genişleyecek. */
+:root {
+  --arka: #1b1916; --yuzey: #252220; --metin: #ece6dc; --soluk: #a79f92; --vurgu: #f0b04a;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root { --arka: #f6f1e8; --yuzey: #fffaf2; --metin: #2a2622; --soluk: #6f675c; --vurgu: #b8621f; color-scheme: light; }
+}
+html, body { margin: 0; background: var(--arka); color: var(--metin); }
+body {
+  font: 17px/1.55 -apple-system, system-ui, sans-serif;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  -webkit-text-size-adjust: 100%;
+}
+.gecici { padding: 32px 20px; max-width: 560px; margin: 0 auto; }
+.gecici h1 { font-weight: 300; letter-spacing: .2em; color: var(--vurgu); }
+.gecici .kart { background: var(--yuzey); border-radius: 14px; padding: 14px 16px; margin: 12px 0; }
+.gecici .soluk { color: var(--soluk); font-size: 15px; }
+.bant { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 900;
+  background: var(--yuzey); border: 1px solid var(--vurgu); border-radius: 14px; padding: 12px 14px;
+  display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+.bant button { font: inherit; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 0; background: var(--vurgu); color: #1b1916; }

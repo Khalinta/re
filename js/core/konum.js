@@ -14,6 +14,7 @@ import { ek } from './tr.js';
 import { para as paraYaz, sure as sureYaz } from './format.js';
 import { aksiyonKaydet } from './durum.js';
 import { Rng } from './rng.js';
+import { mekandakiler, tanisildiMi, gorunus, kisi, tanis, konus } from './insanlar.js';
 
 export const EVDE = 'ev';
 
@@ -82,6 +83,16 @@ export function baglamAksiyonlari(durum, veri) {
       const f = mekanAksiyonFiyati(veri, durum, m, hz);
       const sebep = kapali ? 'Kapanıyor; çıkman gerek.' : f > durum.para ? `Cebinde ${paraYaz(f)} yok.` : null;
       ekle('mekan:' + hz, t.adlar?.[m.tur] ?? t.ad, { dakika: t.sure, para: f || undefined }, sebep);
+    }
+    // Burada şu an kimler var (3.2): tanıdıklarla sohbet, tanımadıklarla tanışma (en çok 3 kişi)
+    if (veri.npc?.sohbet && !kapali) {
+      const kal = mekanKalabaligi(durum, m);
+      for (const id of mekandakiler(durum, veri, m, kal).slice(0, 3)) {
+        const n = kisi(veri, durum.seed, id);
+        if (!n) continue;
+        if (tanisildiMi(durum, id)) ekle('npc:konus:' + id, `${ek(n.hitapAdi, 'le')} sohbet et`, { dakika: veri.npc.sohbet.sure.konus });
+        else ekle('npc:tanis:' + id, 'Tanış: ' + gorunus(n, veri), { dakika: veri.npc.sohbet.sure.tanis }, durum.bilgi?.retler?.[id] === gunNo(durum.zaman.dakika) ? 'Bugün bir kere denedin; üstüne gitme.' : null);
+      }
     }
     const kv = g.kulakVer;
     ekle('mekan:kulak', kv.ad, { dakika: kv.sure }, kapali ? 'Kapanıyor; çıkman gerek.' : mekanKalabaligi(durum, m) === 0 ? 'Etrafta konuşacak kimse yok.'
@@ -246,6 +257,18 @@ export function konusulacaklar(durum, veri, m) {
     ...(m.dedikodular || []).filter(d => !duyulan[d.id]).map(d => ({ tur: 'dedikodu', d })),
     ...(durum.dunya?.gundem || []).filter(g => bugun - g.gun <= veri.gezi.kulakVer.haberGun && !(haberAnahtari(g) in haberler)).map(g => ({ tur: 'haber', g })),
   ];
+}
+
+// Mekandaki biriyle tanış ya da sohbet et: hamle kimliği 'tanis:<npc>' / 'konus:<npc>'
+export function insanHamlesi(durum, veri, rng, hamle) {
+  const m = mekanBul(veri.dunya, durum.konum.mekan);
+  if (!m || durum.konum.mekan === EVDE) return { tamam: false, sebep: 'Bir mekanda değilsin.' };
+  const kapali = mekanKapaliMi(durum, m);
+  if (kapali) return { tamam: false, sebep: 'Kapanıyor; çıkman gerek.' };
+  const i = hamle.indexOf(':');
+  const tur = hamle.slice(0, i), id = hamle.slice(i + 1);
+  const kal = mekanKalabaligi(durum, m);
+  return tur === 'tanis' ? tanis(durum, veri, rng, m, kal, id) : konus(durum, veri, rng, m, kal, id);
 }
 
 // Duyulmamış bir şeyi duyma şansı kalabalığa göre; önce mekanın kendi dedikoduları

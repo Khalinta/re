@@ -69,9 +69,18 @@ function mekanPaneli(m) {
       h('p', { class: 'panel-metin soluk' }, m.gecmis),
       fiyatlar.length ? h('h3', { class: 'bolum-baslik' }, 'Fiyatlar') : null,
       fiyatlar,
+      !kapali && burada ? burdakiler(m) : null,
       kapali ? h('p', { class: 'secenek-sebep' }, kapali) : null),
     altBilgi: h('div', { class: 'dugme-yigini' }, alt),
   });
+}
+
+// Şu an mekanda göze çarpanlar (yalnızca bulunduğun semtte; içeri girince onlarla konuşabilirsin)
+function burdakiler(m) {
+  const l = oyun.mekandakiler(m);
+  if (!l.length) return null;
+  return h('div', {}, h('h3', { class: 'bolum-baslik' }, 'Şu an burada'),
+    h('p', { class: 'panel-metin' }, l.map(x => x.ad).join(' · ')));
 }
 
 // Bir semte gitme seçenekleri (toplu / yürüyüş / taksi), her biri süre ve ücretle

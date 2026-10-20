@@ -1,0 +1,61 @@
+{
+  "_aciklama": "Mekanlarda insanlar, tanışma ve ilk sohbetler (adım 3.2). mevcut: kalabalığa göre mekanda 'göze çarpan' kaç kişi olduğu (o anki herkes değil, konuşulabilecekler). havuz: her mekanın kendi müdavim havuzu ve semtin ortak havuzu (aynı insanlar semtin farklı yerlerinde de görülür). gorunus: tanışmadan önce kişinin nasıl tarif edildiği (sakin türüne göre bir ayrıntı + yaş + cinsiyet). tanisma: kabul olasılığı kişiliğe göre; metinler {npc.*} şablonuyla. konular: sohbette açılabilecek konular; 'esik' = konunun açılması için gereken yakınlık. Faz 4'te konu seçerek sohbet, mesajlaşma ve diğer etkileşimler bunun üstüne kurulacak.",
+
+  "mevcut": { "kisi": [0, 2, 3, 4], "sahipOlasiligi": 0.8, "mudavimOlasiligi": 0.35 },
+  "havuz": { "mekan": 6, "semt": 40, "mekandanOrani": 0.6 },
+  "sure": { "tanis": 15, "konus": 25 },
+  "katmanEsikleri": { "tanidik": 1, "onemli": 6 },
+
+  "yasKelimeleri": [[22, "genç"], [34, "otuzlarında"], [44, "kırklarında"], [54, "ellilerinde"], [64, "altmışlarında"], [74, "yetmişlerinde"], [200, "yaşlı"]],
+  "gorunus": {
+    "_varsayilan": ["gözlüklü", "elinde telefon", "yorgun yüzlü", "düşünceli", "gülümseyen"],
+    "esnaf": ["önlüğünü çıkarmamış", "kulağında kalem", "elinde tespih"],
+    "emekli": ["kasketli", "elinde tespih", "baston tutan"],
+    "emekli_varlikli": ["şık giyimli", "ütülü gömlekli"],
+    "mubadil_ailesi": ["beyaz bıyıklı", "denizci kazaklı"],
+    "balikci": ["yüzü güneşten yanmış", "ellerinde ağ izi olan", "lastik çizmeli"],
+    "liman_iscisi": ["iş yeleği giymiş", "baretini koluna takmış"],
+    "eski_tersaneci": ["nasırlı elleri olan", "eski bir tersane montu giymiş"],
+    "genc_girisimci": ["laptopuna gömülmüş", "dövmeli", "bere takmış"],
+    "beyaz_yaka": ["takım elbiseli", "yaka kartı boynunda", "kulaklığı takılı"],
+    "serbest_meslek": ["deri çantalı", "ciddi bakışlı"],
+    "zengin_aile": ["pahalı saatli", "kaşmir paltolu"],
+    "yeni_zengin": ["gösterişli saatli", "araba anahtarını masaya koymuş"],
+    "ogrenci": ["sırt çantalı", "elinde fotokopi deste", "uykusuz gözlü"],
+    "akademisyen": ["kitaplarla dolu çantalı", "gözlüklerini alnına itmiş"],
+    "sanatci": ["boyalı ellerli", "gitar kılıfı yanında", "rengârenk giyinmiş"],
+    "gocmen": ["az Türkçe konuşan", "iş tulumlu", "yorgun bakışlı"],
+    "tasra_gocu": ["yazmalı", "eli yüzü toz içinde", "kalabalık bir aileyle"],
+    "fabrika_iscisi": ["mavi tulumlu", "vardiya çıkışı yorgun"],
+    "sanayi_esnafi": ["yağlı tulumlu", "elleri kararmış"],
+    "deri_ustasi": ["deri önlüklü", "elleri boyalı"],
+    "kucuk_memur": ["ceketli", "dosya taşıyan"],
+    "gece_calisani": ["siyah giyinmiş", "uykusuz", "kulağında kulaklık"],
+    "yolcu": ["bavullu", "etrafına bakınan"],
+    "kayit_disi": ["elinde poşetler", "eski montlu", "el arabasıyla"],
+    "bezhane_emeklisi": ["örgü yelekli", "eski fabrika rozetli"],
+    "koylu": ["çizmeli", "elinde bağ makası"],
+    "toki_sakini": ["bebek arabalı", "market poşetli"]
+  },
+  "kimler": { "e": { "genc": "bir delikanlı", "diger": "bir adam" }, "k": { "genc": "genç bir kız", "diger": "bir kadın" } },
+
+  "tanisma": {
+    "kabulTaban": 0.6, "eksenEtkisi": { "disadonuk": 0.08, "uyumlu": 0.06 }, "ruhEtkisi": 0.004,
+    "ac": ["Yanına yaklaşıp bir şey soruyorsun; havadan sudan.", "Göz göze geliyorsunuz; selam veriyorsun.", "Çakmağı olup olmadığını soruyorsun; bahane bu."],
+    "kabul": ["'{npc.hitapAdi},' diyor elini uzatarak. '{npc.tik|bas}, otur bakalım.'", "Biraz şaşırıyor ama gülümsüyor. Adı {npc.hitapAdi}.", "Bir süre seni süzüyor, sonra adını söylüyor: {npc.hitapAdi}."],
+    "ret": ["Kısa bir cevap verip başını çeviriyor. Bugün konuşacak hali yok.", "Kibarca ama kesin bir şekilde 'Kusura bakma, acelem var' diyor.", "Seni duymamış gibi yapıyor. Belki de gerçekten duymadı."],
+    "retSert": ["'Tanışmayalım kardeşim,' diyor, 'böyle iyiyiz.'", "Yüzünü buruşturuyor. Belli ki yanlış zaman."]
+  },
+
+  "konular": [
+    { "id": "is", "esik": 0, "baslik": "işi", "metin": ["Ne iş yaptığını anlatıyor: {npc.meslek}. 'Ekmek parası işte.'", "İşinden bahsediyor; {npc.meslek}. Anlatırken yüzü bir aydınlanıyor, bir kararıyor."] },
+    { "id": "memleket", "esik": 0, "baslik": "memleketi", "metin": ["Laf memlekete geliyor. {npc.memleketCumle}", "Nereli olduğunu soruyorsun. {npc.memleketCumle}"] },
+    { "id": "semt", "esik": 0, "baslik": "mahalle", "metin": ["Mahalleden konuşuyorsunuz; '{npc.semtSozu}' diyor.", "Semtin eskisini anlatıyor; senin bilmediğin bir sürü şey."] },
+    { "id": "dert", "esik": 8, "baslik": "derdi", "metin": ["Laf döndü dolaştı, içini döküyor: {npc.dertMetni}", "Bir an susuyor, sonra söylüyor: {npc.dertMetni}"] },
+    { "id": "hayal", "esik": 18, "baslik": "hayali", "metin": ["Gözleri parlayarak anlatıyor: {npc.hayalMetni}", "'Biliyor musun,' diyor, 'benim bir hayalim var.' {npc.hayalMetni}"] },
+    { "id": "dedikodu", "esik": 12, "baslik": "dedikodu", "metin": ["Sesini alçaltıyor: '{npc.dedikodu}'"] },
+    { "id": "tanidik", "esik": 10, "baslik": "tanıdıkları", "metin": ["{npc.tanidikCumle}"] }
+  ],
+  "konusmaSonu": ["Bir süre daha oturuyorsunuz; konuşmak iyi geldi.", "Kalkarken 'Yine bekleriz,' diyor.", "Ayrılırken omzuna hafifçe vuruyor."],
+  "yakinlik": { "tanisma": [3, 6], "sohbet": [2, 5], "dertDinlemek": [3, 6] }
+}

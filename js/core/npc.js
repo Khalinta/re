@@ -186,6 +186,7 @@ export function npcUret(seed, id, sablon, veri) {
   if (sablon.tanim) b.tanim = sablon.tanim;
   if (sablon.figur) b.figur = sablon.figur;
   if (sablon.mekan) b.mekan = sablon.mekan;
+  if (sablon.mekanMudavimi) b.mekanMudavimi = sablon.mekanMudavimi;
   return b;
 }
 

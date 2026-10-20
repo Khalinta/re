@@ -13,6 +13,7 @@ import { metinCoz } from './core/metin.js';
 import { dunyaIlerlet } from './core/ilerleme.js';
 import { ekonomiDogrula } from './core/ekonomi.js';
 import * as konum from './core/konum.js';
+import * as insanlar from './core/insanlar.js';
 import { npcVeriDogrula } from './core/npc.js';
 import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
@@ -28,7 +29,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbet] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -51,8 +52,9 @@ export async function veriYukle() {
     jsonAl('./data/npc/memleket.json'),
     jsonAl('./data/npc/kisilik.json'),
     jsonAl('./data/npc/hayat.json'),
+    jsonAl('./data/npc/sohbet.json'),
   ]);
-  veri.npc = { isimler, memleket, kisilik, hayat };
+  veri.npc = { isimler, memleket, kisilik, hayat, sohbet };
   veri.gezi = gezi;
   veri.ekonomi = ekonomi;
   const ekoSorunlari = ekonomiDogrula(ekonomi, { isTurleri: sirketler.isTurleri, hizmetler: mekanlar.hizmetler, ulasim });
@@ -160,8 +162,9 @@ export function aksiyonYap(id) {
 }
 
 function aksiyonYapIc(id) {
-  if (id.startsWith('gezi:') || id.startsWith('mekan:')) return konumHamlesi(() => {
+  if (id.startsWith('gezi:') || id.startsWith('mekan:') || id.startsWith('npc:')) return konumHamlesi(() => {
     const rng = rngAl(durum, 'aksiyon');
+    if (id.startsWith('npc:')) return konum.insanHamlesi(durum, veri, rng, id.slice(4));
     if (id === 'gezi:cik') return konum.disariCik(durum, veri, rng);
     if (id === 'gezi:eve') return konum.eveGir(durum, veri, rng);
     if (id === 'gezi:evegit') return eveGit(rng);
@@ -232,6 +235,8 @@ export const mekanaGir = mekanId => yolculuk(durum.konum.semt, null, mekanId);
 export const yolculukSecenekleri = hedef => konum.yolculukSecenekleri(durum, veri, hedef);
 export const konumMetni = () => konum.konumMetni(durum, veri);
 export const duyulanlar = () => konum.duyulanlar(durum, veri);
+export const tanidiklarim = () => insanlar.tanidiklarim(durum, veri);
+export const mekandakiler = mekan => insanlar.mekandakiler(durum, veri, mekan, konum.mekanKalabaligi(durum, mekan)).map(id => ({ id, ad: insanlar.gorunenAd(durum, veri, id), tanidik: insanlar.tanisildiMi(durum, id) }));
 
 // Vakti gelmiş gecikmeli sonuç var mı? Varsa olayını başlat.
 function zamanlayiciDene() {

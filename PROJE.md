@@ -12,7 +12,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 - **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kodu bitti; kapanışı kullanıcının telefon testine bağlı)
 - **Son tamamlanan adım:** 2.1 Şehrin kimliği (Karaliman), coğrafya, iklim, kimlik, tarih, 23 olaylık zaman çizelgesi, 14 semtlik iskelet; `core/dunya.js` denetimi; şablonlarda `{sehir.ad}`
 - **Sıradaki adım:** 2.2 Semtlerin ayrıntıları (`data/dunya/semtler.json`): karakter, sosyoekonomik durum, kira katsayısı, kim yaşıyor, ünlü yerler, gerilimler ve semtler arası ilişkiler — **orta**
-- **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Bulunan tek sorun: altta boş şerit → 0.1.2'de düzeltildi; kullanıcının doğrulaması bekleniyor, doğrulanınca Faz 1 kapanır.
+- **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Bulunan tek sorun: altta boş şerit. 0.1.2'deki düzeltme (yükseklik visualViewport'tan alınmıyor) yetmedi. 0.1.3: kök arka plan sekme çubuğu renginde (şerit kalırsa görsel olarak sekme çubuğuna karışır) + hata raporuna ekran ölçümleri (`olcum`). Kullanıcının 0.1.3 raporu bekleniyor; kesin sebep ölçümden belirlenip kalıcı düzeltilecek, sonra Faz 1 kapanır.
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -450,6 +450,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 - **1.4 → 1.6:** Liste sayfalarında içerik ekrana sığmayınca bloklar sıkışıp görünmez oluyordu.
 
 ### Açık sınırlar
+- **Açık hata (Faz 1 telefon testi):** iPhone (iOS 26) ana ekran modunda altta ~59 pt'lik boş şerit. Kesin sebep bilinmiyor; ölçüm verisi bekleniyor (rapor → `olcum`). 0.1.2'deki ilk teşhis (innerHeight'ın eksik gelmesi) tek başına açıklamadı.
 
 - Ek motoru: 3. tekil iyelikle biten adlarda (Kahvesi, Sarayı, Belediyesi) `{ iyelik: true }` verilmeli; motor bunu kendisi anlayamaz. Veri dosyalarında mekan adlarına `iyelik` alanı konacak.
 - Ek motoru: alışılmadık okunuşlu yabancı adlarda `{ okunus: '...' }` verilmeli (Bordeaux → bordo).
@@ -486,6 +487,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.3 | 2026-10-20 | Alttaki şerit 0.1.2 ile gitmedi: kök arka plan sekme çubuğu renginde yapıldı (görsel yama), hata raporuna ekran ölçümleri eklendi (screen/inner/visualViewport/100vh-dvh-lvh-svh/güvenli alan/gövde ve sekme alt kenarı). |
 | 0.1.2 | 2026-10-20 | Faz 1 telefon testi: iOS 26 standalone'da her şey çalışıyor (kalıcı depolama izni verildi). Alttaki boş şerit düzeltildi (yükseklik visualViewport'tan alınmıyor). |
 | 0.1.1 | 2026-10-20 | Adım 2.1: `data/dunya/sehir.json` (Karaliman: coğrafya, 12 aylık iklim, kimlik, deyişler, mutfak, kulüp, medya, şehir efsaneleri, 7 dönemlik tarih, 23 olaylık zaman çizelgesi ve hikaye kancaları, 14 semt iskeleti), `core/dunya.js` (denetim, semt/kanca yardımcıları), şablonda `{sehir.*}`, giriş metni şehri anıyor. 250 test. |
 | 0.1.0 | 2026-10-20 | Faz 1 sürümü (1.12 hazırlığı): alt adreste (/re/) açılış, service worker kapsamı, çevrimdışı açılış ve kayıt doğrulandı; yayın adımları, Netlify notu ve 13 maddelik telefon test listesi PROJE.md'ye yazıldı. Kullanıcı testi bekleniyor. |

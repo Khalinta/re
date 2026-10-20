@@ -41,7 +41,12 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
-html, body { margin: 0; background: var(--arka); color: var(--metin); }
+html, body { margin: 0; color: var(--metin); }
+body { background: var(--arka); }
+/* Kök arka plan alt sekme çubuğuyla aynı renk: iPhone ana ekran modunda gövdenin altında
+   bir şerit kalırsa (Faz 1 telefon testi, iOS 26) ayrı bir boş bar gibi değil, sekme çubuğunun
+   devamı gibi görünsün. Gövde kendi arka planını taşıdığı için başka hiçbir yer etkilenmez. */
+html { background: var(--yuzey); }
 body {
   /* Tüm ekranı kapla. Yükseklik visualViewport'tan ALINMAZ: iPhone'da ana ekrandan açılınca
      (iOS 18/26) innerHeight ve visualViewport.height durum çubuğu kadar eksik geliyor ve altta

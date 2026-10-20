@@ -67,8 +67,37 @@ function cihazBilgisi() {
     cevrimici: n.onLine,
     serviceWorker: !!n.serviceWorker?.controller,
     sikistirma: typeof CompressionStream === 'function',
+    olcum: ekranOlcumu(),
     ...ekBilgi(),
   };
+}
+
+// Ekran yüksekliği teşhisi (iPhone ana ekran modunda altta kalan şerit için):
+// farklı yükseklik ölçüleri ve güvenli alan payları
+function ekranOlcumu() {
+  try {
+    const olc = css => {
+      const el = document.createElement('div');
+      el.style.cssText = 'position:fixed;left:0;top:0;width:1px;visibility:hidden;pointer-events:none;' + css;
+      document.body.append(el);
+      const r = el.getBoundingClientRect();
+      const cs = getComputedStyle(el);
+      el.remove();
+      return { h: Math.round(r.height), pt: cs.paddingTop, pb: cs.paddingBottom };
+    };
+    const g = document.body.getBoundingClientRect();
+    const sekme = document.querySelector('.sekme-cubugu')?.getBoundingClientRect();
+    const pay = olc('padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);height:0');
+    return {
+      ekranH: screen.height, ekranAvailH: screen.availHeight, innerH: innerHeight, outerH: window.outerHeight,
+      vvH: Math.round(window.visualViewport?.height ?? -1), vvUst: Math.round(window.visualViewport?.offsetTop ?? -1),
+      docClientH: document.documentElement.clientHeight,
+      vh100: olc('height:100vh').h, dvh100: olc('height:100dvh').h, lvh100: olc('height:100lvh').h, svh100: olc('height:100svh').h,
+      govdeUst: Math.round(g.top), govdeAlt: Math.round(g.bottom),
+      sekmeAlt: sekme ? Math.round(sekme.bottom) : null,
+      guvenliUst: pay.pt, guvenliAlt: pay.pb,
+    };
+  } catch (e) { return { hata: e.message }; }
 }
 
 export async function raporMetni() {

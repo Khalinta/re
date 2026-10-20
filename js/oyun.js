@@ -22,7 +22,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -30,8 +30,9 @@ export async function veriYukle() {
     jsonAl('./data/olaylar/_liste.json'),
     jsonAl('./data/yaylar.json'),
     jsonAl('./data/dunya/sehir.json'),
+    jsonAl('./data/dunya/semtler.json'),
   ]);
-  veri.dunya = { sehir };
+  veri.dunya = { sehir, semtler };
   const dunyaSorunlari = dunyaDogrula(veri.dunya);
   if (dunyaSorunlari.length) console.error('[dünya kitabı] tutarsızlık:', dunyaSorunlari);
   veri.yaylar = Object.fromEntries(yaylar.yaylar.map(y => [y.id, y]));

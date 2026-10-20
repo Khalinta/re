@@ -1,0 +1,553 @@
+{
+  "_aciklama": "Karaliman semtlerinin ayrıntıları (adım 2.2). İskelet (id, ad, yaka, özet) sehir.json'da; burası her semtin karakterini, ekonomik durumunu, sakinlerini, ünlü yerlerini, gerilimlerini ve diğer semtlerle ilişkisini tutar. Ölçekler: gelir 1 (yoksul) – 5 (varlıklı); yogunluk 1 (seyrek) – 5 (çok kalabalık); guvenlik 1 (tekin değil) – 5 (çok güvenli); polis 1 (pek görünmez) – 5 (her köşede); donusum 0 (dokunulmamış) – 5 (hızla dönüşüyor). kiraKatsayisi: şehir ortalamasına göre kira çarpanı (1 = ortalama; fiyatın kendisi ekonomi.json'da). kiraEgilimi: kiranın şehir ortalamasına göre gidişi, -1 (geriliyor) … 0 (şehirle aynı) … 2 (hızla fırlıyor). sakinler.agirlik: NPC üretiminde o grubun seçilme ağırlığı (Faz 3). unluYerler semtin simgeleridir; oyuncunun girip çıkacağı dükkân/kahve gibi mekanlar mekanlar.json'da (adım 2.5). gerilimler.olaylar: zaman çizelgesindeki ilgili olaylar. komsular: yürüyerek geçilen semtler (iki yönlü olmalı).",
+
+  "sakinTurleri": {
+    "esnaf": "Esnaf ve dükkân sahipleri",
+    "emekli": "Emekliler",
+    "emekli_varlikli": "Varlıklı emekliler",
+    "mubadil_ailesi": "Mübadil aileleri",
+    "balikci": "Balıkçılar",
+    "liman_iscisi": "Liman ve depo işçileri",
+    "eski_tersaneci": "Eski tersane ustaları ve aileleri",
+    "genc_girisimci": "Kafe, atölye açan gençler",
+    "beyaz_yaka": "Plaza ve ofis çalışanları",
+    "serbest_meslek": "Doktor, avukat, mühendis gibi serbest meslek sahipleri",
+    "zengin_aile": "Köklü varlıklı aileler",
+    "yeni_zengin": "Yeni zenginler",
+    "ogrenci": "Üniversite öğrencileri",
+    "akademisyen": "Akademisyenler",
+    "sanatci": "Sanatçılar ve müzisyenler",
+    "gocmen": "Yurt dışından gelen göçmenler",
+    "tasra_gocu": "İç göçle gelmiş geniş aileler",
+    "fabrika_iscisi": "Fabrika ve vardiya işçileri",
+    "sanayi_esnafi": "Sanayi esnafı (tamirci, tornacı, kaportacı)",
+    "deri_ustasi": "Deri ve saraciye ustaları",
+    "kucuk_memur": "Memurlar ve küçük kamu çalışanları",
+    "gece_calisani": "Gece hayatı çalışanları (garson, barmen, kapı görevlisi)",
+    "yolcu": "Gelip geçenler (yolcular, pansiyon müşterileri)",
+    "kayit_disi": "Kayıt dışı çalışanlar (seyyar, hurdacı, gündelikçi)",
+    "bezhane_emeklisi": "Bezhane emeklileri ve lojman aileleri",
+    "koylu": "Eski köy halkı (bağcı, bahçeci)",
+    "toki_sakini": "Toplu konut sakinleri (genç aileler, kredi borçluları)"
+  },
+
+  "semtler": [
+    {
+      "id": "eski_carsi",
+      "karakter": "Şehrin en yaşlı yeri ve hâlâ kalbi. Kaletepe'nin eteğinde, dar ve taş döşeli sokaklarda yüz yıllık dükkânlar yan yana durur; her esnaf bir öncekinin çırağıdır. Turist sayısı arttıkça eski dükkânların yerini hediyelikçiler alıyor, ama sabah açılan kepenkleri hâlâ aynı eller kaldırıyor.",
+      "atmosfer": {
+        "sabah": "Kepenkler birer birer kalkıyor; çaycı tepsisiyle dükkândan dükkâna koşuyor, simitçi Bedesten kapısında yerini almış.",
+        "ogle": "Sokaklar turist rehberleri, pazarlık eden teyzeler ve el arabası iten hamallarla tıklım tıklım.",
+        "aksam": "Esnaf kepenk indirirken lokumcuların vitrinleri son kez parlıyor; kale surlarına turuncu bir ışık vuruyor.",
+        "gece": "Taş sokaklar bomboş, sadece Saat Kulesi'nin her saat başı çalan sesi ve bir iki kedi."
+      },
+      "duyular": ["taze kavrulmuş kahve kokusu", "bakırcı çekiçlerinin ritmi", "eski taşların serinliği", "lokumcunun pudra şekeri"],
+      "sosyo": { "gelir": 3, "kiraKatsayisi": 0.95, "kiraEgilimi": 1, "yogunluk": 4, "guvenlik": 4, "polis": 4, "donusum": 3 },
+      "sakinler": [
+        { "tur": "esnaf", "agirlik": 5, "not": "Çoğu üçüncü, dördüncü kuşak; dükkânın üstündeki evde oturan da var." },
+        { "tur": "emekli", "agirlik": 3 },
+        { "tur": "genc_girisimci", "agirlik": 2, "not": "Eski hanların odalarında atölye ve butik kafe açanlar." },
+        { "tur": "sanatci", "agirlik": 1 },
+        { "tur": "kayit_disi", "agirlik": 1, "not": "Hamallar, seyyar satıcılar." }
+      ],
+      "unluYerler": [
+        { "id": "bedesten", "ad": "Bedesten", "tur": "tarihi", "aciklama": "Kubbeli eski kapalı çarşı; kuyumcular, halıcılar ve 1911 yangınından sağ kalan duvarlar." },
+        { "id": "saat_kulesi", "ad": "Saat Kulesi", "iyelik": true, "tur": "tarihi", "aciklama": "Çarşının ortasında, yangından sonra yapılan kule. Buluşmaların varsayılan adresi: 'Saat Kulesi'nin dibinde'." },
+        { "id": "kaletepe_surlari", "ad": "Kaletepe Surları", "iyelik": true, "tur": "tarihi", "aciklama": "Bizans surlarının kalıntıları; tepeden bütün körfez görünür. Gece âşıklar ve tünel hikayeleri." },
+        { "id": "saatci_dukkani", "ad": "Yanmayan Dükkân", "tur": "ticari", "aciklama": "1911 yangınında yanmayan saatçi; torunu hâlâ aynı tezgâhta saat tamir ediyor." },
+        { "id": "kursunlu_han", "ad": "Kurşunlu Han", "tur": "tarihi", "aciklama": "Avlulu eski han; zemin katta çaycılar, üst katta yeni açılan atölyeler." }
+      ],
+      "gerilimler": [
+        { "id": "carsi_turistlesme", "ad": "Turistleşme", "aciklama": "Kiralar arttıkça eski esnaf çıkıyor, yerine hediyelikçi ve zincir kafe geliyor. Esnaf derneği bölünmüş: kimi satmak istiyor, kimi 'çarşı ölür' diyor.", "olaylar": ["marina_avm"] },
+        { "id": "carsi_avm_rekabeti", "ad": "AVM'ye kaçan müşteri", "aciklama": "Marina AVM açıldığından beri çarşıda hafta içi ciro düştü; kuyumcular dışında herkes şikâyetçi.", "olaylar": ["marina_avm"] }
+      ],
+      "komsular": ["asagi_liman", "tabakhane", "istasyon", "cumhuriyet"],
+      "iliskiler": [
+        { "semt": "marina", "tur": "rekabet", "aciklama": "Çarşı esnafı Marina AVM'yi düşman bellemiş; 'orası şehir değil, vitrin' derler." },
+        { "semt": "asagi_liman", "tur": "dayanisma", "aciklama": "Limanla çarşı birbirini besledi: hamallar, balıkçılar, meyhaneler; eski aileler birbirine kız alıp verir." },
+        { "semt": "cumhuriyet", "tur": "bagimlilik", "aciklama": "Müşterinin çoğu köprüden geçen memur ve ofis çalışanları; öğle arası çarşının en iyi saati." }
+      ],
+      "etiketler": ["tarihi", "ticaret", "turist", "merkez"]
+    },
+    {
+      "id": "asagi_liman",
+      "karakter": "Mübadillerin 1924'te yerleştiği, balıkçıların ve hamalların mahallesi. Yokuşlar denize iner, evlerin cumbaları birbirine değer. Liman özelleştirildikten sonra iş azaldı, ama meyhaneler ve iskele başındaki köfteciler hâlâ şehrin en canlı akşamlarını yaşatıyor.",
+      "atmosfer": {
+        "sabah": "Balıkçı tekneleri dönmüş, hal önünde bağırış çağırış; martılar kasaların üstünde dönüyor.",
+        "ogle": "Liman kapısında forkliftler, iskele başında liman köftesi kuyruğu.",
+        "aksam": "Meyhanelerin masaları sokağa taşıyor; birinin fasıl takımı akort ediyor.",
+        "gece": "Cumbalardan tek tük ışık, iskelede sigara içen iki işçi, uzakta bir geminin düdüğü."
+      },
+      "duyular": ["tuz ve mazot kokusu", "martı çığlıkları", "ızgarada balık", "ıslak ip ve halat"],
+      "sosyo": { "gelir": 2, "kiraKatsayisi": 0.8, "kiraEgilimi": 1, "yogunluk": 4, "guvenlik": 3, "polis": 3, "donusum": 2 },
+      "sakinler": [
+        { "tur": "mubadil_ailesi", "agirlik": 4, "not": "Selanik ve Kavala'dan gelenlerin torunları; dedelerinin anahtarlarını saklayanlar var." },
+        { "tur": "balikci", "agirlik": 3 },
+        { "tur": "liman_iscisi", "agirlik": 4, "not": "Özelleştirmeden sonra çoğu taşeron; kadrolu kalan azınlıkta." },
+        { "tur": "emekli", "agirlik": 2 },
+        { "tur": "gece_calisani", "agirlik": 2, "not": "Meyhane garsonları, fasıl müzisyenleri." }
+      ],
+      "unluYerler": [
+        { "id": "balik_hali", "ad": "Balık Hali", "iyelik": true, "tur": "ticari", "aciklama": "Sabah dörtte açılır, dokuzda biter; şehrin bütün lokantacıları buradan alır." },
+        { "id": "mubadil_iskelesi", "ad": "Mübadil İskelesi", "iyelik": true, "tur": "tarihi", "aciklama": "Mübadillerin indiği iskele; ucunda küçük bir anıt ve her şubatta bırakılan karanfiller." },
+        { "id": "liman_kapisi", "ad": "Liman Kapısı", "iyelik": true, "tur": "ulasim", "aciklama": "Özel şirketin işlettiği limanın girişi; kartsız kimse geçemiyor artık, eskiden çocuklar bile girerdi." },
+        { "id": "meyhaneler_sokagi", "ad": "Meyhaneler Sokağı", "iyelik": true, "tur": "yeme_icme", "aciklama": "Dar bir yokuşta dokuz meyhane; en eskisi 1950'lerden." }
+      ],
+      "gerilimler": [
+        { "id": "liman_taseron", "ad": "Taşeronlaşma", "aciklama": "Özelleştirmeden sonra kadrolu işçiler çıkarıldı, aynı işi daha ucuza taşeron yapıyor. Eski sendikacılar hâlâ kahvede toplantı yapıyor ama kimse gelmiyor.", "olaylar": ["liman_ozellestirme"] },
+        { "id": "liman_kacak_yuk", "ad": "Gece inen yükler", "aciklama": "Gece vardiyasında bazı konteynerlerin kayda girmeden çıktığı konuşulur; soranlar kısa sürede başka limana tayin istemiş.", "olaylar": ["liman_ozellestirme"] },
+        { "id": "liman_tersane_yarasi", "ad": "Tersane yarası", "aciklama": "1979 grevinde ve 2008 kapanışında mahalle tersaneyle birlikte ağladı; grev kırıcıların aileleri hâlâ bazı kahvelere girmez.", "olaylar": ["tersane_grevi", "tersane_kapanis"] }
+      ],
+      "komsular": ["eski_carsi", "tersaneonu"],
+      "iliskiler": [
+        { "semt": "eski_carsi", "tur": "dayanisma", "aciklama": "Aynı ailelerin iki yüzü: çarşıda dükkân, limanda tekne." },
+        { "semt": "marina", "tur": "gerilim", "aciklama": "'Denizimizi aldılar' derler; Marina'nın yat limanı eski balıkçı barınağının yerinde." },
+        { "semt": "sahilyolu", "tur": "kucumseme", "aciklama": "Sahilyolu'nun Kordon'da yürüyüş yapanlarına 'denizi seyirlik sanan' derler." }
+      ],
+      "etiketler": ["liman", "deniz", "mubadil", "meyhane", "isci"]
+    },
+    {
+      "id": "tersaneonu",
+      "karakter": "Dört yüz yıl gemi yapan tersanenin önündeki ustalar mahallesi. 2008'de tersane kapanınca mahalle bir gecede işsiz kaldı; dev vinçler hâlâ gökyüzünde duruyor, havuzda yarım kalmış 'Bekleyen' çürüyor. Son yıllarda eski atölyelere kahve kavurucuları ve tasarım stüdyoları geldi; ustalar onlara hem kızıyor hem de kiralarını onlardan alıyor.",
+      "atmosfer": {
+        "sabah": "Eski ustalar kahvede, vinçlere bakarak gazete okuyor; yandaki üçüncü dalga kahvecide laptoplar açılıyor.",
+        "ogle": "Tersane duvarı boyunca yürüyen fotoğrafçılar; bir usta birine 'buradan fotoğraf çekme' diye bağırıyor.",
+        "aksam": "Atölye kafelerde konser, ustaların kahvesinde okey; iki dünya aynı sokağı paylaşıyor.",
+        "gece": "Vinçlerin kırmızı uyarı ışıkları yanıp sönüyor; havuz tarafından demir gıcırtısı geliyor."
+      },
+      "duyular": ["pas ve deniz kokusu", "uzaktan rüzgârda inleyen vinç halatları", "taze kavrulmuş kahve", "kaynak izi kalmış duvarlar"],
+      "sosyo": { "gelir": 2, "kiraKatsayisi": 0.85, "kiraEgilimi": 2, "yogunluk": 3, "guvenlik": 3, "polis": 2, "donusum": 4 },
+      "sakinler": [
+        { "tur": "eski_tersaneci", "agirlik": 5, "not": "Kaynakçı, perçinci, ustabaşı; çoğu erken emekli ya da hâlâ iş arıyor." },
+        { "tur": "emekli", "agirlik": 2 },
+        { "tur": "genc_girisimci", "agirlik": 3, "not": "Ucuz atölye kirası için gelenler." },
+        { "tur": "sanatci", "agirlik": 2 },
+        { "tur": "kayit_disi", "agirlik": 1, "not": "Tersaneden kalan hurdayı toplayanlar." }
+      ],
+      "unluYerler": [
+        { "id": "tersane_vincleri", "ad": "Tersane Vinçleri", "iyelik": true, "tur": "tarihi", "aciklama": "Şehrin her yerinden görünen dört dev vinç; biri yan yatmış." },
+        { "id": "bekleyen", "ad": "Bekleyen", "tur": "tarihi", "aciklama": "Kuru havuzda yarım kalmış son geminin iskeleti. Ustalar önünden geçerken başını eğer." },
+        { "id": "tersane_kapisi", "ad": "Tersane Kapısı", "iyelik": true, "tur": "tarihi", "aciklama": "Zincirle kilitli ana kapı; 1979 grevinin fotoğrafları hâlâ yanındaki duvarda asılı." },
+        { "id": "ustalar_kahvesi", "ad": "Ustalar Kahvesi", "iyelik": true, "tur": "yeme_icme", "aciklama": "Tersane işçilerinin yarım asırlık kahvesi; duvarda her ustanın baret çivisi." }
+      ],
+      "gerilimler": [
+        { "id": "tersane_issizligi", "ad": "Bitmeyen işsizlik", "aciklama": "Kapanıştan on sekiz yıl sonra bile ustaların yarısı ya şehir dışında çalışıyor ya da hiç çalışmıyor. Oğullar babalarının mesleğini değil, öfkesini devraldı.", "olaylar": ["tersane_kapanis"] },
+        { "id": "tersane_arazi", "ad": "Tersane arazisinin akıbeti", "aciklama": "Arazinin Marina projesine katılacağı söylentisi her yıl yeniden çıkıyor; ustalar 'Bekleyen'i söktürmeyiz' diye nöbet tutmaya hazır.", "olaylar": ["marina_projesi"] },
+        { "id": "tersane_soylulastirma", "ad": "Kafeler geldi", "aciklama": "Atölye kafelerin kirası eski ustalarınkinin iki katı; ev sahipleri artık ustalara değil 'yaratıcılara' kiralıyor." }
+      ],
+      "komsular": ["asagi_liman", "marina", "istasyon"],
+      "iliskiler": [
+        { "semt": "marina", "tur": "gerilim", "aciklama": "Marina tersanenin eski sanayi arazisinde yükseldi; ustalar rezidanslara 'mezar taşları' der." },
+        { "semt": "asagi_liman", "tur": "dayanisma", "aciklama": "Grevde birlikte direndiler, kapanışta birlikte işsiz kaldılar." },
+        { "semt": "kuzey_sanayi", "tur": "bagimlilik", "aciklama": "İş bulabilen ustaların çoğu Kuzey Sanayi'de, kendi mesleğinin altında çalışıyor." }
+      ],
+      "etiketler": ["sanayi_mirasi", "deniz", "isci", "donusum", "kafe"]
+    },
+    {
+      "id": "marina",
+      "karakter": "Eski sanayi arazisinde on yılda yükselen cam kuleler, yat limanı ve şehrin en büyük alışveriş merkezi. Burada her şey yeni, temiz ve pahalı; kaldırımlar bile başka. Gündüz plaza çalışanlarıyla, gece restoran müşterileriyle dolu; ama kimse buraya 'mahallem' demiyor. KoinPazar'ın çöküşü burayı biraz utandırdı, sonra herkes unutmayı seçti.",
+      "atmosfer": {
+        "sabah": "Kulelerden takım elbiseliler çıkıyor; ellerinde aynı zincirin kahvesi, kulaklarında kablosuz kulaklık.",
+        "ogle": "AVM'nin yemek katı dolu; yat limanında birileri güvertede öğle yemeği yiyor.",
+        "aksam": "Restoranların cam önü masaları; günbatımı fotoğrafı çeken çiftler, otopark girişinde kuyruk.",
+        "gece": "Kulelerin ışıkları körfeze vuruyor; özel güvenlikler devriyede, sokakta tek bir yaya yok."
+      },
+      "duyular": ["AVM girişinden taşan parfüm kokusu", "yat direklerinde şıngırdayan halatlar", "klima uğultusu", "yeni asfalt"],
+      "sosyo": { "gelir": 5, "kiraKatsayisi": 2.4, "kiraEgilimi": 1, "yogunluk": 2, "guvenlik": 5, "polis": 3, "donusum": 5 },
+      "sakinler": [
+        { "tur": "yeni_zengin", "agirlik": 4 },
+        { "tur": "beyaz_yaka", "agirlik": 4, "not": "Kulelerde stüdyo dairelerde, maaşının yarısını kiraya veren genç profesyoneller." },
+        { "tur": "serbest_meslek", "agirlik": 2 },
+        { "tur": "gocmen", "agirlik": 1, "not": "Yabancı şirketlerin yöneticileri ve aileleri." }
+      ],
+      "unluYerler": [
+        { "id": "marina_avm", "ad": "Marina AVM", "tur": "ticari", "aciklama": "2026 yazında açıldı; dört kat, iki yüz mağaza, deniz manzaralı yemek katı." },
+        { "id": "yat_limani", "ad": "Yat Limanı", "iyelik": true, "tur": "deniz", "aciklama": "Eski balıkçı barınağının yerinde; üç yüz yat, çoğu yılda iki kez denize açılıyor." },
+        { "id": "marina_kuleleri", "ad": "Marina Kuleleri", "iyelik": true, "tur": "konut", "aciklama": "Üç rezidans kulesi; en yükseği şehrin ilk otuz katlı binası." },
+        { "id": "koinpazar_binasi", "ad": "Eski KoinPazar Binası", "iyelik": true, "tur": "tarihi", "aciklama": "Çöküşten beri boş duran cam ofis; girişinde hâlâ tek tük çiçek ve öfkeli notlar bırakılıyor." }
+      ],
+      "gerilimler": [
+        { "id": "marina_koinpazar", "ad": "KoinPazar'ın gölgesi", "aciklama": "Binlerce Karalimanlının birikimi çöküşte kayboldu; Marina'da oturan bazı 'eski yöneticilerin' hâlâ aynı restoranlarda yemek yediği konuşuluyor.", "olaylar": ["koinpazar_cokusu"] },
+        { "id": "marina_bosluk", "ad": "Boş daireler", "aciklama": "Kulelerdeki dairelerin üçte biri hiç kimse oturmadan alınıp satılıyor; kimin parası olduğunu soran yok.", "olaylar": ["marina_projesi"] },
+        { "id": "marina_balikcilar", "ad": "Balıkçı barınağı davası", "aciklama": "Yerinden edilen balıkçıların açtığı dava sekiz yıldır sürüyor.", "olaylar": ["marina_projesi"] }
+      ],
+      "komsular": ["tersaneonu", "istasyon"],
+      "iliskiler": [
+        { "semt": "yamacevler", "tur": "ozenti", "aciklama": "Marina'nın yeni zenginleri Yamaçevler'e taşınmayı hayal eder; Yamaçevler onları 'kiracı' diye küçümser." },
+        { "semt": "tersaneonu", "tur": "gerilim", "aciklama": "Sırada tersane arazisi var; kulelerin gölgesi her yıl biraz daha uzuyor." },
+        { "semt": "eski_carsi", "tur": "rekabet", "aciklama": "AVM, çarşının müşterisini çekiyor; AVM yönetimi ise çarşıyı 'tarihi deneyim' diye broşürlerine koyuyor." },
+        { "semt": "kuzey_sanayi", "tur": "bagimlilik", "aciklama": "AVM'nin temizlikçileri, güvenlikçileri ve depo işçileri M2'yle sabah altıda Kuzey'den geliyor." }
+      ],
+      "etiketler": ["luks", "plaza", "alisveris", "deniz", "yeni"]
+    },
+    {
+      "id": "tabakhane",
+      "karakter": "Çaybaşı Deresi'nin batı kıyısında, yüzyıllardır deri işlenen, kokusu hiç çıkmayan mahalle. Şehrin en ucuz kiraları, en kalabalık evleri burada; her kapıdan başka bir dil duyulur. 2003 selinde mahallenin yarısı su altında kaldı. Şimdi belediyenin 'dönüşüm' planı var ve Tabakhane bu kelimeye selden daha çok korkuyor.",
+      "atmosfer": {
+        "sabah": "Atölyelerin kapıları açık, sokağa deri ve kimyasal kokusu yayılıyor; çocuklar okula dere kenarından koşuyor.",
+        "ogle": "İşkembeciler dolu; dar sokaklarda yük taşıyan motosikletler, balkondan balkona sepet sallayan kadınlar.",
+        "aksam": "Kahvelerde kalabalık, sokakta top oynayan çocuklar; dere kenarında birileri ateş yakmış.",
+        "gece": "Bazı sokaklar karanlık; yabancı biri girince pencereler aralanıyor."
+      },
+      "duyular": ["deri ve kireç kokusu", "dere suyunun şırıltısı", "işkembe çorbası buharı", "çok dilli bağırışlar"],
+      "sosyo": { "gelir": 1, "kiraKatsayisi": 0.6, "kiraEgilimi": 0, "yogunluk": 5, "guvenlik": 2, "polis": 2, "donusum": 3 },
+      "sakinler": [
+        { "tur": "deri_ustasi", "agirlik": 3, "not": "Son kuşak; çırak bulamıyorlar." },
+        { "tur": "tasra_gocu", "agirlik": 4 },
+        { "tur": "gocmen", "agirlik": 4, "not": "Savaştan kaçanlar, kayıtlı ya da kayıtsız; atölyelerde çalışıyorlar." },
+        { "tur": "kayit_disi", "agirlik": 4 },
+        { "tur": "emekli", "agirlik": 1 }
+      ],
+      "unluYerler": [
+        { "id": "debbag_camii", "ad": "Debbağ Camii", "iyelik": true, "tur": "dini", "aciklama": "Tabakların loncasının yaptırdığı küçük cami; avlusunda selden kalan su çizgisi gösterilir." },
+        { "id": "sel_cizgisi", "ad": "Sel Çizgisi", "iyelik": true, "tur": "tarihi", "aciklama": "Mahallenin duvarlarına boyanmış mavi çizgi: 2003'te suyun yükseldiği yer, bir insan boyundan yüksek." },
+        { "id": "tabakhane_koprusu", "ad": "Tabakhane Köprüsü", "iyelik": true, "tur": "ulasim", "aciklama": "Dereyi Bezhane'ye bağlayan eski taş köprü; selde ayakta kalan tek köprü." },
+        { "id": "nobet_cadiri", "ad": "Nöbet Çadırı", "iyelik": true, "tur": "kamu", "aciklama": "2023 protestolarından beri dönüşüme karşı nöbet tutulan çadır; içinde çay hiç bitmez." }
+      ],
+      "gerilimler": [
+        { "id": "tabakhane_donusum", "ad": "Kentsel dönüşüm", "aciklama": "Belediye mahalleyi 'riskli alan' ilan etti; tapusu olmayanlara hiçbir şey, olanlara şehir dışında toplu konut teklif ediliyor. Mahalle ikiye bölündü: imza atanlar ve nöbet tutanlar.", "olaylar": ["tabakhane_protestolari"] },
+        { "id": "tabakhane_sel", "ad": "Selin hafızası", "aciklama": "Her kasım dere kabarınca yaşlılar uyumuyor. Dere yatağının betonlanması sözü yirmi yıldır tutulmadı.", "olaylar": ["caybasi_seli"] },
+        { "id": "tabakhane_yabancilar", "ad": "'Yeni gelenler'", "aciklama": "Eski Tabakhaneliler ile göçmen aileler arasında iş, kira ve okul yüzünden gerilim; ama selde birbirini sırtında taşıyanlar da onlar.", "olaylar": [] },
+        { "id": "tabakhane_gece", "ad": "Gecenin sahipleri", "aciklama": "Bazı sokakları geceleri kimin 'koruduğu' herkesçe bilinir ama yüksek sesle söylenmez. Polis o sokaklara iki araçla girer.", "olaylar": [] }
+      ],
+      "komsular": ["eski_carsi", "istasyon", "kayalitepe", "bezhane"],
+      "iliskiler": [
+        { "semt": "marina", "tur": "gerilim", "aciklama": "'Bizi çıkarıp Marina gibi yapacaklar' korkusu; dönüşüm projesinin müteahhidi Marina'yı da yapan firma." },
+        { "semt": "kayalitepe", "tur": "dayanisma", "aciklama": "İki yoksul mahalle; aynı düğünlerde, aynı cenazelerde, aynı fabrikanın servisinde." },
+        { "semt": "sahilyolu", "tur": "kucumseme", "aciklama": "Sahilyolu'ndan bakan Tabakhane'yi kokusuyla tanır; Tabakhane de Sahilyolu'nu 'hiç çalışmamış eller' diye." },
+        { "semt": "cumhuriyet", "tur": "gerilim", "aciklama": "Dönüşüm kararlarının çıktığı belediye binası; protesto yürüyüşlerinin varış noktası." }
+      ],
+      "etiketler": ["yoksul", "zanaat", "gocmen", "dere", "donusum", "tekinsiz"]
+    },
+    {
+      "id": "istasyon",
+      "karakter": "Gar 1888'de açıldığından beri şehrin kapısı. Tren, otobüs ve metro burada buluşur; gelen herkes ilk geceyi buradaki bir pansiyonda geçirir. Gündüz telaşlı ve kirli, gece neonlu ve tekinsiz. Kimse burada uzun kalmak istemez, ama kalanlar şehrin her sırrını bilir.",
+      "atmosfer": {
+        "sabah": "Garın önünde bavullu kalabalık, simitçiler, taksi kuyruğu; ilk tren düdüğü.",
+        "ogle": "Otogarda bilet bağırıcıları, ucuz lokantalarda tabildot; bir köşede telefon kılıfı satan seyyar.",
+        "aksam": "Pansiyonların neon tabelaları yanıyor; garın merdivenlerinde gidecek yeri olmayanlar oturuyor.",
+        "gece": "Barlardan taşan müzik, köşe başlarında bekleyen gölgeler, sabaha kadar açık bir dönerci."
+      },
+      "duyular": ["dizel ve kızgın yağ kokusu", "anons sesleri", "ucuz parfüm", "rayların titreşimi"],
+      "sosyo": { "gelir": 2, "kiraKatsayisi": 0.7, "kiraEgilimi": 0, "yogunluk": 4, "guvenlik": 2, "polis": 4, "donusum": 2 },
+      "sakinler": [
+        { "tur": "yolcu", "agirlik": 4 },
+        { "tur": "gece_calisani", "agirlik": 4 },
+        { "tur": "esnaf", "agirlik": 2, "not": "Pansiyoncular, lokantacılar, döviz büfeleri." },
+        { "tur": "kayit_disi", "agirlik": 3 },
+        { "tur": "tasra_gocu", "agirlik": 2, "not": "Şehre ilk gelip burada kalmış, sonra çıkamamış aileler." }
+      ],
+      "unluYerler": [
+        { "id": "karaliman_gari", "ad": "Karaliman Garı", "iyelik": true, "tur": "ulasim", "aciklama": "1888'den kalma taş gar binası; saat kulesi on yıldır yanlış gösteriyor." },
+        { "id": "otogar", "ad": "Otogar", "tur": "ulasim", "aciklama": "Garın arkasındaki şehirlerarası terminal; sabaha kadar açık." },
+        { "id": "demirspor_stadi", "ad": "Demirspor Stadı", "iyelik": true, "tur": "spor", "aciklama": "Demiryolu işçilerinin yaptığı eski stat; Kuzey Tribünü maç günü bütün semti titretir." },
+        { "id": "pansiyonlar_sokagi", "ad": "Pansiyonlar Sokağı", "iyelik": true, "tur": "konut", "aciklama": "Yan yana yirmi pansiyon; bazıları gecelik, bazıları saatlik." }
+      ],
+      "gerilimler": [
+        { "id": "istasyon_gece", "ad": "Gece ekonomisi", "aciklama": "Barlar, kumar masaları, kayıt dışı her şey; bazı mekânların gerçek sahibinin kim olduğunu tabeladaki isim söylemez. Polis sık gelir ama hep aynı kapıları çalar.", "olaylar": [] },
+        { "id": "istasyon_sel", "ad": "Selde boşalan sokaklar", "aciklama": "2003 selinde garın alt katı ve çevresindeki dükkânlar battı; bir kısmı hiç açılmadı, yerlerine depo ve pansiyon geldi.", "olaylar": ["caybasi_seli"] },
+        { "id": "istasyon_demirspor", "ad": "Demirspor'un borcu", "aciklama": "Kulübün borcu yüzünden stadın satılacağı konuşuluyor; taraftar 'stat satılırsa semt ölür' diyor.", "olaylar": ["demirspor_super_lig", "demirspor_dusus"] }
+      ],
+      "komsular": ["eski_carsi", "tersaneonu", "marina", "tabakhane", "kayalitepe"],
+      "iliskiler": [
+        { "semt": "cumhuriyet", "tur": "gerilim", "aciklama": "Belediye 'İstasyon'u temizleme' sözünü her seçimde verir; İstasyon esnafı bunun ne demek olduğunu bilir." },
+        { "semt": "kayalitepe", "tur": "dayanisma", "aciklama": "Kuzey Tribünü'nün yarısı Kayalıtepeli; maç günü iki semt tek semttir." },
+        { "semt": "sahilyolu", "tur": "rekabet", "aciklama": "Demirspor'un eski yöneticileri Sahilyolu'nda oturur; taraftar onları kulübü batırmakla suçlar." }
+      ],
+      "etiketler": ["ulasim", "gece_hayati", "tekinsiz", "futbol", "gecici"]
+    },
+    {
+      "id": "cumhuriyet",
+      "karakter": "Cumhuriyet'in planlı yeni şehri: geniş bulvarlar, meydan, belediye, adliye, bankalar ve iş hanları. Şehrin vitrini ve kararların alındığı yer. Gündüz herkes acele içinde, akşam altıdan sonra ofisler boşalınca meydan gençlere ve gösterilere kalıyor.",
+      "atmosfer": {
+        "sabah": "Bulvarda trafik, adliye önünde avukatlar ve kelepçeli biri; banka kuyruğunda emekliler.",
+        "ogle": "Meydanda öğle arası; iş hanlarının altındaki lokantalar dolu, simit ve ayran kuyruğu.",
+        "aksam": "Ofisler boşalıyor, meydanda buluşan gençler; bazen bir eylem, bazen bir konser.",
+        "gece": "Belediye binasının ışıkları hep yanık; bulvarlar boş, bir iki taksi."
+      },
+      "duyular": ["egzoz ve simit", "korna sesleri", "meydandaki fıskiyenin sesi", "bankaların soğuk kliması"],
+      "sosyo": { "gelir": 4, "kiraKatsayisi": 1.35, "kiraEgilimi": 0, "yogunluk": 4, "guvenlik": 4, "polis": 5, "donusum": 1 },
+      "sakinler": [
+        { "tur": "kucuk_memur", "agirlik": 4 },
+        { "tur": "beyaz_yaka", "agirlik": 3 },
+        { "tur": "serbest_meslek", "agirlik": 3, "not": "Adliye çevresinin avukatları, iş hanlarının muhasebecileri." },
+        { "tur": "emekli", "agirlik": 2, "not": "Eski memurlar; apartmanlarını 1960'larda kooperatifle almışlar." },
+        { "tur": "esnaf", "agirlik": 2 }
+      ],
+      "unluYerler": [
+        { "id": "cumhuriyet_meydani", "ad": "Cumhuriyet Meydanı", "iyelik": true, "tur": "kamu", "aciklama": "Şehrin büyük meydanı; anıt, fıskiye, güvercinler ve her türlü toplanma." },
+        { "id": "belediye_binasi", "ad": "Belediye Binası", "iyelik": true, "tur": "kamu", "aciklama": "1930'ların sert, simetrik binası; önünde her hafta başka bir grup basın açıklaması yapıyor." },
+        { "id": "adliye", "ad": "Adliye", "tur": "kamu", "aciklama": "Yeni cam adliye binası; koridorları her sabah bekleyen ailelerle dolu." },
+        { "id": "korfez_postasi_binasi", "ad": "Körfez Postası Binası", "iyelik": true, "tur": "kamu", "aciklama": "Yerel gazetenin 1952'den beri aynı binadaki matbaası; şimdi alt katı kiraya verilmiş." },
+        { "id": "liman_tv_binasi", "ad": "Eski Liman TV Binası", "iyelik": true, "tur": "tarihi", "aciklama": "2025'te kapanan kanalın binası; çatıdaki çanak hâlâ duruyor." }
+      ],
+      "gerilimler": [
+        { "id": "cumhuriyet_belediye", "ad": "Belediyenin kararları", "aciklama": "Dönüşüm, ihale, imar: şehrin bütün kavgaları sonunda bu binanın önüne geliyor. Bazı müteahhitlerin belediyeye arka kapıdan girdiği söylenir.", "olaylar": ["tabakhane_protestolari", "marina_projesi"] },
+        { "id": "cumhuriyet_koinpazar", "ad": "KoinPazar mağdurları", "aciklama": "Mağdurlar her ayın üçünde adliye önünde toplanıyor; dava ilerlemiyor, kalabalık her ay biraz azalıyor.", "olaylar": ["koinpazar_cokusu"] },
+        { "id": "cumhuriyet_medya", "ad": "Susan medya", "aciklama": "Liman TV kapandıktan sonra şehirde haberi yapan tek yer Körfez Postası kaldı; o da reklam veren belediyeye karşı dikkatli.", "olaylar": ["liman_tv_kapanis"] }
+      ],
+      "komsular": ["eski_carsi", "sahilyolu", "camlik"],
+      "iliskiler": [
+        { "semt": "eski_carsi", "tur": "bagimlilik", "aciklama": "Köprünün iki yakası: biri karar verir, öbürü yaşar." },
+        { "semt": "tabakhane", "tur": "gerilim", "aciklama": "Dönüşüm kararlarının çıktığı yer; Tabakhane yürüyüşü hep belediye önünde biter." },
+        { "semt": "camlik", "tur": "gerilim", "aciklama": "Öğrenci eylemleri meydana iner; polisle öğrenciler arasındaki gerginlik eskiye dayanır." }
+      ],
+      "etiketler": ["merkez", "kamu", "is", "meydan", "adliye"]
+    },
+    {
+      "id": "camlik",
+      "karakter": "1972'de üniversitenin kurulduğu çam ormanının etrafında büyüyen öğrenci semti. Her bina bir öğrenci evi, her köşe bir kitapçı ya da ucuz kafe. Nüfus her eylülde yenilenir, her haziranda yarıya iner. Ev sahipleri öğrenci kirasıyla geçinir; öğrenciler ev sahiplerinden şikâyetle.",
+      "atmosfer": {
+        "sabah": "Kampüs yokuşunda uykulu öğrenciler, ellerinde kahve; dolmuşlar doluyor.",
+        "ogle": "Kantinler ve ucuz lokantalar kalabalık; çam ağaçlarının altında ders çalışanlar.",
+        "aksam": "Kafelerde canlı müzik, kitapçılarda söyleşi; bir evden sabaha kadar sürecek bir parti başlıyor.",
+        "gece": "Öğrenci evlerinin camlarında ışık; yokuşta gitar çalan iki kişi, köşede dönerci."
+      },
+      "duyular": ["çam reçinesi kokusu", "fotokopi makinesi tıkırtısı", "kafelerden yükselen kahve", "uzaktan bir gitar"],
+      "sosyo": { "gelir": 2, "kiraKatsayisi": 1.0, "kiraEgilimi": 1, "yogunluk": 4, "guvenlik": 4, "polis": 3, "donusum": 2 },
+      "sakinler": [
+        { "tur": "ogrenci", "agirlik": 6 },
+        { "tur": "akademisyen", "agirlik": 2 },
+        { "tur": "emekli", "agirlik": 1, "not": "Evlerini öğrenciye kiralayıp alt katta oturan ev sahipleri." },
+        { "tur": "sanatci", "agirlik": 1 },
+        { "tur": "genc_girisimci", "agirlik": 1 }
+      ],
+      "unluYerler": [
+        { "id": "karaliman_universitesi", "ad": "Karaliman Üniversitesi", "iyelik": true, "tur": "egitim", "aciklama": "Çam ormanının içine yayılmış kampüs; en eski bina rektörlük, en kalabalık yer merkezi kantin." },
+        { "id": "cam_ormani", "ad": "Çam Ormanı", "iyelik": true, "tur": "doga", "aciklama": "Kampüsü saran koru; gece içinden geçilmez denir ama herkes geçer." },
+        { "id": "kitapcilar_yokusu", "ad": "Kitapçılar Yokuşu", "iyelik": true, "tur": "ticari", "aciklama": "Sahaflar, fotokopiciler ve ders notu satan dükkânlar." },
+        { "id": "kampus_kapisi", "ad": "Kampüs Kapısı", "iyelik": true, "tur": "egitim", "aciklama": "Eylemlerin, buluşmaların ve 'kapıda görüşürüz'lerin yeri." }
+      ],
+      "gerilimler": [
+        { "id": "camlik_kira", "ad": "Öğrenci kirası", "aciklama": "Ev sahipleri her eylül kirayı artırıyor; dört kişinin kaldığı 2+1'ler artık altı kişilik. Yurt kontenjanı yetmiyor.", "olaylar": [] },
+        { "id": "camlik_eylem", "ad": "Kampüs ve polis", "aciklama": "Her dönem bir eylem, her eylemde gözaltı; bazı öğrencilerin dosyaları mezuniyetten sonra da peşlerini bırakmıyor.", "olaylar": [] },
+        { "id": "camlik_kacis", "ad": "Gitmek ya da kalmak", "aciklama": "Mezunların çoğu İstanbul'a ya da yurt dışına gidiyor; kalanlar ya akademide ya da kafede garson.", "olaylar": ["universite"] }
+      ],
+      "komsular": ["cumhuriyet", "yamacevler", "bezhane", "sahilyolu"],
+      "iliskiler": [
+        { "semt": "cumhuriyet", "tur": "gerilim", "aciklama": "Eylemler meydana iner, polis kampüs kapısına gelir." },
+        { "semt": "bezhane", "tur": "dayanisma", "aciklama": "Bezhane'nin yaşlı lojman sakinleri öğrencilere ucuz oda verir; karşılığında torun gibi bakılır." },
+        { "semt": "yamacevler", "tur": "kucumseme", "aciklama": "Yamaçevler'in çocukları da bu kampüse gelir ama yokuşu arabayla çıkar." }
+      ],
+      "etiketler": ["ogrenci", "egitim", "genc", "kafe", "eylem"]
+    },
+    {
+      "id": "sahilyolu",
+      "karakter": "Kordon boyunca uzanan, balkonları denize bakan orta-üst sınıf apartmanların semti. Sabah koşucular, akşam yürüyüşçüler, hafta sonu kahvaltıcılar. Burada hayat düzenli, kaldırımlar temiz, kediler bile tok. Sahilyolulular şehrin geri kalanını balkondan seyretmeyi sever.",
+      "atmosfer": {
+        "sabah": "Kordon'da koşanlar, bisikletliler, köpeğini gezdiren emekliler; deniz çarşaf gibi.",
+        "ogle": "Kafelerde dizüstü bilgisayarlar, sahil çimlerinde bebek arabaları.",
+        "aksam": "Kordon'da yürüyüş kalabalığı, çekirdek, dondurma; günbatımına karşı oturanlar.",
+        "gece": "Balkonlarda rakı sofraları, sahilde birkaç genç; dalgaların kayalara vuruşu."
+      },
+      "duyular": ["iyot ve deniz kokusu", "dalga sesi", "çekirdek çıtırtısı", "kafelerden taşan caz"],
+      "sosyo": { "gelir": 4, "kiraKatsayisi": 1.7, "kiraEgilimi": 1, "yogunluk": 3, "guvenlik": 5, "polis": 3, "donusum": 1 },
+      "sakinler": [
+        { "tur": "serbest_meslek", "agirlik": 4 },
+        { "tur": "beyaz_yaka", "agirlik": 3 },
+        { "tur": "emekli_varlikli", "agirlik": 3 },
+        { "tur": "akademisyen", "agirlik": 1 },
+        { "tur": "esnaf", "agirlik": 1, "not": "Sahil kafelerinin sahipleri." }
+      ],
+      "unluYerler": [
+        { "id": "kordon", "ad": "Kordon", "tur": "doga", "aciklama": "Üç kilometrelik sahil yürüyüş yolu; şehrin ortak oturma odası." },
+        { "id": "deniz_feneri", "ad": "Kırmızı Fener", "tur": "deniz", "aciklama": "Kordon'un ucundaki küçük fener; dileği olan taşa adını yazar." },
+        { "id": "sahil_parki", "ad": "Sahil Parkı", "iyelik": true, "tur": "doga", "aciklama": "Çimler, çocuk parkı ve pazar sabahı yoga yapan bir grup." },
+        { "id": "vapur_iskelesi", "ad": "Doğu Yakası İskelesi", "iyelik": true, "tur": "ulasim", "aciklama": "Batı yakasına geçen vapurların kalktığı iskele; çay ocağı yetmiş yıllık." }
+      ],
+      "gerilimler": [
+        { "id": "sahilyolu_kentsel_rant", "ad": "Sahil imarı", "aciklama": "Belediyenin sahile otel izni vereceği söylentisi; apartman yönetimleri imza topluyor, ama bazı sakinler arsalarının değeri için sessizce bekliyor.", "olaylar": [] },
+        { "id": "sahilyolu_demirspor", "ad": "Kulübü batıranlar", "aciklama": "Demirspor'un eski yöneticileri burada oturuyor; maç sonrası öfkeli taraftarlar zaman zaman Kordon'a yürüyor.", "olaylar": ["demirspor_super_lig", "demirspor_dusus"] },
+        { "id": "sahilyolu_gorunmez", "ad": "Görünmeyen borçlar", "aciklama": "Dışarıdan her şey düzgün; ama Sahilyolu'nda da KoinPazar'da her şeyini kaybedip kimseye söyleyemeyen aileler var.", "olaylar": ["koinpazar_cokusu"] }
+      ],
+      "komsular": ["cumhuriyet", "camlik", "yamacevler"],
+      "iliskiler": [
+        { "semt": "yamacevler", "tur": "ozenti", "aciklama": "Sahilyolu'nun hayali tepeye çıkmak; Yamaçevler onları 'apartmanlılar' diye anar." },
+        { "semt": "asagi_liman", "tur": "kucumseme", "aciklama": "Karşı yakanın balıkçıları ve meyhaneleri Sahilyolu için 'otantik', yani uzaktan güzel." },
+        { "semt": "tabakhane", "tur": "kucumseme", "aciklama": "Tabakhane'nin adı geçince burunlar kırışır; selde yardım kampanyası da en çok buradan çıkmıştı." }
+      ],
+      "etiketler": ["deniz", "orta_ust", "yuruyus", "kafe", "duzenli"]
+    },
+    {
+      "id": "yamacevler",
+      "karakter": "Doğu yakasının tepesinde, bahçe duvarları yüksek villalar ve kapısında güvenlik olan siteler. Köklü Karaliman aileleri burada oturur: tersanenin, Bezhane'nin, limanın eski sahipleri ve şimdiki ortakları. Sokaklar sessiz, kimse yürümez; şehrin bütün parası burada uyur ve şehrin bütün kararları burada, akşam yemeklerinde verilir.",
+      "atmosfer": {
+        "sabah": "Site kapılarından siyah arabalar çıkıyor; bahçıvanlar ve temizlikçiler servisle geliyor.",
+        "ogle": "Sokaklar bomboş; sadece çim biçme makinesi ve havuz motoru sesi.",
+        "aksam": "Terasta ışıklar, bir bahçede davet; vale park hizmeti veren gençler.",
+        "gece": "Bütün körfez ayaklarının altında; güvenlik kulübesinde televizyon ışığı."
+      },
+      "duyular": ["kesilmiş çim ve manolya", "havuz kloru", "kuş sesi ve sessizlik", "ithal sigar"],
+      "sosyo": { "gelir": 5, "kiraKatsayisi": 3.0, "kiraEgilimi": 0, "yogunluk": 1, "guvenlik": 5, "polis": 2, "donusum": 0 },
+      "sakinler": [
+        { "tur": "zengin_aile", "agirlik": 5 },
+        { "tur": "yeni_zengin", "agirlik": 2 },
+        { "tur": "emekli_varlikli", "agirlik": 2 },
+        { "tur": "serbest_meslek", "agirlik": 1, "not": "Şehrin en pahalı doktorları ve avukatları." }
+      ],
+      "unluYerler": [
+        { "id": "kosk_sokagi", "ad": "Köşkler Sokağı", "iyelik": true, "tur": "konut", "aciklama": "Yüzyıl başından kalma dört köşk; birinde tersanenin son sahibi oturuyor." },
+        { "id": "seyir_tepesi", "ad": "Seyir Tepesi", "iyelik": true, "tur": "doga", "aciklama": "Şehrin en iyi manzarası; site sakinleri halka açık kalmasından hoşnut değil." },
+        { "id": "karaliman_kulubu", "ad": "Karaliman Kulübü", "iyelik": true, "tur": "eglence", "aciklama": "1920'lerden kalma özel kulüp; üye olmak için iki üyenin tavsiyesi gerekir." }
+      ],
+      "gerilimler": [
+        { "id": "yamacevler_eski_yeni", "ad": "Eski aileler, yeni para", "aciklama": "Köklü aileler Marina'dan gelen yeni zenginleri kulübe almıyor; ama ihalelerde aynı masada oturuyorlar.", "olaylar": ["marina_projesi"] },
+        { "id": "yamacevler_sirlar", "ad": "Duvarların arkası", "aciklama": "Bu tepedeki bazı servetlerin nereden geldiği sorulmaz. Tersane kapanmadan önce satın alınan araziler, Deryapı iflasından önce boşaltılan hesaplar...", "olaylar": ["tersane_kapanis", "deryapi_iflasi"] }
+      ],
+      "komsular": ["sahilyolu", "camlik", "ilicakoy"],
+      "iliskiler": [
+        { "semt": "marina", "tur": "kucumseme", "aciklama": "'Onlar kiracı, biz ev sahibi.'" },
+        { "semt": "ilicakoy", "tur": "gerilim", "aciklama": "Yamaçevler'in yeni siteleri Ilıcaköy'ün bağlarına doğru genişliyor; köylülerin arazisi tek tek satılıyor." },
+        { "semt": "cumhuriyet", "tur": "bagimlilik", "aciklama": "Belediyedeki kararların çoğu önce burada, bir akşam yemeğinde konuşulur." }
+      ],
+      "etiketler": ["luks", "villa", "guc", "sessiz", "korunakli"]
+    },
+    {
+      "id": "bezhane",
+      "karakter": "1936'da devletin kurduğu bez fabrikasının lojmanlarından doğan semt. Fabrika 2001'de kapandı, kırmızı tuğla bacası hâlâ ayakta. Burada herkes birbirini tanır, kapılar kilitlenmez, düğünler sokakta yapılır. Gençler gitti, yaşlılar kaldı; boşalan lojmanlara öğrenciler ve yeni aileler geliyor.",
+      "atmosfer": {
+        "sabah": "Fırından Bezhane pidesi kokusu; banklarda oturan yaşlılar gelen geçene günaydın diyor.",
+        "ogle": "Lojman bahçelerinde çamaşır, pencereden pencereye sohbet; mahalle bakkalında veresiye defteri açılıyor.",
+        "aksam": "Kadınlar kapı önlerinde, adamlar Fabrika Kahvesi'nde; bacanın gölgesi bütün mahalleye uzanıyor.",
+        "gece": "Erken yatılır; sokaklar karanlık ama tekinsiz değil, her pencerede bir çift göz."
+      },
+      "duyular": ["tereyağlı pide kokusu", "ıhlamur ağaçları", "eski radyodan türkü", "tuğla tozu"],
+      "sosyo": { "gelir": 2, "kiraKatsayisi": 0.75, "kiraEgilimi": 0, "yogunluk": 3, "guvenlik": 4, "polis": 2, "donusum": 1 },
+      "sakinler": [
+        { "tur": "bezhane_emeklisi", "agirlik": 5 },
+        { "tur": "emekli", "agirlik": 2 },
+        { "tur": "ogrenci", "agirlik": 2, "not": "Ucuz oda için Çamlık'tan taşanlar." },
+        { "tur": "fabrika_iscisi", "agirlik": 2, "not": "Kuzey Sanayi'ye servisle gidenler." },
+        { "tur": "esnaf", "agirlik": 1 }
+      ],
+      "unluYerler": [
+        { "id": "bezhane_bacasi", "ad": "Bezhane Bacası", "iyelik": true, "tur": "tarihi", "aciklama": "Kırmızı tuğla baca; her yılbaşı gecesi tepesine kim olduğu bilinmeyen biri bayrak asar." },
+        { "id": "fabrika_binasi", "ad": "Eski Fabrika", "tur": "tarihi", "aciklama": "Camları kırık dokuma salonları; belediye 'kültür merkezi olacak' diyor, yirmi yıldır." },
+        { "id": "lojmanlar", "ad": "Lojmanlar", "tur": "konut", "aciklama": "İki katlı, bahçeli, sıra sıra evler; her birinin kapısında aynı yeşil boya." },
+        { "id": "fabrika_kahvesi", "ad": "Fabrika Kahvesi", "iyelik": true, "tur": "yeme_icme", "aciklama": "Fabrikanın eski yemekhanesi; duvarda 1936 açılış fotoğrafı ve her emeklinin sicil numarası." }
+      ],
+      "gerilimler": [
+        { "id": "bezhane_yalnizlik", "ad": "Giden gençler", "aciklama": "Mahallenin yaşı her yıl artıyor; bayramlarda dolan evler, bayram bitince yine sessiz.", "olaylar": ["bezhane_kapanis"] },
+        { "id": "bezhane_tazminat", "ad": "Ödenmeyen tazminatlar", "aciklama": "Özelleştirmeden sonra kapatılan fabrikanın bazı işçileri tazminatlarını hâlâ alamadı; davaya bakan avukat da emekli oldu.", "olaylar": ["bezhane_ozellestirme", "bezhane_kapanis"] },
+        { "id": "bezhane_fabrika_arazisi", "ad": "Fabrika arazisi", "aciklama": "Arazinin Yamaçevler'deki bir aileye satıldığı söyleniyor; 'kültür merkezi' yerine site yapılacağından korkuluyor.", "olaylar": [] }
+      ],
+      "komsular": ["tabakhane", "camlik", "kayalitepe", "ilicakoy"],
+      "iliskiler": [
+        { "semt": "camlik", "tur": "dayanisma", "aciklama": "Yaşlı lojman sakinleri öğrencilere oda verir; öğrenciler alışverişlerini taşır." },
+        { "semt": "kuzey_sanayi", "tur": "bagimlilik", "aciklama": "Fabrikadan sonra iş bulabilen tek yer; ama Bezhane'nin eski ustaları oradaki işi 'fabrika' saymaz." },
+        { "semt": "yamacevler", "tur": "gerilim", "aciklama": "Fabrikayı kapatanlar da arazisini alanlar da tepede oturuyor." }
+      ],
+      "etiketler": ["komsuluk", "emekli", "sanayi_mirasi", "sessiz", "lojman"]
+    },
+    {
+      "id": "kayalitepe",
+      "karakter": "1956'da fabrikalara iş için gelenlerin bir gecede kurduğu gecekondulardan, bugün yedi katlı apartmanlara dönüşmüş işçi mahallesi. Kalabalık, gürültülü, sıcak. Herkes birilerinin hemşehrisi, her apartman bir aile. Deryapı iflas ettiğinde yüzlerce aile parasını ödediği evlerin anahtarını hiç alamadı.",
+      "atmosfer": {
+        "sabah": "Sabah altıda servis durakları dolu; fırınlar çoktan açık, çay ocakları tütüyor.",
+        "ogle": "Sokaklar çocuk ve anne dolu; pazar kurulduysa trafik durmuş.",
+        "aksam": "Servisler dönüyor, kahveler doluyor; balkonlarda mangal, aşağıda top oynayan çocuklar.",
+        "gece": "Apartmanlardan televizyon sesleri; bazen bir kavga, bazen bir düğün, çoğu zaman ikisi birden."
+      },
+      "duyular": ["mangal dumanı", "pazar tezgâhlarının bağırışları", "düğün davulu", "taze ekmek"],
+      "sosyo": { "gelir": 2, "kiraKatsayisi": 0.65, "kiraEgilimi": 1, "yogunluk": 5, "guvenlik": 3, "polis": 2, "donusum": 2 },
+      "sakinler": [
+        { "tur": "tasra_gocu", "agirlik": 5 },
+        { "tur": "fabrika_iscisi", "agirlik": 5 },
+        { "tur": "kayit_disi", "agirlik": 2 },
+        { "tur": "esnaf", "agirlik": 2 },
+        { "tur": "emekli", "agirlik": 1 }
+      ],
+      "unluYerler": [
+        { "id": "kayalitepe_pazari", "ad": "Çarşamba Pazarı", "iyelik": true, "tur": "ticari", "aciklama": "Şehrin en büyük semt pazarı; Kuzey'in bütün kadınları çarşamba buradadır." },
+        { "id": "ilk_gecekondu", "ad": "İlk Ev", "tur": "tarihi", "aciklama": "1956'dan kalan son gecekondu; sahibi yıkılmasına izin vermiyor, apartmanların arasında tek katlı duruyor." },
+        { "id": "deryapi_santiyesi", "ad": "Deryapı Şantiyesi", "iyelik": true, "tur": "konut", "aciklama": "Kaba inşaatı bitmiş, sekiz yıldır terk edilmiş beş blok; evini burada alıp hiç taşınamayanlar var." },
+        { "id": "kuzey_tribunu_lokali", "ad": "Kuzey Tribünü Lokali", "iyelik": true, "tur": "spor", "aciklama": "Demirspor taraftar derneği; maç günü saat sabah sekizde dolar." }
+      ],
+      "gerilimler": [
+        { "id": "kayalitepe_deryapi", "ad": "Deryapı mağdurları", "aciklama": "Yüzlerce aile ödediği evlerin anahtarını alamadı; kimisi hâlâ krediyi ödüyor. Şirketin sahipleri yurt dışında, şantiyede bekçi bile yok.", "olaylar": ["deryapi_iflasi"] },
+        { "id": "kayalitepe_tapu", "ad": "Tapu kavgaları", "aciklama": "Gecekondudan apartmana geçişte kimin hangi daireyi aldığı hâlâ tartışma; amca çocukları arasında yıllardır süren davalar.", "olaylar": ["ilk_gecekondular"] },
+        { "id": "kayalitepe_gencler", "ad": "İşsiz gençler", "aciklama": "Fabrikalar artık eskisi kadar adam almıyor; gençlerin bir kısmı kolay paranın peşinde, mahallenin büyükleri bunu biliyor ve endişeli.", "olaylar": [] }
+      ],
+      "komsular": ["istasyon", "tabakhane", "bezhane", "kuzey_sanayi"],
+      "iliskiler": [
+        { "semt": "kuzey_sanayi", "tur": "bagimlilik", "aciklama": "Mahallenin yarısı orada vardiyalı çalışır; fabrika kapanırsa Kayalıtepe çöker." },
+        { "semt": "tabakhane", "tur": "dayanisma", "aciklama": "Aynı düğünler, aynı cenazeler." },
+        { "semt": "istasyon", "tur": "dayanisma", "aciklama": "Kuzey Tribünü'nün kalbi." },
+        { "semt": "marina", "tur": "kucumseme", "aciklama": "'Orada oturanlar bir gün M2'yle buraya gelsin de görsünler.'" }
+      ],
+      "etiketler": ["isci", "kalabalik", "gocmen_mahallesi", "futbol", "pazar"]
+    },
+    {
+      "id": "kuzey_sanayi",
+      "karakter": "Şehrin kuzeyindeki organize sanayi bölgesi: tekstil, plastik, otomotiv yan sanayi, depolar ve onların etrafında tamirciler. Burada kimse yaşamaz gibi görünür ama vardiya biterken binlerce insan aynı anda servislere doluşur. M2 geldiğinden beri biraz daha yakın, ama hâlâ şehrin bir parçası değil, şehrin makinesi.",
+      "atmosfer": {
+        "sabah": "Servisler fabrika kapılarına boşalıyor; kart basma makinelerinin önünde kuyruk.",
+        "ogle": "Yemekhane sırası; dışarıda çay içen işçiler, forkliftler, tır rampaları.",
+        "aksam": "Vardiya değişimi: çıkanlar ve girenler aynı kapıda; sanayi esnafı kepenk indiriyor.",
+        "gece": "Gece vardiyasının ışıkları, köpek havlamaları ve bekçi kulübeleri; sokak lambalarının yarısı yanmıyor."
+      },
+      "duyular": ["makine yağı ve sıcak plastik", "pres makinelerinin gümbürtüsü", "dizel dumanı", "yemekhane mercimek çorbası"],
+      "sosyo": { "gelir": 2, "kiraKatsayisi": 0.55, "kiraEgilimi": -1, "yogunluk": 2, "guvenlik": 2, "polis": 1, "donusum": 1 },
+      "sakinler": [
+        { "tur": "fabrika_iscisi", "agirlik": 5 },
+        { "tur": "sanayi_esnafi", "agirlik": 4 },
+        { "tur": "gocmen", "agirlik": 2, "not": "Fabrikaların arka tarafındaki bekâr evlerinde kalan işçiler." },
+        { "tur": "kayit_disi", "agirlik": 2 }
+      ],
+      "unluYerler": [
+        { "id": "osb_kapisi", "ad": "OSB Kapısı", "iyelik": true, "tur": "ulasim", "aciklama": "Organize sanayinin ana girişi ve M2'nin son durağı." },
+        { "id": "sanayi_sitesi", "ad": "Küçük Sanayi Sitesi", "iyelik": true, "tur": "ticari", "aciklama": "Yüzlerce dükkân: tornacı, kaportacı, lastikçi; arabası bozulan herkesin yolu buraya düşer." },
+        { "id": "isci_lokantasi", "ad": "Vardiya Lokantası", "iyelik": true, "tur": "yeme_icme", "aciklama": "Yirmi dört saat açık; tabldot, çay ve vardiya dedikoduları." }
+      ],
+      "gerilimler": [
+        { "id": "sanayi_is_kazasi", "ad": "İş kazaları", "aciklama": "Her yıl birkaç ölümlü kaza oluyor; aileler tazminat için uğraşırken fabrikalar taşeronu suçluyor.", "olaylar": [] },
+        { "id": "sanayi_kayitdisi", "ad": "Sigortasız çalışma", "aciklama": "Küçük atölyelerde çalışanların çoğu sigortasız; özellikle göçmen işçiler en ağır işleri en ucuza yapıyor.", "olaylar": [] },
+        { "id": "sanayi_depolar", "ad": "Gece açık depolar", "aciklama": "Bazı depolara gece tır yanaşıp boşaltıyor; kayıtlarda o saatte kimse yok. Bekçiler görmemeyi öğrenmiş.", "olaylar": [] }
+      ],
+      "komsular": ["kayalitepe", "ilicakoy"],
+      "iliskiler": [
+        { "semt": "kayalitepe", "tur": "bagimlilik", "aciklama": "İşçilerin çoğu Kayalıtepe'den; sendika toplantıları da orada." },
+        { "semt": "marina", "tur": "bagimlilik", "aciklama": "M2 iki ucu birbirine bağladı: Kuzey çalışır, Marina tüketir." },
+        { "semt": "tersaneonu", "tur": "bagimlilik", "aciklama": "Eski tersane ustalarının kaynakçılığı burada değerlendi, ama yarı ücretle." }
+      ],
+      "etiketler": ["sanayi", "isci", "vardiya", "tekinsiz", "depo"]
+    },
+    {
+      "id": "ilicakoy",
+      "karakter": "Bir zamanlar şehre bir saat uzaklıkta, bağları ve kaplıcasıyla bilinen bir köy. Şehir büyüdükçe yuttu: eski bağ evlerinin hemen yanında on iki katlı toplu konut blokları yükseldi. Köylüler arazilerini satıp ya zengin oldu ya da pişman; toplu konutlara taşınan genç aileler kredi borcuyla şehrin ucunda yeni bir hayat kurmaya çalışıyor.",
+      "atmosfer": {
+        "sabah": "Bloklardan servis ve otobüs durağına koşan anne babalar; bağ evlerinde horoz sesi.",
+        "ogle": "Bloklar bomboş; köy kahvesinde yaşlılar, kaplıcaya gelen birkaç emekli.",
+        "aksam": "Blokların otoparkı doluyor, çocuk parkı kalabalık; bağlardan inen bir traktör trafiği yavaşlatıyor.",
+        "gece": "Bloklarda yüzlerce aynı pencere, ötede karanlık bağlar; uzaktan köpek havlaması."
+      },
+      "duyular": ["üzüm ve toprak kokusu", "kükürtlü kaplıca suyu", "yeni boya", "horoz sesi"],
+      "sosyo": { "gelir": 3, "kiraKatsayisi": 0.9, "kiraEgilimi": 1, "yogunluk": 3, "guvenlik": 4, "polis": 2, "donusum": 4 },
+      "sakinler": [
+        { "tur": "toki_sakini", "agirlik": 5 },
+        { "tur": "koylu", "agirlik": 3 },
+        { "tur": "kucuk_memur", "agirlik": 2 },
+        { "tur": "beyaz_yaka", "agirlik": 1, "not": "Merkezde ev tutamayan genç çiftler." },
+        { "tur": "emekli", "agirlik": 1 }
+      ],
+      "unluYerler": [
+        { "id": "ilica", "ad": "Eski Ilıca", "tur": "saglik", "aciklama": "Köye adını veren kaplıca; Osmanlı'dan kalma kubbeli hamamı hâlâ çalışıyor." },
+        { "id": "baglar", "ad": "Bağlar", "tur": "doga", "aciklama": "Kalan son bağlar; eylülde bağ bozumunda köylüler şehirlileri de çağırır." },
+        { "id": "toplu_konutlar", "ad": "Ilıcaköy Konutları", "iyelik": true, "tur": "konut", "aciklama": "On altı blok, iki bin daire; Deryapı'nın yarım bıraktığı ikinci etap hâlâ iskelede." },
+        { "id": "koy_kahvesi", "ad": "Köy Kahvesi", "iyelik": true, "tur": "yeme_icme", "aciklama": "Köy meydanındaki çınarın altında; arazi satanlar ve satmayanlar ayrı masalarda oturur." }
+      ],
+      "gerilimler": [
+        { "id": "ilicakoy_arazi", "ad": "Arazi satışı", "aciklama": "Müteahhitler her ay yeni teklifle geliyor; kardeşler arasında miras kavgaları, satmayan son bağcılara baskı.", "olaylar": [] },
+        { "id": "ilicakoy_deryapi", "ad": "Yarım etap", "aciklama": "İkinci etap daireleri satılmıştı; Deryapı iflas edince alıcılar ne ev alabildi ne paralarını.", "olaylar": ["deryapi_iflasi"] },
+        { "id": "ilicakoy_uzaklik", "ad": "Şehrin ucu", "aciklama": "Metro yok, otobüs saatte bir; toplu konut sakinleri günde üç saat yolda.", "olaylar": [] }
+      ],
+      "komsular": ["bezhane", "kuzey_sanayi", "yamacevler"],
+      "iliskiler": [
+        { "semt": "yamacevler", "tur": "gerilim", "aciklama": "Tepeden inen siteler köyün bağlarını tek tek yutuyor." },
+        { "semt": "kayalitepe", "tur": "ozenti", "aciklama": "Kayalıtepe'den çıkıp 'kendi evine' geçenlerin çoğu Ilıcaköy Konutları'nda; kredisi bitene kadar." },
+        { "semt": "cumhuriyet", "tur": "bagimlilik", "aciklama": "Herkes merkezde çalışıyor; akşam eve dönen son otobüse yetişmek günün en önemli işi." }
+      ],
+      "etiketler": ["koy", "toplu_konut", "doga", "uzak", "donusum"]
+    }
+  ]
+}

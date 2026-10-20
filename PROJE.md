@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kapandı: 2026-10-20)
-- **Son tamamlanan adım:** 2.1 Şehrin kimliği (Karaliman), coğrafya, iklim, kimlik, tarih, 23 olaylık zaman çizelgesi, 14 semtlik iskelet; `core/dunya.js` denetimi; şablonlarda `{sehir.ad}`
-- **Sıradaki adım:** 2.2 Semtlerin ayrıntıları (`data/dunya/semtler.json`): karakter, sosyoekonomik durum, kira katsayısı, kim yaşıyor, ünlü yerler, gerilimler ve semtler arası ilişkiler — **orta**
+- **Son tamamlanan adım:** 2.2 Semt ayrıntıları (`data/dunya/semtler.json`): 14 semtin karakteri, gün dilimine göre atmosferi, duyular, sosyoekonomik ölçekler ve kira katsayısı, 27 sakin türüyle ağırlıklı sakin listesi, 56 ünlü yer, 41 gerilim (zaman çizelgesine bağlı), yürüme komşulukları, semtler arası ilişkiler; denetim ve yardımcılar `core/dunya.js`'de
+- **Sıradaki adım:** 2.3 Ulaşım ağı (`data/dunya/ulasim.json`): metro M1/M2, otobüs, vapur, dolmuş hatları, duraklar, süreler, ücretler ve yol bulma — **orta**
 - **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). 0.1.5 ekran görüntüsüyle doğrulandı (şerit sekme çubuğuyla aynı renkte, yazılar tam): **Faz 1 kapandı.**
 - **Kullanıcıdan beklenen:** "devam" demesi (sıradaki: 2.2).
 
@@ -38,8 +38,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | Adım | İçerik | Boyut | Durum |
 |---|---|---|---|
 | 2.1 | Şehrin kimliği, coğrafya, iklim, tarih, zaman çizelgesi (hikaye kancaları), semt iskeleti, dünya denetimi | orta | ✅ |
-| 2.2 | Semt ayrıntıları: karakter, sosyoekonomik durum, kira katsayısı, sakinler, ünlü yerler, gerilimler, semtler arası ilişkiler | orta | ⏳ |
-| 2.3 | Ulaşım ağı: hatlar (metro, otobüs, vapur, dolmuş), duraklar, süreler, ücretler, yol bulma | orta | ⬜ |
+| 2.2 | Semt ayrıntıları: karakter, sosyoekonomik durum, kira katsayısı, sakinler, ünlü yerler, gerilimler, semtler arası ilişkiler | orta | ✅ |
+| 2.3 | Ulaşım ağı: hatlar (metro, otobüs, vapur, dolmuş), duraklar, süreler, ücretler, yol bulma | orta | ⏳ |
 | 2.4 | Kurumlar, şirketler (iş ilanlarına kaynak), yerel figürler, kurgusal suç örgütleri ve bölgeleri | büyük | ⬜ |
 | 2.5 | Mekanlar: sahip (NPC tohumu), saatler, müşteri profili, geçmiş, dedikodular, fırsatlar | büyük | ⬜ |
 | 2.6 | Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkan açılıp kapanması, fiyatlar, şehir olayları) | orta | ⬜ |
@@ -150,7 +150,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── aksiyonlar.json     Temel günlük aksiyonlar (1.5)
 │   ├── takvim.json         Resmi tatiller (1.5); bayram tarihleri ve okul takvimi Faz 2'de
 │   ├── ekonomi.json        Tüm fiyatlar (asgari ücrete oranlı) — Faz 2
-│   ├── dunya/              Dünya kitabı (Faz 2): sehir.json (2.1); semtler, ulaşım, kurumlar, mekanlar sırayla
+│   ├── dunya/              Dünya kitabı (Faz 2): sehir.json (2.1), semtler.json (2.2); ulaşım, kurumlar, mekanlar sırayla
 │   ├── olay_ayarlari.json  Olayların çıkma sıklığı (1.9a)
 │   ├── yaylar.json         Hikaye yayı tanımları (1.9b)
 │   ├── olaylar/            Olay dosyaları (her dosya bir tema); _liste.json hepsini sayar — içerik Faz 5
@@ -327,6 +327,27 @@ Kurgusal, Marmara kıyısında, 4,18 milyonluk bir liman şehri. Çaybaşı Dere
 
 **Kural:** Zaman çizelgesindeki her olay `DUNYA_SIMDISI` (2026-10-20) öncesidir, tarih sırasındadır ve yalnızca var olan semtlere başvurur (`tests/dunya.test.js`).
 
+**Semt ayrıntıları (`semtler.json`, 2.2):** İskelet (id, ad, yaka, özet) `sehir.json`'da kalır; ayrıntılar `semtler.json`'da, `semtBul()` ikisini birleşik döndürür. Her semtte: `karakter`, `atmosfer` (sabah/öğle/akşam/gece birer satır, anlatım için), `duyular`, `sosyo` (gelir 1–5, yoğunluk 1–5, güvenlik 1–5, polis 1–5, dönüşüm 0–5, `kiraKatsayisi` = şehir ortalamasına çarpan, `kiraEgilimi` -1…2), `sakinler` (dosya başındaki `sakinTurleri` kataloğundan, NPC üretiminde ağırlık), `unluYerler` (semtin simgeleri; girilen mekanlar 2.5'te ayrı), `gerilimler` (zaman çizelgesi olaylarına bağlı), `komsular` (yürüyerek, iki yönlü; ağ bağlı), `iliskiler` (tek yönlü bakış: dayanışma, gerilim, küçümseme, özenti, rekabet, bağımlılık), `etiketler`.
+
+| Semt | Gelir | Kira × | Güvenlik | Dönüşüm | Kısaca |
+|---|---|---|---|---|---|
+| Yamaçevler | 5 | 3,0 | 5 | 0 | köklü servet, kararlar akşam yemeğinde |
+| Marina | 5 | 2,4 | 5 | 5 | cam kuleler, AVM, KoinPazar'ın gölgesi |
+| Sahilyolu | 4 | 1,7 | 5 | 1 | Kordon, düzenli orta-üst hayat |
+| Cumhuriyet | 4 | 1,35 | 4 | 1 | belediye, adliye, meydan |
+| Çamlık | 2 | 1,0 | 4 | 2 | öğrenciler, her eylül kira zammı |
+| Eski Çarşı | 3 | 0,95 | 4 | 3 | esnaf, turistleşme |
+| Ilıcaköy | 3 | 0,9 | 4 | 4 | bağlar ve toplu konut, şehrin ucu |
+| Tersaneönü | 2 | 0,85 | 3 | 4 | işsiz ustalar, gelen kafeler |
+| Aşağıliman | 2 | 0,8 | 3 | 2 | mübadiller, balıkçılar, meyhaneler |
+| Bezhane | 2 | 0,75 | 4 | 1 | lojman komşuluğu, yaşlanan semt |
+| İstasyon | 2 | 0,7 | 2 | 2 | gar, pansiyonlar, gece ekonomisi |
+| Kayalıtepe | 2 | 0,65 | 3 | 2 | kalabalık işçi semti, Deryapı mağdurları |
+| Tabakhane | 1 | 0,6 | 2 | 3 | deri atölyeleri, göçmenler, dönüşüm korkusu |
+| Kuzey Sanayi | 2 | 0,55 | 2 | 1 | fabrikalar, vardiyalar, gece depoları |
+
+Suç dünyası için yalnızca zemin var (tekinsiz sokaklar, gece depoları, kayıt dışı yükler — anlatı düzeyinde); örgütler ve bölgeleri 2.4'te bu semtlere bağlanacak.
+
 ---
 
 ## 🚀 YAYIN VE TELEFONDA TEST
@@ -487,6 +508,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.6 | 2026-10-20 | Adım 2.2: `data/dunya/semtler.json` (14 semt ayrıntısı, 27 sakin türü, 56 ünlü yer, 41 gerilim, komşuluk ağı, ilişkiler); `core/dunya.js` semt denetimi (ölçekler, sakin türleri, iki yönlü komşuluk, olay başvuruları, iyelik şüphesi) ve yardımcılar (`semtBul` birleşik, `semtKomsulari`, `semtIliskisi`, `sakinTuruSec`); oyun dosyayı yüklüyor. 256 test. |
 | 0.1.5 | 2026-10-20 | Alttaki şerit, kalıcı çözüm: 0.1.4'teki 100vh geri alındı; sekme çubuğu ve kök arka plan --arka (şerit rengi), theme-color --arka; ana ekran modunda şerit algılanınca (`ios-alt-serit`) alt güvenli alan boşluğu 0. Palet tazelendi, `--vurgu-zemin` (seçili sekme, seçilen seçenek, aktif yuva). |
 | 0.1.4 | 2026-10-20 | Alttaki şerit, ölçüme dayalı deneme: `@media (display-mode: standalone) { body { height: 100vh } }`; theme-color sekme çubuğu rengi. |
 | 0.1.3 | 2026-10-20 | Alttaki şerit 0.1.2 ile gitmedi: kök arka plan sekme çubuğu renginde yapıldı (görsel yama), hata raporuna ekran ölçümleri eklendi (screen/inner/visualViewport/100vh-dvh-lvh-svh/güvenli alan/gövde ve sekme alt kenarı). |

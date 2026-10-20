@@ -4,12 +4,13 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-1166412592be';
+const ONBELLEK_SURUMU = 'yeniden-4872c4b884c1';
 const DOSYALAR = [
   './',
   './css/temel.css',
   './data/aksiyonlar.json',
   './data/dunya/sehir.json',
+  './data/dunya/semtler.json',
   './data/olay_ayarlari.json',
   './data/olaylar/_liste.json',
   './data/olaylar/ev.json',

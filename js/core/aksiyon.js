@@ -3,11 +3,18 @@
 import { zamanGecir, uykuPlani, uykuDuzeniGuncelle, sinirla } from './simulasyon.js';
 import { dilim } from './zaman.js';
 import { aksiyonKaydet } from './durum.js';
+import { kosulAcikla, nedenTutmadi } from './kosul.js';
+import { sureliTemizle } from './bayrak.js';
 import { para as paraYaz, sure as sureYaz } from './format.js';
 
-// Döner: { tamam: true } ya da { tamam: false, sebep: '...' }
-export function aksiyonDurumu(durum, a, simCfg) {
+// Döner: { tamam: true } ya da { tamam: false, sebep: '...', teknik?: [...] }
+// a.kosul (koşul dili) tutmazsa oyuncuya a.kosulSebep gösterilir; teknik neden geliştirici paneli içindir.
+export function aksiyonDurumu(durum, a, simCfg, veri = { sim: simCfg }) {
   const d = durum.durumlar;
+  if (a.kosul !== undefined) {
+    const ag = kosulAcikla(a.kosul, { durum, veri });
+    if (!ag.tamam) return { tamam: false, sebep: a.kosulSebep || 'Şu an olmaz.', teknik: nedenTutmadi(ag) };
+  }
   if (a.dilimler && !a.dilimler.includes(dilim(durum.zaman.dakika).id)) {
     const s = dilim(durum.zaman.dakika).id;
     return { tamam: false, sebep: s === 'gece' ? 'Gecenin bu saatinde olmaz.' : 'Şu saatte uygun değil.' };
@@ -65,6 +72,7 @@ export function aksiyonUygula(durum, a, simCfg, rng) {
   }
 
   for (const u of uyarilar) paragraflar.push({ tur: 'icses', metin: metinSec(rng, u.metin) });
+  sureliTemizle(durum);
   aksiyonKaydet(durum, a.id);
   return { paragraflar: paragraflar.filter(p => p.metin), uyarilar };
 }

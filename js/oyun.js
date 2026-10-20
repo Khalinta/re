@@ -68,7 +68,7 @@ export function durumYukle(d) {
 }
 
 export function aksiyonListesi() {
-  return veri.aksiyonlar.map(a => ({ a, ...aksiyonDurumu(durum, a, veri.sim), maliyet: aksiyonMaliyeti(durum, a, veri.sim) }));
+  return veri.aksiyonlar.map(a => ({ a, ...aksiyonDurumu(durum, a, veri.sim, veri), maliyet: aksiyonMaliyeti(durum, a, veri.sim) }));
 }
 
 export function aksiyonBul(id) { return veri.aksiyonlar.find(a => a.id === id); }
@@ -76,7 +76,7 @@ export function aksiyonBul(id) { return veri.aksiyonlar.find(a => a.id === id); 
 export function aksiyonYap(id) {
   const a = aksiyonBul(id);
   if (!a) throw new Error('Bilinmeyen aksiyon: ' + id);
-  const kontrol = aksiyonDurumu(durum, a, veri.sim);
+  const kontrol = aksiyonDurumu(durum, a, veri.sim, veri);
   if (!kontrol.tamam) return { tamam: false, sebep: kontrol.sebep };
   const onceDk = durum.zaman.dakika;
   const sonuc = aksiyonUygula(durum, a, veri.sim, rngAl(durum, 'aksiyon'));

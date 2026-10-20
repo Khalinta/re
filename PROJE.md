@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.7 Dışa / içe aktarma (sıkıştırılmış metin kodu, dosya, yuva seçimi)
-- **Sıradaki adım:** 1.8 Olay motoru A: bayraklar/sayaçlar (kalıcı, süreli, NPC'ye özel), koşul dili (VE/VEYA/DEĞİL + tüm kontroller), "neden tetiklenmedi" açıklayıcısı — **orta**
+- **Son tamamlanan adım:** 1.8 Olay motoru A — bayraklar/sayaçlar, koşul dili (suç dünyası kontrolleri dahil), açıklayıcı, doğrulayıcı
+- **Sıradaki adım:** 1.9 Olay motoru B: ağırlıklı seçim, bekleme/tekrar engeli, çok aşamalı olaylar, beceri ve şans kontrolleri (anlatıyla), zamanlayıcılar, zincirler ve yaylar, metin şablonları ve varyasyonlar, çoklu etki — **büyük** (iki parçaya bölünebilir: 1.9a yürütücü + etkiler, 1.9b şablonlar + zamanlayıcılar + yaylar)
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -25,8 +25,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.5 | Oyun durumu, takvim, zaman dilimleri, durumlar (enerji, açlık, stres...), aksiyon döngüsü | orta | ✅ |
 | 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ✅ |
 | 1.7 | Dışa/içe aktarma: dosya + sıkıştırılmış metin kodu, sağlama (checksum) | orta | ✅ |
-| 1.8 | Olay motoru A: bayraklar/sayaçlar, koşul dili, koşul açıklayıcı ("neden tetiklenmedi") | orta | ⏳ |
-| 1.9 | Olay motoru B: ağırlıklı seçim, cooldown, çok aşamalı olaylar, beceri/şans kontrolleri, zamanlayıcılar, zincirler, metin şablonları, çoklu etki | büyük | ⬜ |
+| 1.8 | Olay motoru A: bayraklar/sayaçlar, koşul dili, koşul açıklayıcı ("neden tetiklenmedi") | orta | ✅ |
+| 1.9 | ⏳ Olay motoru B: ağırlıklı seçim, cooldown, çok aşamalı olaylar, beceri/şans kontrolleri, zamanlayıcılar, zincirler, metin şablonları, çoklu etki | büyük | ⬜ |
 | 1.10 | Global hata yakalama, hata ekranı, hata raporu | orta | ⬜ |
 | 1.11 | Gizli geliştirici paneli | orta | ⬜ |
 | 1.12 | Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı | küçük | ⬜ |
@@ -80,6 +80,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K30 | ~~K8: "YND1." öneki + sağlama, CompressionStream yoksa sıkıştırmasız biçim~~ → **kesinleşti:** kod = `YND1.` + base64url(deflate-raw(zarf JSON)); sıkıştırma yoksa `YND0.` + base64url(zarf JSON). Ayrı bir kod sağlaması yok, çünkü zarfın kendi sağlaması zaten tüm veriyi kapsıyor; kesik kod sıkıştırma çözülürken düşüyor. Kodun arasındaki boşluk ve satır sonları yok sayılır (mesajlaşma uygulamaları kodu bölebilir). | Tek bütünlük mekanizması; iki ayrı sağlama gereksiz karmaşa olurdu. Değişiklik değil, K8'in netleşmesi. |
 | K31 | **Dosya dışa aktarma:** okunabilir JSON (`{ aciklama, zarf }`), adı `yeniden-<ad>-yuva<N>-<tarih-saat>.json`. iPhone'da paylaşım menüsü açılır (Web Share, "Dosyalar'a Kaydet"); desteklenmezse indirme. İçe aktarma kodu da dosyayı da (sarmallı ya da çıplak zarf) kabul eder; önce özet + "sağlam ✓" gösterilir, sonra yuva seçilir; dolu yuvanın mevcut hali önce yedeklenir. | Hem kopyala-yapıştır hem dosya (bölüm 2); içe aktarma hiçbir şeyi geri dönüşsüz ezmez. |
 | K32 | **Para biçiminde sayı ile ₺ arasında bölünmez boşluk** (`\u00a0`). | Dar ekranda "1.995" ile "₺" ayrı satırlara düşüyordu. |
+| K33 | **Koşul dili: kontrol kayıt tablosu (`KONTROLLER`) + açıklayıcı + doğrulayıcı.** Her kontrol `{ tamam, aciklama }` döner; açıklama Türkçe ve sayılı ("Enerji ≥ 20 (şu an 12)"). `nedenTutmadi()` sadece tutmayan dalları verir (geliştirici paneli: "neden tetiklenmedi"). Yeni kontrol = tabloya bir satır. Genel `deger` kontrolü sayesinde ileride eklenecek her alana koda dokunmadan koşul yazılabilir. | Faz 5'te 150+ olay sadece veriyle; hatalar testte yakalanır, oyunda değil. |
+| K34 | **Henüz var olmayan alanlar (konum, npcler, suc) kayıt şemasına şimdi eklenmedi;** koşul dili bunları yoksa "yok/0" sayar. Alanlar ilgili sistemle birlikte (Faz 2–4) migration ile eklenecek (K28). | Gereksiz migration ve boş alan taşımamak; mevcut kayıtlar değişmeden kalır. |
+| K35 | **Bayraklar:** kalıcı / süreli (`bitis` oyun dakikası; dolunca yok sayılır, aksiyon sonrası temizlenir) / NPC'ye özel (`bayraklar.npc[id]`, boşalınca silinir). Sayaçlar `sayaclar`, NPC sayaçları NPC bölümünde sayı olarak. Aksiyonlar da artık `kosul` + `kosulSebep` taşıyabilir. | Bölüm 11 gereksinimi. |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -106,7 +109,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── surum.js            Oyun sürümü
 │   ├── core/               Saf mantık: rng, tr (ek motoru), format, zaman, simulasyon, durum, aksiyon,
 │   │                       kayitbicim (zarf, sağlama, doğrulama), kayitdeposu (yuva/yedek mantığı), migration,
-│   │                       aktarim (kayıt kodu, dosya)
+│   │                       aktarim (kayıt kodu, dosya), bayrak (bayrak/sayaç), kosul (koşul dili)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
@@ -168,11 +171,37 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 }
 ```
 
-### Koşul dili (1.8'de kesinleşecek)
+### Koşul dili (1.8 — kesin; `js/core/kosul.js`)
 
-Not (2026-10-20): suç dünyası (bkz. ilgili bölüm) için koşul dili genel yol tabanlı kontrol (`deger`) ve kısa yazımlar (`aranma`, `sabika`, `orgut`, `karaPara`) içerecek.
+Mantık: `{ "ve": [...] }`, `{ "veya": [...] }`, `{ "degil": koşul }`. Dizi = "ve". Bir nesnede birden çok anahtar = "ve". Koşul yoksa her zaman tutar.
 
-`ve`, `veya`, `degil` iç içe yazılır. Yaprak kontroller: `durum`, `beceri`, `para`, `iliski`, `bayrak`, `sayac`, `mekan`, `mekanTuru`, `semt`, `zamanDilimi`, `gun`, `mevsim`, `tatil`, `gecmis` (başlangıç hikayesi bileşenleri), `yas`. Sayısal kontrollerde `{ "para": { "min": 1000, "max": 5000 } }` biçimi.
+Kurallar — sayı: `5`, `{ "min": 1, "max": 9 }`, `{ "esit": 3 }`, `{ "degil": 0 }`, `{ "biri": [1, 2] }`, `{ "var": true }`; metin: `"asci"`, `["asci", "garson"]`.
+
+| Kontrol | Örnek | Not |
+|---|---|---|
+| durum | `{ "durum": { "enerji": { "min": 20 }, "aclik": { "max": 70 } } }` | data/simulasyon.json'daki durumlar |
+| beceri | `{ "beceri": { "yemek": { "min": 30 } } }` | öğrenilmemiş = 0 |
+| para | `{ "para": { "min": 1000 } }` | |
+| bayrak | `"borclu"` · `{ "ad": "x", "var": false }` · `{ "ad": "ofkeli", "npc": "patron", "deger": { "min": 2 } }` | süreli bayrak süresi dolunca yok |
+| sayac | `{ "sayac": { "kahve": { "min": 3 } } }` · `{ "sayac": { "ad": "borc", "npc": "patron", "kural": { "min": 1 } } }` | |
+| iliski | `{ "iliski": { "npc": "patron", "guven": { "min": 30 }, "tur": "is" } }` | NPC sistemi Faz 3–4 |
+| mekan / mekanTuru / semt | `{ "mekanTuru": ["kahvehane", "lokanta"] }` | konum Faz 2 |
+| zamanDilimi | `{ "zamanDilimi": ["ogle", "aksam"] }` | sabah, ogle, aksam, gece |
+| saat | `{ "saat": { "min": "22:00", "max": "03:00" } }` | gece yarısını aşabilir |
+| gun / haftaSonu | `{ "gun": ["cumartesi", "pazar"] }` · `{ "haftaSonu": true }` | gün adları Türkçe karaktersiz: sali, carsamba, persembe |
+| mevsim | `{ "mevsim": "kis" }` | kis, ilkbahar, yaz, sonbahar |
+| tatil | `true` (resmi tatil) · `false` · `"Cumhuriyet Bayramı"` | data/takvim.json |
+| tarih | `{ "tarih": { "min": "2026-11-01" } }` | |
+| oyunGunu | `{ "oyunGunu": { "min": 7 } }` | ilk gün = 1 |
+| yas | `{ "yas": { "min": 18 } }` | |
+| gecmis | `{ "gecmis": { "eskiMeslek": "asci", "kusurlar": "kumar" } }` | başlangıç hikayesi (Faz 3); dizi ise "içeriyor mu" |
+| olay | `{ "olay": { "id": "x", "kez": { "min": 1 }, "gecenGun": { "min": 30 } } }` | olay geçmişi |
+| deger (genel) | `{ "deger": "suc.orgutler.demirciler.rutbe", "min": 2 }` | durumdaki herhangi bir alan |
+| aranma / karaPara | `{ "aranma": { "min": 2 } }` | suç dünyası (Faz 4); alan yoksa 0 |
+| sabika | `true` · `false` · `"hirsizlik"` · `{ "min": 2 }` | |
+| orgut | `true` · `{ "id": "demirciler", "rutbe": { "min": 2 }, "guven": { "min": 40 } }` · `{ "id": "x", "uye": false }` | |
+
+NPC rolleri (`"patron"`) olayın bağlamından gerçek NPC kimliğine çevrilir (`baglam.npc`). Bilinmeyen kontrol çökmez, "tutmaz" ve açıklamada yazar. `kosulDogrula()` tüm veri dosyalarının koşullarını testte denetler.
 
 ### NPC (Faz 3)
 
@@ -351,6 +380,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.8 | 2026-10-20 | Adım 1.8: `core/bayrak.js` (kalıcı/süreli/NPC bayrakları, sayaçlar), `core/kosul.js` (ve/veya/değil, 25 kontrol türü: durum, beceri, para, bayrak, sayaç, ilişki, mekan, zaman, gün, mevsim, tatil, tarih, yaş, geçmiş, olay geçmişi, genel yol, aranma, kara para, sabıka, örgüt; açıklayıcı, "neden tutmadı", doğrulayıcı). Aksiyonlara `kosul`/`kosulSebep`. 222 test. |
 | 0.0.7+ | 2026-10-20 | Plan: "Suç dünyası" planlanan özellik olarak eklendi ve Faz 1–7'ye dağıtıldı (kod yok). Önceden yazılmış hiçbir şey değişmedi. |
 | 0.0.7 | 2026-10-20 | Adım 1.7: dışa/içe aktarma — `core/aktarim.js` (YND1 sıkıştırılmış kod, YND0 yedek biçim, boşluk toleransı, kesik/değişmiş kod reddi, dosya içeriği ve adı), Kayıtlar'da her yuvaya "Dışa aktar" (kodu kopyala, dosya olarak kaydet/paylaş) ve "Kayıt içe aktar" (kod ya da dosya → özet → yuva seç → dolu yuva önce yedeklenir → istersen oyuna geç). Depoya `enIyiZarf` ve `iceAktar`. Para biçiminde bölünmez boşluk. 207 test. |
 | 0.0.6 | 2026-10-20 | Adım 1.6: kayıt sistemi — `kayitbicim.js` (zarf, sağlama, doğrulama), `migration.js` (adım altyapısı), `kayitdeposu.js` (iki depo, onarım, yedekten kurtarma, 5 yedek sınırı, silme/geri dönüşte önce yedek), `depolama.js` (IndexedDB strict + localStorage, IndexedDB yoksa tam localStorage), `kayit.js` (otomatik kayıt, birleştirme, arka planda kayıt, kalıcı izin), Kayıtlar ekranı (3 yuva, geç, yeni oyun, yedekler, sil, depolama durumu). Hata düzeltmesi: liste sayfalarında içerik taşınca bloklar sıkışıp görünmez oluyordu (1.4'ten beri). 196 test (300 adımlık bozulma stres testi dahil). |

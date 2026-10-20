@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 import { yeniDurum, rngAl } from '../js/core/durum.js';
 import { zamanGecir, uykuPlani, ruhHedefi } from '../js/core/simulasyon.js';
 import { aksiyonDurumu, aksiyonUygula } from '../js/core/aksiyon.js';
+import { kosulDogrula } from '../js/core/kosul.js';
+import { bayrakKoy } from '../js/core/bayrak.js';
 
 const sim = JSON.parse(readFileSync(new URL('../data/simulasyon.json', import.meta.url)));
 const aksiyonlar = JSON.parse(readFileSync(new URL('../data/aksiyonlar.json', import.meta.url))).aksiyonlar;
@@ -124,6 +126,20 @@ test('veri dosyası tutarlılığı: her aksiyonun metni ve geçerli türü var'
     assert.ok(a.sure > 0, a.id + ' süre');
     if (a.tur) assert.ok(sim.saatlik[a.tur], a.id + ' tür');
     for (const k of Object.keys(a.etki || {})) assert.ok(sim.durumlar[k], a.id + ' bilinmeyen durum ' + k);
+    assert.deepEqual(kosulDogrula(a.kosul, a.id + '.kosul'), []);
   }
   for (const u of sim.uyarilar) assert.ok(sim.durumlar[u.durum] && u.metin.length, u.id);
+});
+
+test('aksiyon koşulu: tutmazsa oyuncu metni + teknik neden; süreli bayraklar zamanla temizlenir', () => {
+  const a = { id: 'deneme', ad: 'Deneme', sure: 30, metin: ['a', 'b'], kosul: { bayrak: 'anahtar_var' }, kosulSebep: 'Anahtarın yok.' };
+  const d = yeni();
+  const r = aksiyonDurumu(d, a, sim);
+  assert.equal(r.tamam, false);
+  assert.equal(r.sebep, 'Anahtarın yok.');
+  assert.match(r.teknik[0], /bayrak anahtar_var olmalı/);
+  bayrakKoy(d, 'anahtar_var', true, { sure: 20 });
+  assert.equal(aksiyonDurumu(d, a, sim).tamam, true);
+  aksiyonUygula(d, a, sim, rngAl(d, 'x'));
+  assert.deepEqual(d.bayraklar.sureli, {}, '30 dakika sonra 20 dakikalık bayrak temizlenmiş olmalı');
 });

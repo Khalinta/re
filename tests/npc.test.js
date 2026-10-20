@@ -103,3 +103,24 @@ test('kayıt: yalnızca değişenler; katman yalnızca yükselir; arka plan seed
   assert.equal(n.tamAd, npcUret('KAYIT', 'n:camlik:1', { semt: 'camlik' }, veri).tamAd);
   assert.ok(JSON.stringify(d.npcler).length < 200);
 });
+
+test('görünüş: herkesin bir dış görünüşü var; çekicilik ve karizma ortalamaya yakın dağılıyor, çok çarpıcılar nadir', () => {
+  const g = oku('data/npc/gorunus.json');
+  const v2 = { dunya, npc: { ...npc, gorunus: g } };
+  const l = [];
+  for (let i = 0; i < 1500; i++) l.push(npcUret('GOR', `n:${semtler[i % semtler.length]}:${i}`, { semt: semtler[i % semtler.length] }, v2));
+  for (const n of l) {
+    const f = n.fizik;
+    assert.ok(f && f.boy && f.yapi && f.goz && f.giyim && f.ses && f.izlenimMetni, n.id);
+    if (n.yas < 30) assert.ok(!['kır', 'bembeyaz'].includes(f.sac.renk) || n.yas >= 28, `${n.id}: ${n.yas} yaşında ${f.sac.renk}`);
+    if (n.cinsiyet === 'k') assert.equal(f.sakal, undefined);
+    assert.ok(f.cekicilik >= 1 && f.cekicilik <= 10 && f.karizma >= 1 && f.karizma <= 10);
+  }
+  const pay = fn => l.filter(fn).length / l.length;
+  assert.ok(pay(n => n.fizik.cekicilik >= 9) < 0.06, String(pay(n => n.fizik.cekicilik >= 9)));
+  assert.ok(pay(n => n.fizik.karizma >= 9) < 0.08, String(pay(n => n.fizik.karizma >= 9)));
+  assert.ok(pay(n => n.fizik.cekicilik >= 7) > 0.1);
+  // Görünüş, kişinin geri kalanını değiştirmez (ayrı akış)
+  const a = npcUret('GOR', 'n:camlik:5', { semt: 'camlik' }, veri), b = npcUret('GOR', 'n:camlik:5', { semt: 'camlik' }, v2);
+  assert.equal(a.tamAd, b.tamAd); assert.deepEqual(a.ozellikler, b.ozellikler);
+});

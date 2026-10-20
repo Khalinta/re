@@ -14,7 +14,7 @@ import { ek } from './tr.js';
 import { para as paraYaz, sure as sureYaz } from './format.js';
 import { aksiyonKaydet } from './durum.js';
 import { Rng } from './rng.js';
-import { mekandakiler, tanisildiMi, gorunus, kisi, tanis, konus } from './insanlar.js';
+import { mekandakiler, tanisildiMi, gorunus, kisi, tanis, yaninaOtur, sohbetKonulari, oturumGecerli } from './insanlar.js';
 
 export const EVDE = 'ev';
 
@@ -74,6 +74,9 @@ export function baglamAksiyonlari(durum, veri) {
   const ekle = (id, ad, maliyet, sebep, alt) => liste.push({ id, ad, alt, maliyet, tamam: !sebep, sebep });
   if (k.mekan === EVDE) {
     ekle('gezi:cik', 'Dışarı çık', { dakika: s.evdenCik });
+  } else if (k.mekan && durum.sohbet && veri.npc?.sohbet && oturumGecerli(durum, veri)) {
+    // Biriyle sohbet ederken yalnızca konular (ve kalkmak)
+    for (const x of sohbetKonulari(durum, veri)) ekle('sohbet:' + x.konu, x.ad, { dakika: x.dakika });
   } else if (k.mekan) {
     const m = mekanBul(veri.dunya, k.mekan);
     const kapali = mekanKapaliMi(durum, m);
@@ -87,11 +90,14 @@ export function baglamAksiyonlari(durum, veri) {
     // Burada şu an kimler var (3.2): tanıdıklarla sohbet, tanımadıklarla tanışma (en çok 3 kişi)
     if (veri.npc?.sohbet && !kapali) {
       const kal = mekanKalabaligi(durum, m);
-      for (const id of mekandakiler(durum, veri, m, kal).slice(0, 3)) {
+      const burada = mekandakiler(durum, veri, m, kal).slice(0, 3);
+      const kisa = burada.map(id => gorunus(kisi(veri, durum.seed, id), veri));
+      for (const [i, id] of burada.entries()) {
         const n = kisi(veri, durum.seed, id);
         if (!n) continue;
-        if (tanisildiMi(durum, id)) ekle('npc:konus:' + id, `${ek(n.hitapAdi, 'le')} sohbet et`, { dakika: veri.npc.sohbet.sure.konus });
-        else ekle('npc:tanis:' + id, 'Tanış: ' + gorunus(n, veri), { dakika: veri.npc.sohbet.sure.tanis }, durum.bilgi?.retler?.[id] === gunNo(durum.zaman.dakika) ? 'Bugün bir kere denedin; üstüne gitme.' : null);
+        const etiket = kisa.filter(x => x === kisa[i]).length > 1 ? gorunus(n, veri, true) : kisa[i];
+        if (tanisildiMi(durum, id)) ekle('npc:otur:' + id, `${ek(n.hitapAdi, 'in')} yanına otur`, { dakika: veri.npc.sohbet.sure.otur });
+        else ekle('npc:tanis:' + id, 'Tanış: ' + etiket, { dakika: veri.npc.sohbet.sure.tanis }, durum.bilgi?.retler?.[id] === gunNo(durum.zaman.dakika) ? 'Bugün bir kere denedin; üstüne gitme.' : null);
       }
     }
     const kv = g.kulakVer;
@@ -268,7 +274,7 @@ export function insanHamlesi(durum, veri, rng, hamle) {
   const i = hamle.indexOf(':');
   const tur = hamle.slice(0, i), id = hamle.slice(i + 1);
   const kal = mekanKalabaligi(durum, m);
-  return tur === 'tanis' ? tanis(durum, veri, rng, m, kal, id) : konus(durum, veri, rng, m, kal, id);
+  return tur === 'tanis' ? tanis(durum, veri, rng, m, kal, id) : yaninaOtur(durum, veri, rng, m, kal, id);
 }
 
 // Duyulmamış bir şeyi duyma şansı kalabalığa göre; önce mekanın kendi dedikoduları

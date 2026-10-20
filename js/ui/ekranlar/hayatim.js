@@ -44,7 +44,8 @@ const yakinlikAdi = y => y >= 40 ? 'dost' : y >= 20 ? 'arkadaş' : y >= 8 ? 'ıs
 function kisiPaneli(t) {
   const satirlar = [
     h('p', { class: 'panel-metin' }, t.tanim),
-    h('div', { class: 'ozet-satir' }, h('span', {}, 'Aranız'), h('span', { class: 'soluk' }, `${yakinlikAdi(t.yakinlik)} · ${KATMAN_ADI[t.katman] ?? ''}`)),
+    t.gorunus ? h('p', { class: 'panel-metin soluk' }, t.gorunus) : null,
+    h('div', { class: 'ozet-satir' }, h('span', {}, 'Aranız'), h('span', { class: 'soluk' }, t.gerginlik >= 4 ? 'gergin' : `${yakinlikAdi(t.yakinlik)} · ${KATMAN_ADI[t.katman] ?? ''}`)),
     t.nerede ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Tanıştığınız yer'), h('span', { class: 'soluk' }, mekanBul(oyun.veri.dunya, t.nerede)?.ad ?? '')) : null,
     t.dert ? h('p', { class: 'panel-metin' }, h('b', {}, 'Derdi: '), t.dert) : null,
     t.hayal ? h('p', { class: 'panel-metin' }, h('b', {}, 'Hayali: '), t.hayal) : null,

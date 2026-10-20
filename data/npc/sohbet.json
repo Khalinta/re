@@ -1,61 +1,801 @@
 {
-  "_aciklama": "Mekanlarda insanlar, tanışma ve ilk sohbetler (adım 3.2). mevcut: kalabalığa göre mekanda 'göze çarpan' kaç kişi olduğu (o anki herkes değil, konuşulabilecekler). havuz: her mekanın kendi müdavim havuzu ve semtin ortak havuzu (aynı insanlar semtin farklı yerlerinde de görülür). gorunus: tanışmadan önce kişinin nasıl tarif edildiği (sakin türüne göre bir ayrıntı + yaş + cinsiyet). tanisma: kabul olasılığı kişiliğe göre; metinler {npc.*} şablonuyla. konular: sohbette açılabilecek konular; 'esik' = konunun açılması için gereken yakınlık. Faz 4'te konu seçerek sohbet, mesajlaşma ve diğer etkileşimler bunun üstüne kurulacak.",
-
-  "mevcut": { "kisi": [0, 2, 3, 4], "sahipOlasiligi": 0.8, "mudavimOlasiligi": 0.35 },
-  "havuz": { "mekan": 6, "semt": 40, "mekandanOrani": 0.6 },
-  "sure": { "tanis": 15, "konus": 25 },
-  "katmanEsikleri": { "tanidik": 1, "onemli": 6 },
-
-  "yasKelimeleri": [[22, "genç"], [34, "otuzlarında"], [44, "kırklarında"], [54, "ellilerinde"], [64, "altmışlarında"], [74, "yetmişlerinde"], [200, "yaşlı"]],
-  "gorunus": {
-    "_varsayilan": ["gözlüklü", "elinde telefon", "yorgun yüzlü", "düşünceli", "gülümseyen"],
-    "esnaf": ["önlüğünü çıkarmamış", "kulağında kalem", "elinde tespih"],
-    "emekli": ["kasketli", "elinde tespih", "baston tutan"],
-    "emekli_varlikli": ["şık giyimli", "ütülü gömlekli"],
-    "mubadil_ailesi": ["beyaz bıyıklı", "denizci kazaklı"],
-    "balikci": ["yüzü güneşten yanmış", "ellerinde ağ izi olan", "lastik çizmeli"],
-    "liman_iscisi": ["iş yeleği giymiş", "baretini koluna takmış"],
-    "eski_tersaneci": ["nasırlı elleri olan", "eski bir tersane montu giymiş"],
-    "genc_girisimci": ["laptopuna gömülmüş", "dövmeli", "bere takmış"],
-    "beyaz_yaka": ["takım elbiseli", "yaka kartı boynunda", "kulaklığı takılı"],
-    "serbest_meslek": ["deri çantalı", "ciddi bakışlı"],
-    "zengin_aile": ["pahalı saatli", "kaşmir paltolu"],
-    "yeni_zengin": ["gösterişli saatli", "araba anahtarını masaya koymuş"],
-    "ogrenci": ["sırt çantalı", "elinde fotokopi deste", "uykusuz gözlü"],
-    "akademisyen": ["kitaplarla dolu çantalı", "gözlüklerini alnına itmiş"],
-    "sanatci": ["boyalı ellerli", "gitar kılıfı yanında", "rengârenk giyinmiş"],
-    "gocmen": ["az Türkçe konuşan", "iş tulumlu", "yorgun bakışlı"],
-    "tasra_gocu": ["yazmalı", "eli yüzü toz içinde", "kalabalık bir aileyle"],
-    "fabrika_iscisi": ["mavi tulumlu", "vardiya çıkışı yorgun"],
-    "sanayi_esnafi": ["yağlı tulumlu", "elleri kararmış"],
-    "deri_ustasi": ["deri önlüklü", "elleri boyalı"],
-    "kucuk_memur": ["ceketli", "dosya taşıyan"],
-    "gece_calisani": ["siyah giyinmiş", "uykusuz", "kulağında kulaklık"],
-    "yolcu": ["bavullu", "etrafına bakınan"],
-    "kayit_disi": ["elinde poşetler", "eski montlu", "el arabasıyla"],
-    "bezhane_emeklisi": ["örgü yelekli", "eski fabrika rozetli"],
-    "koylu": ["çizmeli", "elinde bağ makası"],
-    "toki_sakini": ["bebek arabalı", "market poşetli"]
+  "_aciklama": "Mekanlarda insanlar, tanışma ve konu seçmeli sohbet (adım 3.2, 3.2b'de yeniden yazıldı: kullanıcı 'doğal değil, çok benzer' dedi). İnsanlar artık kendi ağızlarından konuşur: cümleler üsluba göre (kibar, sade, sert, argo, esnaf, kitabi; yoksa '_'), yöresel ağız tek tük sözcükle hissettirilir. Bir sohbet birkaç alışverişten oluşur; kişinin sabrı bitince kendisi kalkar. Aynı kişiden aynı cümle iki kez duyulmaz (son söylenenler tutulur). Yer tutucular: {s.ad} (kişinin adı), {s.hitap} (sana hitabı), {s.meslek}, {s.meslekEski}, {s.memleketAd}, {s.memleketDen}, {s.memleketLi}, {s.kokenAd}, {s.semtAd}, {s.gerilimAd}, {s.gerilimOzet}, {s.haber}, {s.dert}, {s.hayal}, {s.dedikodu}, {s.tanidikAd}, {s.tanidikYer}, {s.tanidikYorum}, {s.mekanAd}. Süzgeçler: |bas, |kucuk, ekler (|i, |de...).",
+  "mevcut": {
+    "kisi": [
+      0,
+      2,
+      3,
+      4
+    ],
+    "sahipOlasiligi": 0.8,
+    "mudavimOlasiligi": 0.35
   },
-  "kimler": { "e": { "genc": "bir delikanlı", "diger": "bir adam" }, "k": { "genc": "genç bir kız", "diger": "bir kadın" } },
-
-  "tanisma": {
-    "kabulTaban": 0.6, "eksenEtkisi": { "disadonuk": 0.08, "uyumlu": 0.06 }, "ruhEtkisi": 0.004,
-    "ac": ["Yanına yaklaşıp bir şey soruyorsun; havadan sudan.", "Göz göze geliyorsunuz; selam veriyorsun.", "Çakmağı olup olmadığını soruyorsun; bahane bu."],
-    "kabul": ["'{npc.hitapAdi},' diyor elini uzatarak. '{npc.tik|bas}, otur bakalım.'", "Biraz şaşırıyor ama gülümsüyor. Adı {npc.hitapAdi}.", "Bir süre seni süzüyor, sonra adını söylüyor: {npc.hitapAdi}."],
-    "ret": ["Kısa bir cevap verip başını çeviriyor. Bugün konuşacak hali yok.", "Kibarca ama kesin bir şekilde 'Kusura bakma, acelem var' diyor.", "Seni duymamış gibi yapıyor. Belki de gerçekten duymadı."],
-    "retSert": ["'Tanışmayalım kardeşim,' diyor, 'böyle iyiyiz.'", "Yüzünü buruşturuyor. Belli ki yanlış zaman."]
+  "havuz": {
+    "mekan": 6,
+    "semt": 40,
+    "mekandanOrani": 0.6
   },
-
-  "konular": [
-    { "id": "is", "esik": 0, "baslik": "işi", "metin": ["Ne iş yaptığını anlatıyor: {npc.meslek}. 'Ekmek parası işte.'", "İşinden bahsediyor; {npc.meslek}. Anlatırken yüzü bir aydınlanıyor, bir kararıyor."] },
-    { "id": "memleket", "esik": 0, "baslik": "memleketi", "metin": ["Laf memlekete geliyor. {npc.memleketCumle}", "Nereli olduğunu soruyorsun. {npc.memleketCumle}"] },
-    { "id": "semt", "esik": 0, "baslik": "mahalle", "metin": ["Mahalleden konuşuyorsunuz; '{npc.semtSozu}' diyor.", "Semtin eskisini anlatıyor; senin bilmediğin bir sürü şey."] },
-    { "id": "dert", "esik": 8, "baslik": "derdi", "metin": ["Laf döndü dolaştı, içini döküyor: {npc.dertMetni}", "Bir an susuyor, sonra söylüyor: {npc.dertMetni}"] },
-    { "id": "hayal", "esik": 18, "baslik": "hayali", "metin": ["Gözleri parlayarak anlatıyor: {npc.hayalMetni}", "'Biliyor musun,' diyor, 'benim bir hayalim var.' {npc.hayalMetni}"] },
-    { "id": "dedikodu", "esik": 12, "baslik": "dedikodu", "metin": ["Sesini alçaltıyor: '{npc.dedikodu}'"] },
-    { "id": "tanidik", "esik": 10, "baslik": "tanıdıkları", "metin": ["{npc.tanidikCumle}"] }
+  "sure": {
+    "tanis": 10,
+    "alisveris": 10,
+    "otur": 3
+  },
+  "katmanEsikleri": {
+    "tanidik": 1,
+    "onemli": 6
+  },
+  "sabir": {
+    "taban": 2,
+    "yakinlikBolen": 15,
+    "enCok": 9
+  },
+  "gerginlikEsigi": 8,
+  "esikler": {
+    "dert": 10,
+    "hayal": 20,
+    "dedikodu": 6,
+    "tanidik": 6
+  },
+  "yakinlik": {
+    "tanisma": [
+      3,
+      6
+    ],
+    "alisveris": [
+      1,
+      3
+    ],
+    "dertDinlemek": [
+      3,
+      6
+    ],
+    "hayal": [
+      2,
+      4
+    ],
+    "kendin": [
+      1,
+      3
+    ],
+    "sakaGuldu": [
+      2,
+      4
+    ]
+  },
+  "yasKelimeleri": [
+    [
+      19,
+      "genç"
+    ],
+    [
+      29,
+      "yirmilerinde"
+    ],
+    [
+      39,
+      "otuzlarında"
+    ],
+    [
+      49,
+      "kırklarında"
+    ],
+    [
+      59,
+      "ellilerinde"
+    ],
+    [
+      69,
+      "altmışlarında"
+    ],
+    [
+      79,
+      "yetmişlerinde"
+    ],
+    [
+      200,
+      "yaşlı"
+    ]
   ],
-  "konusmaSonu": ["Bir süre daha oturuyorsunuz; konuşmak iyi geldi.", "Kalkarken 'Yine bekleriz,' diyor.", "Ayrılırken omzuna hafifçe vuruyor."],
-  "yakinlik": { "tanisma": [3, 6], "sohbet": [2, 5], "dertDinlemek": [3, 6] }
+  "kimler": {
+    "e": {
+      "genc": "bir delikanlı",
+      "diger": "bir adam"
+    },
+    "k": {
+      "genc": "genç bir kız",
+      "diger": "bir kadın"
+    }
+  },
+  "hitaplar": {
+    "karaliman": [
+      "kardeşim",
+      "hocam",
+      "canım",
+      "be güzel insan"
+    ],
+    "standart": [
+      "kardeşim",
+      "hocam",
+      "canım",
+      "dostum"
+    ],
+    "karadeniz": [
+      "uşağum",
+      "kardeşim",
+      "da"
+    ],
+    "dogu": [
+      "kardaş",
+      "bıra",
+      "gardaşım"
+    ],
+    "guneydogu": [
+      "kekâ",
+      "bıra",
+      "kardaş"
+    ],
+    "ic_anadolu": [
+      "gardaş",
+      "yeğenim",
+      "bacım"
+    ],
+    "ege": [
+      "hacı",
+      "uşak",
+      "canım"
+    ],
+    "akdeniz": [
+      "ağam",
+      "gardaş",
+      "canım"
+    ],
+    "rumeli": [
+      "mari",
+      "be çocuk",
+      "canım"
+    ],
+    "yabanci": [
+      "arkadaş",
+      "kardeş"
+    ]
+  },
+  "uslupHitap": {
+    "kibar": [
+      "efendim",
+      "hocam"
+    ],
+    "argo": [
+      "kanka",
+      "moruk",
+      "bro",
+      "kardeş"
+    ],
+    "esnaf": [
+      "abi",
+      "kardeşim",
+      "güzel kardeşim",
+      "evladım"
+    ]
+  },
+  "beden": {
+    "_": [
+      "{s.ad} bir an düşünüyor.",
+      "{s.ad} omuz silkiyor.",
+      "{s.ad} bardağını masaya bırakıyor.",
+      "{s.ad} sandalyesinde doğruluyor.",
+      "{s.ad} gülümsüyor.",
+      "{s.ad} kaşlarını kaldırıyor.",
+      "{s.ad} bir süre sana bakıyor.",
+      "{s.ad} elindeki şeyle oynamaya başlıyor.",
+      "{s.ad} çayından bir yudum alıyor.",
+      "{s.ad} pencereden dışarı bakıyor.",
+      "{s.ad} sigarasını söndürüyor.",
+      "{s.ad} ellerini ovuşturuyor.",
+      "{s.ad} hafifçe öne eğiliyor.",
+      "{s.ad} bir kahkaha atıyor.",
+      "{s.ad} telefonunu ters çevirip masaya koyuyor."
+    ],
+    "gizli": [
+      "{s.ad} etrafa bir göz atıp sesini alçaltıyor.",
+      "{s.ad} sana doğru eğiliyor.",
+      "{s.ad} kapıya bakıyor, sonra sana dönüyor."
+    ],
+    "huzun": [
+      "{s.ad} bakışlarını kaçırıyor.",
+      "{s.ad} derin bir nefes alıyor.",
+      "{s.ad|in} sesi bir an kısılıyor.",
+      "{s.ad} başını iki yana sallıyor."
+    ]
+  },
+  "tanisma": {
+    "kabulTaban": 0.6,
+    "eksenEtkisi": {
+      "disadonuk": 0.08,
+      "uyumlu": 0.06
+    },
+    "ruhEtkisi": 0.004,
+    "cekicilikEtkisi": 0,
+    "ac": [
+      "Yanına yaklaşıp hava hakkında bir şey söylüyorsun; en güvenli konu.",
+      "Göz göze geliyorsunuz; selam veriyorsun.",
+      "Çakmağı olup olmadığını soruyorsun; bahane bu.",
+      "Masasındaki gazeteyi gösterip bir şey soruyorsun.",
+      "'Burası hep böyle kalabalık mıdır?' diye soruyorsun.",
+      "Yanındaki boş sandalyeyi gösterip oturabilir miyim diye soruyorsun."
+    ],
+    "kendini": {
+      "kibar": [
+        "Memnun oldum. Ben {s.ilkAd}.",
+        "Buyurun, oturun. Adım {s.ilkAd}.",
+        "{s.ilkAd}. Tanıştığımıza memnun oldum."
+      ],
+      "sade": [
+        "{s.ilkAd}. Sen?",
+        "Ben {s.ilkAd}. Otur istersen.",
+        "{s.ilkAd} benim adım. Yeni misin buralarda?"
+      ],
+      "sert": [
+        "{s.ilkAd}. Ne lazım?",
+        "{s.ilkAd}. Ne istiyorsun, söyle.",
+        "Adım {s.ilkAd}. Lafı uzatmayalım."
+      ],
+      "argo": [
+        "{s.ilkAd} ben. Sen kimsin?",
+        "Ben {s.ilkAd}, çök otur.",
+        "{s.ilkAd}. Seni hiç görmedim buralarda, yeni misin?"
+      ],
+      "esnaf": [
+        "{s.ilkAd} derler bize. Hoş geldin {s.hitap}.",
+        "Ooo, buyur {s.hitap}, buyur. {s.ilkAd} ben.",
+        "{s.ilkAd}. Ne içersin, ısmarlayayım."
+      ],
+      "kitabi": [
+        "{s.ilkAd}. İnsanın yeni biriyle tanışması ne güzel şey, değil mi?",
+        "Ben {s.ilkAd}. Burada pek yeni yüz görmeyiz; hoş geldiniz."
+      ]
+    },
+    "lakap": [
+      "Ama herkes '{s.hitapAdi}' der; sen de öyle de.",
+      "Mahallede '{s.hitapAdi}' diye bilirler."
+    ],
+    "ret": {
+      "_": [
+        "Kısa bir cevap verip başını çeviriyor. Bugün konuşacak hali yok.",
+        "Kibarca ama kesin bir şekilde 'Kusura bakma, acelem var' diyor.",
+        "Seni duymamış gibi yapıyor. Belki de gerçekten duymadı.",
+        "Telefonuna bakıp 'Bir dakika' diyor; dakika uzuyor, sen anlıyorsun."
+      ],
+      "sert": [
+        "'Tanışmayalım kardeşim,' diyor, 'böyle iyiyiz.'",
+        "Yüzünü buruşturuyor. 'Ne istiyorsun?' Cevabını beklemeden dönüyor.",
+        "'Ben seni tanımıyorum, sen de beni,' diyor. 'Böyle kalsın.'"
+      ],
+      "kibar": [
+        "'Çok naziksiniz ama şu an müsait değilim,' diyor, hafifçe gülümseyerek.",
+        "'Başka zaman olsun, olur mu?' diyor; sesi yumuşak ama kapı kapalı."
+      ]
+    }
+  },
+  "selam": {
+    "yeni": [
+      "Ooo, sen misin? Gel otur.",
+      "Bak kim gelmiş. Otur bakalım.",
+      "Hoş geldin {s.hitap}."
+    ],
+    "yakin": [
+      "Nerelerdesin sen? Gel gel, otur.",
+      "Ben de seni düşünüyordum! Otur.",
+      "Gel {s.hitap}, gel; yerin hazır."
+    ],
+    "soguk": [
+      "Hı. Otur, istiyorsan.",
+      "Sen mi? Neyse, otur."
+    ]
+  },
+  "konular": {
+    "hal": {
+      "baslik": "Hal hatır sor",
+      "sure": 10
+    },
+    "is": {
+      "baslik": "Ne iş yaptığını sor",
+      "sure": 10,
+      "birKez": true
+    },
+    "memleket": {
+      "baslik": "Nereli olduğunu sor",
+      "sure": 10,
+      "birKez": true
+    },
+    "semt": {
+      "baslik": "Mahalleyi konuş",
+      "sure": 15
+    },
+    "gundem": {
+      "baslik": "Şehirde ne var ne yok?",
+      "sure": 15
+    },
+    "kendin": {
+      "baslik": "Kendinden bahset",
+      "sure": 15
+    },
+    "dert": {
+      "baslik": "Derdini sor",
+      "sure": 20
+    },
+    "hayal": {
+      "baslik": "Hayallerini sor",
+      "sure": 15
+    },
+    "dedikodu": {
+      "baslik": "Ağzını ara (dedikodu)",
+      "sure": 15
+    },
+    "tanidik": {
+      "baslik": "Kimleri tanıdığını sor",
+      "sure": 10
+    },
+    "saka": {
+      "baslik": "Şaka yap",
+      "sure": 5
+    },
+    "bitir": {
+      "baslik": "Kalk",
+      "sure": 2
+    }
+  },
+  "hal": {
+    "keyifli": [
+      "İyiyim valla, şükür. Sen nasılsın?",
+      "Bugün iyiyim, ne yalan söyleyeyim. Böyle günler az olur, tadını çıkarıyorum.",
+      "Keyfim yerinde {s.hitap}. Sabah bir iyi haber aldım; anlatırım belki.",
+      "Bomba gibiyim! Sorma, sorma; bugün her şey yolunda gidiyor.",
+      "İyi be, iyi! Bugün güneş açtı ya, ondan herhalde.",
+      "Valla şikâyet edecek bir şey bulamadım bugün; bu da bir şey.",
+      "İyiyim. Sabah fırından sıcak ekmek aldım; küçük şeyler işte.",
+      "Fena değil! Bir çay daha içersek daha da iyi olacak."
+    ],
+    "dalgin": [
+      "Ha? Pardon, dalmışım. İyiyim, iyiyim.",
+      "İdare ediyoruz işte. Kafam biraz dolu, o kadar.",
+      "Bilmem ki... Bir şey düşünüyordum, aklım orada kaldı.",
+      "İyi... galiba. Sen sorunca bir an emin olamadım.",
+      "Ne diyordun? Dur, baştan anlat.",
+      "İyiyim de... Bugün kafam bir yerde değil.",
+      "Hı hı, iyiyim. Sen nasılsın asıl?",
+      "Sorma, bir şey düşünüyorum, çözemedim."
+    ],
+    "gergin": [
+      "Sorma {s.hitap}, sorma. Bugün her şey üst üste geldi.",
+      "Bir telefon bekliyorum, aklım orada. Kusura bakma.",
+      "Gergin miyim? Belli oluyor mu? Off.",
+      "İyi değilim. Ama konuşmak istemiyorum, başka bir şey anlat.",
+      "Bir dakika... Tamam, buradayım. İyiyim, iyiyim.",
+      "Bugün kimse benimle uğraşmasın; sen hariç, otur.",
+      "Sinirliyim biraz. Geçer."
+    ],
+    "yorgun": [
+      "Yorgunum be {s.hitap}. Gece gözüme uyku girmedi.",
+      "Ayakta uyuyorum, o derece. Bir çay daha lazım.",
+      "Sabahtan beri ayaktayım; bacaklarım beni taşımıyor artık.",
+      "Yorgunluk değil bu, başka bir şey. Neyse.",
+      "Uyku tutmadı; sabaha kadar tavana baktım.",
+      "Bugün iki iş birden yaptım, belim kopuyor.",
+      "Yorgunum ama oturunca açılırım; sen anlat."
+    ],
+    "bekleyen": [
+      "Birini bekliyorum aslında, gelmedi daha. Gelir herhalde.",
+      "İyiyim. Biri gelecekti; bakıyorum işte kapıya.",
+      "Bekliyorum. Ömrüm beklemekle geçti zaten, bu da cabası.",
+      "Biri sözünü tutmadı yine. Alıştım artık.",
+      "Bekliyorum işte. Sen otur, belki o gelene kadar sen gelmiş olursun."
+    ],
+    "sohbetli": [
+      "İyiyim iyiyim, gel otur sen de! Tam da laf açılmıştı.",
+      "Ooo, tam zamanında geldin. Burada büyük tartışma var.",
+      "İyiyim be! Gel, sen de söyle fikrini.",
+      "Gel bak, şunlara bir şey söyle; ben anlatamadım.",
+      "Tam sırası! Biz de seni konuşuyorduk... Yok, şaka şaka."
+    ],
+    "kibar": [
+      "Teşekkür ederim, iyiyim. Siz nasılsınız?",
+      "Çok şükür, iyiyiz. Sorduğunuz için sağ olun.",
+      "İyiyim efendim, teşekkürler. Nasıl gidiyor sizin işler?",
+      "Fena değilim, sağ olun. Bu havada herkes biraz yorgun ama."
+    ]
+  },
+  "is": {
+    "calisiyor": {
+      "_": [
+        "{s.meslek|bas} olarak çalışıyorum. Sabah yedi akşam yedi, sorma.",
+        "{s.meslek|bas}. Maaş az, iş çok; bildiğin hikâye.",
+        "{s.meslek|bas}. Seviyor muyum? Bilmiyorum, hiç düşünmedim aslında.",
+        "{s.meslek|bas} işte. Kimine göre iyi iş; bana sorarsan bir yere gitmiyor.",
+        "{s.meslek|bas}. Evi o geçindiriyor, ben de ona katlanıyorum."
+      ],
+      "argo": [
+        "{s.meslek|bas}. Boş ver, konuşmaya değmez.",
+        "{s.meslek|bas} takılıyorum şimdilik. Asıl işim başka, anlatırım bir gün."
+      ],
+      "kibar": [
+        "{s.meslek|bas} olarak çalışıyorum. Zor ama onurlu bir iş, öyle düşünüyorum.",
+        "{s.meslek|bas}. Uzun yıllar oldu; artık işim değil, hayatım gibi."
+      ]
+    },
+    "kendi": {
+      "_": [
+        "Kendi işim var: {s.meslek}. Patron benim, dert de benim.",
+        "{s.meslek|bas}. Kimseye hesap vermiyorum ama kira da bana bakıyor.",
+        "{s.meslek|bas}. Babamdan kaldı; bırakamıyorum, bıraksam ne yapacağım?",
+        "{s.meslek|bas}. İyi günü de var kötü günü de; son zamanlarda kötüsü çok."
+      ],
+      "esnaf": [
+        "{s.meslek|bas}! Gel bir gün, sana iyi fiyat yaparım.",
+        "{s.meslek|bas} {s.hitap}, kırk yıldır aynı yerde. Mahallenin yarısı borçlu bana, öbür yarısına ben."
+      ]
+    },
+    "emekli": {
+      "_": [
+        "Emekliyim. Yıllarca {s.meslekEski} olarak çalıştım; şimdi bakıyoruz işte.",
+        "Emekli oldum, ama emekli maaşıyla emekli olunmuyor {s.hitap}.",
+        "Otuz yıl {s.meslekEski}. Şimdi evle kahve arasında mekik dokuyorum.",
+        "Emekliyim. Sabah uyanıyorum, gidecek bir yer yok; ilk yıl çok zor geldi."
+      ]
+    },
+    "issiz": {
+      "_": [
+        "Şu sıralar boştayım. İş arıyorum, bir şey duyarsan haber ver.",
+        "İşsizim. Söylemesi kolay, yaşaması değil.",
+        "Çıkardılar. Üç aydır bakıyorum; ya yaşım tutmuyor ya tecrübem.",
+        "Boştayım. Ama sorma, utandırma beni."
+      ]
+    },
+    "ogrenci": {
+      "_": [
+        "Okuyorum, üniversitede. Bitirince ne olacak, orası meçhul.",
+        "Öğrenciyim. Ders, sınav, kira; döngü bu.",
+        "Okuyorum ama aklım hep başka yerde. Sen sorma, ben söylemeyeyim.",
+        "Son sınıftayım. Herkes 'ne yapacaksın' diye soruyor; ben de bilmiyorum."
+      ],
+      "argo": [
+        "Öğrenciyim kanka. Okul var ama ben ona pek uğramıyorum."
+      ]
+    },
+    "ev": {
+      "_": [
+        "Evdeyim, ev işleri. Kimse iş saymıyor ama sabahtan akşama bitmiyor.",
+        "Ben evdeyim; çocuklar, yemek, temizlik. Maaşım yok ama mesaim çok.",
+        "Şimdilik bir şey yapmıyorum. Bekliyorum diyelim."
+      ]
+    },
+    "sahip": {
+      "_": [
+        "Burası benim: {s.mekanAd}. Sabah ilk ben açarım, akşam son ben kaparım.",
+        "Gördüğün yer benim. Kâr mı? Kirayı çıkarıyoruz, şükür.",
+        "{s.mekanAd|bas} benim işim; benim evim gibi. Müşterinin çoğu da ailem sayılır.",
+        "Bu dükkânın her taşında emeğim var. Bırak diyorlar; bırakıp ne yapacağım?"
+      ],
+      "esnaf": [
+        "Burası benim {s.hitap}! Ne istersen söyle, kapımız açık.",
+        "{s.mekanAd|bas}! Mahallede bilmeyen yoktur. Bizim burası kırk yıllık."
+      ]
+    }
+  },
+  "memleket": {
+    "yerli": [
+      "Ben buralıyım, doğma büyüme. Bu körfezden başka yer görmedim desem yeridir.",
+      "Karalimanlıyım. Dedem de buralı, babam da; ben de burada öleceğim herhalde.",
+      "Buralıyım ben. Eskiden bu şehir başkaydı; sen o halini görmedin.",
+      "Doğma büyüme Karalimanlı. Başka yerde yaşamayı düşündüm ama körfez bırakmıyor."
+    ],
+    "koken": [
+      "Ben burada doğdum ama ailem aslen {s.kokenAd} tarafından. Evde hâlâ oranın yemeği pişer.",
+      "Buralıyım; ama babamlar {s.kokenAd} taraflarından gelmiş. Ben oraları bayramdan bayrama gördüm.",
+      "Burada doğdum, burada büyüdüm. Ama sorsan memleket {s.kokenAd} derim; öyle öğrettiler."
+    ],
+    "mubadil": [
+      "Bizimkiler mübadeleyle gelmiş, Selanik'ten. Dedemin evinin anahtarı hâlâ bizde.",
+      "Mübadil torunuyum. Ninem ölene kadar 'oradaki ev' derdi, burayı hiç ev saymadı.",
+      "Bizim aile 1924'te geldi. Bir iskele, bir sandık, bir anahtar; elimizde kalan bu."
+    ],
+    "gocmus": [
+      "Ben {s.memleketLi}. Buraya iş için geldim, kaldım.",
+      "{s.memleketAd}! Oranın havası başka, suyu başka. Ama iş burada, ne yapalım.",
+      "{s.memleketDen} geldim, yirmi yıl oldu. Hâlâ 'gurbetçi' diyorlar bana.",
+      "Aslen {s.memleketDen}. Bir ekmek kapısı için geldim; geri dönmeyi her yıl söylüyorum, her yıl kalıyorum.",
+      "{s.memleketLi|bas} biriyim. Ama burada da yabancı sayılmam artık."
+    ],
+    "yurtdisi": [
+      "{s.memleketDen} geldim. Savaş... Neyse, uzun hikâye. Burada iyiyim, şükür.",
+      "Ben {s.memleketLi}. Türkçem iyi değil, kusura bakma. Ama anlıyorum, çoğunu.",
+      "{s.memleketAd}. Orada evim vardı, işim vardı. Burada her şeye sıfırdan başladım."
+    ],
+    "gocmusCocuklu": [
+      "Aslen {s.memleketDen}. Bir ekmek kapısı için geldik; çocuklar burada büyüdü, artık dönemeyiz.",
+      "{s.memleketDen} geldik. Çocuklar buralı oldu; ben hâlâ oralıyım."
+    ]
+  },
+  "semt": {
+    "kizgin": [
+      "{s.gerilimAd|bas} meselesini duydun mu? {s.gerilimOzet}. Kimse de bir şey yapmıyor.",
+      "Burada en büyük dert {s.gerilimAd|kucuk}. {s.gerilimOzet}. Sinirim tepeme çıkıyor.",
+      "Ne olacak bu mahallenin hâli? {s.gerilimOzet}. Bizi kimse sormuyor.",
+      "Bu mahallede kimse kimseyi düşünmüyor artık. {s.gerilimOzet}.",
+      "Eskiden böyle değildi. {s.gerilimAd|bas} yüzünden herkes birbirine düştü.",
+      "Bir şey söyleyeyim mi? {s.gerilimOzet}. Bunu kimse yazmıyor, kimse konuşmuyor."
+    ],
+    "kayitsiz": [
+      "Mahalle mi? Eskisi gibi değil. {s.gerilimOzet}; ama ben karışmam.",
+      "Herkes {s.gerilimAd|kucuk} diye konuşuyor. Bana dokunmadıkça bir şey demem.",
+      "{s.semtAd|de} her gün bir şey olur. Alıştık artık.",
+      "{s.semtAd} işte; ne iyi ne kötü. Yaşıyoruz.",
+      "Herkesin bir derdi var, benimki mahalle değil.",
+      "{s.gerilimAd|bas} mı? Duydum. Ne olacaksa olur."
+    ],
+    "umutlu": [
+      "Zor zamanlar ama bu mahalle çok şey atlattı. {s.gerilimAd|bas} da geçer.",
+      "{s.gerilimOzet}. Ama bak, insanlar birbirine sahip çıkıyor; bu bana umut veriyor.",
+      "{s.semtAd} kolay pes etmez. Görürsün.",
+      "Bu mahallenin insanı iyidir; zor günde birbirini bırakmaz.",
+      "Her şey değişiyor ama bazı şeyler kalıyor; komşuluk mesela."
+    ]
+  },
+  "gundem": {
+    "var": [
+      "Duydun mu? {s.haber} Bu şehir böyle işte.",
+      "Okudum, şaşırdım: {s.haber}",
+      "{s.haber} Bunlar hep böyle; biz de seyrediyoruz.",
+      "Sabah gazetede gördüm: {s.haber} Ne diyeyim.",
+      "Gazeteleri okuyunca insanın tansiyonu çıkıyor. {s.haber}",
+      "{s.haber} Ne diyeyim, Karaliman'da her gün başka bir şey.",
+      "Haberleri gördün mü? {s.haber} Ben de inanamadım.",
+      "Sabah kahvede bunu konuşuyorlardı: {s.haber}"
+    ],
+    "yok": [
+      "Sakin valla, bir şey duymadım. Belki iyidir.",
+      "Bir şey yok gibi. Bu şehirde 'bir şey yok' demek, bir şey olacak demek ama.",
+      "Haberlere bakmıyorum artık; insanın kanı çekiliyor.",
+      "Bir şey olmadı galiba. Olsa duyardım, burada her şey duyulur."
+    ]
+  },
+  "kendin": {
+    "anlat": [
+      "Kendinden biraz bahsediyorsun: şehre yeni geldiğini, her şeye yeniden başladığını.",
+      "Nerede kaldığını, ne iş aradığını anlatıyorsun.",
+      "Bu şehre neden geldiğini anlatmaya çalışıyorsun; sen de tam bilmiyorsun aslında.",
+      "Bugün neler yaptığını anlatıyorsun; küçük şeyler, ama dinleniyor.",
+      "Karaliman'a neden geldiğini soruyor; yarım yamalak anlatıyorsun.",
+      "Eski hayatından bir parça anlatıyorsun; geri kalanını saklıyorsun.",
+      "Bugün başına gelen küçük bir şeyi anlatıyorsun; gülüyorsunuz.",
+      "Bu şehirde kimseyi tanımadığını söylüyorsun; doğru değil artık, ama öyle hissediyorsun."
+    ],
+    "merakli": [
+      "'Peki neden Karaliman?' diye soruyor. 'Kimse buraya bilerek gelmez.'",
+      "Bir sürü soru soruyor; hepsine cevabın yok.",
+      "'Ee, sonra?' diye soruyor; her cümlende bir soru daha.",
+      "Gözlerini dikmiş dinliyor; bir kelimeni kaçırmıyor."
+    ],
+    "yardimsever": [
+      "'Bir şeye ihtiyacın olursa beni burada bulursun,' diyor. Ciddi.",
+      "'Yalnız değilsin bu şehirde,' diyor. 'Bunu bilmiş ol.'",
+      "'Kirayı falan dert etme,' diyor, 'buralarda ucuz oda bilirim, sorarım.'"
+    ],
+    "ketum": [
+      "Dinliyor, başını sallıyor; kendi hakkında tek kelime etmiyor.",
+      "Sessizce dinliyor. Sonunda sadece 'Anlıyorum' diyor; anladığı belli.",
+      "'Herkesin anlatacak bir şeyi var,' diyor sadece."
+    ],
+    "kuskucu": [
+      "'Herkes bir şey anlatır,' diyor, 'bakalım sen ne çıkacaksın.'",
+      "Gözlerini kısıp dinliyor; inanıyor mu, belli değil.",
+      "'Bu şehre gelen ya kaçar ya saklanır,' diyor. 'Sen hangisisin?'"
+    ],
+    "_": [
+      "'Kolay değil,' diyor. 'Ama bu şehir yeniden başlayanları sever; sonunda.'",
+      "'Herkesin bir hikâyesi var,' diyor. 'Seninki daha yeni başlıyor.'",
+      "Gülümsüyor: 'Ben de buraya geldiğimde böyleydim.'",
+      "'Yeniden başlamak cesaret ister,' diyor. 'Bunu unutma.'",
+      "Başını sallıyor. 'Bize de iyi gelir yeni yüz.'",
+      "'İlk aylar zor,' diyor, 'sonra şehir seni tanır.'"
+    ]
+  },
+  "dert": {
+    "kacamak": {
+      "_": [
+        "Boş ver, herkesin derdi kendine.",
+        "Dert mi? Yok bir şey. Olsa da sana anlatmam, daha tanımıyorum seni.",
+        "Ne bileyim... İdare ediyoruz işte. Başka bir şey konuşalım."
+      ],
+      "kibar": [
+        "Sağ olun, ama kendi meselelerimi başkasına yüklemeyi sevmem.",
+        "Şimdilik bir şey yok, merak etmeyin."
+      ],
+      "sert": [
+        "Sana ne benim derdimden?",
+        "Derdimi seninle mi paylaşacağım? Daha dün tanıştık."
+      ]
+    },
+    "giris": [
+      "Laf dönüp dolaşıyor, sonunda içini döküyor:",
+      "Bir an susuyor. Sonra anlatıyor:",
+      "Bardağını çeviriyor, sana bakmadan konuşuyor:"
+    ],
+    "tekrar": [
+      "Geçen anlattığım mesele var ya... Hâlâ aynı. Değişen bir şey yok.",
+      "Sorduğun için sağ ol. Aynı, aynı. Uğraşıyoruz.",
+      "O iş mi? Ne bileyim, bir gün düzelir belki."
+    ],
+    "dinledin": [
+      "Dinliyorsun; bazen insanın tek istediği bu.",
+      "Bir şey söylemiyorsun; söylenecek bir şey yok zaten. Ama orada olduğun belli.",
+      "'Anlatınca hafifledim,' diyor."
+    ]
+  },
+  "hayal": {
+    "kacamak": {
+      "_": [
+        "Hayal mi? O yaşları geçtik.",
+        "Benim hayalim mi... Gülersin. Başka zaman."
+      ],
+      "sert": [
+        "Hayal kurmak boş iş. Ben bugüne bakarım."
+      ]
+    },
+    "giris": [
+      "Gözleri bir an parlıyor:",
+      "Önce gülüyor, sonra ciddileşiyor:",
+      "Sesini alçaltıyor, sanki kimse duymasın:"
+    ],
+    "tekrar": [
+      "Anlattım ya sana; hâlâ aynı hayal. Bir gün.",
+      "Aynı. İnsan hayalinden kolay vazgeçmiyor."
+    ]
+  },
+  "dedikodu": {
+    "anlatir": [
+      "Sana bir şey söyleyeyim ama aramızda kalsın: {s.dedikodu}",
+      "Duydun mu bilmem... {s.dedikodu}",
+      "Mahallede konuşuluyor: {s.dedikodu} Ben demedim ama.",
+      "Benden duymuş olma: {s.dedikodu}",
+      "Biliyor musun ne diyorlar? {s.dedikodu}"
+    ],
+    "reddeder": [
+      "Ben kimsenin arkasından konuşmam.",
+      "O işlere karışmam {s.hitap}. Herkes kendi işine baksın.",
+      "Bilsem de söylemem; bilmesem hiç söylemem."
+    ],
+    "yok": [
+      "Bilmem ki, yeni bir şey duymadım.",
+      "Sakin bu aralar; kimse kimseyle uğraşmıyor. Şimdilik."
+    ]
+  },
+  "tanidik": {
+    "anlatir": [
+      "{s.tanidikAd|i} tanır mısın? {s.tanidikYer}. {s.tanidikYorum}",
+      "Burada herkes herkesi tanır. Mesela {s.tanidikAd}: {s.tanidikYer|kucuk}. {s.tanidikYorum}",
+      "{s.tanidikAd}... {s.tanidikYer}. {s.tanidikYorum}"
+    ],
+    "yok": [
+      "Kimseyi pek tanımam; ben kendi halimde biriyim.",
+      "Tanıdık çok da, anlatılacak kadar değil."
+    ]
+  },
+  "tanidikYorum": {
+    "geveze": [
+      "Ağzında bakla ıslanmaz, ona göre.",
+      "Bir şey söyledin mi bütün mahalle duyar."
+    ],
+    "ketum": [
+      "Az konuşur ama söylediği doğrudur.",
+      "Sır küpüdür; ne sorsan anlatmaz."
+    ],
+    "comert": [
+      "Eli açıktır; kimseyi kapıdan çevirmez.",
+      "Altın kalplidir, bilmiş ol."
+    ],
+    "cimri": [
+      "Parayı sever; hesabını iki kere yapar.",
+      "Çay bile ısmarlamaz, ama kötü adam değildir."
+    ],
+    "kavgaci": [
+      "Bulaşma; sinirlidir.",
+      "Bir lafa kızar, üç gün konuşmaz."
+    ],
+    "sakaci": [
+      "Güldürür insanı; yanında vakit geçmez.",
+      "Şakasız duramaz."
+    ],
+    "kurnaz": [
+      "Akıllıdır, belki fazla akıllı.",
+      "Ondan bir şey alırken iki kere düşün."
+    ],
+    "_": [
+      "İyi insandır.",
+      "Kendi halinde biridir.",
+      "Tanırım ama yakın değilizdir.",
+      "Eskiden daha neşeliydi."
+    ]
+  },
+  "saka": {
+    "yap": [
+      "Havadan sudan bir espri yapıyorsun.",
+      "Kendinle dalga geçen bir şey söylüyorsun.",
+      "Masadaki sessizliği bir şakayla bozmaya çalışıyorsun.",
+      "Kendi beceriksizliğinle ilgili bir anı anlatıyorsun.",
+      "Demirspor üstüne bir şaka yapıyorsun; tehlikeli bölge.",
+      "Hava durumuna bir laf atıyorsun.",
+      "Gün boyu başına gelen talihsizlikleri abartarak anlatıyorsun.",
+      "İçeri giren birinin şapkası üstüne fısıldayarak bir şey söylüyorsun."
+    ],
+    "guldu": [
+      "Kahkahayı basıyor. 'Sen iyisin ya!'",
+      "Gülüyor, sonra bir tane de o patlatıyor; seninkinden iyi.",
+      "Önce anlamıyor, sonra gülmekten gözleri yaşarıyor.",
+      "Gülmekten sandalyesinden düşecek gibi oluyor.",
+      "'Bunu başkasına da anlatacağım,' diyor gülerek.",
+      "Gülüyor; gülüşü bulaşıcı, sen de gülüyorsun."
+    ],
+    "gulumsedi": [
+      "Kibarca gülümsüyor.",
+      "Hafifçe gülüyor; belki de sen öyle sanıyorsun.",
+      "'İyiymiş,' diyor; gülmüyor ama.",
+      "Bir kaşını kaldırıp gülümsüyor.",
+      "'Fena değil,' der gibi başını sallıyor.",
+      "Gülmüyor ama gözleri gülüyor."
+    ],
+    "kizdi": [
+      "Yüzü değişiyor. 'Bununla mı dalga geçiyorsun?'",
+      "Gülmüyor. Bir an hava ağırlaşıyor.",
+      "'Hiç komik değil,' diyor, kısaca.",
+      "Yüzü kızarıyor; belli ki yanlış yere bastın.",
+      "'Herkes bunu söylüyor,' diyor soğuk bir sesle."
+    ]
+  },
+  "bitir": {
+    "sen": [
+      "Kalkıyorsun; 'Görüşürüz' diyorsun.",
+      "Bardağını bitirip kalkıyorsun.",
+      "'Bana müsaade' diyorsun, kalkıyorsun.",
+      "Saatine bakıp kalkıyorsun.",
+      "'Ben bir dolaşayım' deyip kalkıyorsun."
+    ],
+    "veda": {
+      "_": [
+        "Hadi, yine gel.",
+        "Kendine iyi bak {s.hitap}.",
+        "Görüşürüz. Bu saatlerde genelde buradayım.",
+        "Yolun açık olsun.",
+        "Yine uğra, tamam mı?",
+        "Hadi, Allah'a emanet.",
+        "Bir dahakine sen anlatırsın, ben dinlerim."
+      ],
+      "esnaf": [
+        "Yine bekleriz {s.hitap}, bizi unutma!"
+      ],
+      "argo": [
+        "Eyvallah, görüşürüz."
+      ],
+      "kibar": [
+        "Sohbetiniz için teşekkürler. Yine görüşelim."
+      ]
+    },
+    "o": [
+      "Benim kalkmam lazım, kusura bakma.",
+      "Hadi bana müsaade; işler bekliyor.",
+      "Saat geç oldu, ben kaçayım.",
+      "Bugünlük bu kadar, başım şişti.",
+      "Bak saat kaç olmuş; ben gideyim.",
+      "Bir işim vardı, unuttum! Kalkmam lazım.",
+      "Bugünlük bu kadar sohbet yeter, ağzım kurudu."
+    ]
+  },
+  "kacinir": [
+    "Seni görünce başını çeviriyor. Bugün konuşacak hali yok.",
+    "Göz göze geliyorsunuz; bakışlarını kaçırıyor."
+  ],
+  "sabirBitti": "{s.ad} sohbeti bitiriyor.",
+  "hafiza": {
+    "kisi": 60,
+    "genel": 100
+  }
 }

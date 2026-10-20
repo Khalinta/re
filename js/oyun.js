@@ -29,7 +29,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbet] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbet, gorunusVeri] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -53,8 +53,9 @@ export async function veriYukle() {
     jsonAl('./data/npc/kisilik.json'),
     jsonAl('./data/npc/hayat.json'),
     jsonAl('./data/npc/sohbet.json'),
+    jsonAl('./data/npc/gorunus.json'),
   ]);
-  veri.npc = { isimler, memleket, kisilik, hayat, sohbet };
+  veri.npc = { isimler, memleket, kisilik, hayat, sohbet, gorunus: gorunusVeri };
   veri.gezi = gezi;
   veri.ekonomi = ekonomi;
   const ekoSorunlari = ekonomiDogrula(ekonomi, { isTurleri: sirketler.isTurleri, hizmetler: mekanlar.hizmetler, ulasim });
@@ -142,6 +143,7 @@ export function aksiyonListesi() {
   const sabit = veri.aksiyonlar.filter(a => a.kisayol || yerdeMi(a))
     .map(a => ({ a, ...aksiyonDurumu(durum, a, veri.sim, veri), maliyet: aksiyonMaliyeti(durum, a, veri.sim) }));
   const baglam = konum.baglamAksiyonlari(durum, veri).map(x => ({ a: { id: x.id, ad: x.ad, alt: x.alt }, tamam: x.tamam, sebep: x.sebep, maliyet: x.maliyet }));
+  if (durum.sohbet && baglam.some(x => x.a.id.startsWith('sohbet:'))) return [...sabit.filter(x => x.a.kisayol), ...baglam];
   return [...baglam.filter(x => x.a.id.startsWith('mekan:')), ...sabit, ...baglam.filter(x => !x.a.id.startsWith('mekan:'))];
 }
 
@@ -162,6 +164,9 @@ export function aksiyonYap(id) {
 }
 
 function aksiyonYapIc(id) {
+  // Sohbet konusu dışındaki her hamle açık sohbeti bitirir
+  if (durum.sohbet && !id.startsWith('sohbet:')) insanlar.oturumBitir(durum);
+  if (id.startsWith('sohbet:')) return konumHamlesi(() => insanlar.sohbetHamlesi(durum, veri, rngAl(durum, 'aksiyon'), id.slice(7)), 'sohbet');
   if (id.startsWith('gezi:') || id.startsWith('mekan:') || id.startsWith('npc:')) return konumHamlesi(() => {
     const rng = rngAl(durum, 'aksiyon');
     if (id.startsWith('npc:')) return konum.insanHamlesi(durum, veri, rng, id.slice(4));
@@ -213,6 +218,7 @@ function eveGit(rng) {
 // Şehir ekranından: başka semte git (kip: toplu | yuruyus | taksi), istenirse oradaki bir mekana gir
 export function yolculuk(hedef, kip, mekanId = null) {
   return geriAlinabilir(durum, () => konumHamlesi(() => {
+    if (durum.sohbet) insanlar.oturumBitir(durum);
     const rng = rngAl(durum, 'aksiyon');
     const parcalar = [];
     if (hedef !== durum.konum.semt) {

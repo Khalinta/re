@@ -1,0 +1,575 @@
+{
+  "_aciklama": "NPC'lerin dış görünüşü ve ilk izlenim (adım 3.2b, kullanıcı isteği). Hepsi seed'den: boy, yapı, saç, göz, ten, yüz ayrıntısı, sakal/bıyık, gözlük, ayırt edici işaret, ses, giyim (sakin türü ve gelire göre, bakımına kişiliği karar verir), çekicilik ve karizma (1–10), duruş. İlk izlenim bunlardan ve kişiliğin dışa vuran yanından kurulur; her zaman doğru değildir (güvenilmez biri pekâlâ güven verici görünebilir). 'hal': o günkü hali (gün gün değişir). yuz/isaretler: yasMin/yasMax ile yaşa uygun olanlar seçilir.",
+  "boy": {
+    "e": {
+      "kısa boylu": 2,
+      "orta boylu": 5,
+      "uzun boylu": 3,
+      "çok uzun boylu": 0.6
+    },
+    "k": {
+      "minyon": 2.5,
+      "orta boylu": 5,
+      "uzun boylu": 2,
+      "çok uzun boylu": 0.3
+    }
+  },
+  "yapi": {
+    "e": {
+      "zayıf": 2,
+      "ince yapılı": 2,
+      "orta yapılı": 4,
+      "geniş omuzlu": 2,
+      "iri yarı": 1.5,
+      "göbekli": 2.5,
+      "atletik": 1
+    },
+    "k": {
+      "çok zayıf": 1,
+      "ince": 3,
+      "orta yapılı": 4,
+      "dolgun": 2.5,
+      "balık etli": 1.5,
+      "atletik": 0.8,
+      "kilolu": 1.2
+    }
+  },
+  "yapiYas": {
+    "göbekli": 40,
+    "balık etli": 30,
+    "kilolu": 35
+  },
+  "sacRenk": {
+    "siyah": 4,
+    "koyu kahve": 5,
+    "kestane": 3,
+    "açık kahve": 1.5,
+    "sarı": 0.8,
+    "kızıl": 0.3
+  },
+  "sacKir": [
+    [
+      29,
+      0.01
+    ],
+    [
+      39,
+      0.08
+    ],
+    [
+      49,
+      0.35
+    ],
+    [
+      59,
+      0.7
+    ],
+    [
+      69,
+      0.92
+    ],
+    [
+      200,
+      1
+    ]
+  ],
+  "sacStil": {
+    "e": [
+      "kısacık kesilmiş",
+      "yana taranmış",
+      "geriye taranmış",
+      "dağınık",
+      "jöleli",
+      "seyrelmiş",
+      "kel",
+      "uzun, arkadan toplanmış",
+      "kıvırcık"
+    ],
+    "k": [
+      "omuzlarına dökülen",
+      "sıkıca toplanmış",
+      "kısa kesilmiş",
+      "dalgalı",
+      "kıvırcık",
+      "atkuyruğu yapılmış",
+      "boyalı uçlu",
+      "örgülü"
+    ]
+  },
+  "sacStilYas": {
+    "kel": 35,
+    "seyrelmiş": 35,
+    "jöleli": -40,
+    "boyalı uçlu": -40,
+    "atkuyruğu yapılmış": -50
+  },
+  "basortusu": {
+    "taban": 0.3,
+    "yasCarpan": [
+      [
+        30,
+        0.6
+      ],
+      [
+        50,
+        1
+      ],
+      [
+        200,
+        1.6
+      ]
+    ],
+    "sakinCarpan": {
+      "tasra_gocu": 1.8,
+      "koylu": 2,
+      "toki_sakini": 1.3,
+      "emekli": 1.3,
+      "bezhane_emeklisi": 1.3,
+      "zengin_aile": 0.3,
+      "beyaz_yaka": 0.6,
+      "sanatci": 0.2,
+      "ogrenci": 0.7,
+      "akademisyen": 0.4,
+      "gece_calisani": 0.2,
+      "gocmen": 1.5
+    }
+  },
+  "goz": {
+    "kara": 3,
+    "koyu kahverengi": 5,
+    "kahverengi": 4,
+    "ela": 2,
+    "yeşil": 0.7,
+    "mavi": 0.4,
+    "gri": 0.2
+  },
+  "ten": {
+    "buğday tenli": 5,
+    "esmer": 3,
+    "açık tenli": 2.5,
+    "yanık tenli": 1
+  },
+  "yuz": [
+    {
+      "metin": "köşeli bir çenesi var"
+    },
+    {
+      "metin": "yuvarlak bir yüzü var"
+    },
+    {
+      "metin": "uzun bir yüzü var"
+    },
+    {
+      "metin": "yanakları çökük",
+      "yasMin": 40
+    },
+    {
+      "metin": "elmacık kemikleri belirgin"
+    },
+    {
+      "metin": "yüz hatları yumuşak"
+    },
+    {
+      "metin": "kemerli bir burnu var"
+    },
+    {
+      "metin": "kaşları kalın ve gür"
+    },
+    {
+      "metin": "dudakları ince"
+    },
+    {
+      "metin": "dudakları dolgun"
+    },
+    {
+      "metin": "alnında derin çizgiler var",
+      "yasMin": 45
+    },
+    {
+      "metin": "yaşından genç gösteren bir yüzü var",
+      "yasMin": 30
+    },
+    {
+      "metin": "yüzünde yılların yorgunluğu okunuyor",
+      "yasMin": 50
+    },
+    {
+      "metin": "çocuksu bir yüzü var",
+      "yasMax": 28
+    }
+  ],
+  "sakal": {
+    "sinekkaydı tıraşlı": 3,
+    "üç günlük sakallı": 3,
+    "bıyıklı": 3,
+    "kır bıyıklı": 0,
+    "sakallı": 1.5,
+    "keçi sakallı": 0.5
+  },
+  "gozlukYas": [
+    [
+      30,
+      0.12
+    ],
+    [
+      45,
+      0.25
+    ],
+    [
+      60,
+      0.5
+    ],
+    [
+      200,
+      0.75
+    ]
+  ],
+  "isaretler": [
+    {
+      "metin": "kaşında eski bir yara izi var"
+    },
+    {
+      "metin": "elinin üstünde soluk bir dövme var"
+    },
+    {
+      "metin": "gülünce yanağında bir gamze çıkıyor"
+    },
+    {
+      "metin": "burnunun üstünde çiller var",
+      "yasMax": 40
+    },
+    {
+      "metin": "boynunda bir ben var"
+    },
+    {
+      "metin": "bir kulağında küçük bir küpe var"
+    },
+    {
+      "metin": "ön dişlerinden biri kırık"
+    },
+    {
+      "metin": "parmağında ağır bir yüzük var",
+      "yasMin": 30
+    },
+    {
+      "metin": "kolunda eski bir yanık izi var"
+    },
+    {
+      "metin": "gözlerinin kenarında derin kaz ayakları var",
+      "yasMin": 42
+    },
+    {
+      "metin": "tırnakları yenmiş"
+    },
+    {
+      "metin": "bileğinde ince bir bileklik var"
+    }
+  ],
+  "isaretOlasiligi": 0.35,
+  "ses": [
+    "sesi kalın",
+    "sesi yumuşak",
+    "sesi kısık",
+    "yüksek sesle konuşuyor",
+    "sesi boğuk",
+    "hızlı hızlı konuşuyor",
+    "ağır ağır, tane tane konuşuyor",
+    "sesi hafifçe titriyor",
+    "sesi gür",
+    "neredeyse fısıldayarak konuşuyor",
+    "konuşurken elleri de konuşuyor",
+    "güldüğünde bütün kahve duyuyor"
+  ],
+  "giyim": {
+    "_varsayilan": [
+      "sade giyimli",
+      "kot pantolonlu, montlu",
+      "üstü başı eski ama temiz"
+    ],
+    "esnaf": [
+      "yeleğinin cebinde kalem",
+      "kollarını sıvamış gömlekli",
+      "önlüklü"
+    ],
+    "emekli": [
+      "ceketinin önü ilikli",
+      "hırkalı",
+      "kasketli"
+    ],
+    "emekli_varlikli": [
+      "kaşmir kazaklı",
+      "ütülü pantolonlu, parlak ayakkabılı"
+    ],
+    "mubadil_ailesi": [
+      "denizci kazaklı",
+      "eski bir deri ceketli"
+    ],
+    "balikci": [
+      "lastik çizmeli",
+      "yağmurluklu",
+      "boynunda atkı, elleri tuzlu"
+    ],
+    "liman_iscisi": [
+      "fosforlu iş yelekli",
+      "iş botlu",
+      "tulumunun üstü yağ lekeli"
+    ],
+    "eski_tersaneci": [
+      "eski bir tersane montlu",
+      "eskimiş ama ütülü gömlekli"
+    ],
+    "genc_girisimci": [
+      "bereli, geniş kazaklı",
+      "dövmeli kolları açıkta",
+      "ayakkabıları bilerek eskitilmiş"
+    ],
+    "beyaz_yaka": [
+      "takım elbiseli, kravatı gevşemiş",
+      "yaka kartı boynunda",
+      "spor ceketli, akıllı saatli"
+    ],
+    "serbest_meslek": [
+      "deri çantalı, şık",
+      "pahalı gözlüklü, ütülü gömlekli"
+    ],
+    "zengin_aile": [
+      "kaşmir paltolu",
+      "markası belli olmayan ama pahalı olduğu belli giysiler içinde"
+    ],
+    "yeni_zengin": [
+      "logosu büyük gömlekli",
+      "parlak saatli",
+      "kalın altın zincirli"
+    ],
+    "ogrenci": [
+      "sırt çantalı, kapüşonlu",
+      "kulaklıkları boynunda",
+      "spor ayakkabılı, salaş"
+    ],
+    "akademisyen": [
+      "kadife ceketli",
+      "kitap dolu bez çantalı"
+    ],
+    "sanatci": [
+      "rengârenk giyinmiş",
+      "boya lekeli pantolonlu",
+      "siyahlar içinde"
+    ],
+    "gocmen": [
+      "iş tulumlu",
+      "kendine büyük bir montla",
+      "eski ama özenle yamanmış giysili"
+    ],
+    "tasra_gocu": [
+      "yazmalı",
+      "şalvarlı",
+      "kalın hırkalı",
+      "üstü başı toz içinde"
+    ],
+    "fabrika_iscisi": [
+      "mavi tulumlu",
+      "vardiya montlu",
+      "iş ayakkabılı"
+    ],
+    "sanayi_esnafi": [
+      "yağlı tulumlu",
+      "elleri kararmış, tişörtlü"
+    ],
+    "deri_ustasi": [
+      "deri önlüklü",
+      "elleri boyalı, kolları sıvalı"
+    ],
+    "kucuk_memur": [
+      "ceketli, dosya taşıyan",
+      "ütülü pantolon, rahat ayakkabılı"
+    ],
+    "gece_calisani": [
+      "siyah giyimli",
+      "parlak gömlekli",
+      "uykusuz, dağınık"
+    ],
+    "yolcu": [
+      "bavullu",
+      "sırt çantalı, yorgun"
+    ],
+    "kayit_disi": [
+      "eski montlu",
+      "üstü başı perişan",
+      "naylon terlikli"
+    ],
+    "bezhane_emeklisi": [
+      "örgü yelekli",
+      "eski fabrika rozetli"
+    ],
+    "koylu": [
+      "çizmeli",
+      "şapkalı, elleri topraklı"
+    ],
+    "toki_sakini": [
+      "eşofmanlı",
+      "market poşetli, aceleci"
+    ]
+  },
+  "bakim": [
+    "özenli",
+    "temiz pak",
+    "salaş",
+    "dağınık",
+    "gösterişli",
+    "yorgun düşmüş"
+  ],
+  "duruslar": [
+    "dimdik oturuyor",
+    "omuzları düşük",
+    "kollarını kavuşturmuş",
+    "sürekli etrafa bakıyor",
+    "rahat, ayak ayak üstüne atmış",
+    "sandalyenin ucuna ilişmiş",
+    "tespihini çeviriyor",
+    "elleri hiç durmuyor",
+    "duvara yaslanmış",
+    "masaya dirseklerini dayamış"
+  ],
+  "haller": {
+    "keyifli": [
+      "keyfi yerinde",
+      "bir şeye gülüp duruyor",
+      "mırıldanarak bir şarkı söylüyor"
+    ],
+    "dalgin": [
+      "dalgın, bardağı soğumuş",
+      "gözleri bir noktaya takılmış",
+      "aklı başka yerde"
+    ],
+    "gergin": [
+      "telefonuna bakıp duruyor, gergin",
+      "bacağı sürekli sallanıyor",
+      "çenesi kasılmış"
+    ],
+    "yorgun": [
+      "gözlerinin altı mor",
+      "esnemesini saklamaya çalışıyor",
+      "yorgunluktan çökmüş"
+    ],
+    "bekleyen": [
+      "kapıya bakıp duruyor, birini bekliyor gibi",
+      "saatine bakıyor"
+    ],
+    "sohbetli": [
+      "yanındakiyle hararetli bir konuşmada",
+      "yüksek sesle bir şey anlatıyor"
+    ]
+  },
+  "cekicilikAdlari": [
+    [
+      3,
+      "göze çarpmayan"
+    ],
+    [
+      5,
+      "sıradan görünüşlü"
+    ],
+    [
+      6,
+      "hoş"
+    ],
+    [
+      8,
+      "güzel"
+    ],
+    [
+      10,
+      "insanın dönüp baktığı kadar güzel"
+    ]
+  ],
+  "cekicilikAdlariErkek": [
+    [
+      3,
+      "göze çarpmayan"
+    ],
+    [
+      5,
+      "sıradan görünüşlü"
+    ],
+    [
+      6,
+      "hoş görünüşlü"
+    ],
+    [
+      8,
+      "yakışıklı"
+    ],
+    [
+      10,
+      "insanın dönüp baktığı kadar yakışıklı"
+    ]
+  ],
+  "karizmaAdlari": [
+    [
+      3,
+      "silik"
+    ],
+    [
+      5,
+      "kalabalıkta kaybolan"
+    ],
+    [
+      7,
+      "varlığı hissedilen"
+    ],
+    [
+      8,
+      "etkileyici"
+    ],
+    [
+      10,
+      "girdiği yerde herkesin döndüğü"
+    ]
+  ],
+  "izlenim": {
+    "guven": [
+      "İlk bakışta güvenilir biri gibi duruyor.",
+      "Yüzünde insanı rahatlatan bir şey var."
+    ],
+    "mesafe": [
+      "Mesafeli; arada görünmez bir duvar var.",
+      "Kolay kolay yaklaşılacak biri gibi durmuyor."
+    ],
+    "tehlike": [
+      "Bakışlarında bir sertlik var; insan bir adım geri çekiliyor.",
+      "Ters bir lafta patlayacakmış gibi duruyor."
+    ],
+    "sicak": [
+      "Sıcak biri; daha konuşmadan gülümsüyor.",
+      "İnsanı kendine çeken bir hali var."
+    ],
+    "kurnaz": [
+      "Gözleri her şeyi tartıyor gibi.",
+      "Seni süzüp bir yere koyuyor; nereye koyduğunu bilemiyorsun."
+    ],
+    "huzunlu": [
+      "Yüzünde yorgun bir hüzün var.",
+      "Bir derdi olduğu belli; saklamaya çalışıyor."
+    ],
+    "neseli": [
+      "Keyifli biri; gözleri gülüyor.",
+      "Yanında oturanları güldürecek biri gibi duruyor."
+    ],
+    "silik": [
+      "Kalabalıkta kaybolacak biri; ama bir şey var, tam çıkaramıyorsun.",
+      "Kendini görünmez kılmayı öğrenmiş gibi."
+    ],
+    "gosteris": [
+      "Görünmek istiyor; ne giydiğini herkesin fark etmesini.",
+      "Her hareketi biraz sahnede gibi."
+    ]
+  },
+  "bakimAdlari": {
+    "özenli": "üstü başı özenli",
+    "temiz pak": "üstü başı temiz pak",
+    "salaş": "salaş giyinmiş",
+    "dağınık": "üstü başı dağınık",
+    "gösterişli": "göze batacak kadar özenmiş",
+    "yorgun düşmüş": "kendini biraz bırakmış"
+  }
+}

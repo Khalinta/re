@@ -183,11 +183,87 @@ export function npcUret(seed, id, sablon, veri) {
   }
   for (const g of sablon.gizli || []) if (!b.gizli.includes(g)) b.gizli.push(g);
 
+  if (v.gorunus) b.fizik = fizikUret(seed, id, b, v.gorunus, sablon);
   if (sablon.tanim) b.tanim = sablon.tanim;
   if (sablon.figur) b.figur = sablon.figur;
   if (sablon.mekan) b.mekan = sablon.mekan;
   if (sablon.mekanMudavimi) b.mekanMudavimi = sablon.mekanMudavimi;
   return b;
+}
+
+// ------------------------------------------------------------------ dış görünüş (3.2b)
+// Ayrı bir akıştan üretilir: görünüş eklemek, NPC'nin geri kalanını değiştirmez.
+const esikAdi = (liste, x) => liste.find(([e]) => x <= e)?.[1] ?? liste[liste.length - 1][1];
+const yasOrani = (liste, yas) => liste.find(([e]) => yas <= e)?.[1] ?? liste[liste.length - 1][1];
+
+const yasaUygun = (x, yas) => (x.yasMin === undefined || yas >= x.yasMin) && (x.yasMax === undefined || yas <= x.yasMax);
+function fizikUret(seed, id, b, g, sablon) {
+  const r = Rng.akis(seed, 'npc|' + id + '|gorunus');
+  const c = b.cinsiyet;
+  const yapiW = Object.fromEntries(Object.entries(g.yapi[c]).map(([k, a]) => [k, (g.yapiYas[k] && b.yas < g.yapiYas[k]) ? a * 0.2 : a]));
+  const f = { boy: agirlikli(r, g.boy[c]), yapi: agirlikli(r, yapiW) };
+  const kir = r.olasilik(yasOrani(g.sacKir, b.yas));
+  const stiller = g.sacStil[c].filter(st => { const y = g.sacStilYas[st]; return y === undefined || (y > 0 ? b.yas >= y : b.yas <= -y); });
+  const bc = g.basortusu;
+  const ulkeCarpan = b.yore !== 'yurtdisi' ? 1 : ['suriye', 'afganistan'].includes(b.ulke) ? 2 : 0.1;
+  f.basortusu = c === 'k' && r.olasilik(Math.min(0.95, bc.taban * yasOrani(bc.yasCarpan, b.yas) * (bc.sakinCarpan[b.sakinTuru] ?? 1) * ulkeCarpan));
+  f.sac = { renk: kir ? (b.yas > 65 ? 'bembeyaz' : 'kır') : agirlikli(r, g.sacRenk), stil: r.sec(stiller.length ? stiller : g.sacStil[c]) };
+  f.goz = agirlikli(r, g.goz);
+  f.ten = agirlikli(r, g.ten);
+  f.yuz = r.sec(g.yuz.filter(x => yasaUygun(x, b.yas))).metin;
+  if (c === 'e') f.sakal = b.yas < 18 ? null : kir && r.olasilik(0.5) ? 'kır bıyıklı' : agirlikli(r, g.sakal);
+  f.gozluk = r.olasilik(yasOrani(g.gozlukYas, b.yas));
+  f.isaret = r.olasilik(g.isaretOlasiligi) ? r.sec(g.isaretler.filter(x => yasaUygun(x, b.yas))).metin : null;
+  f.ses = r.sec(g.ses);
+  f.giyim = r.sec(g.giyim[b.sakinTuru] ?? g.giyim._varsayilan);
+  f.bakim = b.ozellikler.includes('titiz') ? 'özenli' : b.ozellikler.includes('gosterisci') ? 'gösterişli' : b.ozellikler.includes('daginik') ? 'dağınık'
+    : b.durum === 'issiz' && r.olasilik(0.4) ? 'yorgun düşmüş' : r.sec(['özenli', 'temiz pak', 'temiz pak', 'salaş']);
+  f.durus = r.sec(g.duruslar);
+  // Çekicilik: ortalamaya yakın (üç zarın ortalaması); yaşla biraz düşer, bakım etkiler
+  let ck = (r.aralik(1, 10) + r.aralik(1, 10) + r.aralik(1, 10)) / 3;
+  ck -= Math.max(0, b.yas - 45) / 18;
+  ck += { 'özenli': 0.6, 'gösterişli': 0.4, 'dağınık': -0.8, 'yorgun düşmüş': -0.6 }[f.bakim] ?? 0;
+  f.cekicilik = sablon.cekicilik ?? Math.max(1, Math.min(10, Math.round(ck)));
+  let kz = (b.eksenler.disadonuk + b.eksenler.dengeli) * 0.7 + r.aralik(0, 3) - 0.5;
+  if (b.ozellikler.includes('gururlu') || b.ozellikler.includes('gosterisci')) kz += 1;
+  if (f.cekicilik >= 8) kz += 0.7;
+  f.karizma = sablon.karizma ?? Math.max(1, Math.min(10, Math.round(kz)));
+  // İlk izlenim: dışa vuran yan (her zaman doğru değil)
+  const oz = b.ozellikler;
+  f.izlenim = oz.includes('kavgaci') || (b.eksenler.uyumlu <= 2 && ['iri yarı', 'geniş omuzlu'].includes(f.yapi)) ? 'tehlike'
+    : oz.includes('kurnaz') && r.olasilik(0.6) ? 'kurnaz'
+      : oz.includes('gosterisci') ? 'gosteris'
+        : oz.includes('sakaci') ? 'neseli'
+          : b.eksenler.uyumlu >= 4 && b.eksenler.disadonuk >= 4 ? 'sicak'
+            : b.eksenler.dengeli <= 2 && b.dert ? 'huzunlu'
+              : f.karizma <= 3 ? 'silik'
+                : b.eksenler.disadonuk <= 2 ? 'mesafe' : 'guven';
+  f.izlenimMetni = r.sec(g.izlenim[f.izlenim]);
+  return f;
+}
+
+export const cekicilikAdi = (n, g) => esikAdi(n.cinsiyet === 'e' ? g.cekicilikAdlariErkek : g.cekicilikAdlari, n.fizik.cekicilik);
+export const karizmaAdi = (n, g) => esikAdi(g.karizmaAdlari, n.fizik.karizma);
+
+// Uzun tarif (tanışınca ve kişi panelinde)
+export function fizikTarifi(n, g) {
+  const f = n.fizik;
+  if (!f) return '';
+  const kim = n.cinsiyet === 'e' ? 'bir adam' : 'bir kadın';
+  const sac = f.basortusu ? 'başörtülü' : f.sac.stil === 'kel' ? 'kel' : `${f.sac.renk} saçları ${f.sac.stil}`;
+  const p1 = `${bas(f.boy)}, ${f.yapi} ${kim}; ${sac}, ${f.goz} gözlü, ${f.ten}${f.sakal ? ', ' + f.sakal : ''}${f.gozluk ? ', gözlüklü' : ''}.`;
+  const p2 = [`${bas(f.yuz)}${f.isaret ? ', ' + f.isaret : ''}.`, `${bas(f.giyim)}, ${g.bakimAdlari?.[f.bakim] ?? f.bakim}.`, `${bas(f.ses)}.`].join(' ');
+  const p3 = `${bas(cekicilikAdi(n, g))}, ${karizmaAdi(n, g)} biri. ${f.izlenimMetni}`;
+  return `${p1} ${p2} ${p3}`;
+}
+const bas = s => s ? s[0].toLocaleUpperCase('tr') + s.slice(1) : s;
+
+// O günkü hali (gün gün değişir): "dalgın, bardağı soğumuş"
+export function gununHali(seed, n, gun, g) {
+  const r = Rng.akis(seed, `hal|${n.id}|${gun}`);
+  const w = { keyifli: 2 + (n.ozellikler.includes('sakaci') ? 3 : 0), dalgin: 1.5 + (n.dert ? 1 : 0), gergin: 1 + (n.eksenler.dengeli <= 2 ? 2 : 0), yorgun: 1.5 + (n.durum === 'calisiyor' ? 1 : 0), bekleyen: 0.8, sohbetli: n.eksenler.disadonuk >= 4 ? 2.5 : 0.5 };
+  const tur = agirlikli(r, w);
+  return { tur, metin: r.sec(g.haller[tur]) };
 }
 
 // Kısa tanım: "64 yaşında, Karalimanlı (ailesi Trabzonlu), emekli kaynakçı; ağzı sıkı, inatçı."

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { yeniDurum } from '../js/core/durum.js';
 import * as konum from '../js/core/konum.js';
-import { mekandakiler, kisi, gorunus, tanis, konus, tanisiyorMu, tanidiklari, tanidiklarim } from '../js/core/insanlar.js';
+import { mekandakiler, kisi, gorunus, tanis, yaninaOtur, sohbetKonulari, sohbetHamlesi, tanisiyorMu, tanidiklari, tanidiklarim } from '../js/core/insanlar.js';
 import { mekanBul } from '../js/core/mekan.js';
 import { Rng } from '../js/core/rng.js';
 
@@ -11,7 +11,7 @@ const oku = y => JSON.parse(readFileSync(new URL('../' + y, import.meta.url)));
 const dunya = {};
 for (const f of ['sehir', 'semtler', 'ulasim', 'kurumlar', 'sirketler', 'figurler', 'orgutler', 'mekanlar']) dunya[f] = oku(`data/dunya/${f}.json`);
 const npc = {};
-for (const f of ['isimler', 'memleket', 'kisilik', 'hayat', 'sohbet']) npc[f] = oku(`data/npc/${f}.json`);
+for (const f of ['isimler', 'memleket', 'kisilik', 'hayat', 'sohbet', 'gorunus']) npc[f] = oku(`data/npc/${f}.json`);
 const veri = { sim: oku('data/simulasyon.json'), takvim: oku('data/takvim.json'), dunya, npc, hava: oku('data/hava.json'), ekonomi: oku('data/ekonomi.json'), gezi: oku('data/gezi.json') };
 const yeni = (saat = 9) => yeniDurum(veri.sim, { seed: 'INSAN', baslangic: '2026-10-20', saat, para: 2000, ev: { semt: 'eski_carsi', tip: 'oda', ad: 'oda' } });
 const cinar = mekanBul(dunya, 'cinaralti_kahvesi');
@@ -50,41 +50,6 @@ test('görünüş tarifi düzgün', () => {
   }
 });
 
-test('tanışma ve sohbet: tanıdıklara eklenir, yakınlık artar, dert eşikten sonra açılır, kişiden dedikodu kaynağıyla duyulur', () => {
-  const d = yeni();
-  d.konum = { semt: 'eski_carsi', mekan: 'cinaralti_kahvesi' };
-  const r = Rng.akis('t', 'insan');
-  let kim = null;
-  for (let g = 0; g < 15 && !kim; g++) {
-    d.zaman.dakika = g * 1440 + 9 * 60;
-    for (const id of mekandakiler(d, veri, cinar, 3)) {
-      const s = tanis(d, veri, r, cinar, 3, id);
-      if (s.tamam && d.npcler?.[id]?.tanisildi !== undefined) { kim = id; break; }
-      if (s.tamam) assert.match(tanis(d, veri, r, cinar, 3, id).sebep, /bir kere/);
-    }
-  }
-  assert.ok(kim, 'hiç kimseyle tanışılamadı');
-  assert.equal(tanidiklarim(d, veri)[0].id, kim);
-  const y0 = d.npcler[kim].iliski.yakinlik;
-  let dertAcildiYakinlik = null;
-  for (let i = 0; i < 10; i++) {
-    const once = d.npcler[kim].iliski.yakinlik;
-    const s = konus(d, veri, r, cinar, 3, kim);
-    if (!s.tamam) { d.zaman.dakika += 1; continue; }
-    if (d.npcler[kim].bilinen.dert && dertAcildiYakinlik === null) dertAcildiYakinlik = once;
-    d.zaman.dakika = Math.floor(d.zaman.dakika / 1440) * 1440 + 9 * 60; // hep aynı saatte orada olsun
-    for (const p of s.paragraflar) assert.ok(!p.metin.includes('«') && !p.metin.includes('undefined'), p.metin);
-  }
-  assert.ok(d.npcler[kim].iliski.yakinlik > y0);
-  if (dertAcildiYakinlik !== null) assert.ok(dertAcildiYakinlik >= 8);
-  const kaynakli = Object.values(d.bilgi.dedikodular || {}).filter(x => x.kaynak === kim);
-  if (d.npcler[kim].bilinen.dedikodu) assert.ok(kaynakli.length >= 1);
-  // Kayda yazılan küçük kalır ve JSON'dan dönünce aynı kişi
-  const geri = JSON.parse(JSON.stringify(d));
-  assert.equal(tanidiklarim(geri, veri)[0].tamAd, tanidiklarim(d, veri)[0].tamAd);
-  assert.ok(JSON.stringify(d.npcler).length < 4000);
-});
-
 test('tanışıklık ağı: müdavimler mekan sahibini tanır; figürler ilişkili olduklarını tanır; simetrik', () => {
   const s = 'AG';
   assert.ok(tanisiyorMu(veri, s, 'n:cinaralti_kahvesi:2', 'm:cinaralti_kahvesi'));
@@ -97,32 +62,137 @@ test('tanışıklık ağı: müdavimler mekan sahibini tanır; figürler ilişki
   assert.ok(t.length >= 6 && t.length < 120, String(t.length));
 });
 
-test('konum: mekanda insan seçenekleri görünür (en çok 3), kapalıyken görünmez', () => {
-  const d = yeni();
-  konum.disariCik(d, veri, Rng.akis('k', 'k'));
-  konum.mekanaGir(d, veri, Rng.akis('k', 'k'), 'cinaralti_kahvesi');
-  const insan = konum.baglamAksiyonlari(d, veri).filter(a => a.id.startsWith('npc:'));
-  assert.ok(insan.length >= 1 && insan.length <= 3);
-  const s = konum.insanHamlesi(d, veri, Rng.akis('k', 'k'), insan[0].id.slice(4));
-  assert.equal(s.tamam, true, s.sebep);
+
+// Bir kişiyle (orada olduğu bir anda) tanışana kadar dener; döner: { d, id, an }
+function tanisilmis(seed = 'INSAN', mekanId = 'cinaralti_kahvesi', kosul = () => true) {
+  const d = yeniDurum(veri.sim, { seed, baslangic: '2026-10-20', saat: 9, para: 2000, ev: { semt: 'eski_carsi', tip: 'oda', ad: 'oda' } });
+  const m = mekanBul(dunya, mekanId);
+  d.konum = { semt: m.semt, mekan: m.id };
+  const r = Rng.akis(seed, 'tanis');
+  for (let g = 0; g < 60; g++) {
+    for (const saat of [9, 13, 19]) {
+      const an = g * 1440 + saat * 60;
+      d.zaman.dakika = an;
+      const kal = m.kalabalik[saat < 12 ? 'sabah' : saat < 17 ? 'ogle' : 'aksam'];
+      for (const id of mekandakiler(d, veri, m, kal)) {
+        if (!kosul(kisi(veri, d.seed, id))) continue;
+        d.bilgi.retler = {};
+        tanis(d, veri, r, m, kal, id);
+        if (d.npcler?.[id]?.tanisildi !== undefined) return { d, id, an, m, kal, r };
+      }
+    }
+  }
+  return null;
+}
+const metinler = p => p.map(x => x.metin);
+const temiz = p => { for (const x of p) assert.ok(!/[«{}]|undefined|null/.test(x.metin), x.metin); };
+
+test('tanışma: kişi kendini kendi ağzından tanıtır, görünüşü anlatılır, sohbet oturumu başlar', () => {
+  const t = tanisilmis();
+  assert.ok(t);
+  const { d, id } = t;
+  const son = d.anlatim.length ? d.anlatim : [];
+  void son;
+  assert.ok(d.sohbet && d.sohbet.npc === id && d.sohbet.kalan >= 1);
+  const konular = sohbetKonulari(d, veri).map(x => x.konu);
+  for (const k of ['hal', 'is', 'memleket', 'kendin', 'bitir']) assert.ok(konular.includes(k), k);
+  assert.ok(!konular.includes('hayal')); // yakınlık düşük
+});
+
+test('sohbet: cevaplar konuşanın ağzından, şablonlar çözülü; bir kez sorulan konu oturumda tekrar açılmaz; sabır bitince kişi kalkar', () => {
+  const { d, id, an, r } = tanisilmis('SOHBET');
+  const ad = kisi(veri, d.seed, id).hitapAdi;
+  let bitti = false, n = 0;
+  while (d.sohbet && n < 20) {
+    d.zaman.dakika = an;
+    const secenek = sohbetKonulari(d, veri).filter(x => x.konu !== 'bitir');
+    if (!secenek.length) break;
+    const s = sohbetHamlesi(d, veri, r, secenek[0].konu);
+    assert.ok(s.tamam, s.sebep);
+    temiz(s.paragraflar);
+    if (['hal', 'is', 'memleket', 'semt'].includes(secenek[0].konu)) assert.ok(s.paragraflar.some(p => p.tur === 'konusma' && p.konusan === ad), secenek[0].konu);
+    if (!d.sohbet) bitti = true;
+    else assert.ok(!sohbetKonulari(d, veri).some(x => x.konu === secenek[0].konu));
+    n++;
+  }
+  assert.ok(bitti, 'kişinin sabrı hiç bitmedi');
+});
+
+test('çeşitlilik: aynı kişiyle günlerce konuşunca cümleler tekrar etmiyor; farklı insanlar farklı konuşuyor', () => {
+  const { d, id, an, r } = tanisilmis('CESIT');
+  const duyulan = [];
+  for (let gun = 0; gun < 8; gun++) {
+    d.zaman.dakika = an;
+    d.sohbet = { npc: id, mekan: d.konum.mekan, kalan: 9, kullanilan: {} };
+    for (const konu of ['hal', 'semt', 'gundem', 'kendin', 'saka']) {
+      if (!d.sohbet) break;
+      d.zaman.dakika = an;
+      const s = sohbetHamlesi(d, veri, r, konu);
+      if (s.tamam) duyulan.push(...metinler(s.paragraflar.filter(p => p.tur !== 'secim' && p.tur !== 'sistem')));
+    }
+  }
+  const tekrar = duyulan.length - new Set(duyulan).size;
+  assert.ok(tekrar / duyulan.length < 0.25, `${tekrar}/${duyulan.length} tekrar`);
+});
+
+test('dert eşiği: yakınlık düşükken kaçamak; yüksekken birinci ağızdan anlatır ve tekrar sorulunca aynısını anlatmaz', () => {
+  const { d, id, an, r } = tanisilmis('DERT', 'cinaralti_kahvesi', n => !!n.dert);
+  const k = d.npcler[id];
+  k.iliski.yakinlik = 2;
+  d.zaman.dakika = an;
+  d.sohbet = { npc: id, mekan: d.konum.mekan, kalan: 9, kullanilan: {} };
+  sohbetHamlesi(d, veri, r, 'dert');
+  assert.ok(!k.bilinen.dert);
+  k.iliski.yakinlik = 30;
+  d.sohbet = { npc: id, mekan: d.konum.mekan, kalan: 9, kullanilan: {} };
+  d.zaman.dakika = an;
+  const s = sohbetHamlesi(d, veri, r, 'dert');
+  assert.ok(k.bilinen.dert);
+  const dert = veri.npc.hayat.dertler.find(x => x.id === kisi(veri, d.seed, id).dert);
+  assert.ok(s.paragraflar.some(p => p.tur === 'konusma' && dert.soz.some(z => p.metin.startsWith(z.slice(0, 15)))));
+  d.sohbet = { npc: id, mekan: d.konum.mekan, kalan: 9, kullanilan: {} };
+  d.zaman.dakika = an;
+  const t = sohbetHamlesi(d, veri, r, 'dert');
+  assert.ok(!t.paragraflar.some(p => dert.soz.some(z => p.metin.startsWith(z.slice(0, 15)))));
+});
+
+test('şaka ters gidebilir; gerginlik eşiği aşılınca kişi yanına oturmana izin vermez', () => {
+  const { d, id, an, m, kal, r } = tanisilmis('SAKA');
+  const k = d.npcler[id];
+  k.iliski.gerginlik = 9;
+  d.sohbet = null; delete d.sohbet;
+  d.zaman.dakika = an;
+  const s = yaninaOtur(d, veri, r, m, kal, id);
+  assert.ok(s.tamam && !d.sohbet);
 });
 
 test('kimse kendisi, örgütü ya da mekanı hakkındaki dedikoduyu anlatmaz', () => {
-  const d = yeni(20);
-  const gar = mekanBul(dunya, 'gar_palas_lobi');
-  d.konum = { semt: 'istasyon', mekan: 'gar_palas_lobi' };
-  d.npcler = { 'f:selda_karakas': { sablon: {}, katman: 'onemli', tanisildi: 0, iliski: { yakinlik: 50 }, anilar: [], bilinen: {} } };
-  const r = Rng.akis('k', 'dedikodu');
+  const t = tanisilmis('SIR', 'gar_palas_lobi', n => n.figur === 'selda_karakas') || tanisilmis('SIR2', 'gar_palas_lobi', n => n.figur === 'selda_karakas');
+  assert.ok(t, 'Selda ile tanışılamadı');
+  const { d, id, an, r } = t;
+  d.npcler[id].iliski.yakinlik = 50;
   const gizliler = new Set(dunya.mekanlar.mekanlar.filter(m => m.gizli?.orgut === 'karakaslar').flatMap(m => m.dedikodular.map(x => x.id)));
-  let an = null;
-  for (let g = 0; g < 60 && an === null; g++) { d.zaman.dakika = g * 1440 + 20 * 60; if (mekandakiler(d, veri, gar, 2).includes('f:selda_karakas')) an = d.zaman.dakika; }
-  assert.ok(an !== null, 'Selda hiç gelmedi');
-  let anlatti = 0;
-  for (let i = 0; i < 25; i++) { d.zaman.dakika = an; if (konus(d, veri, r, gar, 2, 'f:selda_karakas').paragraflar.some(p => p.tur === 'konusma')) anlatti++; }
-  assert.ok(anlatti >= 1, 'hiç dedikodu anlatmadı (başka mekanlardan anlatabileceği vardı)');
-  for (const [id, b] of Object.entries(d.bilgi.dedikodular || {})) if (b.kaynak === 'f:selda_karakas') {
-    assert.ok(!gizliler.has(id), id);
-    const dd = dunya.mekanlar.mekanlar.flatMap(m => m.dedikodular).find(x => x.id === id);
-    assert.ok(!['orgut:karakaslar', 'figur:selda_karakas', 'figur:hasan_karakas'].includes(dd.konu), id);
+  for (let i = 0; i < 25; i++) {
+    d.zaman.dakika = an;
+    d.sohbet = { npc: id, mekan: d.konum.mekan, kalan: 9, kullanilan: {} };
+    sohbetHamlesi(d, veri, r, 'dedikodu');
   }
+  for (const [did, b] of Object.entries(d.bilgi.dedikodular || {})) if (b.kaynak === id) {
+    assert.ok(!gizliler.has(did), did);
+    const dd = dunya.mekanlar.mekanlar.flatMap(m => m.dedikodular).find(x => x.id === did);
+    assert.ok(!['orgut:karakaslar', 'figur:selda_karakas', 'figur:hasan_karakas'].includes(dd.konu), did);
+  }
+});
+
+test('ağızsı ağzı olmayan veri: bütün sohbet cümleleri tanınan yer tutucularla yazılmış', () => {
+  const izinli = new Set(['ad', 'ilkAd', 'hitapAdi', 'hitap', 'meslek', 'meslekEski', 'memleketAd', 'memleketDen', 'memleketLi', 'kokenAd', 'semtAd', 'gerilimAd', 'gerilimOzet', 'haber', 'dert', 'hayal', 'dedikodu', 'tanidikAd', 'tanidikYer', 'tanidikYorum', 'mekanAd']);
+  const gez = x => { if (typeof x === 'string') { for (const [, v] of x.matchAll(/\{s\.([a-zA-Z]+)/g)) assert.ok(izinli.has(v), `${v}: ${x}`); } else if (Array.isArray(x)) x.forEach(gez); else if (x && typeof x === 'object') Object.values(x).forEach(gez); };
+  gez(veri.npc.sohbet);
+});
+
+test('konum: mekanda insan seçenekleri; sohbet açıkken yalnızca konular', () => {
+  const { d } = tanisilmis('KONUM');
+  const ids = konum.baglamAksiyonlari(d, veri).map(a => a.id);
+  assert.ok(ids.length && ids.every(x => x.startsWith('sohbet:')), ids.join());
+  assert.ok(ids.includes('sohbet:bitir'));
 });

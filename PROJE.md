@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.10 Hata yakalama, geri alma, hata paneli, açılış hata ekranı, hata raporu (kayıt kodu dahil)
-- **Sıradaki adım:** 1.11 Gizli geliştirici paneli (sürüme 7 dokunuş): zaman atlatma, para/durum/beceri düzenleme, seed, olay listesi + koşulsuz tetikleme + "neden tetiklenmedi", bayraklar, zamanlayıcılar, yaylar, hata kaydı — **orta**
+- **Son tamamlanan adım:** 1.11 Gizli geliştirici paneli + iki eski hatanın düzeltmesi + kod denetimi (ESLint) test zincirinde
+- **Sıradaki adım:** 1.12 Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı — **küçük** (kullanıcının GitHub ayarlarında birkaç tıklaması gerekiyor)
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -29,8 +29,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.9a | Olay motoru B1: yürütücü (ağırlıklı seçim, bekleme, tekrar engeli, çok sahneli olaylar, beceri/şans kontrolleri, ağırlıklı sonuçlar, zincir), etkiler, oyuna ve arayüze bağlama | büyük | ✅ |
 | 1.9b | Olay motoru B2: metin şablonları ve ruh haline göre ton, zamanlayıcıların çalışması, hikaye yayları | orta | ✅ |
 | 1.10 | Global hata yakalama, hata ekranı, hata raporu | orta | ✅ |
-| 1.11 | Gizli geliştirici paneli | orta | ⏳ |
-| 1.12 | Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı | küçük | ⬜ |
+| 1.11 | Gizli geliştirici paneli | orta | ✅ |
+| 1.12 | Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı | küçük | ⏳ |
 
 ### Fazlar
 
@@ -91,6 +91,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K40 | **Hamleler geri alınabilir:** her oyuncu hamlesi (`aksiyonYap`, `olaySeceneginiYap`, `olayiZorla`) durumun kopyasıyla başlar; içinde hata çıkarsa durum aynı nesne üzerinde eski haline döner, arayüze bildirim gitmez, dolayısıyla yarım hal asla kaydedilmez. | "Kayıt bozulması kesinlikle olmamalı" ve "hata oyunu çökertmesin" birlikte. |
 | K41 | **Hata katmanları (`js/hata.js`):** (1) arka plandaki yakalanmamış hata/söz hatası → kaydedilir, oyun sürer, oturumda bir kez kısa bir bant; (2) hamle sırasındaki hata → "Bir sorun oldu" paneli: Hata raporunu kopyala / Devam et / Uygulamayı yeniden başlat; panel nasıl kapanırsa kapansın menü yeniden kurulur; (3) açılış hatası → açılış ekranında rapor ve yeniden dene düğmeleri. Son 100 hata bellekte. Daha Fazla → "Sorun bildir" ile rapor her an kopyalanabilir. | Bölüm 3. |
 | K42 | **Hata raporu (`core/rapor.js`, saf):** sürümler, seed, cihaz (tarayıcı, ekran, ana ekrandan mı, saat dilimi, depolama, service worker), tüm hatalar (yığın dahil, oyun zamanıyla), kayıt sistemi uyarıları, durum özeti (zaman, para, durumlar, beceriler, etkin olay, bayraklar, zamanlayıcılar, yaylar, olay geçmişi), son 50 hamle (olay seçimleri dahil), son anlatım ve **o anki durumun kayıt kodu**. Rapordaki kodla durum birebir yeniden kurulabilir. | Kullanıcı raporu yapıştırınca sorunu yeniden oluşturabilmek. |
+| K43 | **Gizli geliştirici paneli (`js/dev/panel.js`):** Daha Fazla → Sürüm satırına 2,5 sn içinde 7 dokunuş (4. dokunuştan sonra "N dokunuş kaldı"). Bölümler: Genel (seed kopyala, kayıt kodu, belirli seed + başlangıç tarihiyle yeni oyun, zaman atlat +1 saat/gün/hafta/ay, isteğe bağlı simülasyonlu, etkin olayı iptal), Durum (para ekle/çıkar, tüm durumlar kaydırıcıyla, beceriler), Olaylar (arama, uygunluk ✓/✗, "Neden?", koşulsuz tetikle, zamanlayıcılar: şimdi çalıştır/sil, yaylar: sıfırla), Bayrak (kalıcı/süreli/NPC, sayaçlar, ekle/sil), NPC (ilişki ve anılar; arka planlar Faz 3), Hata (liste, rapor kopyala, deneme hatası). Her değişiklik `gelistiriciDegistir` ile geri alınabilir yapılır, anlatıma "[geliştirici]" notu düşer ve hemen kaydedilir. | Bölüm 3. |
+| K44 | **Kod denetimi:** `eslint.config.js` + `tests/lint.test.js` (ESLint kuruluysa çalışır): tanımsız ad, gölgelenen ad, kullanılmayan değişken, yinelenen anahtar. | 1.11'de bulunan "kayit" gölgeleme hatası testlerden kaçmıştı; bu tür hatalar artık her test çalıştırmasında yakalanır. |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -105,6 +107,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ├── tools/                  Geliştirici araçları (sw listesi, ikon üretimi) — oyun bunları kullanmaz
 ├── .nojekyll               GitHub Pages'in dosyaları işlememesi için
 ├── package.json            Sadece Node testleri için (oyun bunu kullanmaz)
+├── eslint.config.js        Kod denetimi kuralları (geliştirme aracı)
 ├── PROJE.md                Bu dosya
 ├── CLAUDE.md               Claude için oturum kuralı
 ├── css/                    Stiller
@@ -124,7 +127,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
-│   └── dev/                Gizli geliştirici paneli
+│   └── dev/panel.js        Gizli geliştirici paneli
 ├── data/
 │   ├── simulasyon.json     Durumların değişim kuralları, eşik uyarıları (1.5)
 │   ├── aksiyonlar.json     Temel günlük aksiyonlar (1.5)
@@ -378,6 +381,13 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 
 ## 🐞 BİLİNEN HATALAR / SINIRLAR
 
+### Düzeltilen hatalar (kayıt için)
+- **1.3 → 1.11:** İlk ziyarette service worker kontrolü alınca sayfa gereksiz yere yeniden yükleniyordu (yarıda kalan indirmeler sahte hata olarak kaydediliyordu). Düzeltildi: yalnızca gerçekten bir önceki sürümden geçilirken yenilenir.
+- **1.6 → 1.11:** Güncelleme bandındaki "Yenile" çalışmıyordu: service worker kaydını tutan yerel değişkenin adı (`kayit`) kayıt modülünü gölgeliyordu; "önce kaydet" adımı hata verip yenilemeyi engelliyordu. 1.10'daki hata kaydı sayesinde bulundu. Düzeltildi; ayrıca kayıt hata verse bile güncelleme artık sürer. Bu tür hatalar için ESLint teste eklendi (K44).
+- **1.4 → 1.6:** Liste sayfalarında içerik ekrana sığmayınca bloklar sıkışıp görünmez oluyordu.
+
+### Açık sınırlar
+
 - Ek motoru: 3. tekil iyelikle biten adlarda (Kahvesi, Sarayı, Belediyesi) `{ iyelik: true }` verilmeli; motor bunu kendisi anlayamaz. Veri dosyalarında mekan adlarına `iyelik` alanı konacak.
 - Ek motoru: alışılmadık okunuşlu yabancı adlarda `{ okunus: '...' }` verilmeli (Bordeaux → bordo).
 - İki depo birden bozulursa en yakın otomatik yedeğe dönülür; bu yedek birkaç hamle (en kötü durumda bir oyun günü) geride olabilir. Oyuncuya söylenir.
@@ -413,6 +423,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.12 | 2026-10-20 | Adım 1.11: gizli geliştirici paneli (6 bölüm), `oyun.js` geliştirici işlevleri (gelistiriciDegistir, zamanAtla, olayListesi, aktifOlayiIptal, zamanlayiciCalistir), belirli seed/tarihle yeni oyun. Hata düzeltmeleri: ilk ziyarette gereksiz yeniden yükleme; güncelleme bandının çalışmaması (değişken gölgeleme). ESLint denetimi teste eklendi, bulduğu 7 gölgeleme/kullanılmayan değişken temizlendi. 246 test. |
 | 0.0.11 | 2026-10-20 | Adım 1.10: `js/hata.js` (global hata/söz hatası yakalama, bant, hata paneli, açılış hata ekranı, `guvenli` sarmalı, rapor kopyalama), `core/rapor.js`, `geriAlinabilir` (hamle hatasında durumu geri alma), olay başlangıç/seçimleri hamle geçmişine, Daha Fazla → Sorun bildir. Tarayıcıda zorla hata ile denendi: durum geri alındı, yarım hal kaydedilmedi, rapor kopyalandı, oyun sürdü. 245 test. |
 | 0.0.10 | 2026-10-20 | Adım 1.9b: `core/metin.js` (şablon + ek, süzgeçler, [[çeşitleme]], ton, koşullu çeşit, doğrulayıcı) olaylar/aksiyonlar/uyarılara bağlandı; zamanlayıcıların çalışması (`vadesiGelenZamanlayici`, koşul/bekle/iptal); hikaye yayları (`data/yaylar.json`, yay/yayBitir etkileri, yay koşulu, doğrulayıcı); örnek yay: apartman_tesisati → yonetici_kapida → apartman_toplantisi. "Sabahın köründe" çeşidi koşullu metinle geri geldi. 242 test. |
 | 0.0.9 | 2026-10-20 | Adım 1.9a: `core/etki.js` (20 etki türü, doğrulayıcı), `core/olay.js` (uygunluk ve nedenleri, ağırlıklı seçim ve çarpanlar, çok sahneli yürütme, gizli/kilitli seçenekler, bedeller, beceri ve şans kontrolleri + deneyim + anlatısal zorluk ifadesi, ağırlıklı koşullu sonuçlar, zincir, doğrulayıcı), `oyun.js` olay döngüsü, Şimdi ekranında olay seçenekleri, `data/olaylar/ev.json` (3 örnek olay: apartman tesisatı, kapıdaki kedi, eski fotoğraf), `data/olay_ayarlari.json`. 234 test. |

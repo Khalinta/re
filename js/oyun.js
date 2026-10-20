@@ -1,11 +1,12 @@
 // Oyun denetleyicisi: veriyi yükler, mevcut durumu tutar, aksiyonları çalıştırır, arayüze haber verir.
 // Kayıt sistemi (1.6) ve olay motoru (1.8–1.9) buraya bağlanacak.
 import { yeniDurum, rngAl, anlatimKaydet, aksiyonKaydet, geriAlinabilir } from './core/durum.js';
+import { zamanGecir } from './core/simulasyon.js';
 import { aksiyonDurumu, aksiyonMaliyeti, aksiyonUygula } from './core/aksiyon.js';
-import { olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec, vadesiGelenZamanlayici } from './core/olay.js';
+import { olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec, vadesiGelenZamanlayici, olayUygunluk } from './core/olay.js';
 import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER } from './core/zaman.js';
 import { seedUret } from './core/rng.js';
-import { saat, tarih, tarihKisa, GUNLER, AYLAR } from './core/format.js';
+import { saat, tarih, tarihKisa, GUNLER, AYLAR, sure as sureYaz } from './core/format.js';
 import { kucuk } from './core/tr.js';
 
 export const veri = {};
@@ -62,6 +63,8 @@ function paragraflariKaydet(liste) {
 }
 
 export function yeniOyun({ seed = seedUret(), baslangic = bugunTurkiye() } = {}) {
+  seed = seed || seedUret();
+  baslangic = baslangic || bugunTurkiye();
   durum = yeniDurum(veri.sim, { seed, baslangic, saat: 8, para: 2000 });
   const t = tarihAl(baslangic, durum.zaman.dakika);
   const giris = paragraflariKaydet([
@@ -199,4 +202,49 @@ export function durumCubuguVerisi() {
     para: durum.para, enerji: d.enerji, ruh: d.ruh,
     ayrinti: Object.entries(veri.sim.durumlar).map(([k, v]) => ({ ad: v.ad, deger: d[k], ters: v.ters, aciklama: String(Math.round(d[k])) })),
   };
+}
+
+// ------------------------------------------------------------- geliştirici paneli
+// Paneldeki her değişiklik geri alınabilir sarmalda yapılır ve bildirilir (yani kaydedilir).
+
+export function gelistiriciDegistir(is, not) {
+  return geriAlinabilir(durum, () => {
+    const sonuc = is(durum);
+    const liste = not ? paragraflariKaydet([{ tur: 'sistem', metin: '[geliştirici] ' + not }]) : [];
+    bildir(liste);
+    return sonuc;
+  });
+}
+
+// Zamanı ileri alır. simule: true ise durumlar da değişir (açlık, enerji...), değilse sadece saat ilerler.
+export function zamanAtla(dakika, { simule = false } = {}) {
+  return gelistiriciDegistir(() => {
+    const onceDk = durum.zaman.dakika;
+    if (simule) zamanGecir(durum, dakika, 'normal', veri.sim);
+    else durum.zaman.dakika += dakika;
+    const liste = [];
+    ayracEkle(liste, onceDk);
+    paragraflariKaydet(liste);
+    if (liste.length) bildir(liste);
+  }, `${sureYaz(dakika)} atlandı${simule ? ' (simüle edildi)' : ''}`);
+}
+
+export function olayListesi(tetik = '*') {
+  return Object.values(veri.olaylar).map(o => ({ o, ...olayUygunluk(durum, o, veri, { tetik }) }));
+}
+
+export function aktifOlayiIptal() {
+  return gelistiriciDegistir(d => { d.aktifOlay = null; }, 'etkin olay iptal edildi');
+}
+
+export function zamanlayiciCalistir(i) {
+  return geriAlinabilir(durum, () => {
+    const [z] = durum.zamanlayicilar.splice(i, 1);
+    if (!z) return [];
+    if (durum.aktifOlay) durum.aktifOlay = null;
+    const liste = olayuBaslat(z.olay, z.baglam || {});
+    paragraflariKaydet(liste);
+    bildir(liste);
+    return liste;
+  });
 }

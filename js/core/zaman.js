@@ -12,8 +12,8 @@ export const DILIMLER = [
 ];
 
 // "2026-10-20" -> o günün 00:00 UTC milisaniyesi
-export function gunMs(isoTarih) {
-  const [y, a, g] = isoTarih.split('-').map(Number);
+export function gunMs(iso) {
+  const [y, a, g] = iso.split('-').map(Number);
   return Date.UTC(y, a - 1, g);
 }
 
@@ -65,10 +65,10 @@ export const haftaSonuMu = d => d.getUTCDay() === 0 || d.getUTCDay() === 6;
 // Doğum tarihine ("1994-05-12") göre verilen tarihteki yaş
 export function yas(dogum, d) {
   const [y, a, g] = dogum.split('-').map(Number);
-  let yas = d.getUTCFullYear() - y;
+  let sonuc = d.getUTCFullYear() - y;
   const ay = d.getUTCMonth() + 1, gun = d.getUTCDate();
-  if (ay < a || (ay === a && gun < g)) yas--;
-  return yas;
+  if (ay < a || (ay === a && gun < g)) sonuc--;
+  return sonuc;
 }
 
 // Takvim verisinden (data/takvim.json) o günün tatil/özel gün bilgisi

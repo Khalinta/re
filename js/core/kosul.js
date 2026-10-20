@@ -34,19 +34,19 @@ export function yolAl(nesne, yol) {
 const goster = v => (v === undefined ? 'yok' : typeof v === 'number' ? String(Math.round(v * 100) / 100) : Array.isArray(v) ? '[' + v.join(', ') + ']' : String(v));
 
 // Bir değerin kurala uyup uymadığı. Döner: { tamam, kural: "≥ 20" gibi okunur metin }
-export function kuralTut(deger, kural) {
+export function kuralTut(v, kural) {
   if (kural === null || typeof kural !== 'object' || Array.isArray(kural)) {
-    if (Array.isArray(kural)) return { tamam: kural.includes(deger), kural: 'şunlardan biri: ' + kural.join(', ') };
-    return { tamam: deger === kural, kural: '= ' + goster(kural) };
+    if (Array.isArray(kural)) return { tamam: kural.includes(v), kural: 'şunlardan biri: ' + kural.join(', ') };
+    return { tamam: v === kural, kural: '= ' + goster(kural) };
   }
   const parca = [];
   let tamam = true;
-  if ('min' in kural) { parca.push('≥ ' + goster(kural.min)); if (!(typeof deger === 'number' && deger >= kural.min) && !(typeof deger === 'string' && deger >= kural.min)) tamam = false; }
-  if ('max' in kural) { parca.push('≤ ' + goster(kural.max)); if (!(typeof deger === 'number' && deger <= kural.max) && !(typeof deger === 'string' && deger <= kural.max)) tamam = false; }
-  if ('esit' in kural) { parca.push('= ' + goster(kural.esit)); if (deger !== kural.esit) tamam = false; }
-  if ('degil' in kural) { parca.push('≠ ' + goster(kural.degil)); if (deger === kural.degil) tamam = false; }
-  if ('biri' in kural) { parca.push('şunlardan biri: ' + kural.biri.join(', ')); if (!kural.biri.includes(deger)) tamam = false; }
-  if ('var' in kural) { parca.push(kural.var ? 'var' : 'yok'); if ((deger !== undefined && deger !== null && deger !== false) !== !!kural.var) tamam = false; }
+  if ('min' in kural) { parca.push('≥ ' + goster(kural.min)); if (!(typeof v === 'number' && v >= kural.min) && !(typeof v === 'string' && v >= kural.min)) tamam = false; }
+  if ('max' in kural) { parca.push('≤ ' + goster(kural.max)); if (!(typeof v === 'number' && v <= kural.max) && !(typeof v === 'string' && v <= kural.max)) tamam = false; }
+  if ('esit' in kural) { parca.push('= ' + goster(kural.esit)); if (v !== kural.esit) tamam = false; }
+  if ('degil' in kural) { parca.push('≠ ' + goster(kural.degil)); if (v === kural.degil) tamam = false; }
+  if ('biri' in kural) { parca.push('şunlardan biri: ' + kural.biri.join(', ')); if (!kural.biri.includes(v)) tamam = false; }
+  if ('var' in kural) { parca.push(kural.var ? 'var' : 'yok'); if ((v !== undefined && v !== null && v !== false) !== !!kural.var) tamam = false; }
   return { tamam, kural: parca.join(' ve ') };
 }
 
@@ -319,8 +319,8 @@ export function kosulDogrula(kosul, yol = 'kosul') {
     if (typeof k !== 'object') { hatalar.push(`${y}: koşul nesne olmalı`); return; }
     if (!Object.keys(k).length) hatalar.push(`${y}: boş koşul`);
     if ('deger' in k) {
-      const { deger: yol, ...kural } = k;
-      if (typeof yol !== 'string') hatalar.push(`${y}.deger: yol ("deger": "a.b") gerekli`);
+      const { deger: adres, ...kural } = k;
+      if (typeof adres !== 'string') hatalar.push(`${y}.deger: yol ("deger": "a.b") gerekli`);
       if (Object.keys(kural).length && !kuralGecerliMi(kural)) hatalar.push(`${y}: bozuk kural`);
       return;
     }

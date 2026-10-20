@@ -45,32 +45,35 @@ function bantGoster(metin, dugme, eylem) {
 
 async function swKur() {
   if (!('serviceWorker' in navigator)) return { durum: 'desteklenmiyor' };
-  const kayit = await navigator.serviceWorker.register('./sw.js');
+  // İlk ziyarette sayfanın kontrolcüsü yoktur; service worker kurulup kontrolü aldığında
+  // (clients.claim) bu bir güncelleme değildir, sayfa yeniden yüklenmemeli.
+  const oncedenKontrolluydu = !!navigator.serviceWorker.controller;
+  const swKaydi = await navigator.serviceWorker.register('./sw.js');
   let yenileniyor = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (yenileniyor) return;
+    if (yenileniyor || !oncedenKontrolluydu) return;
     yenileniyor = true;
     location.reload();
   });
 
   // Açılışta bekleyen bir güncelleme varsa: oyun henüz yüklenmedi, hemen geç (veri kaybı riski yok).
-  if (kayit.waiting && navigator.serviceWorker.controller) {
-    kayit.waiting.postMessage('hemenGec');
+  if (swKaydi.waiting && navigator.serviceWorker.controller) {
+    swKaydi.waiting.postMessage('hemenGec');
     return { durum: 'guncelleniyor' };
   }
 
   // Oyun sırasında gelen güncelleme: kullanıcıya sor.
-  kayit.addEventListener('updatefound', () => {
-    const yeni = kayit.installing;
+  swKaydi.addEventListener('updatefound', () => {
+    const yeni = swKaydi.installing;
     yeni?.addEventListener('statechange', () => {
       if (yeni.state === 'installed' && navigator.serviceWorker.controller) {
-        bantGoster('Yeni sürüm hazır.', 'Yenile', async () => { await kayit.hemenKaydet(); yeni.postMessage('hemenGec'); });
+        bantGoster('Yeni sürüm hazır.', 'Yenile', async () => { try { await kayit.hemenKaydet(); } finally { yeni.postMessage('hemenGec'); } });
       }
     });
   });
   // Uygulama her öne geldiğinde güncelleme var mı bak
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') kayit.update().catch(() => {});
+    if (document.visibilityState === 'visible') swKaydi.update().catch(() => {});
   });
   await navigator.serviceWorker.ready;
   return { durum: navigator.serviceWorker.controller ? 'hazir' : 'ilk' };
@@ -78,7 +81,7 @@ async function swKur() {
 
 async function basla() {
   ayarlariYukle();
-  const [, sw] = await Promise.all([cssYukle('./css/temel.css'), swKur().catch(h => ({ durum: 'hata', hata: h }))]);
+  const [, sw] = await Promise.all([cssYukle('./css/temel.css'), swKur().catch(e => ({ durum: 'hata', hata: e }))]);
   if (sw.durum === 'guncelleniyor') return;
 
   await oyun.veriYukle();
@@ -122,7 +125,7 @@ async function kayitliOyunuAc() {
   let sonuc = null;
   try {
     sonuc = await kayit.yukle(n);
-  } catch (e) {
+  } catch {
     // Yuva var ama kurtarılamadı: üstüne yazmamak için otomatik kaydı askıya al, kullanıcıya sor
     kayit.askiyaAl(true);
     panelAc({

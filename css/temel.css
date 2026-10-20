@@ -268,6 +268,24 @@ button.satir:active { background: var(--yuzey2); }
 .hata-bant button { background: var(--kotu); color: #fff; }
 .hata-ayrinti { font-family: ui-monospace, Menlo, monospace; word-break: break-word; }
 
+/* Geliştirici paneli */
+.panel.gelistirici { max-height: 94%; }
+.dev-sekmeler { margin: 0 0 10px; }
+.dev-sekmeler button { font-size: .75em; }
+.dev-govde { display: grid; gap: 8px; padding-bottom: 12px; }
+.dev-baslik { font-size: .78em; text-transform: uppercase; letter-spacing: .1em; color: var(--soluk); margin: 14px 0 2px; }
+.dev-satir { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.dev-satir > span { min-width: 0; overflow-wrap: anywhere; }
+.dev-kart { border: 1px solid var(--cizgi); border-radius: 12px; padding: 8px 12px; background: var(--arka); overflow-wrap: anywhere; }
+.dev-girdi { width: 100%; font-size: 16px; min-height: 44px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--cizgi); background: var(--arka); color: var(--metin); }
+.dev-girdi.dev-kucuk { width: 96px; }
+.dev-satir .dev-girdi:not(.dev-kucuk) { flex: 1; }
+.dev-durum { padding: 2px 0; }
+.dev-kaydirici { width: 100%; min-height: 32px; accent-color: var(--vurgu); }
+.dev-deger { font-variant-numeric: tabular-nums; font-weight: 600; }
+.dev-etiket { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.dev-etiket input { width: 22px; height: 22px; }
+
 /* ---------- Hareketi azalt ---------- */
 [data-hareket="azalt"] *, [data-hareket="azalt"] *::before, [data-hareket="azalt"] *::after {
   transition: none !important; animation: none !important; scroll-behavior: auto !important;

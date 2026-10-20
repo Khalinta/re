@@ -51,10 +51,10 @@ export async function oyunuGoster() {
 }
 
 // Yeni oyun başlatır ve girişi yazar
-export async function yeniOyunuGoster() {
+export async function yeniOyunuGoster(secenek = {}) {
   anlatim.temizle();
   secenekKap.replaceChildren();
-  oyun.yeniOyun();
+  oyun.yeniOyun(secenek);
   await anlatim.sira;
   menuyuGoster();
 }

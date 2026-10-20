@@ -43,6 +43,7 @@ export function raporOlustur(g) {
     ekle('', '--- Durum özeti ---');
     ekle(`Zaman: ${zamanYaz(d, d.zaman.dakika)} (${dilim(d.zaman.dakika).ad}) · başlangıç ${d.zaman.baslangic}`);
     ekle(`Karakter: ${d.karakter?.ad ?? '?'} · Para: ${para(d.para)}`);
+    if (d.konum) ekle(`Konum: ${d.konum.semt} / ${d.konum.mekan ?? 'sokak'} · ev: ${d.ev?.semt ?? '?'}`);
     ekle('Durumlar: ' + Object.entries(d.durumlar || {}).map(([k, v]) => `${k} ${Math.round(v)}`).join(', '));
     const beceri = Object.entries(d.beceriler || {});
     if (beceri.length) ekle('Beceriler: ' + beceri.map(([k, v]) => `${k} ${Math.round(v * 10) / 10}`).join(', '));

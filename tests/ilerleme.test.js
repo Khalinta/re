@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { yeniDurum } from '../js/core/durum.js';
 import { dunyaIlerlet, mekanKapanisi, dunyaBaslangici } from '../js/core/ilerleme.js';
 import { tasi } from '../js/core/migration.js';
+import { KAYIT_SURUMU } from '../js/core/durum.js';
 import { tarihAl } from '../js/core/zaman.js';
 
 const oku = y => JSON.parse(readFileSync(new URL(y, import.meta.url)));
@@ -81,8 +82,17 @@ test('dünya belirlenimli: aynı seed aynı dünya; gün gün ilerlemek ile topt
 test('kayıt sürümü 1 → 2: dünya kayıt anından başlar', () => {
   const eski = oku('./ornekler/kayit-v1.json');
   const v1 = JSON.parse(eski.veri);
-  const v2 = tasi(v1);
+  const v2 = tasi(v1, undefined, 2);
   assert.equal(v2.kayitSurumu, 2);
   assert.deepEqual(v2.dunya, dunyaBaslangici(v1.zaman));
   assert.equal(v2.dunya.sonAy, tarihAl(v1.zaman.baslangic, v1.zaman.dakika).toISOString().slice(0, 7));
+});
+
+test('kayıt sürümü 1 → güncel: konum ve ev eklenir, oyuncu evde', () => {
+  const v1 = JSON.parse(oku('./ornekler/kayit-v1.json').veri);
+  const son = tasi(v1);
+  assert.equal(son.kayitSurumu, KAYIT_SURUMU);
+  assert.deepEqual(son.konum, { semt: son.ev.semt, mekan: 'ev' });
+  assert.deepEqual(son.bilgi, { dedikodular: {}, gidilen: {} });
+  assert.ok(son.dunya);
 });

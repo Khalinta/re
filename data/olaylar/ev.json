@@ -2,7 +2,7 @@
   "_aciklama": "Ev ve apartman hayatı. (1.9 örnek olayları: motoru ve arayüzü sınamak için; Faz 5'te dünya kitabı ve NPC'lerle zenginleştirilecek.) apartman_tesisati → yonetici_kapida → apartman_toplantisi: 'apartman_borcu' yayının örneği (zamanlayıcı + yay + ton + koşullu metin).",
   "olaylar": [
     {
-      "id": "apartman_tesisati",
+      "id": "apartman_tesisati", "yer": "ev",
       "baslik": "Kapıdaki defter",
       "etiketler": [
         "ev",
@@ -162,7 +162,7 @@
       "yay": "apartman_borcu"
     },
     {
-      "id": "kapida_kedi",
+      "id": "kapida_kedi", "yer": "ev",
       "baslik": "Paspastaki misafir",
       "etiketler": [
         "ev",
@@ -262,7 +262,7 @@
       }
     },
     {
-      "id": "eski_fotograf",
+      "id": "eski_fotograf", "yer": "ev",
       "baslik": "Dolabın arkasından",
       "etiketler": [
         "ev",
@@ -360,7 +360,7 @@
       }
     },
     {
-      "id": "yonetici_kapida",
+      "id": "yonetici_kapida", "yer": "ev",
       "baslik": "Yine kapıda",
       "etiketler": [
         "ev",
@@ -520,7 +520,7 @@
       }
     },
     {
-      "id": "apartman_toplantisi",
+      "id": "apartman_toplantisi", "yer": "ev",
       "baslik": "Apartman toplantısı",
       "etiketler": [
         "ev",

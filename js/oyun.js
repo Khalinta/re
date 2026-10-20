@@ -12,6 +12,8 @@ import { dunyaDogrula } from './core/dunya.js';
 import { metinCoz } from './core/metin.js';
 import { dunyaIlerlet } from './core/ilerleme.js';
 import { ekonomiDogrula } from './core/ekonomi.js';
+import * as konum from './core/konum.js';
+import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
 
 export const veri = {};
@@ -25,7 +27,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -43,7 +45,9 @@ export async function veriYukle() {
     jsonAl('./data/dunya/ilerleme.json'),
     jsonAl('./data/hava.json'),
     jsonAl('./data/ekonomi.json'),
+    jsonAl('./data/gezi.json'),
   ]);
+  veri.gezi = gezi;
   veri.ekonomi = ekonomi;
   const ekoSorunlari = ekonomiDogrula(ekonomi, { isTurleri: sirketler.isTurleri, hizmetler: mekanlar.hizmetler, ulasim });
   if (ekoSorunlari.length) console.error('[ekonomi] tutarsızlık:', ekoSorunlari);
@@ -100,13 +104,15 @@ function paragraflariKaydet(liste) {
 export function yeniOyun({ seed = seedUret(), baslangic = bugunTurkiye() } = {}) {
   seed = seed || seedUret();
   baslangic = baslangic || bugunTurkiye();
-  durum = yeniDurum(veri.sim, { seed, baslangic, saat: 8, para: 2000 });
+  durum = yeniDurum(veri.sim, { seed, baslangic, saat: 8, para: 2000, ev: konum.evSec(seed, veri.gezi) });
   const t = tarihAl(baslangic, durum.zaman.dakika);
-  const ctx = { durum, veri };
+  const semt = semtBul(veri.dunya, durum.ev.semt);
+  const ctx = { durum, veri, baglam: { degisken: { semt } } };
   const giris = paragraflariKaydet([
     ayrac(durum.zaman.dakika, true),
-    ...metinCoz(`${tarih(t)}. ${MEVSIMLER[mevsim(t)]}. {sehir.ad|de}, küçük bir odada uyanıyorsun.`, rngAl(durum, 'metin'), ctx),
-    { tur: 'anlati', metin: 'Kim olduğun, buraya nasıl geldiğin henüz yazılmadı; hikaye motoru Faz 3\'te gelecek. Şimdilik günü kendi temponla yaşayabilirsin: ye, uyu, yürü, dinlen. Zaman her şeyde akıyor.' },
+    ...metinCoz(`${tarih(t)}. ${MEVSIMLER[mevsim(t)]}. {sehir.ad|de}, {semt|de} küçük bir odada uyanıyorsun.`, rngAl(durum, 'metin'), ctx),
+    { tur: 'anlati', metin: semt.ozet },
+    { tur: 'anlati', metin: 'Kim olduğun, buraya nasıl geldiğin henüz yazılmadı; hikaye motoru Faz 3\'te gelecek. Şimdilik şehri kendi temponla yaşayabilirsin: dışarı çık, semtleri gez, bir kahveye otur, kulak ver. Zaman her şeyde akıyor.' },
     { tur: 'icses', metin: 'Yeniden başlamak için bir sebep lazım değil. Bir sabah yeter.' },
   ]);
   bildir(giris);
@@ -120,8 +126,13 @@ export function durumYukle(d) {
   return durum;
 }
 
+// Bulunulan yere göre aksiyonlar: evdeyken ev aksiyonları, mekandayken mekanın hizmetleri, her yerde gezinme
+const yerdeMi = a => !a.yer || (a.yer === 'ev' ? durum.konum.mekan === konum.EVDE : a.yer === 'disarisi' ? durum.konum.mekan === konum.EVDE || !durum.konum.mekan : true);
 export function aksiyonListesi() {
-  return veri.aksiyonlar.map(a => ({ a, ...aksiyonDurumu(durum, a, veri.sim, veri), maliyet: aksiyonMaliyeti(durum, a, veri.sim) }));
+  const sabit = veri.aksiyonlar.filter(a => a.kisayol || yerdeMi(a))
+    .map(a => ({ a, ...aksiyonDurumu(durum, a, veri.sim, veri), maliyet: aksiyonMaliyeti(durum, a, veri.sim) }));
+  const baglam = konum.baglamAksiyonlari(durum, veri).map(x => ({ a: { id: x.id, ad: x.ad, alt: x.alt }, tamam: x.tamam, sebep: x.sebep, maliyet: x.maliyet }));
+  return [...baglam.filter(x => x.a.id.startsWith('mekan:')), ...sabit, ...baglam.filter(x => !x.a.id.startsWith('mekan:'))];
 }
 
 export function aksiyonBul(id) { return veri.aksiyonlar.find(a => a.id === id); }
@@ -141,6 +152,13 @@ export function aksiyonYap(id) {
 }
 
 function aksiyonYapIc(id) {
+  if (id.startsWith('gezi:') || id.startsWith('mekan:')) return konumHamlesi(() => {
+    const rng = rngAl(durum, 'aksiyon');
+    if (id === 'gezi:cik') return konum.disariCik(durum, veri, rng);
+    if (id === 'gezi:eve') return konum.eveGir(durum, veri, rng);
+    if (id === 'gezi:evegit') return eveGit(rng);
+    return konum.mekanAksiyonuYap(durum, veri, rng, id.slice(6));
+  });
   const a = aksiyonBul(id);
   if (!a) throw new Error('Bilinmeyen aksiyon: ' + id);
   if (durum.aktifOlay) return { tamam: false, sebep: 'Önce şu an olanla ilgilen.' };
@@ -156,6 +174,56 @@ function aksiyonYapIc(id) {
   bildir(liste);
   return { tamam: true, paragraflar: liste };
 }
+
+// Gezinme ve mekan hamleleri: aksiyon gibi ayraç, dünya ilerlemesi ve olay denemesi
+function konumHamlesi(is, aksiyonId = 'gezi') {
+  if (durum.aktifOlay) return { tamam: false, sebep: 'Önce şu an olanla ilgilen.' };
+  const onceDk = durum.zaman.dakika;
+  const sonuc = is();
+  if (!sonuc.tamam) return sonuc;
+  dunyayiIlerlet();
+  const liste = [...sonuc.paragraflar];
+  ayracEkle(liste, onceDk);
+  liste.push(...olayDene(aksiyonId));
+  paragraflariKaydet(liste);
+  bildir(liste);
+  return { tamam: true, paragraflar: liste };
+}
+
+function eveGit(rng) {
+  const yol = konum.enHizliYol(durum, veri, durum.ev.semt);
+  if (!yol) return { tamam: false, sebep: 'Eve gidecek yol bulamadın.' };
+  const y = konum.yolculukYap(durum, veri, rng, durum.ev.semt, yol.kip);
+  if (!y.tamam) return y;
+  const e = konum.eveGir(durum, veri, rng);
+  return { tamam: true, paragraflar: [...y.paragraflar, ...e.paragraflar.filter(p => p.tur !== 'secim')] };
+}
+
+// Şehir ekranından: başka semte git (kip: toplu | yuruyus | taksi), istenirse oradaki bir mekana gir
+export function yolculuk(hedef, kip, mekanId = null) {
+  return geriAlinabilir(durum, () => konumHamlesi(() => {
+    const rng = rngAl(durum, 'aksiyon');
+    const parcalar = [];
+    if (hedef !== durum.konum.semt) {
+      const y = konum.yolculukYap(durum, veri, rng, hedef, kip);
+      if (!y.tamam) return y;
+      parcalar.push(...y.paragraflar);
+    }
+    if (mekanId) {
+      const g = konum.mekanaGir(durum, veri, rng, mekanId);
+      if (!g.tamam) {
+        if (!parcalar.length) return g;
+        parcalar.push({ tur: 'sistem', metin: g.sebep });
+      } else parcalar.push(...(parcalar.length ? g.paragraflar.filter(p => p.tur !== 'secim') : g.paragraflar));
+    }
+    return { tamam: true, paragraflar: parcalar };
+  }));
+}
+
+export const mekanaGir = mekanId => yolculuk(durum.konum.semt, null, mekanId);
+export const yolculukSecenekleri = hedef => konum.yolculukSecenekleri(durum, veri, hedef);
+export const konumMetni = () => konum.konumMetni(durum, veri);
+export const duyulanlar = () => konum.duyulanlar(durum, veri);
 
 // Vakti gelmiş gecikmeli sonuç var mı? Varsa olayını başlat.
 function zamanlayiciDene() {
@@ -238,6 +306,7 @@ export function durumCubuguVerisi() {
   return {
     saat: saat(durum.zaman.dakika), gunKisa: tarihKisa(t), tarihUzun: tarih(t), dilim: dilim(durum.zaman.dakika).ad,
     hava: veri.hava ? havaOzeti(veri.hava, havaAl()) : null,
+    konum: durum.konum ? konum.konumMetni(durum, veri) : null,
     para: durum.para, enerji: d.enerji, ruh: d.ruh,
     ayrinti: Object.entries(veri.sim.durumlar).map(([k, v]) => ({ ad: v.ad, deger: d[k], ters: v.ters, aciklama: String(Math.round(d[k])) })),
   };

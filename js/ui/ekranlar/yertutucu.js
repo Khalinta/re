@@ -1,4 +1,4 @@
-// Henüz yapılmamış sekmeler için yer tutucu ekranlar: Telefon, Şehir, Hayatım.
+// Henüz yapılmamış sekmeler için yer tutucu ekran: Telefon. (Şehir 2.8'de sehir.js'e, Hayatım hayatim.js'e taşındı.)
 // Her satır dokununca hangi fazda geleceğini söyler.
 import { h } from '../dom.js';
 import { IKON } from '../ikonlar.js';
@@ -24,19 +24,4 @@ export const telefonEkrani = liste('Telefon', 'Rehber, mesajlar ve şehrin dedik
   ['Akış', 'Tanıdıkların paylaşımları.', 'Faz 4'],
   ['Haberler', 'Şehirde olup bitenler; içinde fırsatlar da saklı.', 'Faz 2 ve Faz 4'],
   ['Banka', 'Hesap, kart, kredi, borçlar.', 'Faz 4'],
-]);
-
-export const sehirEkrani = liste('Şehir', 'Nereye gideceğine sen karar verirsin.', [
-  ['Semtler', 'Her birinin kendi karakteri, kirası, insanı.', 'Faz 2'],
-  ['Mekanlar', 'Kahvehaneler, lokantalar, atölyeler, barlar.', 'Faz 2'],
-  ['Ulaşım', 'Hatlar, duraklar, süreler, ücretler.', 'Faz 2'],
-  ['İş ilanları', 'Kapılar zor açılır ama açılır.', 'Faz 4'],
-]);
-
-export const hayatimEkrani = liste('Hayatım', 'Kim olduğun, neyin olduğu, kimin olduğu.', [
-  ['Karakter', 'Geçmişin, güçlü yanların, kusurların.', 'Faz 3'],
-  ['Beceriler', 'Kullandıkça gelişir.', 'Faz 4'],
-  ['Envanter', 'Elinde kalanlar.', 'Faz 4'],
-  ['İlişkiler', 'Yakınlık, güven, saygı, çekim, gerginlik.', 'Faz 4'],
-  ['Günlük', 'Hayatının kendi ağzından kaydı.', 'Faz 6'],
 ]);

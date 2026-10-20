@@ -40,6 +40,7 @@ export function arayuzKur(kok, ekranlar) {
   function sekmeGec(ad) {
     if (aktif === ad) { ekranlar[ad]?.tekrarDokunus?.(); return; }
     while (enUstPaneliKapat());
+    if (aktif) ekranlar[aktif]?.gizle?.();
     aktif = ad;
     for (const [k, b] of Object.entries(bolumler)) b.hidden = k !== ad;
     for (const d of $$('.sekme', nav)) d.setAttribute('aria-current', d.dataset.sekme === ad ? 'page' : 'false');

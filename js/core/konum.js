@@ -1,0 +1,264 @@
+// Konum ve gezinme (adım 2.8): oyuncu nerede (ev / sokak / mekan), oradan ne yapılabilir,
+// semtler arası yolculuk, mekana girip çıkma, mekandaki aksiyonlar ve kulak verme.
+// Konum = { semt, mekan }: mekan 'ev' (evde), bir mekan kimliği ya da null (sokakta).
+import { zamanGecir, sinirla } from './simulasyon.js';
+import { tarihAl, gunDakikasi, gunNo, isoTarih, dilim } from './zaman.js';
+import { semtBul } from './dunya.js';
+import { mekanBul, acikMi, kalabalik } from './mekan.js';
+import { mekanKapanisi } from './ilerleme.js';
+import { yolSecenekleri } from './ulasim.js';
+import { gununHavasi, anlikHava, havaMetni } from './hava.js';
+import { urunFiyati, fiyatBirimi } from './ekonomi.js';
+import { metinCoz } from './metin.js';
+import { ek } from './tr.js';
+import { para as paraYaz, sure as sureYaz } from './format.js';
+import { aksiyonKaydet } from './durum.js';
+import { Rng } from './rng.js';
+
+export const EVDE = 'ev';
+
+export function evSec(seed, gezi) {
+  const r = Rng.akis(seed, 'baslangic|ev');
+  return { semt: r.sec(gezi.evAdaylari), tip: gezi.ev.tip, ad: gezi.ev.ad };
+}
+
+const haftaGunu = durum => tarihAl(durum.zaman.baslangic, durum.zaman.dakika).getUTCDay();
+const adEk = (x, e) => ek(x.ad, e, { iyelik: x.iyelik });
+
+export function havaSimdi(durum, veri, dk = durum.zaman.dakika) {
+  if (!veri.hava) return null;
+  const iso = isoTarih(tarihAl(durum.zaman.baslangic, dk));
+  return anlikHava(gununHavasi(durum.seed, veri.dunya.sehir.cografya.iklim, veri.hava, iso), gunDakikasi(dk));
+}
+
+// Mekan şu an girilebilir mi? Döner: null (girilebilir) ya da sebep metni
+export function mekanKapaliMi(durum, mekan) {
+  const gecici = mekanKapanisi(durum, mekan.id);
+  if (gecici) return `Bugün kapalı (${gecici}).`;
+  if (!acikMi(mekan, durum.zaman.dakika, haftaGunu(durum))) {
+    return mekan.saatler.her_zaman ? 'Kapalı.' : `Kapalı. Saatleri: ${mekan.saatler.acilis}–${saatYaz(mekan.saatler.kapanis)}${(mekan.kapaliGunler || []).length ? ' (bazı günler kapalı)' : ''}.`;
+  }
+  return null;
+}
+const saatYaz = s => { const [h, m] = s.split(':').map(Number); return `${String(h % 24).padStart(2, '0')}:${String(m).padStart(2, '0')}`; };
+
+export const mekanKalabaligi = (durum, mekan) => kalabalik(mekan, durum.zaman.dakika, haftaGunu(durum)) ?? 0;
+
+export function konumMetni(durum, veri) {
+  const k = durum.konum;
+  const semt = semtBul(veri.dunya, k.semt);
+  if (k.mekan === EVDE) return `Evde · ${semt.ad}`;
+  if (k.mekan) return `${mekanBul(veri.dunya, k.mekan).ad} · ${semt.ad}`;
+  return `${semt.ad} · sokakta`;
+}
+
+// Mekanın bir hizmeti hangi ürünle ücretlenir (kafede çay değil kahve, büfede yemek değil döner...)
+export function mekanUrunu(gezi, eko, mekan, hizmet) {
+  const s = gezi.urunSecimi[hizmet];
+  if (s) return s[mekan.tur] ?? s.varsayilan;
+  return eko.hizmetUrun[hizmet] ?? null;
+}
+
+export function mekanAksiyonFiyati(veri, durum, mekan, hizmet) {
+  const tanim = veri.gezi.mekanAksiyonlari[hizmet];
+  if (!tanim || tanim.ucretsiz) return 0;
+  const urun = mekanUrunu(veri.gezi, veri.ekonomi, mekan, hizmet);
+  return urun ? urunFiyati(veri.ekonomi, durum, urun, mekan.fiyat) : 0;
+}
+
+// Bulunulan yere göre aksiyonlar: [{ id, ad, alt?, maliyet, tamam, sebep? }]
+export function baglamAksiyonlari(durum, veri) {
+  const k = durum.konum, g = veri.gezi, s = g.sureler;
+  const liste = [];
+  const ekle = (id, ad, maliyet, sebep, alt) => liste.push({ id, ad, alt, maliyet, tamam: !sebep, sebep });
+  if (k.mekan === EVDE) {
+    ekle('gezi:cik', 'Dışarı çık', { dakika: s.evdenCik });
+  } else if (k.mekan) {
+    const m = mekanBul(veri.dunya, k.mekan);
+    const kapali = mekanKapaliMi(durum, m);
+    for (const hz of m.hizmetler) {
+      const t = g.mekanAksiyonlari[hz];
+      if (!t) continue;
+      const f = mekanAksiyonFiyati(veri, durum, m, hz);
+      const sebep = kapali ? 'Kapanıyor; çıkman gerek.' : f > durum.para ? `Cebinde ${paraYaz(f)} yok.` : null;
+      ekle('mekan:' + hz, t.adlar?.[m.tur] ?? t.ad, { dakika: t.sure, para: f || undefined }, sebep);
+    }
+    const kv = g.kulakVer;
+    ekle('mekan:kulak', kv.ad, { dakika: kv.sure }, kapali ? 'Kapanıyor; çıkman gerek.' : mekanKalabaligi(durum, m) === 0 ? 'Etrafta konuşacak kimse yok.' : null);
+    ekle('gezi:cik', 'Dışarı çık', { dakika: s.mekandanCik });
+  } else {
+    if (durum.ev && k.semt === durum.ev.semt) ekle('gezi:eve', 'Eve dön', { dakika: s.eveGir });
+    else if (durum.ev) {
+      const yol = enHizliYol(durum, veri, durum.ev.semt);
+      ekle('gezi:evegit', 'Eve git', yol ? { dakika: yol.toplamDakika + s.eveGir, para: yol.ucret || undefined } : {}, yol ? null : 'Eve gidecek yol bulamadın.', yol ? yolOzeti(veri, yol) : null);
+    }
+  }
+  return liste;
+}
+
+// --------------------------------------------------------------------- yolculuk
+
+export function yolculukSecenekleri(durum, veri, hedef) {
+  const hava = havaSimdi(durum, veri);
+  return yolSecenekleri(veri.dunya.ulasim, durum.konum.semt, hedef, {
+    t: durum.zaman.dakika, haftaSonu: [0, 6].includes(haftaGunu(durum)), firtina: !!hava?.firtina,
+    asgariUcret: fiyatBirimi(veri.ekonomi, durum),
+  });
+}
+
+export function enHizliYol(durum, veri, hedef) {
+  const s = yolculukSecenekleri(durum, veri, hedef);
+  const adaylar = [s.toplu, s.yuruyus].filter(Boolean);
+  return adaylar.sort((a, b) => a.toplamDakika - b.toplamDakika)[0] ?? null;
+}
+
+// "Dolmuş Tabakhane → İstasyon · M2 İstasyon → Marina"
+export function yolOzeti(veri, yol) {
+  const ad = id => semtBul(veri.dunya, id).ad;
+  return yol.adimlar.map(a => a.tur === 'hat' ? `${a.hatKisa} ${ad(a.nereden)} → ${ad(a.nereye)}` : a.tur === 'taksi' ? 'Taksi' : `Yürüyüş ${ad(a.nereden)} → ${ad(a.nereye)}`).join(' · ') || 'Buradasın';
+}
+
+function yaz(metin, rng, ctx, tur = 'anlati') {
+  return metinCoz(metin, rng, ctx).map(p => ({ ...p, tur: p.tur === 'anlati' ? tur : p.tur }));
+}
+
+// Semtten semte gider. kip: toplu | yuruyus | taksi. Döner: { tamam, sebep?, paragraflar }
+export function yolculukYap(durum, veri, rng, hedef, kip) {
+  const g = veri.gezi;
+  const semt = semtBul(veri.dunya, hedef);
+  if (!semt) throw new Error('Bilinmeyen semt: ' + hedef);
+  if (hedef === durum.konum.semt) return { tamam: false, sebep: 'Zaten buradasın.' };
+  const yol = yolculukSecenekleri(durum, veri, hedef)[kip];
+  if (!yol) return { tamam: false, sebep: kip === 'toplu' ? 'Şu saatte toplu taşımayla gidilmiyor.' : 'Yol bulunamadı.' };
+  if (yol.ucret > durum.para) return { tamam: false, sebep: `Cebinde ${paraYaz(yol.ucret)} yok.` };
+
+  const ctx = { durum, veri, baglam: { degisken: { semt } } };
+  const paragraflar = [{ tur: 'secim', metin: `${adEk(semt, 'e')} git` }];
+  if (durum.konum.mekan) paragraflar.push(...yaz(durum.konum.mekan === EVDE ? g.metinler.evdenCik : g.metinler.mekandanCik, rng, ctx));
+  paragraflar.push(...yaz(g.metinler.yolculuk[kip], rng, ctx));
+  const havaBas = havaSimdi(durum, veri);
+  const yuruyusDk = yol.adimlar.filter(a => a.tur === 'yuruyus').reduce((t, a) => t + a.dakika, 0);
+  zamanGecir(durum, yol.toplamDakika, 'normal', veri.sim);
+  const d = durum.durumlar;
+  if (yuruyusDk) d.enerji = sinirla(d.enerji - yuruyusDk / g.yuruyusEnerjiDk);
+  if (yuruyusDk >= 10 && havaBas?.yagiyor) {
+    for (const [k2, v] of Object.entries(g.yagmurdaYuruyus)) d[k2] = sinirla(d[k2] + v);
+    paragraflar.push(...yaz(g.metinler.yagmurdaIslandin, rng, ctx, 'icses'));
+  }
+  durum.para -= yol.ucret;
+  durum.konum = { semt: hedef, mekan: null };
+  paragraflar.push({ tur: 'sistem', metin: [yolOzeti(veri, yol), sureYaz(yol.toplamDakika), yol.ucret ? '−' + paraYaz(yol.ucret) : null].filter(Boolean).join(' · ') });
+  paragraflar.push(...varisMetni(durum, veri, rng, semt));
+  aksiyonKaydet(durum, 'git:' + hedef, { kip });
+  return { tamam: true, paragraflar };
+}
+
+function varisMetni(durum, veri, rng, semt) {
+  const dl = gunDakikasi(durum.zaman.dakika);
+  const p = [{ tur: 'anlati', metin: semt.atmosfer[dilim(dl).id] }];
+  const hava = havaSimdi(durum, veri);
+  if (hava && (hava.yagiyor || hava.firtina || hava.durum === 'sisli')) p.push(...yaz(havaMetni(veri.hava, hava, dl), rng, { durum, veri }));
+  return p;
+}
+
+// --------------------------------------------------------------------- yerel hareketler
+
+export function mekanaGir(durum, veri, rng, mekanId) {
+  const g = veri.gezi;
+  const m = mekanBul(veri.dunya, mekanId);
+  if (!m) throw new Error('Bilinmeyen mekan: ' + mekanId);
+  if (m.semt !== durum.konum.semt) return { tamam: false, sebep: `${m.ad} başka bir semtte.` };
+  if (durum.konum.mekan === m.id) return { tamam: false, sebep: 'Zaten buradasın.' };
+  const kapali = mekanKapaliMi(durum, m);
+  if (kapali) return { tamam: false, sebep: kapali };
+  const ctx = { durum, veri, baglam: { degisken: { mekan: m } } };
+  const paragraflar = [{ tur: 'secim', metin: `${adEk(m, 'e')} gir` }];
+  if (durum.konum.mekan) paragraflar.push(...yaz(durum.konum.mekan === EVDE ? g.metinler.evdenCik : g.metinler.mekandanCik, rng, ctx));
+  zamanGecir(durum, g.sureler.mekanaGir + (durum.konum.mekan ? g.sureler.mekandanCik : 0), 'normal', veri.sim);
+  durum.konum = { semt: m.semt, mekan: m.id };
+  // İlk ziyarette mekanın tasviri, sonra yalnızca kalabalığı
+  durum.bilgi.gidilen ??= {};
+  if (!durum.bilgi.gidilen[m.id]) paragraflar.push({ tur: 'anlati', metin: m.tasvir });
+  durum.bilgi.gidilen[m.id] = gunNo(durum.zaman.dakika);
+  paragraflar.push(...yaz(g.kalabalikMetinleri[mekanKalabaligi(durum, m)], rng, ctx));
+  aksiyonKaydet(durum, 'gir:' + m.id);
+  return { tamam: true, paragraflar };
+}
+
+export function disariCik(durum, veri, rng) {
+  const g = veri.gezi;
+  if (!durum.konum.mekan) return { tamam: false, sebep: 'Zaten dışarıdasın.' };
+  const evden = durum.konum.mekan === EVDE;
+  const paragraflar = [{ tur: 'secim', metin: 'Dışarı çık' }, ...yaz(evden ? g.metinler.evdenCik : g.metinler.mekandanCik, rng, { durum, veri })];
+  zamanGecir(durum, evden ? g.sureler.evdenCik : g.sureler.mekandanCik, 'normal', veri.sim);
+  durum.konum = { semt: durum.konum.semt, mekan: null };
+  const hava = havaSimdi(durum, veri);
+  if (hava && (hava.yagiyor || hava.firtina)) paragraflar.push(...yaz(havaMetni(veri.hava, hava, gunDakikasi(durum.zaman.dakika)), rng, { durum, veri }));
+  aksiyonKaydet(durum, 'cik');
+  return { tamam: true, paragraflar };
+}
+
+export function eveGir(durum, veri, rng) {
+  const g = veri.gezi;
+  if (durum.konum.semt !== durum.ev.semt) return { tamam: false, sebep: 'Evin başka semtte.' };
+  if (durum.konum.mekan === EVDE) return { tamam: false, sebep: 'Zaten evdesin.' };
+  const paragraflar = [{ tur: 'secim', metin: 'Eve dön' }];
+  if (durum.konum.mekan) paragraflar.push(...yaz(g.metinler.mekandanCik, rng, { durum, veri }));
+  zamanGecir(durum, g.sureler.eveGir + (durum.konum.mekan ? g.sureler.mekandanCik : 0), 'normal', veri.sim);
+  durum.konum = { semt: durum.ev.semt, mekan: EVDE };
+  paragraflar.push(...yaz(g.metinler.eveGir, rng, { durum, veri }));
+  aksiyonKaydet(durum, 'eve');
+  return { tamam: true, paragraflar };
+}
+
+// --------------------------------------------------------------------- mekanda
+
+export function mekanAksiyonuYap(durum, veri, rng, hizmet) {
+  const m = mekanBul(veri.dunya, durum.konum.mekan);
+  if (!m || durum.konum.mekan === EVDE) return { tamam: false, sebep: 'Bir mekanda değilsin.' };
+  const secenek = baglamAksiyonlari(durum, veri).find(a => a.id === 'mekan:' + hizmet);
+  if (!secenek) return { tamam: false, sebep: 'Burada olmaz.' };
+  if (!secenek.tamam) return { tamam: false, sebep: secenek.sebep };
+  const ctx = { durum, veri, baglam: { degisken: { mekan: m } } };
+  if (hizmet === 'kulak') return kulakVer(durum, veri, rng, m, ctx);
+
+  const t = veri.gezi.mekanAksiyonlari[hizmet];
+  const f = mekanAksiyonFiyati(veri, durum, m, hizmet);
+  const paragraflar = [{ tur: 'secim', metin: secenek.ad }];
+  zamanGecir(durum, t.sure, t.tur || 'normal', veri.sim);
+  const d = durum.durumlar;
+  for (const [k, v] of Object.entries(t.etki || {})) if (k in d) d[k] = sinirla(d[k] + v);
+  durum.para -= f;
+  paragraflar.push(...yaz(t.metin, rng, ctx));
+  if (f) paragraflar.push({ tur: 'sistem', metin: '−' + paraYaz(f) });
+  aksiyonKaydet(durum, 'mekan:' + hizmet, { mekan: m.id });
+  return { tamam: true, paragraflar };
+}
+
+// Mekanın dedikodularından henüz duyulmamış birini duyma şansı (kalabalığa göre)
+function kulakVer(durum, veri, rng, m, ctx) {
+  const kv = veri.gezi.kulakVer, mt = veri.gezi.metinler;
+  const paragraflar = [{ tur: 'secim', metin: kv.ad }];
+  const olasilik = kv.olasilik[mekanKalabaligi(durum, m)] ?? 0;
+  zamanGecir(durum, kv.sure, 'dinlenme', veri.sim);
+  durum.bilgi.dedikodular ??= {};
+  const yeni = (m.dedikodular || []).filter(d => !durum.bilgi.dedikodular[d.id]);
+  if (yeni.length && rng.olasilik(olasilik)) {
+    const d = rng.sec(yeni);
+    durum.bilgi.dedikodular[d.id] = { gun: gunNo(durum.zaman.dakika), mekan: m.id };
+    paragraflar.push(...yaz(mt.kulakVerGiris, rng, ctx));
+    paragraflar.push({ tur: 'konusma', konusan: rng.sec(mt.konusanlar), metin: d.metin });
+    paragraflar.push({ tur: 'sistem', metin: 'Duyduklarına eklendi' });
+  } else paragraflar.push(...yaz(mt.kulakVerBos, rng, ctx));
+  aksiyonKaydet(durum, 'kulak', { mekan: m.id });
+  return { tamam: true, paragraflar };
+}
+
+// Duyulan dedikodular, en yeniden eskiye: [{ id, metin, mekan, gun }]
+export function duyulanlar(durum, veri) {
+  const hepsi = new Map((veri.dunya.mekanlar?.mekanlar || []).flatMap(m => (m.dedikodular || []).map(d => [d.id, d])));
+  return Object.entries(durum.bilgi?.dedikodular || {})
+    .map(([id, b]) => ({ id, metin: hepsi.get(id)?.metin, mekan: b.mekan, gun: b.gun }))
+    .filter(x => x.metin)
+    .sort((a, b) => b.gun - a.gun);
+}

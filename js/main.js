@@ -12,7 +12,9 @@ import * as hata from './hata.js';
 // Hata yakalama her şeyden önce kurulur
 hata.kur();
 hata.bagla({ durum: () => oyun.durumAl(), kayitUyarilari: () => kayit.hatalar, bilgi: () => ({ depolama: kayit.depolamaBilgisi() }) });
-import { telefonEkrani, sehirEkrani, hayatimEkrani } from './ui/ekranlar/yertutucu.js';
+import { telefonEkrani } from './ui/ekranlar/yertutucu.js';
+import { sehirEkrani } from './ui/ekranlar/sehir.js';
+import { hayatimEkrani } from './ui/ekranlar/hayatim.js';
 import { dahaFazlaEkrani } from './ui/ekranlar/dahafazla.js';
 
 const $ = s => document.querySelector(s);

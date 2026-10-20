@@ -1,0 +1,65 @@
+{
+  "_aciklama": "Gezinme ve mekan aksiyonları (adım 2.8). evAdaylari: yeni oyunda evin olabileceği semtler (seed seçer). sureler: dakika. mekanAksiyonlari: mekanın her hizmeti için bir aksiyon (ad, süre, etki, metin); fiyat ekonomi.json'dan (mekanın fiyat seviyesi). urunSecimi: hizmetin mekan türüne göre hangi ürünle ücretlendirileceği. kulakVer: mekanın dedikodularından birini duyma olasılığı kalabalığa göre. Metinlerde {mekan.ad}, {semt.ad} kullanılabilir.",
+
+  "evAdaylari": ["tabakhane", "kayalitepe", "bezhane", "asagi_liman", "istasyon", "tersaneonu"],
+  "ev": { "tip": "oda", "ad": "küçük bir oda" },
+
+  "sureler": { "evdenCik": 3, "eveGir": 3, "mekanaGir": 5, "mekandanCik": 2, "semtIci": 8 },
+  "yuruyusEnerjiDk": 8,
+  "yagmurdaYuruyus": { "hijyen": -8, "ruh": -3 },
+
+  "kalabalikAdlari": ["bomboş", "sakin", "kalabalık", "tıklım tıklım"],
+  "kalabalikMetinleri": [
+    ["İçeride kimse yok gibi; sesin yankılanıyor.", "Boş masalar, sessizlik."],
+    ["Birkaç masa dolu; sakin bir hava.", "Az sayıda insan, alçak sesli konuşmalar."],
+    ["Masaların çoğu dolu; uğultulu bir kalabalık.", "Kalabalık; boş bir yer bulmak için etrafa bakınıyorsun."],
+    ["Tıklım tıklım; ayakta bekleyenler var.", "İğne atsan yere düşmez."]
+  ],
+
+  "metinler": {
+    "evdenCik": ["Kapıyı arkandan çekip merdivenleri iniyorsun.", "Anahtarı cebine atıp sokağa çıkıyorsun."],
+    "eveGir": ["Kapıyı açıp içeri giriyorsun; oda bıraktığın gibi.", "Eve dönüyorsun. Dört duvar, ama senin dört duvarın."],
+    "mekandanCik": ["Dışarı çıkıyorsun; sokağın sesi yeniden kulaklarında.", "Kapıdan çıkıp bir an duruyorsun, nereye gideceğini düşünerek."],
+    "yolculuk": {
+      "yuruyus": ["Yürümeye başlıyorsun; şehir adım adım değişiyor.", "Yürüyorsun. Kaldırımlar, vitrinler, yüzler gelip geçiyor."],
+      "toplu": ["Durağa yürüyor, kalabalığa karışıyorsun.", "Kartını basıp içeri giriyorsun; herkes telefonuna gömülmüş."],
+      "taksi": ["Bir taksiye el ediyorsun. Şoför radyonun sesini kısmadan 'Nereye?' diyor.", "Taksiye biniyorsun; taksimetre senin acelenle aynı hızda dönüyor."]
+    },
+    "yagmurdaIslandin": ["Yağmur seni sırılsıklam etti.", "Ayakkabıların su aldı; üşüyorsun."],
+    "kulakVerBos": ["Bir süre etrafı dinliyorsun ama kimse işine yarar bir şey konuşmuyor.", "Konuşulanlar havadan sudan; yeni bir şey yok."],
+    "kulakVerGiris": ["Yan masadakiler sesini alçaltmadan konuşuyor:", "Tezgâhın önünde iki kişi fısıldaşıyor; birkaç kelime kulağına çalınıyor:", "Biri yanındakine anlatıyor:"],
+    "konusanlar": ["Yan masadan biri", "Tezgâhtaki adam", "Yaşlı bir kadın", "Genç bir çocuk", "Garson", "Biri"]
+  },
+
+  "urunSecimi": {
+    "cay_kahve": { "varsayilan": "cay", "kafe": "kahve", "pastane": "kahve", "kantin": "cay" },
+    "yemek": { "varsayilan": "yemek", "bufe": "atistirma", "firin": "atistirma", "pastane": "tatli", "pazar": "atistirma" }
+  },
+
+  "mekanAksiyonlari": {
+    "cay_kahve": { "ad": "Çay iç", "adlar": { "kafe": "Kahve iç", "pastane": "Kahve iç" }, "sure": 20, "tur": "dinlenme", "etki": { "enerji": 3, "ruh": 2, "stres": -2 },
+      "metin": ["İnce belli bardak elinde, etrafı seyrediyorsun.", "Sıcak bir şeyler içmek iyi geliyor; bir süre sadece oturuyorsun.", "Bardağın buharı yüzüne vuruyor. Burası {mekan.ad}; kendini birazcık buralı hissediyorsun."] },
+    "yemek": { "ad": "Bir şeyler ye", "sure": 35, "etki": { "aclik": -55, "ruh": 3 },
+      "metin": ["Önüne gelen tabağı bitirene kadar başını kaldırmıyorsun.", "Sıcak yemek; bugün kendine yaptığın en iyi şey olabilir.", "Yerken etrafı dinliyorsun; herkesin bir derdi var, herkes yine de yiyor."] },
+    "ekmek": { "ad": "Bir şey al, ye", "sure": 10, "etki": { "aclik": -25 },
+      "metin": ["Sıcak bir şey alıp ayakta yiyorsun.", "Kâğıda sarılı sıcak hamur elini yakıyor; yine de bekleyemiyorsun."] },
+    "alkol": { "ad": "Bir şey iç", "sure": 45, "tur": "dinlenme", "etki": { "ruh": 5, "stres": -7, "enerji": -3 },
+      "metin": ["İlk yudum boğazını yakıyor, ikincisi omuzlarını gevşetiyor.", "Kadeh elinde, gürültünün içinde kendi sessizliğini buluyorsun.", "Bir içki. Belki iki. Ama şimdilik bir."] },
+    "dinlenme": { "ad": "Otur, etrafı seyret", "sure": 30, "tur": "dinlenme", "etki": { "stres": -4, "ruh": 1 },
+      "metin": ["Bir köşeye oturup gelen geçeni izliyorsun.", "Hiçbir şey yapmadan oturuyorsun; şehir senin yerine çalışıyor."] },
+    "oyun": { "ad": "Bir el okey ya da tavla", "sure": 60, "tur": "dinlenme", "etki": { "ruh": 4, "stres": -3 },
+      "metin": ["Masadakiler seni oyuna alıyor; kaybetsen de gülüyorsun.", "Zarlar masaya vuruyor; karşındaki her atışta bir laf sokuyor.", "Taşları diziyorsun; masadaki yaşlı adam elini görmeden 'Sende çift var' diyor."] },
+    "muzik": { "ad": "Müziği dinle", "sure": 60, "tur": "dinlenme", "etki": { "ruh": 5, "stres": -5, "enerji": -2 },
+      "metin": ["Müzik göğsünde bir yere dokunuyor.", "Bir şarkı başlıyor; herkes aynı anda susuyor."] },
+    "okuma": { "ad": "Bir şeyler oku", "sure": 60, "tur": "dinlenme", "etki": { "stres": -3, "ruh": 2 },
+      "metin": ["Sayfaları çevirdikçe şehir uzaklaşıyor.", "Bir paragrafı üç kez okuyorsun; sonunda kendini bırakıyorsun."] },
+    "spor": { "ad": "Spor yap", "sure": 60, "tur": "agir", "etki": { "stres": -10, "ruh": 5, "hijyen": -20, "enerji": -12 },
+      "metin": ["Ter içinde kalıyorsun; aklındaki her şey bir süreliğine susuyor.", "Kaslarının yandığını hissediyorsun; iyi bir yorgunluk."] },
+    "yikanma": { "ad": "Yıkan, terle", "sure": 60, "tur": "dinlenme", "etki": { "hijyen": 70, "stres": -8, "ruh": 4 },
+      "metin": ["Sıcak mermerin üstünde uzanıyorsun; buhar her şeyi yumuşatıyor.", "Kubbenin deliklerinden süzülen ışık buharda kayboluyor."] },
+    "alisveris": { "ad": "Biraz göz gezdir", "sure": 30, "ucretsiz": true, "etki": { "ruh": 1 },
+      "metin": ["Raflara, vitrinlere bakıyorsun; almasan da bakmak bir şey.", "Fiyat etiketlerine bakıp iç çekiyorsun."] }
+  },
+
+  "kulakVer": { "ad": "Etrafa kulak ver", "sure": 30, "olasilik": [0, 0.4, 0.7, 0.85] }
+}

@@ -8,6 +8,7 @@ import { sure as sureYaz, saat } from '../../core/format.js';
 import { ek } from '../../core/tr.js';
 import * as oyun from '../../oyun.js';
 import { guvenli } from '../../hata.js';
+import { sekmeyeGec } from '../arayuz.js';
 
 // Hamle hata verirse: hata paneli açılır; "Devam et" menüyü yeniden kurar.
 const hataSecenekleri = () => ({ yenidenDene: () => menuyuGoster(), yenidenBaslat: () => location.reload() });
@@ -80,6 +81,17 @@ export function menuyuGoster() {
     await anlatim.sira;
     menuyuGoster();
   });
+}
+
+// Başka bir ekrandan (Şehir) yapılan hamle: başarılıysa Şimdi'ye geçilir ve anlatım orada akar
+export async function disaridanHamle(etiket, is) {
+  if (oyun.aktifOlayVar()) { bilgiGoster('Şimdi olmaz', 'Önce şu an olanla ilgilen.'); sekmeyeGec('simdi'); return; }
+  const sonuc = await guvenli(etiket, is, hataSecenekleri());
+  if (!sonuc) return;
+  if (!sonuc.tamam) { bilgiGoster('Olmadı', sonuc.sebep); return; }
+  sekmeyeGec('simdi');
+  await anlatim.sira;
+  menuyuGoster();
 }
 
 // Etkin olayın seçenekleri

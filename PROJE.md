@@ -9,12 +9,19 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 
 ## 🧭 NEREDE KALDIK
 
-- **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kapandı: 2026-10-20)
-- **Son tamamlanan adım:** 2.7 Ekonomi (`data/ekonomi.json`, `core/ekonomi.js`): kira (konut tipi × semt katsayısı), yaşam giderleri, mekan fiyatları (seviye 1–5), maaşlar (22 iş türü × şirket katsayısı), suç ekonomisi sayıları; fiyat ve ücret endeksine bağlı; ekonomi tablosu kesinleşti
-- **Sıradaki adım:** 2.8 Konum sistemi (kayıt şeması v3 + migration), Şehir sekmesi arayüzü, semtler arası gezinme, mekanlara girme — **büyük** (bitince kullanıcı telefonda deneyecek)
+- **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi: kodu bitti, telefon testi bekleniyor (Faz 1 kapandı: 2026-10-20)
+- **Son tamamlanan adım:** 2.8 Konum sistemi (ev / sokak / mekan; kayıt sürümü 3), Şehir sekmesi (semt, mekanlar, gündem, başka semtler), semtler arası yolculuk (toplu / yürüyüş / taksi), mekana girme, mekanda aksiyonlar (fiyatlı), kulak verme ve Hayatım → Duyduklarım
+- **Sıradaki adım:** kullanıcının telefonda Faz 2 testi (aşağıdaki liste). Sonra Faz 3 (başlangıç hikayesi motoru, NPC üretimi) — ilk adımı **orta**
 - **Kullanıcı isteği (2026-10-20):** "Benim deneyeceğim bir şey gelene kadar devam et." → 2.6, 2.7, 2.8 arka arkaya; 2.8'de (Şehir sekmesi, gezinme, mekanlar) durup telefonda denemesi istenecek.
 - **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). 0.1.5 ekran görüntüsüyle doğrulandı (şerit sekme çubuğuyla aynı renkte, yazılar tam): **Faz 1 kapandı.**
-- **Kullanıcıdan beklenen:** şimdilik bir şey yok; 2.8 bitince telefonda deneme.
+- **Kullanıcıdan beklenen:** uygulamayı güncelleyip (0.1.12) denemesi:
+  1. Daha Fazla'da sürüm 0.1.12 mi?
+  2. Şimdi: "Dışarı çık" → Şehir sekmesi: semt, mekanlar (açık/kapalı, kalabalık), "Semt hakkında".
+  3. Bir mekana gir; çay/yemek gibi bir şey yap (para düşüyor mu?); "Etrafa kulak ver" birkaç kez → Hayatım → Duyduklarım.
+  4. Şehir → başka bir semte toplu taşıma / yürüyüş / taksi ile git; süre ve ücret mantıklı mı?
+  5. "Eve git", evde uyu. Ertesi gün Şehir → "Şehirde bugün"de haber var mı?
+  6. Bir şey bozuksa ya da tuhafsa: Daha Fazla → Sorun bildir → raporu yapıştır.
+  Eski oyun güncellemeden sonra Bezhane'deki evinde devam eder (eski kayıtlarda ev yoktu).
 
 ### Faz 1 adım listesi
 
@@ -45,14 +52,14 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 2.5 | Mekanlar: sahip (NPC tohumu), saatler, müşteri profili, geçmiş, dedikodular, fırsatlar | büyük | ✅ |
 | 2.6 | Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkan açılıp kapanması, fiyatlar, şehir olayları) | orta | ✅ |
 | 2.7 | Ekonomi dosyası (asgari ücrete oranlı her şey), PROJE.md ekonomi tablosunun kesinleşmesi | orta | ✅ |
-| 2.8 | Konum sistemi (~~kayıt şeması v2~~ → v3, çünkü v2 2.6'da dünya için kullanıldı + migration), Şehir sekmesi arayüzü, semtler arası gezinme | büyük | ⏳ |
+| 2.8 | Konum sistemi (~~kayıt şeması v2~~ → v3, çünkü v2 2.6'da dünya için kullanıldı + migration), Şehir sekmesi arayüzü, semtler arası gezinme | büyük | ✅ |
 
 ### Fazlar
 
 | Faz | İçerik | Durum |
 |---|---|---|
 | 1 | Altyapı (+ suç dünyası için koşul/etki türleri: 1.8–1.9) | ✅ kapandı (2026-10-20) |
-| 2 | Dünya kitabı + ekonomi dosyası (+ örgütler, bölgeler, emniyet/adliye/cezaevi kurumları, suç ekonomisi) | ⏳ devam ediyor |
+| 2 | Dünya kitabı + ekonomi dosyası (+ örgütler, bölgeler, emniyet/adliye/cezaevi kurumları, suç ekonomisi) | ✅ kod bitti · ⏳ telefon testi bekleniyor |
 | 3 | Başlangıç hikayesi motoru, açılış sahneleri, NPC üretimi (+ örgüt hiyerarşisi/lider NPC'leri, suçla bağlantılı geçmiş bileşenleri) | ⬜ |
 | 4 | İş, para, borç, barınma, eşya; ilişkiler, telefon ekranı (+ örgüt, aranma, adalet, hapishane, kara para sistemleri) | ⬜ |
 | 5 | Olay içeriği (150+ derin olay, hikaye yayları) — sadece veri (+ suç dünyası olayları, giriş ve çıkış yayları, hapishane dönemi) | ⬜ |
@@ -113,6 +120,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K47 | **Adı iyelik ekiyle biten yerlere `"iyelik": true`** (Tersaneönü, Sahilyolu; ileride "Çınaraltı Kahvesi" gibi mekanlar). Test, her semt adının bulunma ekiyle doğru çekimlendiğini denetler. | Ek motoru iyeliği kendisi anlayamaz (1.2'de not edildi). |
 | K48 | **Ulaşımda durak = semt; yol bulma beklenen sürelerle ve rastgelelik olmadan.** Hatlar semtleri sırayla bağlar; bekleme sefer aralığının yarısı, trafik saate göre katsayı. | Konum semt + mekan düzeyinde (K-konum); sokak düzeyi gereksiz ayrıntı olur. Rotanın her seferinde aynı çıkması test edilebilirlik ve oyuncunun planlayabilmesi için; sürprizler (kaçan otobüs, iptal vapur) olay motorunun işi. |
 | K49 | **Her kişi ve kurumun iki yüzü: `kamuoyu` / `gercek`; örgüt bağları (`paravan`, figürün `orgut`u) gizli.** Gizli bilgi yalnızca kendi alanında durur; açık metinlere sızmaz (test). | Dedikodu ağı, haber akışı ve keşif (Faz 3–5) için: oyuncunun öğrendiği şeyin bir değeri olsun; dünya baştan her şeyi söylemesin. |
+| K50 | **Konum = { semt, mekan }; mekan 'ev' / mekan kimliği / null (sokakta).** Ev aksiyonları `yer: "ev"` ile yalnızca evde listelenir ve `kosul: { mekan: "ev" }` taşır; mekanda o mekanın hizmetleri aksiyon olur (fiyat = ekonomi × mekanın fiyat seviyesi). Olaylarda `yer: "ev" / "sokak"` (ev.json'daki 5 olaya `yer: "ev"` eklendi: evde değilken çıkmasınlar; zamanlayıcıdaki olay oyuncu eve dönene kadar bekler). Şehir ekranından yapılan hamleler Şimdi'de anlatılır. | Şehri gezilebilir kılmanın en sade yolu; sokak düzeyi ayrıntı yok (K48). Ev olaylarının sokakta çıkması saçma olurdu. |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -148,16 +156,18 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   │                       toplum (kurum, şirket, figür, örgüt yardımcıları ve denetimi),
 │   │                       mekan (açık mı, kalabalık, dedikodular, mekan denetimi),
 │   │                       takvim (okul/üniversite), hava (günlük ve anlık hava), ilerleme (kendi ilerleyen dünya),
-│   │                       ekonomi (AÜ oranı → ₺, kira, maaş, mekan fiyatı)
+│   │                       ekonomi (AÜ oranı → ₺, kira, maaş, mekan fiyatı),
+│   │                       konum (ev/sokak/mekan, yolculuk, mekanda aksiyonlar, kulak verme)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
-│   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
+│   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, sehir, hayatim, dahafazla, kayitlar, aktarim, yertutucu)
 │   └── dev/panel.js        Gizli geliştirici paneli
 ├── data/
 │   ├── simulasyon.json     Durumların değişim kuralları, eşik uyarıları (1.5)
 │   ├── aksiyonlar.json     Temel günlük aksiyonlar (1.5)
 │   ├── takvim.json         Resmi tatiller (1.5); bayramlar 2026–2036 ve okul takvimi kuralları (2.6)
 │   ├── hava.json           Hava modeli ayarları ve hava anlatımları (2.6)
+│   ├── gezi.json           Gezinme ve mekan aksiyonları, ev adayları (2.8)
 │   ├── ekonomi.json        Tüm fiyatlar, kiralar, maaşlar, suç ekonomisi (asgari ücrete oranlı; 2.7)
 │   ├── dunya/              Dünya kitabı (Faz 2): sehir.json (2.1), semtler.json (2.2), ulasim.json (2.3),
 │   │                       kurumlar / sirketler / figurler / orgutler.json (2.4), mekanlar.json (2.5),
@@ -365,6 +375,8 @@ Kurgusal, Marmara kıyısında, 4,18 milyonluk bir liman şehri. Çaybaşı Dere
 - **Kendi ilerleyen dünya (`core/ilerleme.js`, `durum.dunya`):** her gün işlenir. Fiyat endeksi her ay %1,8–3,2; ücret endeksi yalnızca ocak ve temmuzda, enflasyonun %88–100'ü kadar (aradaki aylarda geçim zorlaşır). Demirspor sezonda her pazar maç, puan durumu. Gündem: 21 haber şablonu (belediye, ulaşım, asayiş, ekonomi, kültür, hava, medya; koşullu ve tekrar süreli), günde en çok bir haber, son 60'ı saklanır — haber akışının (Telefon) kaynağı. Sıradan sahipli mekanlar arada bir 1–6 gün kapanır (tadilat, cenaze...). Belirlenimli: aynı seed ve gidişatta aynı dünya; gün gün ilerlemek ile toptan atlamak aynı sonucu verir (test).
 - **Kayıt sürümü 2:** `durum.dunya` eklendi; v1 kayıtlar otomatik taşınır (dünya kayıt anından başlar, geçmiş günler sonradan işlenmez).
 
+**Konum ve gezinme (2.8):** yeni oyunda ev, seed'e göre ucuz semtlerden birinde küçük bir oda (`gezi.json → evAdaylari`). Evdeyken ev aksiyonları + "Dışarı çık"; sokakta "Eve dön / Eve git"; mekanda hizmet aksiyonları (çay/kahve, yemek, içki, okey, müzik, okuma, spor, hamam, göz gezdirme), "Etrafa kulak ver" (kalabalığa göre olasılıkla mekanın henüz duyulmamış bir dedikodusu; `durum.bilgi.dedikodular`), "Dışarı çık". Kapalı mekana girilmez (saat, kapalı gün, geçici kapanma); mekan kapanınca yalnızca çıkış kalır. Yolculuk: toplu (Kent Kart, fırtınada vapur yok), yürüyüş (enerji düşer; yağmurda ıslanırsın), taksi; süre, ücret, varış semtinin o dilimdeki atmosferi. **Şehir sekmesi:** bulunulan semt (özet, atmosfer, "Semt hakkında"), gidilecek yerler (açık/kapalı, kalabalık, ₺ seviyesi; mekan paneli: tasvir, geçmiş, saatler, fiyatlar, Gir / Git ve gir), "Şehirde bugün" (gündem), yakalara göre diğer semtler (en hızlı yol süresi ve ücreti; semt paneli: kimler yaşıyor, bilinen yerler, mekanlar, üç yolculuk seçeneği). **Hayatım → Duyduklarım.** Kayıt sürümü 3 (ev, konum, bilgi); eski kayıtlar Bezhane'de evde devam eder.
+
 Suç dünyası için yalnızca zemin var; örgütler ve bölgeleri 2.4'te bu semtlere bağlanacak.~~ → 2.4'te bağlandı (aşağıda).
 
 **Toplum (2.4):**
@@ -567,6 +579,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.12 | 2026-10-20 | Adım 2.8: konum sistemi (`core/konum.js`, `data/gezi.json`; kayıt sürümü 3 + migration), Şehir sekmesi (`ui/ekranlar/sehir.js`), Hayatım → Duyduklarım (`ui/ekranlar/hayatim.js`), yolculuk, mekana girme, mekanda fiyatlı aksiyonlar, kulak verme; olaylarda `yer`; aksiyonlarda `yer`; durum panelinde konum; hata raporunda konum. Faz 2 kodu bitti. 311 test. |
 | 0.1.11 | 2026-10-20 | Adım 2.7: `data/ekonomi.json` + `core/ekonomi.js` (esnaf yuvarlaması, fiyat/ücret endeksi, ürün ve hizmet fiyatı, kira, maaş aralığı, denetim); ekonomi tablosu kesinleşti. 302 test. |
 | 0.1.10 | 2026-10-20 | Adım 2.6: bayramlar 2026–2036, okul/üniversite takvimi (`core/takvim.js`, koşul dilinde `okul`, `universite`); hava modeli (`core/hava.js`, `data/hava.json`; ayraçta ve durum panelinde hava; fırtınada vapur yok); kendi ilerleyen dünya (`core/ilerleme.js`, `data/dunya/ilerleme.json`: enflasyon, zam, Demirspor, gündem, mekan kapanmaları). Kayıt sürümü 2 + migration. 296 test. |
 | 0.1.9 | 2026-10-20 | Adım 2.5: `data/dunya/mekanlar.json` (52 mekan, 31 tohum sahip, 63 dedikodu, 8 gizli örgüt bağı; tür / hizmet / fırsat katalogları) ve `core/mekan.js` (açık mı — gece yarısını geçen saatler önceki güne sayılır, kalabalık, semtteki mekanlar, konu dedikoduları, müdavimler, denetim). Oyun dosyayı yüklüyor. 284 test. |

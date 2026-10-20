@@ -1,9 +1,9 @@
 {
-  "_aciklama": "Temel günlük aksiyonlar. sure: dakika, tur: zamanın nasıl geçtiği (normal/dinlenme/agir/uyku), enerji ve para: ek harcama, etki: aksiyon bitince durumlara eklenen değer, dilimler: hangi dilimlerde yapılabildiği (yoksa her zaman), metin: rastgele seçilen anlatım çeşitleri. Faz 1.8'den sonra 'dilimler' yerine genel 'kosul' alanı da kullanılabilir.",
+  "_aciklama": "yer (2.8): ev = yalnızca evde listelenir (ve kosul ile evde olmak şartı), disarisi = evde ya da sokakta (mekanda değil), yoksa her yerde. Temel günlük aksiyonlar. sure: dakika, tur: zamanın nasıl geçtiği (normal/dinlenme/agir/uyku), enerji ve para: ek harcama, etki: aksiyon bitince durumlara eklenen değer, dilimler: hangi dilimlerde yapılabildiği (yoksa her zaman), metin: rastgele seçilen anlatım çeşitleri. Faz 1.8'den sonra 'dilimler' yerine genel 'kosul' alanı da kullanılabilir.",
 
   "aksiyonlar": [
     {
-      "id": "uyu",
+      "id": "uyu", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
       "ad": "Uyu",
       "ozel": "uyku",
       "kisayol": true,
@@ -29,7 +29,7 @@
       }
     },
     {
-      "id": "dinlen",
+      "id": "dinlen", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
       "ad": "Biraz uzan, dinlen",
       "sure": 60,
       "tur": "dinlenme",
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "id": "yemek_hazirla",
+      "id": "yemek_hazirla", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
       "ad": "Evde bir şeyler pişir",
       "alt": "Ucuz ve doyurucu; ama zaman alır.",
       "sure": 45,
@@ -54,7 +54,7 @@
       ]
     },
     {
-      "id": "atistir",
+      "id": "atistir", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
       "ad": "Ayakta bir şeyler atıştır",
       "alt": "Çabuk ama yarım yamalak.",
       "sure": 10,
@@ -67,7 +67,7 @@
       ]
     },
     {
-      "id": "dus",
+      "id": "dus", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
       "ad": "Duş al",
       "sure": 20,
       "etki": { "hijyen": 60, "ruh": 3, "stres": -3 },
@@ -78,7 +78,7 @@
       ]
     },
     {
-      "id": "cay",
+      "id": "cay", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
       "ad": "Çay demle",
       "sure": 15,
       "para": 5,
@@ -90,7 +90,7 @@
       ]
     },
     {
-      "id": "yuruyus",
+      "id": "yuruyus", "yer": "disarisi",
       "ad": "Mahallede yürüyüşe çık",
       "alt": "Kafanı dağıtır.",
       "sure": 45,
@@ -105,7 +105,7 @@
       ]
     },
     {
-      "id": "pencere",
+      "id": "pencere", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
       "ad": "Pencereden dışarı bak",
       "sure": 10,
       "tur": "dinlenme",
@@ -118,7 +118,7 @@
       ]
     },
     {
-      "id": "ev_topla",
+      "id": "ev_topla", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
       "ad": "Evi topla",
       "alt": "Dağınıklık insanın içine de siner.",
       "sure": 60,

@@ -307,3 +307,13 @@ button.satir:active { background: var(--yuzey2); }
 [data-hareket="azalt"] *, [data-hareket="azalt"] *::before, [data-hareket="azalt"] *::after {
   transition: none !important; animation: none !important; scroll-behavior: auto !important;
 }
+
+/* Şehir ve Hayatım (2.8) */
+.sehir-kart p { margin: 8px 0; }
+.sehir-kart .dugme { margin: 4px 0 8px; }
+.gundem { margin: 8px 0; font-size: .92em; }
+.duyulan { padding: 8px 0; border-bottom: 1px solid var(--cizgi); }
+.duyulan:last-child { border-bottom: 0; }
+.duyulan p { margin: 2px 0; }
+.panel .bolum-baslik { margin: 16px 0 6px; }
+.dugme-yigini .secenek { text-align: left; }

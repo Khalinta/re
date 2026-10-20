@@ -51,6 +51,14 @@ export function agirlikHesapla(olay, ctx) {
 }
 
 // Döner: { uygun, nedenler: [teknik açıklama], agirlik }
+// Olayın geçtiği yer (2.8): "yer": "ev" → yalnızca oyuncu evdeyken; "sokak" → evde ya da bir mekanda değilken.
+// Konumu olmayan eski durumlarda (testler) her yer tutar.
+export const OLAY_YERLERI = ['ev', 'sokak'];
+export function olayYeriTutuyor(durum, olay) {
+  if (!olay.yer || !durum.konum) return true;
+  return olay.yer === 'ev' ? durum.konum.mekan === 'ev' : durum.konum.mekan === null;
+}
+
 export function olayUygunluk(durum, olay, veri, { tetik = 'otomatik', baglam } = {}) {
   const nedenler = [];
   const olayTetik = olay.tetik || 'otomatik';
@@ -66,6 +74,7 @@ export function olayUygunluk(durum, olay, veri, { tetik = 'otomatik', baglam } =
       nedenler.push(`bekleme süresi dolmadı (${Math.ceil(kalan / 60)} saat kaldı)`);
     }
   }
+  if (!olayYeriTutuyor(durum, olay)) nedenler.push(`yer: ${olay.yer} (şu an ${durum.konum.mekan === 'ev' ? 'evde' : durum.konum.mekan || 'sokakta'})`);
   const ctx = ctxYap(durum, veri, baglam);
   const ag = kosulAcikla(olay.kosul, ctx);
   if (!ag.tamam) nedenler.push(...nedenTutmadi(ag).map(n => 'koşul: ' + n));
@@ -264,7 +273,7 @@ export function vadesiGelenZamanlayici(durum, veri) {
       if (z.kosulTutmazsa === 'bekle') continue;
       iptaller.push({ ...z, neden: 'koşul tutmadı' }); liste.splice(i--, 1); continue;
     }
-    if (!kosulAcikla(olay.kosul, ctx).tamam) continue;
+    if (!kosulAcikla(olay.kosul, ctx).tamam || !olayYeriTutuyor(durum, olay)) continue;
     liste.splice(i, 1);
     return { zamanlayici: z, iptaller };
   }
@@ -283,6 +292,7 @@ export function olayDogrula(olay, { kosulDogrula, etkiDogrula, metinDogrula, ola
   const tetik = olay.tetik || 'otomatik';
   if (!/^(otomatik|zamanlayici|zincir|aksiyon:[a-z0-9_]+)$/.test(tetik)) h.push(`${y}: geçersiz tetik "${tetik}"`);
   if (olay.yay && yaylar && !yaylar[olay.yay]) h.push(`${y}: tanımsız yay "${olay.yay}"`);
+  if (olay.yer !== undefined && !OLAY_YERLERI.includes(olay.yer)) h.push(`${y}: geçersiz yer "${olay.yer}"`);
   h.push(...kosulDogrula(olay.kosul, `${y}.kosul`));
   for (const c of olay.agirlik?.carpanlar || []) h.push(...kosulDogrula(c.kosul, `${y}.agirlik`));
   const gidilen = new Set([bas]);

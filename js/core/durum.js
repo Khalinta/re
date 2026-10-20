@@ -4,12 +4,14 @@ import { Rng } from './rng.js';
 import { OYUN_SURUMU } from '../surum.js';
 import { dunyaBaslangici } from './ilerleme.js';
 
-export const KAYIT_SURUMU = 2;
+export const KAYIT_SURUMU = 3;
+// Yeni oyunda ev verilmezse (testler) varsayılan
+export const VARSAYILAN_EV = { semt: 'bezhane', tip: 'oda', ad: 'küçük bir oda' };
 export const AKSIYON_GECMISI_SINIRI = 50;
 export const ANLATIM_GECMISI_SINIRI = 150;
 
-// secenek: { seed, baslangic: 'YYYY-AA-GG', saat: 8, karakter, para }
-export function yeniDurum(simCfg, { seed, baslangic, saat = 8, karakter = {}, para = 0 } = {}) {
+// secenek: { seed, baslangic: 'YYYY-AA-GG', saat: 8, karakter, para, ev: { semt, tip, ad } }
+export function yeniDurum(simCfg, { seed, baslangic, saat = 8, karakter = {}, para = 0, ev = VARSAYILAN_EV } = {}) {
   const durumlar = {};
   for (const [k, v] of Object.entries(simCfg.durumlar)) durumlar[k] = v.baslangic;
   const zaman = { baslangic, dakika: saat * 60 };
@@ -32,6 +34,9 @@ export function yeniDurum(simCfg, { seed, baslangic, saat = 8, karakter = {}, pa
     anlatim: [],
     gunluk: [],
     dunya: dunyaBaslangici(zaman),   // kendi ilerleyen dünya (2.6, kayıt sürümü 2)
+    ev: { ...ev },                                  // (2.8, kayıt sürümü 3)
+    konum: { semt: ev.semt, mekan: 'ev' },          // mekan: 'ev' | mekan kimliği | null (sokakta)
+    bilgi: { dedikodular: {}, gidilen: {} },        // duyulan dedikodular, gidilen mekanlar
   };
 }
 

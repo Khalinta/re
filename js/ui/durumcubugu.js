@@ -50,6 +50,7 @@ function ayrintiGoster() {
     baslik: v.tarihUzun,
     icerik: h('div', {},
       h('div', { class: 'ozet-satir' }, h('span', {}, v.dilim + ' · ' + v.saat), h('b', { class: v.para < 0 ? 'eksi' : '' }, para(v.para))),
+      v.konum ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Konum'), h('span', { class: 'soluk' }, v.konum)) : null,
       v.hava ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Hava'), h('span', { class: 'soluk' }, v.hava)) : null,
       satirlar),
   });

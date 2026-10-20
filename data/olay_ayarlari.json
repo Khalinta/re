@@ -1,0 +1,6 @@
+{
+  "_aciklama": "Olayların ne sıklıkla çıkacağı. aksiyonSonrasiOlasilik: her aksiyondan sonra 'otomatik' bir olay çıkma ihtimali. enAzAralikDk: iki otomatik olay arasında en az geçmesi gereken oyun süresi. Aksiyona bağlı olaylar (tetik 'aksiyon:<id>') bu sınıra takılmaz ama kendi olasılıklarıyla çıkar.",
+  "aksiyonSonrasiOlasilik": 0.3,
+  "aksiyonaBagliOlasilik": 0.5,
+  "enAzAralikDk": 180
+}

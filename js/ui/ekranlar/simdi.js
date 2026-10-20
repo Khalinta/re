@@ -60,6 +60,7 @@ export function paragraflariGoster(paragraflar) {
 }
 
 export function menuyuGoster() {
+  if (oyun.aktifOlayVar()) { olayMenusu(); return; }
   const liste = oyun.aksiyonListesi().filter(x => !x.a.kisayol);
   secenekleriGoster(secenekKap, liste.map(x => ({
     id: x.a.id,
@@ -76,7 +77,18 @@ export function menuyuGoster() {
   });
 }
 
+// Etkin olayın seçenekleri
+function olayMenusu() {
+  secenekleriGoster(secenekKap, oyun.olaySecenekleriAl().map(x => ({ ...x, ton: 'olay' })), async s => {
+    const sonuc = oyun.olaySeceneginiYap(s.sira);
+    if (!sonuc.tamam) bilgiGoster(s.metin, sonuc.sebep);
+    await anlatim.sira;
+    menuyuGoster();
+  });
+}
+
 async function uyu() {
+  if (oyun.aktifOlayVar()) { bilgiGoster('Uyu', 'Önce şu an olanla ilgilen.'); return; }
   const a = oyun.aksiyonBul('uyu');
   const x = oyun.aksiyonListesi().find(y => y.a === a);
   if (!x.tamam) { bilgiGoster('Uyu', x.sebep); return; }

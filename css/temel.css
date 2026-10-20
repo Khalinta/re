@@ -97,6 +97,8 @@ svg { display: block; }
 .p-sistem { align-self: flex-start; font-size: .82em; color: var(--soluk); background: var(--yuzey); border: 1px solid var(--cizgi); border-radius: 999px; padding: 2px 10px; }
 .p-ayrac { align-self: center; font-size: .75em; letter-spacing: .14em; text-transform: uppercase; color: var(--soluk); margin: .6em 0 1em !important; display: flex; align-items: center; gap: 10px; }
 .p-ayrac::before, .p-ayrac::after { content: ""; width: 28px; height: 1px; background: var(--cizgi); }
+.p-olayBaslik { font-size: .78em; letter-spacing: .12em; text-transform: uppercase; color: var(--vurgu); font-weight: 700; margin-top: .6em !important; }
+.secenek.ton-olay { border-left: 3px solid var(--vurgu); }
 .p-secim { align-self: flex-end; text-align: right; font-size: .9em; color: var(--vurgu); }
 .p-secim::before { content: "› "; }
 .yeni-isaret[hidden] { display: none; }

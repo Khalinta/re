@@ -2,6 +2,7 @@
 // Kayıt sistemi (1.6) ve olay motoru (1.8–1.9) buraya bağlanacak.
 import { yeniDurum, rngAl, anlatimKaydet } from './core/durum.js';
 import { aksiyonDurumu, aksiyonMaliyeti, aksiyonUygula } from './core/aksiyon.js';
+import { olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec } from './core/olay.js';
 import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER } from './core/zaman.js';
 import { seedUret } from './core/rng.js';
 import { saat, tarih, tarihKisa, GUNLER, AYLAR } from './core/format.js';
@@ -18,14 +19,25 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
+    jsonAl('./data/olay_ayarlari.json'),
+    jsonAl('./data/olaylar/_liste.json'),
   ]);
   veri.sim = sim;
   veri.aksiyonlar = aks.aksiyonlar;
   veri.takvim = takvim;
+  veri.olayAyar = olayAyar;
+  veri.olaylar = {};
+  const dosyalar = await Promise.all(olayListe.dosyalar.map(d => jsonAl('./data/olaylar/' + d)));
+  dosyalar.forEach((dosya, i) => {
+    for (const o of dosya.olaylar) {
+      if (veri.olaylar[o.id]) throw new Error(`Aynı olay kimliği iki kez: ${o.id} (${olayListe.dosyalar[i]})`);
+      veri.olaylar[o.id] = o;
+    }
+  });
 }
 
 export const durumAl = () => durum;
@@ -73,23 +85,80 @@ export function aksiyonListesi() {
 
 export function aksiyonBul(id) { return veri.aksiyonlar.find(a => a.id === id); }
 
+// Zaman ayracı: aksiyon ya da olay seçimi gün/dilim değiştirdiyse araya "— Salı, akşam —" girer
+function ayracEkle(liste, onceDk, uykuSonrasi = false) {
+  const gunDegisti = gunNo(durum.zaman.dakika) !== gunNo(onceDk);
+  if (!gunDegisti && dilim(durum.zaman.dakika).id === dilim(onceDk).id) return;
+  const i = uykuSonrasi ? liste.findIndex(p => p.tur === 'sistem') + 1 : liste.length;
+  liste.splice(i, 0, ayrac(durum.zaman.dakika, gunDegisti));
+}
+
 export function aksiyonYap(id) {
   const a = aksiyonBul(id);
   if (!a) throw new Error('Bilinmeyen aksiyon: ' + id);
+  if (durum.aktifOlay) return { tamam: false, sebep: 'Önce şu an olanla ilgilen.' };
   const kontrol = aksiyonDurumu(durum, a, veri.sim, veri);
   if (!kontrol.tamam) return { tamam: false, sebep: kontrol.sebep };
   const onceDk = durum.zaman.dakika;
   const sonuc = aksiyonUygula(durum, a, veri.sim, rngAl(durum, 'aksiyon'));
   const liste = [...sonuc.paragraflar];
-  const gunDegisti = gunNo(durum.zaman.dakika) !== gunNo(onceDk);
-  if (gunDegisti || dilim(durum.zaman.dakika).id !== dilim(onceDk).id) {
-    // Uyku gibi uzun aksiyonlarda ayraç uyanıştan önce gelsin
-    const i = a.ozel === 'uyku' ? liste.findIndex(p => p.tur === 'sistem') + 1 : liste.length;
-    liste.splice(i, 0, ayrac(durum.zaman.dakika, gunDegisti));
-  }
+  ayracEkle(liste, onceDk, a.ozel === 'uyku');
+  liste.push(...olayDene(a.id));
   paragraflariKaydet(liste);
   bildir(liste);
   return { tamam: true, paragraflar: liste };
+}
+
+// Aksiyondan sonra olay çıkar mı? Önce aksiyona bağlı olaylar, sonra genel olaylar.
+function olayDene(aksiyonId) {
+  const ayar = veri.olayAyar || {};
+  const rng = rngAl(durum, 'olay');
+  let olay = null;
+  if (rng.olasilik(ayar.aksiyonaBagliOlasilik ?? 0.5)) olay = olaySec(durum, veri, rng, { tetik: 'aksiyon:' + aksiyonId });
+  const sonOlay = durum.sonOlayZamani ?? -Infinity;
+  if (!olay && durum.zaman.dakika - sonOlay >= (ayar.enAzAralikDk ?? 180) && rng.olasilik(ayar.aksiyonSonrasiOlasilik ?? 0.3)) {
+    olay = olaySec(durum, veri, rng, { tetik: 'otomatik' });
+  }
+  return olay ? olayuBaslat(olay.id) : [];
+}
+
+function olayuBaslat(id, baglam = {}) {
+  durum.sonOlayZamani = durum.zaman.dakika;
+  const onceDk = durum.zaman.dakika;
+  const s = olayBaslat(durum, id, veri, rngAl(durum, 'olay'), baglam);
+  const liste = [...s.paragraflar];
+  ayracEkle(liste, onceDk);
+  if (s.bitti) liste.push(...zinciriSurdur(s.zincir));
+  return liste;
+}
+
+function zinciriSurdur(zincir) {
+  const [ilk] = zincir || [];
+  return ilk ? olayuBaslat(ilk) : [];
+}
+
+export const aktifOlayVar = () => !!durum?.aktifOlay;
+export const olaySecenekleriAl = () => olaySecenekleri(durum, veri);
+
+export function olaySeceneginiYap(sira) {
+  const onceDk = durum.zaman.dakika;
+  const s = olaySecenegiSec(durum, veri, rngAl(durum, 'olay'), sira);
+  if (s.reddedildi) return { tamam: false, sebep: s.reddedildi };
+  const liste = [...s.paragraflar];
+  ayracEkle(liste, onceDk);
+  if (s.bitti) liste.push(...zinciriSurdur(s.zincir));
+  paragraflariKaydet(liste);
+  bildir(liste);
+  return { tamam: true, paragraflar: liste };
+}
+
+// Geliştirici paneli ve testler için: bir olayı koşulsuz başlat
+export function olayiZorla(id, baglam = {}) {
+  if (durum.aktifOlay) durum.aktifOlay = null;
+  const liste = olayuBaslat(id, baglam);
+  paragraflariKaydet(liste);
+  bildir(liste);
+  return liste;
 }
 
 // Durum çubuğunun beklediği biçim (bkz. ui/durumcubugu.js)

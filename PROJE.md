@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.8 Olay motoru A — bayraklar/sayaçlar, koşul dili (suç dünyası kontrolleri dahil), açıklayıcı, doğrulayıcı
-- **Sıradaki adım:** 1.9 Olay motoru B: ağırlıklı seçim, bekleme/tekrar engeli, çok aşamalı olaylar, beceri ve şans kontrolleri (anlatıyla), zamanlayıcılar, zincirler ve yaylar, metin şablonları ve varyasyonlar, çoklu etki — **büyük** (iki parçaya bölünebilir: 1.9a yürütücü + etkiler, 1.9b şablonlar + zamanlayıcılar + yaylar)
+- **Son tamamlanan adım:** 1.9a Olay yürütücü ve etkiler (seçim, bekleme/tekrar, çok sahneli olaylar, beceri/şans kontrolleri, ağırlıklı sonuçlar, zincir, 20 etki türü, olay ortasında kayıt, 3 örnek olay)
+- **Sıradaki adım:** 1.9b Metin şablonları (yer tutucular + Türkçe ek, ruh haline göre ton, koşullu çeşitler), zamanlayıcıların çalıştırılması (gecikmeli sonuçlar), hikaye yayları (aşamalı uzun hikayeler) — **orta**
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -26,7 +26,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ✅ |
 | 1.7 | Dışa/içe aktarma: dosya + sıkıştırılmış metin kodu, sağlama (checksum) | orta | ✅ |
 | 1.8 | Olay motoru A: bayraklar/sayaçlar, koşul dili, koşul açıklayıcı ("neden tetiklenmedi") | orta | ✅ |
-| 1.9 | ⏳ Olay motoru B: ağırlıklı seçim, cooldown, çok aşamalı olaylar, beceri/şans kontrolleri, zamanlayıcılar, zincirler, metin şablonları, çoklu etki | büyük | ⬜ |
+| 1.9a | Olay motoru B1: yürütücü (ağırlıklı seçim, bekleme, tekrar engeli, çok sahneli olaylar, beceri/şans kontrolleri, ağırlıklı sonuçlar, zincir), etkiler, oyuna ve arayüze bağlama | büyük | ✅ |
+| 1.9b | Olay motoru B2: metin şablonları ve ruh haline göre ton, zamanlayıcıların çalışması, hikaye yayları | orta | ⏳ |
 | 1.10 | Global hata yakalama, hata ekranı, hata raporu | orta | ⬜ |
 | 1.11 | Gizli geliştirici paneli | orta | ⬜ |
 | 1.12 | Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı | küçük | ⬜ |
@@ -83,6 +84,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K33 | **Koşul dili: kontrol kayıt tablosu (`KONTROLLER`) + açıklayıcı + doğrulayıcı.** Her kontrol `{ tamam, aciklama }` döner; açıklama Türkçe ve sayılı ("Enerji ≥ 20 (şu an 12)"). `nedenTutmadi()` sadece tutmayan dalları verir (geliştirici paneli: "neden tetiklenmedi"). Yeni kontrol = tabloya bir satır. Genel `deger` kontrolü sayesinde ileride eklenecek her alana koda dokunmadan koşul yazılabilir. | Faz 5'te 150+ olay sadece veriyle; hatalar testte yakalanır, oyunda değil. |
 | K34 | **Henüz var olmayan alanlar (konum, npcler, suc) kayıt şemasına şimdi eklenmedi;** koşul dili bunları yoksa "yok/0" sayar. Alanlar ilgili sistemle birlikte (Faz 2–4) migration ile eklenecek (K28). | Gereksiz migration ve boş alan taşımamak; mevcut kayıtlar değişmeden kalır. |
 | K35 | **Bayraklar:** kalıcı / süreli (`bitis` oyun dakikası; dolunca yok sayılır, aksiyon sonrası temizlenir) / NPC'ye özel (`bayraklar.npc[id]`, boşalınca silinir). Sayaçlar `sayaclar`, NPC sayaçları NPC bölümünde sayı olarak. Aksiyonlar da artık `kosul` + `kosulSebep` taşıyabilir. | Bölüm 11 gereksinimi. |
+| K36 | **Olay motoru saf mantıktır (`core/olay.js`), oyun döngüsü `oyun.js`'te.** Her aksiyondan sonra: önce o aksiyona bağlı olaylar (`aksiyonaBagliOlasilik`), yoksa genel olaylar (`aksiyonSonrasiOlasilik`, iki genel olay arası en az `enAzAralikDk`). Olay sürerken aksiyon ve kısayollar kapalı; seçenekler olayınkidir (sol kenarı vurgulu). Etkin olay `durum.aktifOlay` olarak kayda girer. | Olay ortasında uygulama kapansa da kaldığı sahneden sürer; olay sıklığı koda dokunmadan ayarlanır. |
+| K37 | ~~K34'teki "alanlar şimdi eklenmedi"~~ **güncelleme:** `npcler`, `itibar`, `suc`, `aktifOlay`, `sonOlayZamani` gibi isteğe bağlı alanlar **ilk kullanıldıklarında** (bir etki ya da olay onları yazınca) oluşur. Kayıt şeması sürümü değişmedi; doğrulayıcı fazladan alanları kabul ediyor. Sistemler kesinleşince (Faz 3–4) varsayılanları migration ile her kayda eklenecek. | Olay etkileri, NPC ve suç sistemleri gelmeden de çalışabilsin (Faz 5 içeriği beklemesin). Eski kayıtlar hiç bozulmuyor. |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -109,7 +112,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── surum.js            Oyun sürümü
 │   ├── core/               Saf mantık: rng, tr (ek motoru), format, zaman, simulasyon, durum, aksiyon,
 │   │                       kayitbicim (zarf, sağlama, doğrulama), kayitdeposu (yuva/yedek mantığı), migration,
-│   │                       aktarim (kayıt kodu, dosya), bayrak (bayrak/sayaç), kosul (koşul dili)
+│   │                       aktarim (kayıt kodu, dosya), bayrak (bayrak/sayaç), kosul (koşul dili),
+│   │                       etki (olay sonuçları), olay (olay motoru)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
@@ -120,7 +124,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── takvim.json         Resmi tatiller (1.5); bayram tarihleri ve okul takvimi Faz 2'de
 │   ├── ekonomi.json        Tüm fiyatlar (asgari ücrete oranlı) — Faz 2
 │   ├── dunya/              Dünya kitabı: şehir, semtler, ulaşım, mekanlar, kurumlar — Faz 2
-│   ├── olaylar/            Olay dosyaları (her dosya bir tema) — Faz 5
+│   ├── olay_ayarlari.json  Olayların çıkma sıklığı (1.9a)
+│   ├── olaylar/            Olay dosyaları (her dosya bir tema); _liste.json hepsini sayar — içerik Faz 5
 │   ├── hikaye/             Başlangıç hikayesi parçaları — Faz 3
 │   ├── npc/                NPC şablonları, isim havuzları — Faz 3
 │   └── isler/              İşler ve kariyer yolları — Faz 4
@@ -132,7 +137,15 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 
 ## 🧾 VERİ FORMATLARI (taslak — ilgili fazda kesinleşecek)
 
-### Olay (Faz 1'de motor, Faz 5'te içerik)
+### Olay (1.9a — kesin; `js/core/olay.js`, ayrıntılı şema dosyanın başında)
+
+Dosyalar: `data/olaylar/*.json` (`{ "olaylar": [...] }`), hepsi `data/olaylar/_liste.json`'da listelenir (test eksik olanı yakalar). Sıklık: `data/olay_ayarlari.json`.
+
+Önemli kurallar: `tetik` = `otomatik` | `aksiyon:<id>` | `zamanlayici` | `zincir`. `tekrar` varsayılanı `false` (bir kez). Seçenekte `kontrol` varsa `basari`/`basarisiz` dalları, `sonuclar` varsa ağırlıklı ve koşullu dallar; ikisi birlikte olmaz. Kontrol olasılığı oyuncuya yüzde olarak değil "Yazı tura.", "Riskli görünüyor." gibi gösterilir. Her kontrol deneyim kazandırır (`deneyim: 0` ile kapatılır). Doğrulayıcı kırık sahne bağlantısını, ulaşılamayan sahneyi, bilinmeyen etkiyi, olmayan zincir/zamanlayıcı olayını yakalar.
+
+Etkiler (`js/core/etki.js`): para, durum, beceri, bayrak, bayrakKaldir, sayac, iliski, ani, itibar, zamanla, zaman, olay (zincir), gunluk, not, deger (genel yol), aranma, karaPara, sabika, orgut.
+
+Aşağıdaki ilk taslak (1.1) tarihsel kayıt olarak duruyor:
 
 ```json
 {
@@ -351,11 +364,15 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 - Ek motoru: alışılmadık okunuşlu yabancı adlarda `{ okunus: '...' }` verilmeli (Bordeaux → bordo).
 - İki depo birden bozulursa en yakın otomatik yedeğe dönülür; bu yedek birkaç hamle (en kötü durumda bir oyun günü) geride olabilir. Oyuncuya söylenir.
 - Uygulama aynı anda iki sekmede açılırsa iki sekme aynı yuvaya sırayla yazar (sayaç en son yazanı kazandırır). iPhone uygulamasında bu durum oluşmaz; önlem alınmadı.
+- Örnek olaylardaki metinler henüz zamana duyarlı değil; zamana bağlı ifadeler ("sabahın köründe") 1.9b'deki koşullu metin çeşitleriyle bağlanacak. Şimdilik örnek metinler zamandan bağımsız yazıldı.
+- Zamanlayıcılar (`zamanla` etkisi) kayda yazılıyor ama henüz çalıştırılmıyor (1.9b).
 - Ramazan ve Kurban Bayramı tarihleri henüz takvimde yok (Faz 2).
 - Ek motoru: istisna listeleri (Kemal'e, saate, kitabı/topu) yaygın sözcükleri kapsar; yeni istisna çıkarsa `js/core/tr.js` içindeki listelere eklenir.
 
 ## 📝 YAPILACAKLAR / FİKİR HAVUZU
 
+- Örnek olaylardaki metinler henüz zamana duyarlı değil; zamana bağlı ifadeler ("sabahın köründe") 1.9b'deki koşullu metin çeşitleriyle bağlanacak. Şimdilik örnek metinler zamandan bağımsız yazıldı.
+- Zamanlayıcılar (`zamanla` etkisi) kayda yazılıyor ama henüz çalıştırılmıyor (1.9b).
 - Ramazan ve Kurban Bayramı tarihleri ay takvimine bağlı; Faz 2'de 2020–2060 arası tablo `data/takvim.json`'a yazılacak.
 - Şehrin adı ve kimliği Faz 2'de belirlenecek.
 
@@ -380,6 +397,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.9 | 2026-10-20 | Adım 1.9a: `core/etki.js` (20 etki türü, doğrulayıcı), `core/olay.js` (uygunluk ve nedenleri, ağırlıklı seçim ve çarpanlar, çok sahneli yürütme, gizli/kilitli seçenekler, bedeller, beceri ve şans kontrolleri + deneyim + anlatısal zorluk ifadesi, ağırlıklı koşullu sonuçlar, zincir, doğrulayıcı), `oyun.js` olay döngüsü, Şimdi ekranında olay seçenekleri, `data/olaylar/ev.json` (3 örnek olay: apartman tesisatı, kapıdaki kedi, eski fotoğraf), `data/olay_ayarlari.json`. 234 test. |
 | 0.0.8 | 2026-10-20 | Adım 1.8: `core/bayrak.js` (kalıcı/süreli/NPC bayrakları, sayaçlar), `core/kosul.js` (ve/veya/değil, 25 kontrol türü: durum, beceri, para, bayrak, sayaç, ilişki, mekan, zaman, gün, mevsim, tatil, tarih, yaş, geçmiş, olay geçmişi, genel yol, aranma, kara para, sabıka, örgüt; açıklayıcı, "neden tutmadı", doğrulayıcı). Aksiyonlara `kosul`/`kosulSebep`. 222 test. |
 | 0.0.7+ | 2026-10-20 | Plan: "Suç dünyası" planlanan özellik olarak eklendi ve Faz 1–7'ye dağıtıldı (kod yok). Önceden yazılmış hiçbir şey değişmedi. |
 | 0.0.7 | 2026-10-20 | Adım 1.7: dışa/içe aktarma — `core/aktarim.js` (YND1 sıkıştırılmış kod, YND0 yedek biçim, boşluk toleransı, kesik/değişmiş kod reddi, dosya içeriği ve adı), Kayıtlar'da her yuvaya "Dışa aktar" (kodu kopyala, dosya olarak kaydet/paylaş) ve "Kayıt içe aktar" (kod ya da dosya → özet → yuva seç → dolu yuva önce yedeklenir → istersen oyuna geç). Depoya `enIyiZarf` ve `iceAktar`. Para biçiminde bölünmez boşluk. 207 test. |

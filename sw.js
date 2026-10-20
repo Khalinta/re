@@ -4,11 +4,14 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-71a798490e2d';
+const ONBELLEK_SURUMU = 'yeniden-2588af6b2003';
 const DOSYALAR = [
   './',
   './css/temel.css',
   './data/aksiyonlar.json',
+  './data/olay_ayarlari.json',
+  './data/olaylar/_liste.json',
+  './data/olaylar/ev.json',
   './data/simulasyon.json',
   './data/takvim.json',
   './icons/acilis-1125x2436.png',
@@ -34,11 +37,13 @@ const DOSYALAR = [
   './js/core/aktarim.js',
   './js/core/bayrak.js',
   './js/core/durum.js',
+  './js/core/etki.js',
   './js/core/format.js',
   './js/core/kayitbicim.js',
   './js/core/kayitdeposu.js',
   './js/core/kosul.js',
   './js/core/migration.js',
+  './js/core/olay.js',
   './js/core/rng.js',
   './js/core/simulasyon.js',
   './js/core/tr.js',

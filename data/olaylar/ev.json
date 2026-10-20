@@ -1,0 +1,132 @@
+{
+  "_aciklama": "Ev ve apartman hayatı. (1.9a örnek olayları: motoru ve arayüzü sınamak için; Faz 5'te dünya kitabı ve NPC'lerle zenginleştirilecek.)",
+  "olaylar": [
+    {
+      "id": "apartman_tesisati",
+      "baslik": "Kapıdaki defter",
+      "etiketler": ["ev", "komsuluk", "para"],
+      "agirlik": 10,
+      "sahneler": {
+        "giris": {
+          "metin": [
+            [
+              "Kapı çalıyor. Apartman yöneticisi, elinde kareli bir defterle kapıda.",
+              { "tur": "konusma", "konusan": "Yönetici", "metin": "Bodrumdaki ana boru patladı. Usta üç bin istiyor, daire başı iki yüz elli. Herkes verdi, bir sen kaldın." },
+              "Tam o sırada üst kattan bir ses merdiven boşluğunda yankılanıyor: \"Ben daha vermedim ama!\""
+            ],
+            [
+              "Kapı zili, ısrarla. Gelen, apartman yöneticisi; yüzünde \"kötü haber getirdim ama suç bende değil\" ifadesi.",
+              { "tur": "konusma", "konusan": "Yönetici", "metin": "Bodrum su bastı, boru gitmiş. Daire başı iki yüz elli. Defterde bir tek senin adın boş." },
+              "Defteri sana doğru çeviriyor. Gerçekten de bir tek senin adın boş. Ya da öyle gösteriyor."
+            ]
+          ],
+          "secenekler": [
+            {
+              "metin": "Ver, uzatma",
+              "maliyet": { "para": 250 },
+              "sonuc": "Yönetici deftere bir tik atıyor. \"Allah razı olsun,\" diyor, sonra üst kata dönüp yüksek sesle ekliyor: \"Bak, o verdi!\" Bir anda apartman siyasetinin içinde buluyorsun kendini.",
+              "etki": [{ "bayrak": "tesisat_odendi" }, { "itibar": { "genel": 1 } }]
+            },
+            {
+              "metin": "Önce faturayı görmek istediğini söyle",
+              "alt": "Haklı bir istek. Ama herkes haklı isteklerden hoşlanmaz.",
+              "kontrol": { "zorluk": 20, "durum": { "ozguven": 0.5 } },
+              "basari": {
+                "sonuc": "Yönetici bir an duraksıyor, sonra cebinden buruşuk bir kâğıt çıkarıyor. Faturada iki bin dört yüz yazıyor. \"Ustanın yol parası,\" diye geveliyor. Sonunda iki yüze anlaşıyorsunuz. Üst kattaki komşu merdivende sana göz kırpıyor.",
+                "etki": [{ "para": -200 }, { "durum": { "ozguven": 3 } }, { "bayrak": "tesisat_odendi" }, { "bayrak": { "ad": "yonetici_ters", "sure": { "gun": 30 } } }]
+              },
+              "basarisiz": {
+                "sonuc": "\"Bana güvenmiyor musun yani?\" Sesi apartman boşluğunda yankılanıyor; kapılar birer birer aralanıyor. Sonunda iki yüz elliyi veriyorsun, ama yönetici artık selamını yarım alıyor.",
+                "etki": [{ "para": -250 }, { "durum": { "stres": 6 } }, { "bayrak": "tesisat_odendi" }, { "bayrak": "yonetici_kirgin" }]
+              }
+            },
+            {
+              "metin": "Şu an param yok de",
+              "alt": "Doğru da olabilir, kolaya kaçmak da.",
+              "sonuc": "Yönetici iç çekip deftere bir şey not ediyor. \"Ay sonuna,\" diyor, \"ama su kesik kalırsa ben bilmem.\" Kapıyı kapattıktan sonra deftere ne yazdığını merak ediyorsun.",
+              "etki": [{ "bayrak": "aidat_borcu" }, { "durum": { "stres": 4 } }]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "kapida_kedi",
+      "baslik": "Paspastaki misafir",
+      "etiketler": ["ev", "hayvan", "duygu"],
+      "kosul": { "ve": [{ "zamanDilimi": ["aksam", "gece"] }, { "mevsim": ["sonbahar", "kis"] }, { "degil": { "bayrak": "kedi_var" } }] },
+      "agirlik": 8,
+      "sahneler": {
+        "giris": {
+          "metin": [
+            "Kapının önünden ince bir miyavlama geliyor. Açınca paspasın üstünde sırılsıklam, avuç içi kadar bir kedi yavrusu buluyorsun. Sana öyle bir bakıyor ki, bu bakışın bir bedeli olduğunu hemen anlıyorsun.",
+            "Merdivende bir tıkırtı. Kapıyı aralayınca, ıslak tüyleri dikleşmiş minicik bir kedi yavrusu tam ayaklarının dibine sokuluyor. Titriyor. Sen de biraz."
+          ],
+          "secenekler": [
+            {
+              "metin": "İçeri al",
+              "alt": "Mama, kum, veteriner… Bir canlı, bir sorumluluk.",
+              "maliyet": { "para": 120 },
+              "sonuc": "Bir havluya sarıyorsun. Yarım saat sonra kucağında uyuyor; sen de kıpırdamaya kıyamıyorsun. Mama ve kum bütçede bir delik açıyor, ama ev bir anda daha az boş.",
+              "etki": [{ "bayrak": "kedi_var" }, { "durum": { "ruh": 8, "stres": -4 } }, { "gunluk": "Bir kedi yavrusu kapıma geldi. Kaldı." }]
+            },
+            {
+              "metin": "Kapının önüne su ve biraz yemek koy",
+              "alt": "Ortası. Ne sahiplenmek ne de görmezden gelmek.",
+              "sonuc": [
+                "Sabah kap boş, eski battaniye yerinde. Yavru yok. Biri almıştır herhalde, diyorsun kendine. Herhalde.",
+                "Sabah kapıyı açtığında yavru battaniyenin üstünde kıvrılmış uyuyor. Seni görünce esneyip miyavlıyor. Bu iş burada bitmeyecek gibi."
+              ],
+              "etki": [{ "durum": { "ruh": 2 } }, { "bayrak": { "ad": "kediye_baktim", "sure": { "gun": 7 } } }]
+            },
+            {
+              "metin": "Kapıyı kapat",
+              "sonuc": "Kapıyı kapatıyorsun. Miyavlama bir süre devam ediyor, sonra kesiliyor. Kesilmesi, devam etmesinden daha kötü.",
+              "etki": [{ "durum": { "ruh": -5 } }, { "bayrak": "kediyi_birakti" }]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "eski_fotograf",
+      "baslik": "Dolabın arkasından",
+      "etiketler": ["ev", "gecmis", "iliski"],
+      "tetik": "aksiyon:ev_topla",
+      "agirlik": 10,
+      "sahneler": {
+        "giris": {
+          "metin": "Dolabın arkasından bir zarf düşüyor. İçinde eski bir fotoğraf: bir düğünde, gülmekten gözleri kapanmış üç kişi. Ortadaki sensin. Sağındakiyle yıllardır konuşmuyorsun; neden konuşmadığınızı hatırlamak için bir an düşünmen gerekiyor. Bu da bir şey söylüyor.",
+          "secenekler": [
+            {
+              "metin": "Fotoğrafı ona gönder",
+              "alt": "Yıllar sonra ilk mesaj.",
+              "kontrol": { "zorluk": 30, "durum": { "ozguven": 0.5, "ruh": 0.3 }, "deneyim": 0 },
+              "basari": {
+                "sonuc": [
+                  "Mesajın altında üç nokta beliriyor, kayboluyor, yine beliriyor. Sonra: \"Bu fotoğraf hâlâ sende mi ya? Nasılsın?\" Bir saat yazışıyorsunuz. Kapanmamış bir şey biraz kapanıyor.",
+                  "Cevap beş dakika sonra geliyor, bir sesli mesaj: önce uzun bir kahkaha, sonra \"Seni özlemişim be.\" Telefonu göğsüne bastırıp tavana bakıyorsun."
+                ],
+                "etki": [{ "bayrak": "eski_dost_yazisti" }, { "durum": { "ruh": 10, "ozguven": 3 } }, { "gunluk": "Yıllardır konuşmadığım biriyle yazıştım. İyi geldi." }]
+              },
+              "basarisiz": {
+                "sonuc": "Mesaj \"görüldü\" oluyor. Cevap gelmiyor. Telefonu ters çevirip masaya koyuyorsun.",
+                "etki": [{ "durum": { "ruh": -4, "ozguven": -2 } }, { "bayrak": { "ad": "eski_dost_cevapsiz", "sure": { "gun": 14 } } }]
+              }
+            },
+            {
+              "metin": "Aynanın kenarına sıkıştır",
+              "sonuc": "Her sabah göreceğin bir yere koyuyorsun. Bazı insanlar hayatından çıkar ama yüzleri kalır.",
+              "etki": [{ "durum": { "ruh": 2 } }, { "bayrak": "fotograf_aynada" }]
+            },
+            {
+              "metin": "Zarfı yırtıp at",
+              "sonuc": "Yırtarken elin bir an duraksıyor. Sonra devam ediyor.",
+              "etki": [{ "durum": { "stres": -2, "ruh": -2 } }, { "bayrak": "fotografi_atti" }]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

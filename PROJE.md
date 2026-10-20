@@ -35,13 +35,13 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 
 | Faz | İçerik | Durum |
 |---|---|---|
-| 1 | Altyapı | ⏳ devam ediyor |
-| 2 | Dünya kitabı + ekonomi dosyası | ⬜ |
-| 3 | Başlangıç hikayesi motoru, açılış sahneleri, NPC üretimi | ⬜ |
-| 4 | İş, para, borç, barınma, eşya; ilişkiler, telefon ekranı | ⬜ |
-| 5 | Olay içeriği (150+ derin olay, hikaye yayları) — sadece veri | ⬜ |
-| 6 | Eğlence, hedefler, son ekranı, günlük | ⬜ |
-| 7 | Denge, cila, hata ayıklama, kayıt testleri | ⬜ |
+| 1 | Altyapı (+ suç dünyası için koşul/etki türleri: 1.8–1.9) | ⏳ devam ediyor |
+| 2 | Dünya kitabı + ekonomi dosyası (+ örgütler, bölgeler, emniyet/adliye/cezaevi kurumları, suç ekonomisi) | ⬜ |
+| 3 | Başlangıç hikayesi motoru, açılış sahneleri, NPC üretimi (+ örgüt hiyerarşisi/lider NPC'leri, suçla bağlantılı geçmiş bileşenleri) | ⬜ |
+| 4 | İş, para, borç, barınma, eşya; ilişkiler, telefon ekranı (+ örgüt, aranma, adalet, hapishane, kara para sistemleri) | ⬜ |
+| 5 | Olay içeriği (150+ derin olay, hikaye yayları) — sadece veri (+ suç dünyası olayları, giriş ve çıkış yayları, hapishane dönemi) | ⬜ |
+| 6 | Eğlence, hedefler, son ekranı, günlük (+ suçla ilgili sonlar ve hayat özeti) | ⬜ |
+| 7 | Denge, cila, hata ayıklama, kayıt testleri (+ "hızlı para, daralan hayat" eğrisi) | ⬜ |
 
 ---
 
@@ -170,6 +170,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 
 ### Koşul dili (1.8'de kesinleşecek)
 
+Not (2026-10-20): suç dünyası (bkz. ilgili bölüm) için koşul dili genel yol tabanlı kontrol (`deger`) ve kısa yazımlar (`aranma`, `sabika`, `orgut`, `karaPara`) içerecek.
+
 `ve`, `veya`, `degil` iç içe yazılır. Yaprak kontroller: `durum`, `beceri`, `para`, `iliski`, `bayrak`, `sayac`, `mekan`, `mekanTuru`, `semt`, `zamanDilimi`, `gun`, `mevsim`, `tatil`, `gecmis` (başlangıç hikayesi bileşenleri), `yas`. Sayısal kontrollerde `{ "para": { "min": 1000, "max": 5000 } }` biçimi.
 
 ### NPC (Faz 3)
@@ -235,6 +237,62 @@ Sabit arka plan (aile, geçmiş, sır, konuşma tarzı...) kayda yazılmaz; `see
 
 ---
 
+## 🕶️ PLANLANAN ÖZELLİK: SUÇ DÜNYASI (2026-10-20, kullanıcı isteği)
+
+Kurgusal, derin bir yeraltı dünyası. Ayrı bir mod değil; hayatın içine örülü, oyuncunun girebileceği, içinde yükselebileceği ve çıkmanın kendi başına bir hikaye olduğu bir yol.
+
+### İçerik kuralları (bağlayıcı)
+- Faaliyetler (uyuşturucu satıcılığı, haraç, kaçakçılık, kumarhane, tefecilik, çalıntı mal) **yalnızca anlatı ve seçim** olarak yer alır. Gerçek dünyada uygulanabilir yöntem, tarif, teknik ya da prosedür ayrıntısı **asla** yazılmaz. Anlatı insanlara, gerilime, ikilemlere ve sonuçlara odaklanır; "nasıl yapılır"a değil.
+- Örgütler, kişiler, olaylar tamamen kurgusaldır; gerçek örgüt, kişi ya da olaya gönderme yapılmaz.
+- Ton: vaaz vermez, özendirmez. Cazibesi gerçek, bedeli de gerçek. Bölüm 10'daki bağımlılık tonu gibi dengeli.
+
+### Tasarım hedefi
+Kısa vadede kolay ve hızlı para gibi görünür; uzun vadede hayatı daraltır: güvenilecek insan azalır, normal kapılar kapanır, para harcanamaz hale gelir, her tanıdık bir risk olur. Faz 7'de bu eğri ölçülerek ayarlanır.
+
+### Faz dağılımı
+
+**Faz 1 — Altyapı (1.8–1.9; mevcut motorun parçası, ayrı kod yok)**
+- Koşul dilinde genel **yol tabanlı kontrol** (`{ "deger": "suc.aranma", "min": 3 }`): durumdaki herhangi bir alana koda dokunmadan koşul yazılabilir. Bunun üstüne kısa yazımlar: `aranma`, `sabika`, `orgut` (üyelik, rütbe, güven), `karaPara`.
+- Etki türleri de genel: `degerEkle` / `degerYaz` ile her alan değiştirilebilir; ayrıca kısa etki adları (aranma artır, sabıka ekle, örgüt güveni, kara para). Böylece Faz 4 sistemleri gelince olay dosyaları değişmeden çalışır.
+- Bayrak ve sayaçlar zaten kalıcı / süreli / NPC'ye özel olacak; ihbar, borç, sınanma gibi durumlar bunlarla izlenir.
+
+**Faz 2 — Dünya kitabı**
+- `data/dunya/orgutler.json`: mahalle çeteleri, organize suç aileleri, kaçakçılık şebekeleri. Her biri için: ad, tür, tarihçe (şehir zaman çizelgesine bağlı), **bölgeler** (dünya kitabındaki semtlere bağlı), kurallar (ihanet, borç, aile, bölgeye saygı), hiyerarşi şablonu (rütbe adları ve sayıları), geçim kaynakları (anlatı düzeyinde), müttefik / düşman ilişkileri, şehirdeki itibarı.
+- Örgütlerin dünyaya bağlanması: semt karakterine yansıması (kim haraç veriyor, hangi kahvehane kimin), mekanların gizli sahiplik/bağlantı bilgisi, paravan işletmeler (iş ilanlarında da görünebilir), haber akışında suç haberleri.
+- Kurumlar (kurgusal): karakollar ve emniyet, adliye, avukatlık büroları, cezaevi(ler), denetimli serbestlik.
+- Suç ekonomisi değerleri `data/ekonomi.json`'da (asgari ücrete oranlı): kazanç aralıkları, haraç oranları, tefeci faizleri, avukat ücretleri, kefalet/para cezası aralıkları.
+
+**Faz 3 — Hikaye ve NPC motoru**
+- Örgüt hiyerarşisi NPC'lerle doldurulur: lider(ler) ana karakter katmanında (ayrıntılı arka plan, sır, zaaf, ailesi, rakibi), orta kademe ve sokak seviyesi tekrar eden tanıdık katmanında.
+- NPC gizli özellikleri: **ihbarcı** (polisle bağlantılı), **güvenilmez** (ihanet eğilimi), **borçlu**, **hırslı**. Seed'den üretilir; oyuncu ancak ipuçlarıyla fark eder.
+- Başlangıç hikayesi bileşenleri: eski sabıka, aileden ya da mahalleden örgüt bağı, örgüte / tefeciye borç, eski bir suç ortağı, tanık olunmuş bir olay. Tutarlılık kuralları (ör. kamu görevinden yeni ayrılmış biri genç yaşta ağır sabıkalı olamaz).
+- Açık kalan iplikler: geçmişten gelen örgüt üyeleri, ödenmemiş borç, kapanmamış dava.
+
+**Faz 4 — Sistemler**
+- **Örgüt sistemi:** üyelik, rütbe, örgüt içi güven / sadakat / korku; kademeli giriş (küçük iş → güven → sınanma → yükselme); görev yapısı (olay motoruyla); kurallar ve çiğnemenin bedeli; **çıkış zorluğu ve bedeli** (borç, tehdit, aileye baskı, bilgi sahibi olmanın riski). Örgütler arası ilişki matrisi; dünya ilerlerken bölge el değiştirir, liderler düşer, ateşkesler bozulur.
+- **Aranma ve polis ilgisi:** görünür aranma seviyesi (0–5) + gizli soruşturma dosyası (delil, tanık, ihbar sayısı). Zamanla söner ama dosya kapanmaz. İhbarcılar ve güvenilmez ortaklar dosyayı besler. Durum çubuğunda yalnızca sıfırdan büyükse küçük bir işaret.
+- **Adalet zinciri:** gözaltı → ifade → avukat (NPC; ücretli, baro avukatı ya da pahalı ve "bağlantılı" olanı) → tutuklama ya da serbest bırakılma → mahkeme sahneleri → beraat / erteleme / hapis. Anlatı düzeyinde ve kurgusal; hukuki prosedür ayrıntısı oyunun gerektirdiği kadar.
+- **Hapishane dönemi (oynanabilir):** ayrı mekan ve aksiyon seti, günlük düzen, koğuş hiyerarşisi ve kuralları, kendi NPC'leri ve ilişkileri, fırsatlar (okuma, eğitim, atölye, bağlantı), tehlikeler, görüş günü (aile ve sevgiliyle ilişki sınanır), mektup / telefon hakkı, tahliye ve dışarıya uyum. Zaman burada da gerçek akar (bölüm 15 / nesil devri şartı: yıllar birkaç dokunuşta geçmez; uzun cezalarda haftalık rutin kısayolu var, olay çıkınca durur).
+- **Sabıka kaydı:** kalıcı bayraklar; iş başvurularında işe göre kontrol (kamu, güvenlik, finans kapalı; bazı işverenler göz yumar, bazıları sömürür), ehliyet / pasaport / kredi notu etkileri, ev kiralamada zorluk.
+- **Kara para:** ayrı "kirli para" bakiyesi. Temiz paraya karışmadan harcanabilir ama büyük ya da göze batan harcama dikkat çeker (aranma, çevrenin şüphesi, vergi). Temize çıkarmak yalnızca anlatı düzeyinde ve riskli (paravan işletme, güvenilmez aracı); yöntem ayrıntısı yok.
+- **Yaralanma ve ölüm riski:** sağlık sistemine bağlı; kalıcı iz (sakatlık, korku), ölüm hayatı bitirebilir (bölüm 15).
+- **Hayatın her yanına yayılma:** aile ve sevgili ilişkileri (güven, gerginlik, korku; uzaklaşma ya da suç ortaklığı), mahalle itibarı (bazıları korkar, bazıları saygı duyar, çoğu uzak durur), dedikodu ağı üzerinden yayılma, telefon ekranında örgüt mesajları.
+
+**Faz 5 — İçerik (sadece veri)**
+- Giriş yolları: borç, mahalle tanıdığı, eski arkadaş, çaresizlik anı, tesadüfen şahit olmak. Her biri farklı bir örgüte ve farklı bir tona açılır.
+- Faaliyet olay zincirleri (anlatı düzeyinde): küçük işler, sınanma görevleri, haraç, kaçakçılık, kumarhane, tefecilik, çalıntı mal; her birinde gerçek ikilem ve bedel.
+- Risk olayları: polis baskını, ihbar, ortağın ihaneti, rakip örgüt çatışması, örgüt içi hesaplaşma, ailenin öğrenmesi.
+- Hapishane olayları ve yayları.
+- **Çıkış yayları** (her biri kendi başına uzun hikaye): temize çıkmak (borcu kapatmak, örgütle pazarlık, yeni hayat kurmak), tanıklık etmek (koruma, tehdit, kimlik), şehri terk etmek (her şeyi geride bırakmak). Bazıları kırılma anı (ek fikir 4) olarak işlenir.
+
+**Faz 6 — Sonlar ve özet**
+- Suçla bağlantılı sonlar (hapiste geçen yıllar, ölüm, kaçış, temize çıkış, örgütün başına geçmek) ve hayat özetinde bu dönemin anlatısı. Nesil devrinde geride kalan iz (borç, düşman, isim).
+
+**Faz 7 — Denge**
+- "Kolay para, daralan hayat" eğrisinin ölçülmesi; suç yolunun tek baskın para yöntemi olmaması (bölüm 16); çıkış yollarının ulaşılabilir ama bedelli olması.
+
+---
+
 ## 💰 EKONOMİ REFERANS TABLOSU (taslak — Faz 2'de `data/ekonomi.json` ile kesinleşecek)
 
 Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıyı (`asgariUcret`) değiştirmek tüm ekonomiyi ölçekler. Oyunun başlangıç değeri: **AÜ = 28.000 ₺/ay (net)** (2026 Türkiye net asgari ücretine yakın yuvarlak değer; kurgusal).
@@ -293,6 +351,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.7+ | 2026-10-20 | Plan: "Suç dünyası" planlanan özellik olarak eklendi ve Faz 1–7'ye dağıtıldı (kod yok). Önceden yazılmış hiçbir şey değişmedi. |
 | 0.0.7 | 2026-10-20 | Adım 1.7: dışa/içe aktarma — `core/aktarim.js` (YND1 sıkıştırılmış kod, YND0 yedek biçim, boşluk toleransı, kesik/değişmiş kod reddi, dosya içeriği ve adı), Kayıtlar'da her yuvaya "Dışa aktar" (kodu kopyala, dosya olarak kaydet/paylaş) ve "Kayıt içe aktar" (kod ya da dosya → özet → yuva seç → dolu yuva önce yedeklenir → istersen oyuna geç). Depoya `enIyiZarf` ve `iceAktar`. Para biçiminde bölünmez boşluk. 207 test. |
 | 0.0.6 | 2026-10-20 | Adım 1.6: kayıt sistemi — `kayitbicim.js` (zarf, sağlama, doğrulama), `migration.js` (adım altyapısı), `kayitdeposu.js` (iki depo, onarım, yedekten kurtarma, 5 yedek sınırı, silme/geri dönüşte önce yedek), `depolama.js` (IndexedDB strict + localStorage, IndexedDB yoksa tam localStorage), `kayit.js` (otomatik kayıt, birleştirme, arka planda kayıt, kalıcı izin), Kayıtlar ekranı (3 yuva, geç, yeni oyun, yedekler, sil, depolama durumu). Hata düzeltmesi: liste sayfalarında içerik taşınca bloklar sıkışıp görünmez oluyordu (1.4'ten beri). 196 test (300 adımlık bozulma stres testi dahil). |
 | 0.0.5 | 2026-10-20 | Adım 1.5: `zaman.js` (gerçek takvim, dilimler, mevsim, yaş, özel günler), `simulasyon.js` (saatlik değişim, ruh hedefi, sağlık, uyku planı ve düzeni, eşik uyarıları), `durum.js` (kayıt şeması, kayıtlı RNG akışları, aksiyon/anlatım geçmişi), `aksiyon.js`, `oyun.js`; veri: simulasyon, aksiyonlar (10 aksiyon, her biri 2–4 metin), takvim (resmi tatiller). Deneme sahnesi kaldırıldı. Ek motoruna saat desteği (07:00'ye, 23:30'a). 177 test. |

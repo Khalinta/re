@@ -4,7 +4,7 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-12ebd8dcee7d';
+const ONBELLEK_SURUMU = 'yeniden-0de4caf0602d';
 const DOSYALAR = [
   './',
   './css/temel.css',
@@ -26,11 +26,23 @@ const DOSYALAR = [
   './icons/ikon-maskeli-512.png',
   './icons/ikon.svg',
   './index.html',
+  './js/ayarlar.js',
   './js/core/format.js',
   './js/core/rng.js',
   './js/core/tr.js',
   './js/main.js',
   './js/surum.js',
+  './js/ui/anlatim.js',
+  './js/ui/arayuz.js',
+  './js/ui/dom.js',
+  './js/ui/durumcubugu.js',
+  './js/ui/ekranlar/dahafazla.js',
+  './js/ui/ekranlar/simdi.js',
+  './js/ui/ekranlar/yertutucu.js',
+  './js/ui/ikonlar.js',
+  './js/ui/panel.js',
+  './js/ui/secenekler.js',
+  './js/ui/uzunbas.js',
   './manifest.webmanifest',
 ];
 // </otomatik>

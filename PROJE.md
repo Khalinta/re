@@ -10,8 +10,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.3 PWA kabuğu (manifest, service worker, ikonlar, açılış ekranı, güncelleme akışı)
-- **Sıradaki adım:** 1.4 Arayüz iskeleti (sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar) — **büyük**
+- **Son tamamlanan adım:** 1.4 Arayüz iskeleti (sekmeler, durum çubuğu, alttan panel, anlatım akışı, seçenekler, uzun basma, ayarlar)
+- **Sıradaki adım:** 1.5 Oyun durumu, takvim, zaman dilimleri, durumlar, aksiyon döngüsü — **orta**
+- **Not:** Şimdi ekranındaki sahne geçici bir denemedir (`js/ui/ekranlar/simdi.js` alt kısmı); 1.5'te gerçek durumla değiştirilecek.
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -21,8 +22,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.1 | PROJE.md, CLAUDE.md, klasör yapısı, yer tutucu sayfa | küçük | ✅ |
 | 1.2 | Seed RNG, Türkçe ek motoru, biçimlendirme (para/tarih/saat), tr-TR sıralama, Node testleri | orta | ✅ |
 | 1.3 | PWA kabuğu: manifest, service worker (çevrimdışı), ikon, açılış ekranı | orta | ✅ |
-| 1.4 | Arayüz iskeleti: alt sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar, yazı boyutu, safe-area | büyük | ⏳ |
-| 1.5 | Oyun durumu, takvim, zaman dilimleri, durumlar (enerji, açlık, stres...), aksiyon döngüsü | orta | ⬜ |
+| 1.4 | Arayüz iskeleti: alt sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar, yazı boyutu, safe-area | büyük | ✅ |
+| 1.5 | Oyun durumu, takvim, zaman dilimleri, durumlar (enerji, açlık, stres...), aksiyon döngüsü | orta | ⏳ |
 | 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ⬜ |
 | 1.7 | Dışa/içe aktarma: dosya + sıkıştırılmış metin kodu, sağlama (checksum) | orta | ⬜ |
 | 1.8 | Olay motoru A: bayraklar/sayaçlar, koşul dili, koşul açıklayıcı ("neden tetiklenmedi") | orta | ⬜ |
@@ -64,6 +65,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K14 | **Service worker önbellek listesi otomatik:** `node tools/sw-liste.mjs` tüm dosyaları tarar, listeyi ve içerik özetinden türeyen önbellek sürümünü `sw.js`'e yazar. `tests/sw.test.js` liste güncel değilse başarısız olur. | Dosya eklemeyi unutmak = çevrimdışında bozuk oyun. Elle liste tutmak yerine araç + test. Herhangi bir dosya değişince sürüm kendiliğinden değişir. |
 | K15 | **Güncelleme akışı:** açılışta bekleyen sürüm varsa (oyun henüz yüklenmemişken) hemen geçilir; oyun sırasında gelirse alttan "Yeni sürüm hazır — Yenile" bandı çıkar. Uygulama her öne geldiğinde güncelleme kontrol edilir. | Oyun ortasında habersiz yenileme olmaz (veri kaybı riski yok); kullanıcı eski sürümde takılı da kalmaz. 1.6'dan sonra "Yenile" önce kayıt alacak. |
 | K16 | **İkon ve açılış görselleri `icons/ikon.svg`'den üretilir** (`NODE_PATH=$(npm root -g) node tools/gorsel-uret.mjs`). 11 iPhone ekran boyutu için açılış görseli var. Görsel: ufuktan doğan güneş (yeniden doğuş). | Tek kaynak; ikon değişirse hepsi tek komutla yenilenir. |
+| K17 | **Arayüz bileşenleri** (`js/ui/`): `panel.js` (alttan panel + onay + bilgi; üst üste açılabilir, sürükleyip kapatılır), `anlatim.js` (sıralı yazım, dokununca atla, 300 paragraf geçmiş, "Yeni ↓" işareti), `secenekler.js` (tam genişlik, maliyet etiketleri, çift dokunma kilidi, uzun basınca ayrıntı), `uzunbas.js`, `durumcubugu.js`, `arayuz.js` (sekmeler, klavye takibi). Paragraf türleri: anlati, icses, konusma, sistem, ayrac, secim. | Ekranlar bu parçalarla kurulur; olay motoru (1.9) doğrudan `anlatim.ekle` ve `secenekleriGoster`'i besleyecek. |
+| K18 | **Görünüm ayarları (tema, yazı boyutu, metin hızı, animasyon) cihaz ayarıdır, oyun kaydı değildir** → localStorage. Okunamazsa varsayılan. Tema: otomatik / karanlık / aydınlık; "hareketi azalt" sistem ayarına uyar, elle de açılır. | Ayar kaybolsa bile oyun etkilenmez; kayıt dosyasını şişirmez. |
+| K19 | **Başparmak bölgesi:** seçenekler ve kısayollar ekranın altında; liste sayfalarında içerik alta itilir, başlık üstte kalır. Butonlar en az 44px. | Tek elle oynanış (bölüm 14). |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -86,7 +90,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── main.js             Giriş noktası: açılış, service worker, güncelleme
 │   ├── surum.js            Oyun sürümü
 │   ├── core/               Saf mantık: rng, tr (ek motoru), format, zaman, durum, kayıt, olay motoru
-│   ├── ui/                 Ekranlar, sekmeler, bottom sheet, anlatım akışı
+│   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
+│   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
+│   │   └── ekranlar/       Sekme ekranları (simdi, dahafazla, yertutucu)
 │   └── dev/                Gizli geliştirici paneli
 ├── data/
 │   ├── ekonomi.json        Tüm fiyatlar (asgari ücrete oranlı) — Faz 2
@@ -256,5 +262,6 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.4 | 2026-10-20 | Adım 1.4: arayüz iskeleti — durum çubuğu (dokununca ayrıntı paneli), 5 sekme, alttan panel, anlatım akışı (yazı hızı, atlama, geçmiş), seçenek kartları (maliyet, uzun basma), kısayollar, tema/yazı/hız/animasyon ayarları, safe-area, zoom ve aşağı çekme engeli, klavye takibi. Geçici deneme sahnesi. |
 | 0.0.3 | 2026-10-20 | Adım 1.3: manifest, service worker (tam çevrimdışı, otomatik dosya listesi), ikonlar, 11 iPhone açılış görseli, HTML açılış ekranı, güncelleme bandı. Alışkanlık sistemi kullanıcı isteğiyle iptal. |
 | 0.0.2 | 2026-10-20 | Adım 1.2: `js/core/rng.js` (seed, alt akışlar, ağırlıklı seçim), `js/core/tr.js` (ek motoru, tr-TR harf/sıralama), `js/core/format.js` (para, tarih, saat, süre), 154 Node testi. Ek fikir kararları işlendi. |

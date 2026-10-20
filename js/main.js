@@ -1,7 +1,9 @@
 // Giriş noktası: açılış ekranı, service worker kaydı ve güncelleme akışı.
-// Oyunun kendisi sonraki adımlarda buraya bağlanacak.
-import { OYUN_SURUMU } from './surum.js';
-import { tarih, saatTarihten } from './core/format.js';
+import { yukle as ayarlariYukle } from './ayarlar.js';
+import { arayuzKur } from './ui/arayuz.js';
+import { simdiEkrani, denemeyiBaslat } from './ui/ekranlar/simdi.js';
+import { telefonEkrani, sehirEkrani, hayatimEkrani } from './ui/ekranlar/yertutucu.js';
+import { dahaFazlaEkrani } from './ui/ekranlar/dahafazla.js';
 
 const $ = s => document.querySelector(s);
 
@@ -65,28 +67,19 @@ async function swKur() {
 }
 
 async function basla() {
+  ayarlariYukle();
   const [, sw] = await Promise.all([cssYukle('./css/temel.css'), swKur().catch(h => ({ durum: 'hata', hata: h }))]);
   if (sw.durum === 'guncelleniyor') return;
 
-  const simdi = new Date(Date.now() + 3 * 3600 * 1000); // Türkiye saati (UTC+3)
-  const cevrimdisi = {
-    hazir: 'Çevrimdışı hazır ✓ — uçak modunda da açılır.',
-    ilk: 'Çevrimdışı kurulum tamamlandı. Bir kez kapatıp açınca uçak modunda da çalışır.',
-    desteklenmiyor: 'Bu tarayıcı çevrimdışı çalışmayı desteklemiyor.',
-    hata: 'Çevrimdışı kurulum başarısız oldu.',
-  }[sw.durum];
-
-  const tamEkran = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-  $('#uygulama').innerHTML = `
-    <main class="gecici">
-      <h1>YENİDEN</h1>
-      <p>Yapım aşamasında — Faz 1 altyapısı kuruluyor.</p>
-      <div class="kart">${tarih(simdi)} · ${saatTarihten(simdi)}</div>
-      <div class="kart">${cevrimdisi}</div>
-      <div class="kart">${tamEkran ? 'Ana ekrandan açıldı ✓' : 'Tarayıcıda açık. Paylaş → “Ana Ekrana Ekle” ile uygulama gibi kullanabilirsin.'}</div>
-      <p class="soluk">Sürüm ${OYUN_SURUMU}</p>
-    </main>`;
-  setTimeout(acilisiKapat, 700);
+  const arayuz = arayuzKur($('#uygulama'), {
+    simdi: simdiEkrani,
+    telefon: telefonEkrani,
+    sehir: sehirEkrani,
+    hayatim: hayatimEkrani,
+    dahaFazla: dahaFazlaEkrani,
+  });
+  denemeyiBaslat(v => arayuz.durum.guncelle(v));
+  setTimeout(acilisiKapat, 500);
 }
 
 basla();

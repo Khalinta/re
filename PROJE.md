@@ -10,8 +10,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.11 Gizli geliştirici paneli + iki eski hatanın düzeltmesi + kod denetimi (ESLint) test zincirinde
-- **Sıradaki adım:** 1.12 Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı — **küçük** (kullanıcının GitHub ayarlarında birkaç tıklaması gerekiyor)
+- **Son tamamlanan adım:** 1.12 hazırlığı — sürüm 0.1.0, alt adreste (/re/) çalışma doğrulandı, yayın adımları ve telefon test listesi yazıldı (aşağıda "Yayın ve telefonda test")
+- **Bekleyen:** Kullanıcının GitHub Pages'i açması ve telefonda test listesini denemesi. Sonuçlara göre çıkan sorunlar düzeltilip Faz 1 kapanır.
+- **Sonra:** Faz 2 — Dünya kitabı ve ekonomi dosyası (adımlara bölünecek; ilk adım şehrin kimliği ve tarihi — **orta**)
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -30,7 +31,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.9b | Olay motoru B2: metin şablonları ve ruh haline göre ton, zamanlayıcıların çalışması, hikaye yayları | orta | ✅ |
 | 1.10 | Global hata yakalama, hata ekranı, hata raporu | orta | ✅ |
 | 1.11 | Gizli geliştirici paneli | orta | ✅ |
-| 1.12 | Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı | küçük | ⏳ |
+| 1.12 | Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı | küçük | ⏳ kullanıcı testi bekleniyor |
 
 ### Fazlar
 
@@ -300,6 +301,39 @@ Sabit arka plan (aile, geçmiş, sır, konuşma tarzı...) kayda yazılmaz; `see
 
 ---
 
+## 🚀 YAYIN VE TELEFONDA TEST
+
+**Adres:** https://khalinta.github.io/re/ (depo herkese açık; GitHub Pages ücretsiz).
+
+**GitHub Pages'i açmak (bir kez):**
+1. https://github.com/Khalinta/re adresine git.
+2. Üstteki **Settings** (Ayarlar) sekmesine dokun.
+3. Soldaki menüde **Pages**'i seç.
+4. "Build and deployment" altında **Source**: `Deploy from a branch`.
+5. **Branch**: `claude/yeniden-life-sim-7npvmq`, klasör: `/ (root)` → **Save**.
+6. 1–3 dakika bekle; sayfanın üstünde "Your site is live at https://khalinta.github.io/re/" yazar.
+
+Sonraki her push kendiliğinden yayına girer (1–3 dk). Uygulama yeni sürümü bir sonraki açılışta kendisi alır; oyun açıkken gelirse altta "Yeni sürüm hazır — Yenile" bandı çıkar.
+
+**Netlify'a geçmek (kodu gizli tutmak istenirse):** depo gizli yapılır, netlify.com'da "Add new site → Import from Git" ile bu depo ve dal seçilir; build komutu boş, yayın klasörü kök. Göreli yollar sayesinde hiçbir dosya değişmez (K2).
+
+**Faz 1 telefon test listesi (iPhone, Safari):**
+1. Safari'de adresi aç: güneşli açılış ekranı, sonra oyun.
+2. Paylaş düğmesi (kare + yukarı ok) → **Ana Ekrana Ekle** → Ekle. Ana ekranda güneş ikonu.
+3. İkondan aç: tam ekran (Safari çubukları yok), açılışta koyu ekran + güneş.
+4. Birkaç hamle yap. Durum çubuğuna dokun (ayrıntı paneli), bir seçeneğe uzun bas (bilgi), paneli aşağı kaydırarak kapat.
+5. Üstte saat/çentik ile durum çubuğu çakışıyor mu? Alttaki sekmeler iPhone'un alt çizgisine yapışık mı?
+6. Çift dokunarak yakınlaşma ve aşağı çekip yenileme olmamalı.
+7. Uygulamayı tamamen kapat (alttan yukarı kaydır, uygulamayı yukarı at) → yeniden aç: kaldığın yerden devam etmeli.
+8. Uçak modunu aç → uygulamayı aç: çalışmalı.
+9. Daha Fazla → Kayıtlar: "Kalıcı depolama" ne yazıyor? Bir yuvada **Dışa aktar** → Kodu kopyala → Notlar'a yapıştır. **Dosya olarak kaydet** → paylaşım menüsü açılmalı.
+10. **Kayıt içe aktar**: kod kutusuna dokun → klavye açılınca ekran bozulmamalı, yakınlaşma olmamalı, alt sekmeler gizlenmeli.
+11. Tema / yazı boyutu / metin hızı ayarlarını dene.
+12. Sürüm satırına 7 kez dokun → geliştirici paneli açılmalı.
+13. Daha Fazla → **Sorun bildir** → Hata raporunu kopyala → raporu Claude'a yapıştır (sorun olmasa bile; cihaz bilgisi için yararlı).
+
+---
+
 ## 🕶️ PLANLANAN ÖZELLİK: SUÇ DÜNYASI (2026-10-20, kullanıcı isteği)
 
 Kurgusal, derin bir yeraltı dünyası. Ayrı bir mod değil; hayatın içine örülü, oyuncunun girebileceği, içinde yükselebileceği ve çıkmanın kendi başına bir hikaye olduğu bir yol.
@@ -423,6 +457,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.0 | 2026-10-20 | Faz 1 sürümü (1.12 hazırlığı): alt adreste (/re/) açılış, service worker kapsamı, çevrimdışı açılış ve kayıt doğrulandı; yayın adımları, Netlify notu ve 13 maddelik telefon test listesi PROJE.md'ye yazıldı. Kullanıcı testi bekleniyor. |
 | 0.0.12 | 2026-10-20 | Adım 1.11: gizli geliştirici paneli (6 bölüm), `oyun.js` geliştirici işlevleri (gelistiriciDegistir, zamanAtla, olayListesi, aktifOlayiIptal, zamanlayiciCalistir), belirli seed/tarihle yeni oyun. Hata düzeltmeleri: ilk ziyarette gereksiz yeniden yükleme; güncelleme bandının çalışmaması (değişken gölgeleme). ESLint denetimi teste eklendi, bulduğu 7 gölgeleme/kullanılmayan değişken temizlendi. 246 test. |
 | 0.0.11 | 2026-10-20 | Adım 1.10: `js/hata.js` (global hata/söz hatası yakalama, bant, hata paneli, açılış hata ekranı, `guvenli` sarmalı, rapor kopyalama), `core/rapor.js`, `geriAlinabilir` (hamle hatasında durumu geri alma), olay başlangıç/seçimleri hamle geçmişine, Daha Fazla → Sorun bildir. Tarayıcıda zorla hata ile denendi: durum geri alındı, yarım hal kaydedilmedi, rapor kopyalandı, oyun sürdü. 245 test. |
 | 0.0.10 | 2026-10-20 | Adım 1.9b: `core/metin.js` (şablon + ek, süzgeçler, [[çeşitleme]], ton, koşullu çeşit, doğrulayıcı) olaylar/aksiyonlar/uyarılara bağlandı; zamanlayıcıların çalışması (`vadesiGelenZamanlayici`, koşul/bekle/iptal); hikaye yayları (`data/yaylar.json`, yay/yayBitir etkileri, yay koşulu, doğrulayıcı); örnek yay: apartman_tesisati → yonetici_kapida → apartman_toplantisi. "Sabahın köründe" çeşidi koşullu metinle geri geldi. 242 test. |

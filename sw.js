@@ -4,7 +4,7 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-fb16ba1feb44';
+const ONBELLEK_SURUMU = 'yeniden-85ba6f055da9';
 const DOSYALAR = [
   './',
   './css/temel.css',

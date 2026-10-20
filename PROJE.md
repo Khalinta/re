@@ -9,9 +9,10 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 
 ## 🧭 NEREDE KALDIK
 
-- **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi: kodu bitti, telefon testi bekleniyor (Faz 1 kapandı: 2026-10-20)
+- **Şu anki faz:** Faz 3 — Başlangıç hikayesi motoru, açılış sahneleri, NPC üretim motoru (Faz 2 kapandı: 2026-10-20, kullanıcı "tamam devam et" dedi)
 - **Son tamamlanan adım:** 2.8 Konum sistemi (ev / sokak / mekan; kayıt sürümü 3), Şehir sekmesi (semt, mekanlar, gündem, başka semtler), semtler arası yolculuk (toplu / yürüyüş / taksi), mekana girme, mekanda aksiyonlar (fiyatlı), kulak verme ve Hayatım → Duyduklarım
-- **Sıradaki adım:** kullanıcının telefonda Faz 2 testi (aşağıdaki liste). Sonra Faz 3 (başlangıç hikayesi motoru, NPC üretimi) — ilk adımı **orta**
+- **Sıradaki adım:** 3.1 NPC üretim motoru — **büyük**
+- **Çalışma notu:** kullanıcı Faz 2'de "deneyeceğim bir şey gelene kadar devam et" demişti; Faz 3'te de ilk denenebilir adım (3.4 açılış sahneleri) gelene kadar adımlar arka arkaya, her biri ayrı commit.
 - **Kullanıcı isteği (2026-10-20):** "Benim deneyeceğim bir şey gelene kadar devam et." → 2.6, 2.7, 2.8 arka arkaya; 2.8'de (Şehir sekmesi, gezinme, mekanlar) durup telefonda denemesi istenecek.
 - **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). 0.1.5 ekran görüntüsüyle doğrulandı (şerit sekme çubuğuyla aynı renkte, yazılar tam): **Faz 1 kapandı.**
 - **Faz 2 telefon testi, 1. rapor (0.1.12, 2026-10-20):** hata yok; eski kayıt v3'e sorunsuz taşındı (Bezhane'de evde); gezinme, mekanlar, kulak verme, yolculuk çalışıyor. Bulunan sorun: bir mekanın dedikoduları bitince "Etrafa kulak ver" boşa saatler harcatıyordu (16 deneme, 8 saat). 0.1.13'te düzeltildi (aşağıda).
@@ -55,13 +56,23 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 2.7 | Ekonomi dosyası (asgari ücrete oranlı her şey), PROJE.md ekonomi tablosunun kesinleşmesi | orta | ✅ |
 | 2.8 | Konum sistemi (~~kayıt şeması v2~~ → v3, çünkü v2 2.6'da dünya için kullanıldı + migration), Şehir sekmesi arayüzü, semtler arası gezinme | büyük | ✅ |
 
+### Faz 3 adım listesi
+
+| Adım | İçerik | Boyut | Durum |
+|---|---|---|---|
+| 3.1 | NPC üretim motoru: isim havuzları (kuşağa göre), memleket ve ağız, kişilik, konuşma tarzı, aile, eğitim, iş geçmişi, dert, hayal, sır, alışkanlık, gizli özellikler; seed'den belirlenimli, tutarlılık kuralları; NPC kaydı (tembel üretim, katmanlar) | büyük | ⏳ |
+| 3.2 | NPC'ler dünyada: figürler ve mekan sahipleri sabit NPC; mekanlarda kimler var (semtin sakinlerinden), tanışma ve ilk sohbet, ilişki değerleri, NPC'ler arası tanışıklık ağı, anılar | büyük | ⬜ |
+| 3.3 | Başlangıç hikayesi motoru: başlangıç tipleri (dipten / zirveden çöküş / rastgele), bileşenler (yaş, memleket, aile, eğitim, meslek/hayal, çöküş zinciri, hata/talih oranı, borçlar, sırlar, anılar, güçlü yanlar, kusurlar, eski bağlantılar, elde kalanlar), nadir uç hikayeler, tutarlılık ve dünya kitabı kancaları | büyük | ⬜ |
+| 3.4 | Açılış: yeni oyun ekranı (başlangıç tipi), 3–5 sahnelik interaktif giriş, iç ses ve tuhaflıklar, açık iplikler (geri dönen kişiler/olaylar) — **telefonda denenecek** | büyük | ⬜ |
+| 3.5 | NPC'lerin kendi hayatı (iş, taşınma, evlilik, dert), geliştirici panelinde NPC bölümü, Faz 3 kapanışı | orta | ⬜ |
+
 ### Fazlar
 
 | Faz | İçerik | Durum |
 |---|---|---|
 | 1 | Altyapı (+ suç dünyası için koşul/etki türleri: 1.8–1.9) | ✅ kapandı (2026-10-20) |
-| 2 | Dünya kitabı + ekonomi dosyası (+ örgütler, bölgeler, emniyet/adliye/cezaevi kurumları, suç ekonomisi) | ✅ kod bitti · ⏳ telefon testi bekleniyor |
-| 3 | Başlangıç hikayesi motoru, açılış sahneleri, NPC üretimi (+ örgüt hiyerarşisi/lider NPC'leri, suçla bağlantılı geçmiş bileşenleri) | ⬜ |
+| 2 | Dünya kitabı + ekonomi dosyası (+ örgütler, bölgeler, emniyet/adliye/cezaevi kurumları, suç ekonomisi) | ✅ kapandı (2026-10-20) |
+| 3 | Başlangıç hikayesi motoru, açılış sahneleri, NPC üretimi (+ örgüt hiyerarşisi/lider NPC'leri, suçla bağlantılı geçmiş bileşenleri) | ⏳ devam ediyor |
 | 4 | İş, para, borç, barınma, eşya; ilişkiler, telefon ekranı (+ örgüt, aranma, adalet, hapishane, kara para sistemleri) | ⬜ |
 | 5 | Olay içeriği (150+ derin olay, hikaye yayları) — sadece veri (+ suç dünyası olayları, giriş ve çıkış yayları, hapishane dönemi) | ⬜ |
 | 6 | Eğlence, hedefler, son ekranı, günlük (+ suçla ilgili sonlar ve hayat özeti) | ⬜ |

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { para, paraKisa, sayi, tarih, saat, sure, yuzde } from '../js/core/format.js';
+import { para, paraKisa, sayi, tarih, saat, sure, yuzde, onceMetni } from '../js/core/format.js';
 
 test('para', () => {
   assert.equal(para(1250.5), '1.250,50 ₺');
@@ -40,4 +40,13 @@ test('saat ve süre', () => {
   assert.equal(sure(45), '45 dakika');
   assert.equal(sure(2880), '2 gün');
   assert.equal(sure(1500), '1 gün 1 saat');
+});
+
+test('göreli süre', () => {
+  const t = 1_000_000_000_000;
+  assert.equal(onceMetni(t - 20e3, t), 'az önce');
+  assert.equal(onceMetni(t - 5 * 60e3, t), '5 dk önce');
+  assert.equal(onceMetni(t - 3 * 3600e3, t), '3 saat önce');
+  assert.equal(onceMetni(t - 30 * 3600e3, t), 'dün');
+  assert.equal(onceMetni(t - 4 * 86400e3, t), '4 gün önce');
 });

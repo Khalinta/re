@@ -83,3 +83,16 @@ export function sure(dakika) {
   if (dk && !gun) parca.push(dk + ' dakika');
   return parca.join(' ');
 }
+
+// Gerçek zamanlı göreli süre: "az önce", "5 dk önce", "3 saat önce", "dün", "4 gün önce"
+export function onceMetni(ms, simdi = Date.now()) {
+  const sn = Math.max(0, Math.round((simdi - ms) / 1000));
+  if (sn < 60) return 'az önce';
+  const dk = Math.floor(sn / 60);
+  if (dk < 60) return dk + ' dk önce';
+  const st = Math.floor(dk / 60);
+  if (st < 24) return st + ' saat önce';
+  const gun = Math.floor(st / 24);
+  if (gun === 1) return 'dün';
+  return gun + ' gün önce';
+}

@@ -1,7 +1,7 @@
 // "Daha Fazla" ekranı: ayarlar, kayıtlar (1.6), sürüm bilgisi.
 import { h, $$ } from '../dom.js';
 import { IKON } from '../ikonlar.js';
-import { bilgiGoster } from '../panel.js';
+import { kayitlariGoster } from './kayitlar.js';
 import { SECENEKLER, al, degistir } from '../../ayarlar.js';
 import { OYUN_SURUMU } from '../../surum.js';
 
@@ -28,8 +28,8 @@ export const dahaFazlaEkrani = {
       h('p', { class: 'ornek-metin' }, 'Örnek: Çınaraltı Kahvesi\'nde çay 15 ₺. Sabahın köründe bile kalabalık.'),
       h('h2', { class: 'bolum-baslik' }, 'Kayıtlar'),
       h('div', { class: 'kart-liste' },
-        h('button', { class: 'satir', onclick: () => bilgiGoster('Kayıtlar', '3 kayıt yuvası, otomatik yedekler, dışa ve içe aktarma. Adım 1.6 ve 1.7\'de geliyor.') },
-          h('span', { class: 'satir-metin' }, h('span', {}, 'Kayıt yuvaları'), h('span', { class: 'satir-alt' }, 'Yakında')),
+        h('button', { class: 'satir', onclick: () => kayitlariGoster() },
+          h('span', { class: 'satir-metin' }, h('span', {}, 'Kayıt yuvaları ve yedekler'), h('span', { class: 'satir-alt' }, 'Otomatik kaydediliyor')),
           h('span', { class: 'satir-ok', html: IKON.ok }))),
       h('h2', { class: 'bolum-baslik' }, 'Hakkında'),
       h('div', { class: 'kart-liste' },

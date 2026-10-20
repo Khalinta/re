@@ -13,6 +13,10 @@ const SEKMELER = [
   { ad: 'dahaFazla', baslik: 'Daha Fazla', ikon: IKON.dahaFazla },
 ];
 
+let etkin = null;
+// Başka modüllerin sekme değiştirebilmesi için
+export const sekmeyeGec = ad => etkin?.sekmeGec(ad);
+
 export function arayuzKur(kok, ekranlar) {
   const durumKap = h('header', {});
   const orta = h('main', { class: 'ekranlar' });
@@ -54,7 +58,8 @@ export function arayuzKur(kok, ekranlar) {
   try { ilk = sessionStorage.getItem('yeniden.sekme') || 'simdi'; } catch { /* önemsiz */ }
   sekmeGec(bolumler[ilk] ? ilk : 'simdi');
 
-  return { sekmeGec, rozet, durum };
+  etkin = { sekmeGec, rozet, durum };
+  return etkin;
 }
 
 // Klavye açılınca sekme çubuğu gizlenir, görünür alan yüksekliği güncellenir.

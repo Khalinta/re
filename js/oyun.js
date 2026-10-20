@@ -60,6 +60,13 @@ export function yeniOyun({ seed = seedUret(), baslangic = bugunTurkiye() } = {})
   return durum;
 }
 
+// Kayıttan gelen durumu etkin oyun yapar (anlatım geçmişini arayüz kendisi geri koyar)
+export function durumYukle(d) {
+  durum = d;
+  bildir([]);
+  return durum;
+}
+
 export function aksiyonListesi() {
   return veri.aksiyonlar.map(a => ({ a, ...aksiyonDurumu(durum, a, veri.sim), maliyet: aksiyonMaliyeti(durum, a, veri.sim) }));
 }

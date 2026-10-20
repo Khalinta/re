@@ -33,8 +33,26 @@ function kisayol(ikon, metin, eylem, soluk = false) {
 // Kayıttan dönüldüğünde geçmiş anlatımı anında (yazma efekti olmadan) geri koyar
 export function gecmisiYukle(paragraflar) {
   anlatim.temizle();
-  anlatim.atla();
   anlatim.ekle(paragraflar);
+  anlatim.atla();
+  anlatim.enAlta();
+}
+
+// Etkin oyunu (kayıttan yüklenmiş) ekrana koyar
+export async function oyunuGoster() {
+  gecmisiYukle(oyun.durumAl().anlatim);
+  await anlatim.sira;
+  anlatim.enAlta();
+  menuyuGoster();
+}
+
+// Yeni oyun başlatır ve girişi yazar
+export async function yeniOyunuGoster() {
+  anlatim.temizle();
+  secenekKap.replaceChildren();
+  oyun.yeniOyun();
+  await anlatim.sira;
+  menuyuGoster();
 }
 
 export function paragraflariGoster(paragraflar) {

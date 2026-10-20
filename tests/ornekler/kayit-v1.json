@@ -1,0 +1,15 @@
+{
+ "bicim": "yeniden-kayit",
+ "kayitSurumu": 1,
+ "oyunSurumu": "0.0.5",
+ "sayac": 7,
+ "kayitZamani": 1792497600000,
+ "ozet": {
+  "ad": "Deniz",
+  "baslangic": "2026-10-20",
+  "dakika": 795,
+  "para": 1915
+ },
+ "saglama": "8962df1934654cad",
+ "veri": "{\"kayitSurumu\":1,\"oyunSurumu\":\"0.0.5\",\"seed\":\"ORNK-V001\",\"olusturma\":\"2026-10-20T05:00:00.000Z\",\"zaman\":{\"baslangic\":\"2026-10-20\",\"dakika\":795},\"karakter\":{\"ad\":\"Deniz\",\"dogum\":\"1996-03-14\"},\"durumlar\":{\"saglik\":80.54,\"enerji\":82.5,\"aclik\":10.34,\"hijyen\":97.83,\"ruh\":63.04,\"stres\":25.5,\"uyku\":50,\"ozguven\":40},\"para\":1915,\"beceriler\":{},\"bayraklar\":{\"kalici\":{},\"sureli\":{},\"npc\":{}},\"sayaclar\":{},\"zamanlayicilar\":[],\"olayGecmisi\":{},\"rng\":{\"aksiyon\":[1450685592,3373195266,1131104538,3701214739]},\"aksiyonGecmisi\":[{\"z\":495,\"id\":\"cay\"},{\"z\":540,\"id\":\"yuruyus\"},{\"z\":585,\"id\":\"yemek_hazirla\"},{\"z\":605,\"id\":\"dus\"},{\"z\":665,\"id\":\"telefon_kaydir\"},{\"z\":785,\"id\":\"uyu\"},{\"z\":795,\"id\":\"pencere\"}],\"anlatim\":[],\"gunluk\":[]}"
+}

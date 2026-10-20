@@ -1,8 +1,12 @@
 // Giriş noktası: açılış ekranı, service worker kaydı ve güncelleme akışı.
 import { yukle as ayarlariYukle } from './ayarlar.js';
 import { arayuzKur } from './ui/arayuz.js';
-import { simdiEkrani, paragraflariGoster, menuyuGoster } from './ui/ekranlar/simdi.js';
+import { simdiEkrani, paragraflariGoster, oyunuGoster, yeniOyunuGoster } from './ui/ekranlar/simdi.js';
+import { kayitlariGoster } from './ui/ekranlar/kayitlar.js';
+import { bilgiGoster, panelAc } from './ui/panel.js';
+import { h } from './ui/dom.js';
 import * as oyun from './oyun.js';
+import * as kayit from './kayit.js';
 import { telefonEkrani, sehirEkrani, hayatimEkrani } from './ui/ekranlar/yertutucu.js';
 import { dahaFazlaEkrani } from './ui/ekranlar/dahafazla.js';
 
@@ -55,7 +59,7 @@ async function swKur() {
     const yeni = kayit.installing;
     yeni?.addEventListener('statechange', () => {
       if (yeni.state === 'installed' && navigator.serviceWorker.controller) {
-        bantGoster('Yeni sürüm hazır.', 'Yenile', () => yeni.postMessage('hemenGec'));
+        bantGoster('Yeni sürüm hazır.', 'Yenile', async () => { await kayit.hemenKaydet(); yeni.postMessage('hemenGec'); });
       }
     });
   });
@@ -92,11 +96,54 @@ async function basla() {
     arayuz.durum.guncelle(oyun.durumCubuguVerisi());
     if (paragraflar.length) paragraflariGoster(paragraflar);
   });
-  // Kayıt sistemi (1.6) gelene kadar her açılışta yeni oyun başlar
-  oyun.yeniOyun();
   setTimeout(acilisiKapat, 500);
-  await paragraflariGoster([]);
-  menuyuGoster();
+  await kayitliOyunuAc();
 }
+
+// Etkin yuvadaki oyunu açar; yoksa yeni oyun başlatır. Kayıt okunamazsa asla üstüne yazmaz.
+async function kayitliOyunuAc() {
+  try {
+    await kayit.baslat();
+  } catch (e) {
+    console.error(e);
+  }
+  oyun.dinle(durum => { kayit.otomatikKaydet(durum); });
+  kayit.dinle(olay => {
+    if (olay.tur === 'kaydedildi' && (oyun.durumAl()?.aksiyonGecmisi.length ?? 0) >= 3 && kayit.kaliciUyariGosterilsinMi()) {
+      bilgiGoster('Kayıtların hakkında', 'Oyun her hamlede kendini kaydediyor. Ancak tarayıcı, kayıtları kalıcı tutma iznini vermedi; telefonda yer çok daralırsa silinebilirler. Uygulamayı Ana Ekrana eklemek bunu çoğu zaman çözer. Ayrıca arada bir kaydını dışa aktarman iyi olur (çok yakında).');
+    }
+    if (olay.tur === 'hata' && !kayitHatasiGosterildi) {
+      kayitHatasiGosterildi = true;
+      bilgiGoster('Kayıt yapılamadı', 'Son hamlen kaydedilemedi: ' + (olay.hata?.message || olay.hata) + '\n\nOyuna devam edebilirsin; bir sonraki hamlede yeniden denenecek.');
+    }
+  });
+
+  const n = kayit.aktifYuva();
+  let sonuc = null;
+  try {
+    sonuc = await kayit.yukle(n);
+  } catch (e) {
+    // Yuva var ama kurtarılamadı: üstüne yazmamak için otomatik kaydı askıya al, kullanıcıya sor
+    kayit.askiyaAl(true);
+    panelAc({
+      baslik: `Yuva ${n} açılamadı`,
+      icerik: h('p', { class: 'panel-metin' }, 'Bu yuvadaki kayıt da, otomatik yedekleri de okunamadı.\n\nHiçbir şeyin üstüne yazılmadı. Kayıtlar ekranından başka bir yuvada yeni oyun başlatabilir ya da yedeklere bakabilirsin.'),
+      altBilgi: h('div', { class: 'dugme-yigini' }, h('button', { class: 'dugme birincil', onclick: () => kayitlariGoster() }, 'Kayıtlara git')),
+    });
+    return;
+  }
+  if (sonuc) {
+    oyun.durumYukle(sonuc.durum);
+    await oyunuGoster();
+    if (sonuc.kaynak !== 'ana' && sonuc.kaynak !== 'yansi') {
+      bilgiGoster('Kayıt kurtarıldı', 'Son kaydın okunamadı; oyun en yakın otomatik yedekten açıldı. Birkaç hamle geride olabilirsin.');
+    }
+  } else {
+    kayit.yuvaHazirla(n);
+    await yeniOyunuGoster();
+  }
+}
+
+let kayitHatasiGosterildi = false;
 
 basla();

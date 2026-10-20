@@ -10,9 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.5 Oyun durumu, takvim, dilimler, durum simülasyonu, aksiyon döngüsü (10 temel aksiyon)
-- **Sıradaki adım:** 1.6 Kayıt sistemi (IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration) — **büyük**
-- **Not:** Kayıt sistemi gelene kadar uygulama her açılışta yeni oyun başlatır (bilerek).
+- **Son tamamlanan adım:** 1.6 Kayıt sistemi (iki depo, 3 yuva, yuva başına 5 yedek, arka planda kayıt, kalıcı depolama izni, migration altyapısı, Kayıtlar ekranı)
+- **Sıradaki adım:** 1.7 Dışa / içe aktarma (dosya + sıkıştırılmış metin kodu, sağlama) — **orta**
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -24,8 +23,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.3 | PWA kabuğu: manifest, service worker (çevrimdışı), ikon, açılış ekranı | orta | ✅ |
 | 1.4 | Arayüz iskeleti: alt sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar, yazı boyutu, safe-area | büyük | ✅ |
 | 1.5 | Oyun durumu, takvim, zaman dilimleri, durumlar (enerji, açlık, stres...), aksiyon döngüsü | orta | ✅ |
-| 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ⏳ |
-| 1.7 | Dışa/içe aktarma: dosya + sıkıştırılmış metin kodu, sağlama (checksum) | orta | ⬜ |
+| 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ✅ |
+| 1.7 | Dışa/içe aktarma: dosya + sıkıştırılmış metin kodu, sağlama (checksum) | orta | ⏳ |
 | 1.8 | Olay motoru A: bayraklar/sayaçlar, koşul dili, koşul açıklayıcı ("neden tetiklenmedi") | orta | ⬜ |
 | 1.9 | Olay motoru B: ağırlıklı seçim, cooldown, çok aşamalı olaylar, beceri/şans kontrolleri, zamanlayıcılar, zincirler, metin şablonları, çoklu etki | büyük | ⬜ |
 | 1.10 | Global hata yakalama, hata ekranı, hata raporu | orta | ⬜ |
@@ -72,6 +71,12 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K21 | **Durum simülasyonu tamamen veriyle:** `data/simulasyon.json` (durumlar, saatlik değişim türleri: normal / dinlenme / ağır / uyku, ruh hali hedefi ve etkenleri, sağlık etkenleri, uyku kuralları, eşik uyarıları). Ruh hali bir hedefe doğru yavaşça kayar (ani zıplamaz). Eşik uyarıları sadece eşik geçildiği anda bir kez çıkar, iç ses olarak yazılır. | Denge koda dokunmadan ayarlanır; Faz 7 denge çalışması sadece bu dosyada. |
 | K22 | **Aksiyonlar veriyle:** `data/aksiyonlar.json`. Alanlar: id, ad, alt, sure, tur, enerji (ek harcama), para, etki, dilimler, ozel ("uyku"), kisayol, metin (en az 2 çeşit — test zorunlu kılar). Uyku: gece (18–05) sabah 07:00'ye kadar, en az 6 en çok 10 saat; gündüz 2 saat; stresliyken daha az dinlendirir; düzenli saatte yatmak uyku düzenini artırır. | Faz 4–6'daki yeni aksiyonlar sadece veri eklenerek gelir. |
 | K23 | **Rastgele akışların hali kayda yazılır** (`durum.rng[alan]`, `rngAl()`): kayıttan dönünce aynı seed aynı sonuçları vermeye devam eder. Test: aynı seed + aynı aksiyon dizisi = birebir aynı metin ve durum. | Seed tabanlı tekrar üretilebilirlik (hata raporlarında sorunu birebir yeniden oluşturabilmek için de şart). |
+| K24 | **Kayıt zarfı:** `{ bicim, kayitSurumu, oyunSurumu, sayac, kayitZamani, ozet, saglama, veri }`. `veri` durumun JSON metni; `saglama` bu metnin cyrb128 özeti (tek bayt bozulması yakalanır). `sayac` her kayıtta +1; iki depodan hangisinin yeni olduğu buna göre seçilir (cihaz saatine güvenilmez). Geçersiz durum (NaN, eksik alan, 0–100 dışı) asla zarflanmaz. | Bozuk ya da yarım yazılmış kaydı kesin tanımak; doğru kopyayı seçmek. |
+| K25 | **İki depo + yedekler:** her kayıtta önce localStorage yansısına (eşzamanlı, uygulama kapanırken bile tamamlanır), sonra IndexedDB'ye yazılır; IndexedDB yazımı geri okunarak doğrulanır (`durability: strict`). Yüklerken iki depodaki geçerli kayıtlardan sayacı büyük olan seçilir, diğeri onarılır. İkisi de bozuksa otomatik yedeklerden (yeniden eskiye) açılır ve oyuncuya söylenir. Hiçbiri açılmazsa otomatik kayıt askıya alınır, hiçbir şeyin üstüne yazılmaz, oyuncuya sorulur. Yuva boşsa (bilerek silinmiş) yedekten kendiliğinden geri getirilmez. IndexedDB açılamazsa her şey localStorage'da tutulur. | "Asla veri kaybı" (bölüm 2). |
+| K26 | **Otomatik yedek zamanı:** oturumun ilk kaydında ve oyun içinde her yeni gün başladığında; ayrıca yuva silinmeden, yedeğe dönülmeden ve yuvada yeni oyun başlatılmadan önce. Yuva başına en fazla 5, en eskisi silinir. Her hamlede yedek alınmaz (yoksa 5 yedek 5 hamlede biterdi). | Yedekler anlamlı zaman aralıklarını kapsar. |
+| K27 | **Kayıt anları:** her aksiyondan sonra (oyun durumu her değiştiğinde), uygulama arka plana atılınca (`visibilitychange`), sayfa kapanırken (`pagehide`), güncelleme bandındaki "Yenile"den önce. Kayıt sürerken gelen istekler birleştirilir (en son hal yazılır). | Her an kesilebilecekmiş gibi. |
+| K28 | **Migration kuralı:** şema değişince `KAYIT_SURUMU` +1, `js/core/migration.js`'e `n → n+1` adımı eklenir (eskiler asla silinmez/değişmez), `node tools/ornek-kayit.mjs` ile yeni sürüm örneği üretilir; `tests/ornekler/` içindeki TÜM eski örnekler testte güncel şemaya açılabilmeli. Daha yeni sürümden gelen kayıt reddedilir (bozulmadan). | Güncellemelerde eski kayıtlar sorunsuz dönüşsün. |
+| K29 | **Kalıcı depolama:** ilk açılışta bir kez `navigator.storage.persist()` istenir; sonuç Kayıtlar ekranında gösterilir, "İzni tekrar iste" düğmesi var. İzin yoksa oyuncu birkaç hamle yaptıktan sonra bir kez kibar bir uyarı çıkar (dışa aktarma önerisiyle). | Bölüm 2 gereksinimi; ilk saniyede oyuncuyu uyarıyla karşılamamak. |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -93,8 +98,11 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ├── js/
 │   ├── main.js             Giriş noktası: açılış, service worker, güncelleme
 │   ├── oyun.js             Oyun denetleyicisi: veri yükleme, durum, aksiyon çalıştırma, arayüze bildirim
+│   ├── kayit.js            Kayıt yöneticisi: otomatik kayıt, arka planda kayıt, kalıcı izin, aktif yuva
+│   ├── depolama.js         Tarayıcı depoları: IndexedDB, localStorage
 │   ├── surum.js            Oyun sürümü
-│   ├── core/               Saf mantık: rng, tr (ek motoru), format, zaman, simulasyon, durum, aksiyon (+ kayıt, olay motoru)
+│   ├── core/               Saf mantık: rng, tr (ek motoru), format, zaman, simulasyon, durum, aksiyon,
+│   │                       kayitbicim (zarf, sağlama, doğrulama), kayitdeposu (yuva/yedek mantığı), migration
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları (simdi, dahafazla, yertutucu)
@@ -110,6 +118,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── npc/                NPC şablonları, isim havuzları — Faz 3
 │   └── isler/              İşler ve kariyer yolları — Faz 4
 └── tests/                  Node testleri
+    └── ornekler/           Eski sürüm örnek kayıtlar (migration testleri için; asla silinmez)
 ```
 
 ---
@@ -249,7 +258,8 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 
 - Ek motoru: 3. tekil iyelikle biten adlarda (Kahvesi, Sarayı, Belediyesi) `{ iyelik: true }` verilmeli; motor bunu kendisi anlayamaz. Veri dosyalarında mekan adlarına `iyelik` alanı konacak.
 - Ek motoru: alışılmadık okunuşlu yabancı adlarda `{ okunus: '...' }` verilmeli (Bordeaux → bordo).
-- Kayıt sistemi (1.6) gelene kadar her açılış yeni oyun başlatır.
+- İki depo birden bozulursa en yakın otomatik yedeğe dönülür; bu yedek birkaç hamle (en kötü durumda bir oyun günü) geride olabilir. Oyuncuya söylenir.
+- Uygulama aynı anda iki sekmede açılırsa iki sekme aynı yuvaya sırayla yazar (sayaç en son yazanı kazandırır). iPhone uygulamasında bu durum oluşmaz; önlem alınmadı.
 - Ramazan ve Kurban Bayramı tarihleri henüz takvimde yok (Faz 2).
 - Ek motoru: istisna listeleri (Kemal'e, saate, kitabı/topu) yaygın sözcükleri kapsar; yeni istisna çıkarsa `js/core/tr.js` içindeki listelere eklenir.
 
@@ -279,6 +289,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.6 | 2026-10-20 | Adım 1.6: kayıt sistemi — `kayitbicim.js` (zarf, sağlama, doğrulama), `migration.js` (adım altyapısı), `kayitdeposu.js` (iki depo, onarım, yedekten kurtarma, 5 yedek sınırı, silme/geri dönüşte önce yedek), `depolama.js` (IndexedDB strict + localStorage, IndexedDB yoksa tam localStorage), `kayit.js` (otomatik kayıt, birleştirme, arka planda kayıt, kalıcı izin), Kayıtlar ekranı (3 yuva, geç, yeni oyun, yedekler, sil, depolama durumu). Hata düzeltmesi: liste sayfalarında içerik taşınca bloklar sıkışıp görünmez oluyordu (1.4'ten beri). 196 test (300 adımlık bozulma stres testi dahil). |
 | 0.0.5 | 2026-10-20 | Adım 1.5: `zaman.js` (gerçek takvim, dilimler, mevsim, yaş, özel günler), `simulasyon.js` (saatlik değişim, ruh hedefi, sağlık, uyku planı ve düzeni, eşik uyarıları), `durum.js` (kayıt şeması, kayıtlı RNG akışları, aksiyon/anlatım geçmişi), `aksiyon.js`, `oyun.js`; veri: simulasyon, aksiyonlar (10 aksiyon, her biri 2–4 metin), takvim (resmi tatiller). Deneme sahnesi kaldırıldı. Ek motoruna saat desteği (07:00'ye, 23:30'a). 177 test. |
 | 0.0.4 | 2026-10-20 | Adım 1.4: arayüz iskeleti — durum çubuğu (dokununca ayrıntı paneli), 5 sekme, alttan panel, anlatım akışı (yazı hızı, atlama, geçmiş), seçenek kartları (maliyet, uzun basma), kısayollar, tema/yazı/hız/animasyon ayarları, safe-area, zoom ve aşağı çekme engeli, klavye takibi. Geçici deneme sahnesi. |
 | 0.0.3 | 2026-10-20 | Adım 1.3: manifest, service worker (tam çevrimdışı, otomatik dosya listesi), ikonlar, 11 iPhone açılış görseli, HTML açılış ekranı, güncelleme bandı. Alışkanlık sistemi kullanıcı isteğiyle iptal. |

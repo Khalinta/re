@@ -1,7 +1,8 @@
 // Giriş noktası: açılış ekranı, service worker kaydı ve güncelleme akışı.
 import { yukle as ayarlariYukle } from './ayarlar.js';
 import { arayuzKur } from './ui/arayuz.js';
-import { simdiEkrani, denemeyiBaslat } from './ui/ekranlar/simdi.js';
+import { simdiEkrani, paragraflariGoster, menuyuGoster } from './ui/ekranlar/simdi.js';
+import * as oyun from './oyun.js';
 import { telefonEkrani, sehirEkrani, hayatimEkrani } from './ui/ekranlar/yertutucu.js';
 import { dahaFazlaEkrani } from './ui/ekranlar/dahafazla.js';
 
@@ -71,6 +72,14 @@ async function basla() {
   const [, sw] = await Promise.all([cssYukle('./css/temel.css'), swKur().catch(h => ({ durum: 'hata', hata: h }))]);
   if (sw.durum === 'guncelleniyor') return;
 
+  try {
+    await oyun.veriYukle();
+  } catch (hata) {
+    clearTimeout(window.__acilisZamanlayici);
+    $('#acilis-mesaj').textContent = 'Oyun verisi yüklenemedi: ' + hata.message;
+    return;
+  }
+
   const arayuz = arayuzKur($('#uygulama'), {
     simdi: simdiEkrani,
     telefon: telefonEkrani,
@@ -78,8 +87,16 @@ async function basla() {
     hayatim: hayatimEkrani,
     dahaFazla: dahaFazlaEkrani,
   });
-  denemeyiBaslat(v => arayuz.durum.guncelle(v));
+
+  oyun.dinle((durum, paragraflar) => {
+    arayuz.durum.guncelle(oyun.durumCubuguVerisi());
+    if (paragraflar.length) paragraflariGoster(paragraflar);
+  });
+  // Kayıt sistemi (1.6) gelene kadar her açılışta yeni oyun başlar
+  oyun.yeniOyun();
   setTimeout(acilisiKapat, 500);
+  await paragraflariGoster([]);
+  menuyuGoster();
 }
 
 basla();

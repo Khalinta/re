@@ -1,0 +1,147 @@
+{
+  "_aciklama": "Temel günlük aksiyonlar. sure: dakika, tur: zamanın nasıl geçtiği (normal/dinlenme/agir/uyku), enerji ve para: ek harcama, etki: aksiyon bitince durumlara eklenen değer, dilimler: hangi dilimlerde yapılabildiği (yoksa her zaman), metin: rastgele seçilen anlatım çeşitleri. Faz 1.8'den sonra 'dilimler' yerine genel 'kosul' alanı da kullanılabilir.",
+
+  "aksiyonlar": [
+    {
+      "id": "uyu",
+      "ad": "Uyu",
+      "ozel": "uyku",
+      "kisayol": true,
+      "metin": {
+        "gece": [
+          "Işığı kapatıyorsun. Tavandaki çatlak karanlıkta bile seçiliyor; sayarken uyuyakalıyorsun.",
+          "Yastığı iki kez katlayıp başının altına sıkıştırıyorsun. Uyku, beklediğinden çabuk geliyor.",
+          "Dışarıda bir köpek havlıyor, sonra bir motor geçiyor, sonra hiçbir şey."
+        ],
+        "gunduz": [
+          "Perdeyi çekip kanepeye uzanıyorsun. Gün ortasında uyumak hep biraz suçluluk gibi.",
+          "Kısa bir kestirme niyetiyle gözlerini kapatıyorsun."
+        ],
+        "stresli": [
+          "Uyumaya çalışıyorsun ama aklın durmuyor. Gece birkaç kez uyanıp telefona bakıyorsun.",
+          "Yatakta dönüp duruyorsun. Uyku geliyor, gidiyor, yine geliyor."
+        ],
+        "uyanis": [
+          "Gözünü açtığında perdenin aralığından ince bir ışık sızıyor.",
+          "Alarmdan önce uyanıyorsun; bir süre tavana bakıp bugünün ne getireceğini düşünüyorsun.",
+          "Ağzın kurumuş, boynun tutulmuş. Ama uyumuşsun, o da bir şey."
+        ]
+      }
+    },
+    {
+      "id": "dinlen",
+      "ad": "Biraz uzan, dinlen",
+      "sure": 60,
+      "tur": "dinlenme",
+      "etki": { "stres": -2 },
+      "metin": [
+        "Kanepeye uzanıp hiçbir şey yapmadan duruyorsun. Bazen en zor iş bu.",
+        "Gözlerini kapatıp nefesini dinliyorsun. Bir süre sonra omuzların kulaklarından aşağı iniyor.",
+        "Tavana bakıyorsun. Tavan da sana bakıyor. Anlaşmışsınız gibi."
+      ]
+    },
+    {
+      "id": "yemek_hazirla",
+      "ad": "Evde bir şeyler pişir",
+      "alt": "Ucuz ve doyurucu; ama zaman alır.",
+      "sure": 45,
+      "para": 80,
+      "etki": { "aclik": -50, "ruh": 3 },
+      "metin": [
+        "Dolapta iki yumurta, yarım soğan ve bir domates buluyorsun. Menemen olmasa da menemene benzer bir şey çıkıyor.",
+        "Makarnayı haşlayıp üstüne biraz salça, biraz pul biber. Öğrenci evlerinin klasik yemeği; hâlâ iş görüyor.",
+        "Mercimeği ocağa koyup başında bekliyorsun. Mutfağa yayılan koku, annenin evini hatırlatıyor bir an."
+      ]
+    },
+    {
+      "id": "atistir",
+      "ad": "Ayakta bir şeyler atıştır",
+      "alt": "Çabuk ama yarım yamalak.",
+      "sure": 10,
+      "para": 40,
+      "etki": { "aclik": -25 },
+      "metin": [
+        "Ekmeğin arasına bir dilim peynir koyup ayakta yiyorsun. Doymuyorsun ama açlık da susuyor.",
+        "Dolabın kapısını açık bırakıp ne varsa ağzına atıyorsun. Kimse görmüyor, neyse ki.",
+        "Bir paket bisküviyi çayla bitiriyorsun. Sağlıklı değil, ama şu an bu kadar."
+      ]
+    },
+    {
+      "id": "dus",
+      "ad": "Duş al",
+      "sure": 20,
+      "etki": { "hijyen": 60, "ruh": 3, "stres": -3 },
+      "metin": [
+        "Sıcak su önce yakıyor, sonra iyi geliyor. Aynadaki buğuyu elinle silip kendine bakıyorsun.",
+        "Şofben bir öksürüyor, bir duruyor; sonunda ılık bir su akıyor. Yetiyor.",
+        "Duştan çıkınca insan biraz yeni gibi oluyor. Biraz."
+      ]
+    },
+    {
+      "id": "cay",
+      "ad": "Çay demle",
+      "sure": 15,
+      "para": 5,
+      "etki": { "enerji": 4, "ruh": 2 },
+      "metin": [
+        "Demlik fokurdarken mutfağı ince bir koku sarıyor. İlk yudum her şeye rağmen güzel.",
+        "Çayı tavşan kanı tutturuyorsun. Küçük bir zafer ama zafer.",
+        "Bardağı iki elinle tutup pencerenin önünde içiyorsun. Sıcaklık parmaklarından içine yayılıyor."
+      ]
+    },
+    {
+      "id": "yuruyus",
+      "ad": "Mahallede yürüyüşe çık",
+      "alt": "Kafanı dağıtır.",
+      "sure": 45,
+      "enerji": 6,
+      "etki": { "stres": -10, "ruh": 5 },
+      "dilimler": ["sabah", "ogle", "aksam"],
+      "metin": [
+        "Sokakları rastgele dolaşıyorsun. Bir fırının önünden geçerken taze ekmek kokusu adımlarını yavaşlatıyor.",
+        "Parktaki bankta oturan iki yaşlı adam bir şey hakkında hararetle tartışıyor. Ne olduğunu duyamıyorsun ama ikisi de haklı gibi.",
+        "Yürüdükçe düşünceler sıraya giriyor. Hepsi çözülmüyor ama en azından itişmiyorlar.",
+        "Köşedeki manavın kasaları kaldırıma taşmış. Biri sana gülümsüyor, sen de karşılık veriyorsun; ikiniz de şaşırıyorsunuz."
+      ]
+    },
+    {
+      "id": "pencere",
+      "ad": "Pencereden dışarı bak",
+      "sure": 10,
+      "tur": "dinlenme",
+      "etki": { "ruh": 1 },
+      "metin": [
+        "Karşı apartmanda biri balkona çamaşır asıyor. Mandalları ağzına almış, bir yandan da telefonla kavga ediyor.",
+        "Bir kedi, park etmiş bir arabanın kaputunda güneşleniyor. Dünyanın en dertsiz canlısı.",
+        "Çöp kamyonu geçiyor; arkasından iki çocuk koşuyor, neden koştuklarını kendileri de bilmiyor.",
+        "Sokak lambası yanıp sönüyor. Belediyeye kaç kez yazıldığını mahallede herkes biliyor."
+      ]
+    },
+    {
+      "id": "ev_topla",
+      "ad": "Evi topla",
+      "alt": "Dağınıklık insanın içine de siner.",
+      "sure": 60,
+      "tur": "agir",
+      "etki": { "ruh": 5, "stres": -4, "ozguven": 1 },
+      "metin": [
+        "Bulaşıkları yıkıyor, yerleri süpürüyorsun. Bitince oda büyümüş gibi geliyor.",
+        "Yığılmış kıyafetleri katlıyorsun. Bir ceketin cebinden eski bir sinema bileti çıkıyor; kiminle gittiğini hatırlayınca bir süre elinde tutuyorsun.",
+        "Çöpü çıkarıyor, camı açıyorsun. Temiz hava girince ev de sen de nefes alıyorsunuz."
+      ]
+    },
+    {
+      "id": "telefon_kaydir",
+      "ad": "Telefonda vakit öldür",
+      "alt": "Zaman çabuk geçer. Fazla çabuk.",
+      "sure": 60,
+      "tur": "dinlenme",
+      "etki": { "ruh": -1, "stres": 1 },
+      "metin": [
+        "Ekranı kaydırıyorsun. Birileri tatilde, birileri nişanlanmış, birileri yeni araba almış. Bir saat sonra başını kaldırdığında boynun ağrıyor.",
+        "Bir videodan ötekine geçiyorsun. Ne izlediğini sorsalar söyleyemezsin.",
+        "Eski bir arkadaşın paylaşımına takılıyorsun. Beğen tuşuna basmakla basmamak arasında epey kalıyorsun."
+      ]
+    }
+  ]
+}

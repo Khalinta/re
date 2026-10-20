@@ -1,0 +1,71 @@
+{
+  "_aciklama": "Durumların saatlik değişimi, ruh hali ve sağlık kuralları, eşik uyarıları. Koda dokunmadan denge buradan ayarlanır. Tüm durumlar 0-100 arası.",
+
+  "durumlar": {
+    "saglik":  { "ad": "Sağlık",      "baslangic": 80, "ters": false, "aciklama": "Hastalık, yorgunluk ve ihmal bunu yer." },
+    "enerji":  { "ad": "Enerji",      "baslangic": 70, "ters": false, "aciklama": "Her iş enerji ister. Uyku ve yemek geri getirir." },
+    "aclik":   { "ad": "Açlık",       "baslangic": 30, "ters": true,  "aciklama": "Yükseldikçe ruh hali ve sağlık bozulur." },
+    "hijyen":  { "ad": "Hijyen",      "baslangic": 75, "ters": false, "aciklama": "Düşükse insanlar fark eder." },
+    "ruh":     { "ad": "Ruh hali",    "baslangic": 50, "ters": false, "aciklama": "Açlık, stres ve dağınıklık aşağı çeker; küçük güzellikler yukarı." },
+    "stres":   { "ad": "Stres",       "baslangic": 45, "ters": true,  "aciklama": "Uzun süre yüksek kalırsa sağlığa vurur." },
+    "uyku":    { "ad": "Uyku düzeni", "baslangic": 50, "ters": false, "aciklama": "Düzenli saatlerde yeterli uyumak düzeni iyileştirir." },
+    "ozguven": { "ad": "Öz güven",    "baslangic": 40, "ters": false, "aciklama": "Küçük başarılar besler, reddedilmek yıpratır." }
+  },
+
+  "saatlik": {
+    "normal":   { "enerji": -4, "aclik": 5, "hijyen": -2,   "stres": 0 },
+    "dinlenme": { "enerji": -1, "aclik": 4, "hijyen": -1,   "stres": -3 },
+    "agir":     { "enerji": -9, "aclik": 8, "hijyen": -5,   "stres": 2 },
+    "uyku":     { "enerji": 12, "aclik": 2, "hijyen": -0.5, "stres": -2 }
+  },
+
+  "ruh": {
+    "temel": 60,
+    "yaklasmaSaatlik": 0.1,
+    "etkenler": [
+      { "durum": "aclik",   "ustu": 60, "carpan": -0.6 },
+      { "durum": "stres",   "ustu": 50, "carpan": -0.5 },
+      { "durum": "hijyen",  "alti": 40, "carpan": -0.3 },
+      { "durum": "enerji",  "alti": 25, "carpan": -0.5 },
+      { "durum": "saglik",  "alti": 50, "carpan": -0.5 },
+      { "durum": "ozguven", "ustu": 60, "carpan": 0.2 },
+      { "durum": "uyku",    "alti": 30, "carpan": -0.2 }
+    ]
+  },
+
+  "saglik": {
+    "iyilesmeSaatlik": 0.1,
+    "etkenler": [
+      { "durum": "aclik",  "ustu": 90, "saatlik": -1 },
+      { "durum": "enerji", "alti": 5,  "saatlik": -0.5 },
+      { "durum": "stres",  "ustu": 85, "saatlik": -0.2 },
+      { "durum": "hijyen", "alti": 10, "saatlik": -0.2 }
+    ]
+  },
+
+  "uyku": {
+    "uyanma": { "saat": 7, "dakika": 0 },
+    "enAzGeceUykusuDk": 360,
+    "enCokGeceUykusuDk": 600,
+    "gunduzUykusuDk": 120,
+    "geceBaslangicSaat": 18,
+    "geceBitisSaat": 5,
+    "duzenliBaslangic": { "en_erken": "21:30", "en_gec": "00:30" },
+    "duzenliSureDk": { "en_az": 420, "en_cok": 570 },
+    "duzenArtis": 8,
+    "duzenAzalis": 6,
+    "stresliUykuEsik": 70,
+    "stresliUykuVerim": 0.7
+  },
+
+  "uyarilar": [
+    { "id": "acikti",   "durum": "aclik",  "yukari": 70, "metin": ["Miden guruldamaya başladı.", "Aklın sürekli yemeğe kayıyor.", "Bir simit olsa şimdi, dünyaları verirdin."] },
+    { "id": "cok_ac",   "durum": "aclik",  "yukari": 90, "metin": ["Başın dönüyor. Bir şey yemen lazım, hem de hemen.", "Ellerin hafif titriyor. Açlık artık şaka değil."] },
+    { "id": "yorgun",   "durum": "enerji", "asagi": 20,  "metin": ["Göz kapakların ağırlaştı.", "Bir yere otursan orada uyuyakalacaksın."] },
+    { "id": "bitkin",   "durum": "enerji", "asagi": 5,   "metin": ["Ayakta duracak halin kalmadı."] },
+    { "id": "kirli",    "durum": "hijyen", "asagi": 25,  "metin": ["Üstündeki tişört artık kendi hikayesini anlatıyor.", "Bir duş fena olmazdı. Hatta şart."] },
+    { "id": "stresli",  "durum": "stres",  "yukari": 80, "metin": ["Göğsünde bir sıkışma var. Her şey üstüne geliyor gibi.", "Çenen kasılmış; ne zamandır öyle olduğunu fark etmemişsin."] },
+    { "id": "keyifli",  "durum": "ruh",    "yukari": 75, "metin": ["İçinden bir şarkı mırıldanıyorsun, farkında olmadan.", "Bugün bir şeyler yolunda gibi."] },
+    { "id": "keyifsiz", "durum": "ruh",    "asagi": 25,  "metin": ["Hiçbir şey yapmak istemiyorsun. Hiçbir şey.", "Tavana bakmak bile yorucu geliyor."] }
+  ]
+}

@@ -10,9 +10,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.4 Arayüz iskeleti (sekmeler, durum çubuğu, alttan panel, anlatım akışı, seçenekler, uzun basma, ayarlar)
-- **Sıradaki adım:** 1.5 Oyun durumu, takvim, zaman dilimleri, durumlar, aksiyon döngüsü — **orta**
-- **Not:** Şimdi ekranındaki sahne geçici bir denemedir (`js/ui/ekranlar/simdi.js` alt kısmı); 1.5'te gerçek durumla değiştirilecek.
+- **Son tamamlanan adım:** 1.5 Oyun durumu, takvim, dilimler, durum simülasyonu, aksiyon döngüsü (10 temel aksiyon)
+- **Sıradaki adım:** 1.6 Kayıt sistemi (IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration) — **büyük**
+- **Not:** Kayıt sistemi gelene kadar uygulama her açılışta yeni oyun başlatır (bilerek).
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -23,8 +23,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.2 | Seed RNG, Türkçe ek motoru, biçimlendirme (para/tarih/saat), tr-TR sıralama, Node testleri | orta | ✅ |
 | 1.3 | PWA kabuğu: manifest, service worker (çevrimdışı), ikon, açılış ekranı | orta | ✅ |
 | 1.4 | Arayüz iskeleti: alt sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar, yazı boyutu, safe-area | büyük | ✅ |
-| 1.5 | Oyun durumu, takvim, zaman dilimleri, durumlar (enerji, açlık, stres...), aksiyon döngüsü | orta | ⏳ |
-| 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ⬜ |
+| 1.5 | Oyun durumu, takvim, zaman dilimleri, durumlar (enerji, açlık, stres...), aksiyon döngüsü | orta | ✅ |
+| 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ⏳ |
 | 1.7 | Dışa/içe aktarma: dosya + sıkıştırılmış metin kodu, sağlama (checksum) | orta | ⬜ |
 | 1.8 | Olay motoru A: bayraklar/sayaçlar, koşul dili, koşul açıklayıcı ("neden tetiklenmedi") | orta | ⬜ |
 | 1.9 | Olay motoru B: ağırlıklı seçim, cooldown, çok aşamalı olaylar, beceri/şans kontrolleri, zamanlayıcılar, zincirler, metin şablonları, çoklu etki | büyük | ⬜ |
@@ -68,6 +68,10 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K17 | **Arayüz bileşenleri** (`js/ui/`): `panel.js` (alttan panel + onay + bilgi; üst üste açılabilir, sürükleyip kapatılır), `anlatim.js` (sıralı yazım, dokununca atla, 300 paragraf geçmiş, "Yeni ↓" işareti), `secenekler.js` (tam genişlik, maliyet etiketleri, çift dokunma kilidi, uzun basınca ayrıntı), `uzunbas.js`, `durumcubugu.js`, `arayuz.js` (sekmeler, klavye takibi). Paragraf türleri: anlati, icses, konusma, sistem, ayrac, secim. | Ekranlar bu parçalarla kurulur; olay motoru (1.9) doğrudan `anlatim.ekle` ve `secenekleriGoster`'i besleyecek. |
 | K18 | **Görünüm ayarları (tema, yazı boyutu, metin hızı, animasyon) cihaz ayarıdır, oyun kaydı değildir** → localStorage. Okunamazsa varsayılan. Tema: otomatik / karanlık / aydınlık; "hareketi azalt" sistem ayarına uyar, elle de açılır. | Ayar kaybolsa bile oyun etkilenmez; kayıt dosyasını şişirmez. |
 | K19 | **Başparmak bölgesi:** seçenekler ve kısayollar ekranın altında; liste sayfalarında içerik alta itilir, başlık üstte kalır. Butonlar en az 44px. | Tek elle oynanış (bölüm 14). |
+| K20 | **Yeni oyunun başlangıç tarihi = gerçek bugünün Türkiye tarihi, saat 08:00.** Tarih kayda yazılır; sonrası oyun zamanıyla akar. Geliştirici panelinden başka tarih seçilebilecek. | Mevsim ve bayramlar oyuncunun gerçek takvimiyle örtüşür; deterministik kalır çünkü tarih kayıtta durur. |
+| K21 | **Durum simülasyonu tamamen veriyle:** `data/simulasyon.json` (durumlar, saatlik değişim türleri: normal / dinlenme / ağır / uyku, ruh hali hedefi ve etkenleri, sağlık etkenleri, uyku kuralları, eşik uyarıları). Ruh hali bir hedefe doğru yavaşça kayar (ani zıplamaz). Eşik uyarıları sadece eşik geçildiği anda bir kez çıkar, iç ses olarak yazılır. | Denge koda dokunmadan ayarlanır; Faz 7 denge çalışması sadece bu dosyada. |
+| K22 | **Aksiyonlar veriyle:** `data/aksiyonlar.json`. Alanlar: id, ad, alt, sure, tur, enerji (ek harcama), para, etki, dilimler, ozel ("uyku"), kisayol, metin (en az 2 çeşit — test zorunlu kılar). Uyku: gece (18–05) sabah 07:00'ye kadar, en az 6 en çok 10 saat; gündüz 2 saat; stresliyken daha az dinlendirir; düzenli saatte yatmak uyku düzenini artırır. | Faz 4–6'daki yeni aksiyonlar sadece veri eklenerek gelir. |
+| K23 | **Rastgele akışların hali kayda yazılır** (`durum.rng[alan]`, `rngAl()`): kayıttan dönünce aynı seed aynı sonuçları vermeye devam eder. Test: aynı seed + aynı aksiyon dizisi = birebir aynı metin ve durum. | Seed tabanlı tekrar üretilebilirlik (hata raporlarında sorunu birebir yeniden oluşturabilmek için de şart). |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -88,15 +92,18 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ├── icons/                  Uygulama ikonları, açılış ekranı görselleri
 ├── js/
 │   ├── main.js             Giriş noktası: açılış, service worker, güncelleme
+│   ├── oyun.js             Oyun denetleyicisi: veri yükleme, durum, aksiyon çalıştırma, arayüze bildirim
 │   ├── surum.js            Oyun sürümü
-│   ├── core/               Saf mantık: rng, tr (ek motoru), format, zaman, durum, kayıt, olay motoru
+│   ├── core/               Saf mantık: rng, tr (ek motoru), format, zaman, simulasyon, durum, aksiyon (+ kayıt, olay motoru)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları (simdi, dahafazla, yertutucu)
 │   └── dev/                Gizli geliştirici paneli
 ├── data/
+│   ├── simulasyon.json     Durumların değişim kuralları, eşik uyarıları (1.5)
+│   ├── aksiyonlar.json     Temel günlük aksiyonlar (1.5)
+│   ├── takvim.json         Resmi tatiller (1.5); bayram tarihleri ve okul takvimi Faz 2'de
 │   ├── ekonomi.json        Tüm fiyatlar (asgari ücrete oranlı) — Faz 2
-│   ├── takvim.json         Resmi tatiller, bayram tarihleri, okul takvimi — Faz 2
 │   ├── dunya/              Dünya kitabı: şehir, semtler, ulaşım, mekanlar, kurumlar — Faz 2
 │   ├── olaylar/            Olay dosyaları (her dosya bir tema) — Faz 5
 │   ├── hikaye/             Başlangıç hikayesi parçaları — Faz 3
@@ -184,7 +191,15 @@ Sabit arka plan (aile, geçmiş, sır, konuşma tarzı...) kayda yazılmaz; `see
   "gereksinim": { "beceri": { "iletisim": 10 } }, "mulakat": "mulakat_hizmet", "mesai": ["ogle", "aksam"] }
 ```
 
-### Kayıt (1.6'da kesinleşecek)
+### Aksiyon (1.5 — kesin)
+
+```json
+{ "id": "yemek_hazirla", "ad": "Evde bir şeyler pişir", "alt": "Ucuz ve doyurucu; ama zaman alır.",
+  "sure": 45, "tur": "normal", "para": 80, "enerji": 0, "etki": { "aclik": -50, "ruh": 3 },
+  "dilimler": ["sabah", "ogle", "aksam"], "metin": ["...", "...", "..."] }
+```
+
+### Kayıt (1.5'te oluştu, 1.6'da kesinleşecek — `js/core/durum.js` → `yeniDurum`)
 
 ```json
 {
@@ -234,6 +249,8 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 
 - Ek motoru: 3. tekil iyelikle biten adlarda (Kahvesi, Sarayı, Belediyesi) `{ iyelik: true }` verilmeli; motor bunu kendisi anlayamaz. Veri dosyalarında mekan adlarına `iyelik` alanı konacak.
 - Ek motoru: alışılmadık okunuşlu yabancı adlarda `{ okunus: '...' }` verilmeli (Bordeaux → bordo).
+- Kayıt sistemi (1.6) gelene kadar her açılış yeni oyun başlatır.
+- Ramazan ve Kurban Bayramı tarihleri henüz takvimde yok (Faz 2).
 - Ek motoru: istisna listeleri (Kemal'e, saate, kitabı/topu) yaygın sözcükleri kapsar; yeni istisna çıkarsa `js/core/tr.js` içindeki listelere eklenir.
 
 ## 📝 YAPILACAKLAR / FİKİR HAVUZU
@@ -262,6 +279,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.5 | 2026-10-20 | Adım 1.5: `zaman.js` (gerçek takvim, dilimler, mevsim, yaş, özel günler), `simulasyon.js` (saatlik değişim, ruh hedefi, sağlık, uyku planı ve düzeni, eşik uyarıları), `durum.js` (kayıt şeması, kayıtlı RNG akışları, aksiyon/anlatım geçmişi), `aksiyon.js`, `oyun.js`; veri: simulasyon, aksiyonlar (10 aksiyon, her biri 2–4 metin), takvim (resmi tatiller). Deneme sahnesi kaldırıldı. Ek motoruna saat desteği (07:00'ye, 23:30'a). 177 test. |
 | 0.0.4 | 2026-10-20 | Adım 1.4: arayüz iskeleti — durum çubuğu (dokununca ayrıntı paneli), 5 sekme, alttan panel, anlatım akışı (yazı hızı, atlama, geçmiş), seçenek kartları (maliyet, uzun basma), kısayollar, tema/yazı/hız/animasyon ayarları, safe-area, zoom ve aşağı çekme engeli, klavye takibi. Geçici deneme sahnesi. |
 | 0.0.3 | 2026-10-20 | Adım 1.3: manifest, service worker (tam çevrimdışı, otomatik dosya listesi), ikonlar, 11 iPhone açılış görseli, HTML açılış ekranı, güncelleme bandı. Alışkanlık sistemi kullanıcı isteğiyle iptal. |
 | 0.0.2 | 2026-10-20 | Adım 1.2: `js/core/rng.js` (seed, alt akışlar, ağırlıklı seçim), `js/core/tr.js` (ek motoru, tr-TR harf/sıralama), `js/core/format.js` (para, tarih, saat, süre), 154 Node testi. Ek fikir kararları işlendi. |

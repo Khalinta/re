@@ -1,0 +1,19 @@
+{
+  "_aciklama": "Resmi tatiller ve özel günler. 'sabit': her yıl aynı gün (AA-GG). 'degisken': ay takvimine bağlı bayramlar, yıl yıl tarih listesi. Ramazan ve Kurban Bayramı tarihleri Faz 2'de Diyanet takvimiyle doğrulanarak eklenecek. tur: resmi (tatil), ozel (tatil değil ama anılır).",
+
+  "sabit": [
+    { "tarih": "01-01", "ad": "Yılbaşı", "tur": "resmi" },
+    { "tarih": "02-14", "ad": "Sevgililer Günü", "tur": "ozel" },
+    { "tarih": "03-08", "ad": "Dünya Kadınlar Günü", "tur": "ozel" },
+    { "tarih": "04-23", "ad": "Ulusal Egemenlik ve Çocuk Bayramı", "tur": "resmi" },
+    { "tarih": "05-01", "ad": "Emek ve Dayanışma Günü", "tur": "resmi" },
+    { "tarih": "05-19", "ad": "Atatürk'ü Anma, Gençlik ve Spor Bayramı", "tur": "resmi" },
+    { "tarih": "07-15", "ad": "Demokrasi ve Millî Birlik Günü", "tur": "resmi" },
+    { "tarih": "08-30", "ad": "Zafer Bayramı", "tur": "resmi" },
+    { "tarih": "10-29", "ad": "Cumhuriyet Bayramı", "tur": "resmi" },
+    { "tarih": "11-10", "ad": "Atatürk'ü Anma Günü", "tur": "ozel" },
+    { "tarih": "11-24", "ad": "Öğretmenler Günü", "tur": "ozel" }
+  ],
+
+  "degisken": []
+}

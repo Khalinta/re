@@ -127,6 +127,9 @@ function okunusBul(kelime) {
   if (typeof kelime === 'number') return sayiOkunusu(String(kelime).replace('.', ','));
   const s = String(kelime).trim();
   const son = s.split(/\s+/).pop();
+  // Saat: "07:00" -> yedi, "23:30" -> otuz, "14:05" -> beş
+  const saatEslesme = son.match(/^(\d{1,2})[:.](\d{2})$/);
+  if (saatEslesme) return sayiSonSozcuk(Number(saatEslesme[2]) || Number(saatEslesme[1]));
   if (/^[%]?[\d.,]+%?(\s*(₺|TL))?$/.test(s) || /^\d[\d.,]*$/.test(son)) return sayiOkunusu(/\d/.test(son) ? son : s);
   if (/₺$/.test(s)) return 'lira';
   // Kısaltma: tamamı büyük harf, en az 2 harf

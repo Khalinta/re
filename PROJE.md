@@ -9,10 +9,10 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 
 ## 🧭 NEREDE KALDIK
 
-- **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.12 hazırlığı — sürüm 0.1.0, alt adreste (/re/) çalışma doğrulandı, yayın adımları ve telefon test listesi yazıldı (aşağıda "Yayın ve telefonda test")
-- **Bekleyen:** Kullanıcının GitHub Pages'i açması ve telefonda test listesini denemesi. Sonuçlara göre çıkan sorunlar düzeltilip Faz 1 kapanır.
-- **Sonra:** Faz 2 — Dünya kitabı ve ekonomi dosyası (adımlara bölünecek; ilk adım şehrin kimliği ve tarihi — **orta**)
+- **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kodu bitti; kapanışı kullanıcının telefon testine bağlı)
+- **Son tamamlanan adım:** 2.1 Şehrin kimliği (Karaliman), coğrafya, iklim, kimlik, tarih, 23 olaylık zaman çizelgesi, 14 semtlik iskelet; `core/dunya.js` denetimi; şablonlarda `{sehir.ad}`
+- **Sıradaki adım:** 2.2 Semtlerin ayrıntıları (`data/dunya/semtler.json`): karakter, sosyoekonomik durum, kira katsayısı, kim yaşıyor, ünlü yerler, gerilimler ve semtler arası ilişkiler — **orta**
+- **Bekleyen (Faz 1):** Kullanıcının GitHub Pages'i açması ve telefon test listesi ("Yayın ve telefonda test"). Bir sorun bildirilirse Faz 2'ye ara verilip önce o düzeltilir.
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -33,12 +33,25 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.11 | Gizli geliştirici paneli | orta | ✅ |
 | 1.12 | Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı | küçük | ⏳ kullanıcı testi bekleniyor |
 
+### Faz 2 adım listesi
+
+| Adım | İçerik | Boyut | Durum |
+|---|---|---|---|
+| 2.1 | Şehrin kimliği, coğrafya, iklim, tarih, zaman çizelgesi (hikaye kancaları), semt iskeleti, dünya denetimi | orta | ✅ |
+| 2.2 | Semt ayrıntıları: karakter, sosyoekonomik durum, kira katsayısı, sakinler, ünlü yerler, gerilimler, semtler arası ilişkiler | orta | ⏳ |
+| 2.3 | Ulaşım ağı: hatlar (metro, otobüs, vapur, dolmuş), duraklar, süreler, ücretler, yol bulma | orta | ⬜ |
+| 2.4 | Kurumlar, şirketler (iş ilanlarına kaynak), yerel figürler, kurgusal suç örgütleri ve bölgeleri | büyük | ⬜ |
+| 2.5 | Mekanlar: sahip (NPC tohumu), saatler, müşteri profili, geçmiş, dedikodular, fırsatlar | büyük | ⬜ |
+| 2.6 | Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkan açılıp kapanması, fiyatlar, şehir olayları) | orta | ⬜ |
+| 2.7 | Ekonomi dosyası (asgari ücrete oranlı her şey), PROJE.md ekonomi tablosunun kesinleşmesi | orta | ⬜ |
+| 2.8 | Konum sistemi (kayıt şeması v2 + migration), Şehir sekmesi arayüzü, semtler arası gezinme | büyük | ⬜ |
+
 ### Fazlar
 
 | Faz | İçerik | Durum |
 |---|---|---|
-| 1 | Altyapı (+ suç dünyası için koşul/etki türleri: 1.8–1.9) | ⏳ devam ediyor |
-| 2 | Dünya kitabı + ekonomi dosyası (+ örgütler, bölgeler, emniyet/adliye/cezaevi kurumları, suç ekonomisi) | ⬜ |
+| 1 | Altyapı (+ suç dünyası için koşul/etki türleri: 1.8–1.9) | ✅ kod bitti · ⏳ telefon testi bekleniyor |
+| 2 | Dünya kitabı + ekonomi dosyası (+ örgütler, bölgeler, emniyet/adliye/cezaevi kurumları, suç ekonomisi) | ⏳ devam ediyor |
 | 3 | Başlangıç hikayesi motoru, açılış sahneleri, NPC üretimi (+ örgüt hiyerarşisi/lider NPC'leri, suçla bağlantılı geçmiş bileşenleri) | ⬜ |
 | 4 | İş, para, borç, barınma, eşya; ilişkiler, telefon ekranı (+ örgüt, aranma, adalet, hapishane, kara para sistemleri) | ⬜ |
 | 5 | Olay içeriği (150+ derin olay, hikaye yayları) — sadece veri (+ suç dünyası olayları, giriş ve çıkış yayları, hapishane dönemi) | ⬜ |
@@ -94,6 +107,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K42 | **Hata raporu (`core/rapor.js`, saf):** sürümler, seed, cihaz (tarayıcı, ekran, ana ekrandan mı, saat dilimi, depolama, service worker), tüm hatalar (yığın dahil, oyun zamanıyla), kayıt sistemi uyarıları, durum özeti (zaman, para, durumlar, beceriler, etkin olay, bayraklar, zamanlayıcılar, yaylar, olay geçmişi), son 50 hamle (olay seçimleri dahil), son anlatım ve **o anki durumun kayıt kodu**. Rapordaki kodla durum birebir yeniden kurulabilir. | Kullanıcı raporu yapıştırınca sorunu yeniden oluşturabilmek. |
 | K43 | **Gizli geliştirici paneli (`js/dev/panel.js`):** Daha Fazla → Sürüm satırına 2,5 sn içinde 7 dokunuş (4. dokunuştan sonra "N dokunuş kaldı"). Bölümler: Genel (seed kopyala, kayıt kodu, belirli seed + başlangıç tarihiyle yeni oyun, zaman atlat +1 saat/gün/hafta/ay, isteğe bağlı simülasyonlu, etkin olayı iptal), Durum (para ekle/çıkar, tüm durumlar kaydırıcıyla, beceriler), Olaylar (arama, uygunluk ✓/✗, "Neden?", koşulsuz tetikle, zamanlayıcılar: şimdi çalıştır/sil, yaylar: sıfırla), Bayrak (kalıcı/süreli/NPC, sayaçlar, ekle/sil), NPC (ilişki ve anılar; arka planlar Faz 3), Hata (liste, rapor kopyala, deneme hatası). Her değişiklik `gelistiriciDegistir` ile geri alınabilir yapılır, anlatıma "[geliştirici]" notu düşer ve hemen kaydedilir. | Bölüm 3. |
 | K44 | **Kod denetimi:** `eslint.config.js` + `tests/lint.test.js` (ESLint kuruluysa çalışır): tanımsız ad, gölgelenen ad, kullanılmayan değişken, yinelenen anahtar. | 1.11'de bulunan "kayit" gölgeleme hatası testlerden kaçmıştı; bu tür hatalar artık her test çalıştırmasında yakalanır. |
+| K45 | **Şehir: Karaliman** (kurgusal; ad `data/dunya/sehir.json` → `ad` alanından tek yerden değişir). Gerçek Türkiye'de, gerçek bölgede (Marmara), kurgusal şehir; gerçek ülke olayları (salgın, kur şokları) arka planda kalabilir ama şehre özgü kişiler, şirketler, kulüpler, felaketler kurgusaldır. | Gerçek kişi/kuruma gönderme yapmadan "son derece sağlam temelli" bir dünya. |
+| K46 | **Dünya kitabının şimdisi = 2026-10-20 (`DUNYA_SIMDISI`).** Zaman çizelgesi bu tarihe kadar olan "geçmiş"tir; oyun içinde dünyanın ilerlemesi (2.6) kayda yazılır, dünya kitabına değil. Hikaye kancaları (`kancalar`) zaman çizelgesi olaylarına bağlıdır; karakter geçmişleri (Faz 3) bunları kullanır ve tarih/yaş tutarlılığı buradan denetlenir. | Geçmişteki olaylar dünya kitabıyla uyumlu olsun (bölüm 5): anılan yer, şirket ve tarih gerçekten var olsun. |
+| K47 | **Adı iyelik ekiyle biten yerlere `"iyelik": true`** (Tersaneönü, Sahilyolu; ileride "Çınaraltı Kahvesi" gibi mekanlar). Test, her semt adının bulunma ekiyle doğru çekimlendiğini denetler. | Ek motoru iyeliği kendisi anlayamaz (1.2'de not edildi). |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -124,7 +140,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   │                       kayitbicim (zarf, sağlama, doğrulama), kayitdeposu (yuva/yedek mantığı), migration,
 │   │                       aktarim (kayıt kodu, dosya), bayrak (bayrak/sayaç), kosul (koşul dili),
 │   │                       etki (olay sonuçları), olay (olay motoru, zamanlayıcılar), metin (şablon, ton, çeşit),
-│   │                       rapor (hata raporu metni)
+│   │                       rapor (hata raporu metni), dunya (dünya kitabı denetimi ve yardımcıları)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
@@ -134,7 +150,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── aksiyonlar.json     Temel günlük aksiyonlar (1.5)
 │   ├── takvim.json         Resmi tatiller (1.5); bayram tarihleri ve okul takvimi Faz 2'de
 │   ├── ekonomi.json        Tüm fiyatlar (asgari ücrete oranlı) — Faz 2
-│   ├── dunya/              Dünya kitabı: şehir, semtler, ulaşım, mekanlar, kurumlar — Faz 2
+│   ├── dunya/              Dünya kitabı (Faz 2): sehir.json (2.1); semtler, ulaşım, kurumlar, mekanlar sırayla
 │   ├── olay_ayarlari.json  Olayların çıkma sıklığı (1.9a)
 │   ├── yaylar.json         Hikaye yayı tanımları (1.9b)
 │   ├── olaylar/            Olay dosyaları (her dosya bir tema); _liste.json hepsini sayar — içerik Faz 5
@@ -301,6 +317,18 @@ Sabit arka plan (aile, geçmiş, sır, konuşma tarzı...) kayda yazılmaz; `see
 
 ---
 
+## 🌆 DÜNYA: KARALİMAN (özet; ayrıntı `data/dunya/`)
+
+Kurgusal, Marmara kıyısında, 4,18 milyonluk bir liman şehri. Çaybaşı Deresi körfeze dökülür ve şehri ikiye böler: **batı yakası** (eski şehir, liman, tersane, eski sanayi), **doğu yakası** (Cumhuriyet'le büyüyen yeni şehir), **kuzey** (sırtlar: gecekondudan apartmana, fabrikalar, yutulan köyler).
+
+**Semtler (14):** Eski Çarşı, Aşağıliman, Tersaneönü, Marina, Tabakhane, İstasyon (batı) · Cumhuriyet, Çamlık, Sahilyolu, Yamaçevler (doğu) · Bezhane, Kayalıtepe, Kuzey Sanayi, Ilıcaköy (kuzey).
+
+**Hikaye kancaları (zaman çizelgesinden; Faz 3'te karakter geçmişlerine bağlanacak):** mübadil torunu, gecekondu çocuğu, grevci ailesi, Bezhane emeklisi, sel mağduru (2003), tersane işsizi (2008), Demirspor oyuncusu/taraftarı, sakat sporcu, Deryapı mağduru/çalışanı (2018), liman işçisi (2021), kripto mağduru / KoinPazar çalışanı (2022), Tabakhane nöbetçisi (2023), unutulan ünlü / medya çalışanı (Liman TV, 2025).
+
+**Kural:** Zaman çizelgesindeki her olay `DUNYA_SIMDISI` (2026-10-20) öncesidir, tarih sırasındadır ve yalnızca var olan semtlere başvurur (`tests/dunya.test.js`).
+
+---
+
 ## 🚀 YAYIN VE TELEFONDA TEST
 
 **Adres:** https://khalinta.github.io/re/ (depo herkese açık; GitHub Pages ücretsiz).
@@ -457,6 +485,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.1 | 2026-10-20 | Adım 2.1: `data/dunya/sehir.json` (Karaliman: coğrafya, 12 aylık iklim, kimlik, deyişler, mutfak, kulüp, medya, şehir efsaneleri, 7 dönemlik tarih, 23 olaylık zaman çizelgesi ve hikaye kancaları, 14 semt iskeleti), `core/dunya.js` (denetim, semt/kanca yardımcıları), şablonda `{sehir.*}`, giriş metni şehri anıyor. 250 test. |
 | 0.1.0 | 2026-10-20 | Faz 1 sürümü (1.12 hazırlığı): alt adreste (/re/) açılış, service worker kapsamı, çevrimdışı açılış ve kayıt doğrulandı; yayın adımları, Netlify notu ve 13 maddelik telefon test listesi PROJE.md'ye yazıldı. Kullanıcı testi bekleniyor. |
 | 0.0.12 | 2026-10-20 | Adım 1.11: gizli geliştirici paneli (6 bölüm), `oyun.js` geliştirici işlevleri (gelistiriciDegistir, zamanAtla, olayListesi, aktifOlayiIptal, zamanlayiciCalistir), belirli seed/tarihle yeni oyun. Hata düzeltmeleri: ilk ziyarette gereksiz yeniden yükleme; güncelleme bandının çalışmaması (değişken gölgeleme). ESLint denetimi teste eklendi, bulduğu 7 gölgeleme/kullanılmayan değişken temizlendi. 246 test. |
 | 0.0.11 | 2026-10-20 | Adım 1.10: `js/hata.js` (global hata/söz hatası yakalama, bant, hata paneli, açılış hata ekranı, `guvenli` sarmalı, rapor kopyalama), `core/rapor.js`, `geriAlinabilir` (hamle hatasında durumu geri alma), olay başlangıç/seçimleri hamle geçmişine, Daha Fazla → Sorun bildir. Tarayıcıda zorla hata ile denendi: durum geri alındı, yarım hal kaydedilmedi, rapor kopyalandı, oyun sürdü. 245 test. |

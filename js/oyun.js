@@ -8,6 +8,8 @@ import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER } from 
 import { seedUret } from './core/rng.js';
 import { saat, tarih, tarihKisa, GUNLER, AYLAR, sure as sureYaz } from './core/format.js';
 import { kucuk } from './core/tr.js';
+import { dunyaDogrula } from './core/dunya.js';
+import { metinCoz } from './core/metin.js';
 
 export const veri = {};
 let durum = null;
@@ -20,14 +22,18 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
     jsonAl('./data/olay_ayarlari.json'),
     jsonAl('./data/olaylar/_liste.json'),
     jsonAl('./data/yaylar.json'),
+    jsonAl('./data/dunya/sehir.json'),
   ]);
+  veri.dunya = { sehir };
+  const dunyaSorunlari = dunyaDogrula(veri.dunya);
+  if (dunyaSorunlari.length) console.error('[dünya kitabı] tutarsızlık:', dunyaSorunlari);
   veri.yaylar = Object.fromEntries(yaylar.yaylar.map(y => [y.id, y]));
   veri.sim = sim;
   veri.aksiyonlar = aks.aksiyonlar;
@@ -67,9 +73,10 @@ export function yeniOyun({ seed = seedUret(), baslangic = bugunTurkiye() } = {})
   baslangic = baslangic || bugunTurkiye();
   durum = yeniDurum(veri.sim, { seed, baslangic, saat: 8, para: 2000 });
   const t = tarihAl(baslangic, durum.zaman.dakika);
+  const ctx = { durum, veri };
   const giris = paragraflariKaydet([
     ayrac(durum.zaman.dakika, true),
-    { tur: 'anlati', metin: `${tarih(t)}. ${MEVSIMLER[mevsim(t)]}. Küçük bir odada uyanıyorsun.` },
+    ...metinCoz(`${tarih(t)}. ${MEVSIMLER[mevsim(t)]}. {sehir.ad|de}, küçük bir odada uyanıyorsun.`, rngAl(durum, 'metin'), ctx),
     { tur: 'anlati', metin: 'Kim olduğun, buraya nasıl geldiğin henüz yazılmadı; hikaye motoru Faz 3\'te gelecek. Şimdilik günü kendi temponla yaşayabilirsin: ye, uyu, yürü, dinlen. Zaman her şeyde akıyor.' },
     { tur: 'icses', metin: 'Yeniden başlamak için bir sebep lazım değil. Bir sabah yeter.' },
   ]);

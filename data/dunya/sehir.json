@@ -1,0 +1,116 @@
+{
+  "_aciklama": "Dünya kitabı: şehrin kimliği, coğrafyası, tarihi ve zaman çizelgesi. Şehir kurgusaldır; Türkiye'de, Marmara kıyısında bir büyük şehir. Ad tek yerden (ad) değişir. Zaman çizelgesindeki olaylar başlangıç hikayesi motorunun (Faz 3) kancalarıdır: 'kancalar' etiketleri karakter geçmişlerine bağlanır. 'semtler' burada yalnızca iskelettir ('iyelik': true = adı iyelik ekiyle biter, ek motoru 'Tersaneönü'nde' der); ayrıntılar data/dunya/semtler.json'da (2.2).",
+
+  "id": "karaliman",
+  "ad": "Karaliman",
+  "halkAdi": "Karalimanlı",
+  "lakaplar": ["Kara Liman", "Tersane şehri", "Körfezin kızı"],
+  "nufus": 4180000,
+  "nufusYili": 2025,
+
+  "cografya": {
+    "konum": "Marmara kıyısında, kuzeydeki sırtlardan inen Çaybaşı Deresi'nin denize döküldüğü dar bir körfezin iki yakasında.",
+    "yakalar": {
+      "bati": "Derenin batısı: eski şehir, liman, tersane, eski sanayi. Sokaklar dar, yokuşlar dik, binalar yorgun.",
+      "dogu": "Derenin doğusu: Cumhuriyet'le büyüyen yeni şehir; meydan, üniversite, sahil yolu, tepedeki villalar.",
+      "kuzey": "Sırtlar ve ötesi: önce gecekondu, sonra apartman, sonra fabrikalar ve şehrin yuttuğu eski köyler."
+    },
+    "simgeYerler": ["Kaletepe ve Bizans surları", "Eski Çarşı'daki Bedesten", "kapanmış tersanenin dev vinçleri", "Çaybaşı köprüleri", "Bezhane'nin kırmızı tuğla bacası", "Sahilyolu'ndaki Kordon"],
+    "iklim": {
+      "tanim": "Ilıman ama nemli. Kışlar yağmurlu ve rüzgârlı, yazlar boğucu; poyraz günlerinde körfez köpürür. Kar birkaç yılda bir yağar, yağınca şehir durur.",
+      "aylik": [
+        { "ay": 1, "ortSicaklik": 6, "yagisliGun": 14, "not": "poyraz, sağanak, nadiren kar" },
+        { "ay": 2, "ortSicaklik": 7, "yagisliGun": 12, "not": "soğuk, ıslak" },
+        { "ay": 3, "ortSicaklik": 9, "yagisliGun": 11, "not": "değişken; bir gün güneş bir gün fırtına" },
+        { "ay": 4, "ortSicaklik": 13, "yagisliGun": 9, "not": "erguvan, ilk ılık akşamlar" },
+        { "ay": 5, "ortSicaklik": 18, "yagisliGun": 7, "not": "ıhlamur kokusu" },
+        { "ay": 6, "ortSicaklik": 23, "yagisliGun": 4, "not": "nem başlıyor" },
+        { "ay": 7, "ortSicaklik": 26, "yagisliGun": 2, "not": "boğucu sıcak, lodos" },
+        { "ay": 8, "ortSicaklik": 26, "yagisliGun": 2, "not": "en sıcak, en nemli" },
+        { "ay": 9, "ortSicaklik": 22, "yagisliGun": 5, "not": "tatlı sonbahar" },
+        { "ay": 10, "ortSicaklik": 17, "yagisliGun": 9, "not": "ilk fırtınalar" },
+        { "ay": 11, "ortSicaklik": 12, "yagisliGun": 12, "not": "uzun yağmurlar, dere kabarır" },
+        { "ay": 12, "ortSicaklik": 8, "yagisliGun": 14, "not": "kısa günler, rüzgâr" }
+      ]
+    }
+  },
+
+  "kimlik": {
+    "ozet": "Karaliman yorgun ama inatçı bir şehir. Bir zamanlar gemi yapardı, bez dokurdu, tütün kurutur, kömür indirirdi; bugün çoğu kapandı, yerine kafeler, rezidanslar ve depolar açıldı. Eskiler 'eskiden' diye başlayan cümleleri sever, gençler şehirden kaçmanın yollarını konuşur, ama her iki taraf da körfeze bakınca susar.",
+    "karakter": [
+      "İşçi şehri gururu: 'Bu şehri tersane ustaları kurdu' lafı her kahvede duyulur.",
+      "Göç şehri: mübadiller, Karadeniz'den, Doğu'dan, son yıllarda yurt dışından gelenler; herkes biraz misafir, biraz ev sahibi.",
+      "Esnaf ve hemşehrilik: bir iş bulmanın en kısa yolu hâlâ 'tanıdık'.",
+      "İki yaka gerilimi: batı yakası doğuyu 'şımarık', doğu yakası batıyı 'tehlikeli' bulur; ikisi de biraz haklıdır."
+    ],
+    "deyisler": [
+      { "soz": "Körfez her şeyi geri getirir.", "anlam": "Ne kadar kaçarsan kaç, geçmiş bir gün önüne çıkar." },
+      { "soz": "Tersane düdüğü çalmadan kalkılmaz.", "anlam": "Eski kuşağın 'acele etme' deyişi; tersane kapandığından beri buruk söylenir." },
+      { "soz": "Poyraz eserse borç sorulmaz.", "anlam": "Kötü günde kimseyi sıkıştırma." },
+      { "soz": "Dere taşar, bina kalır; bina yıkılır, borç kalır.", "anlam": "2003 selinden sonra çıkan acı bir laf." }
+    ],
+    "mutfak": ["liman köftesi (balık ekmeğin köftelisi, iskele başında)", "Bezhane pidesi (yumurtalı, kıymalı, bol tereyağlı)", "midye dolma ve tavası", "Tabakhane işkembecileri", "Eski Çarşı'nın lokumcuları", "kış akşamı salep, yaz gecesi dondurma ve sahil çekirdeği"],
+    "spor": { "kulup": "Karaliman Demirspor", "renkler": "lacivert-turuncu", "taraftar": "Kuzey Tribünü", "not": "Demiryolu işçilerinin 1931'de kurduğu kulüp. 2014'te tarihinde ilk kez Süper Lig'e çıktı, 2019'da düştü; o günden beri alt liglerde, borç içinde." },
+    "medya": ["Körfez Postası (yerel gazete, 1952'den beri)", "Liman TV (2025'te kapandı)", "KaralimanHaber (internet sitesi, dedikodu ağırlıklı)"],
+    "genelBilinenHikayeler": [
+      "Kaletepe'deki surların altında bir Bizans tüneli olduğu, tünelin limana kadar indiği anlatılır; 1970'lerde iki çocuk girip çıkmamış, hikaye bundan sonra büyümüş.",
+      "Tersane kapanırken son gemi yarım kaldı; iskeleti hâlâ havuzda duruyor. Ustalar ona 'Bekleyen' der.",
+      "Bezhane'nin bacasına her yılbaşı gecesi biri tırmanıp bayrak asıyor; kim olduğunu kimse bilmiyor ya da biliyor da söylemiyor.",
+      "KoinPazar'ın kurucusu kaçmadan önceki gece Marina'daki bir restoranda hesabı herkes için ödemiş; o gece orada olanlar parasını en son kaybedenler olmuş.",
+      "Eski Çarşı'daki saatçi dükkânı 1911 yangınında yanmayan tek dükkânmış; saatçinin torunu hâlâ aynı yerde, aynı saatleri tamir ediyor."
+    ]
+  },
+
+  "semtler": [
+    { "id": "eski_carsi", "ad": "Eski Çarşı", "yaka": "bati", "ozet": "Tarihi merkez: bedesten, hanlar, eski esnaf ve turistler." },
+    { "id": "asagi_liman", "ad": "Aşağıliman", "yaka": "bati", "ozet": "Liman, balıkçılar, hamallar, meyhaneler; mübadillerin mahallesi." },
+    { "id": "tersaneonu", "ad": "Tersaneönü", "iyelik": true, "yaka": "bati", "ozet": "Kapanan tersanenin gölgesinde işsiz ustalar ve yeni açılan kafeler." },
+    { "id": "marina", "ad": "Marina", "yaka": "bati", "ozet": "Eski sanayi arazisinde rezidanslar, AVM ve plazalar." },
+    { "id": "tabakhane", "ad": "Tabakhane", "yaka": "bati", "ozet": "Dere kenarında eski deri atölyeleri; yoksul, kalabalık, dönüşüm tehdidi altında." },
+    { "id": "istasyon", "ad": "İstasyon", "yaka": "bati", "ozet": "Gar ve terminal çevresi; pansiyonlar, ucuz oteller, gece hayatı." },
+    { "id": "cumhuriyet", "ad": "Cumhuriyet", "yaka": "dogu", "ozet": "Meydan, belediye, bankalar, ofisler; şehrin vitrini." },
+    { "id": "camlik", "ad": "Çamlık", "yaka": "dogu", "ozet": "Üniversite ve öğrenci evleri; ucuz kafeler, kitapçılar." },
+    { "id": "sahilyolu", "ad": "Sahilyolu", "iyelik": true, "yaka": "dogu", "ozet": "Kordon boyunca orta-üst apartmanlar, yürüyüş yolu, kafeler." },
+    { "id": "yamacevler", "ad": "Yamaçevler", "yaka": "dogu", "ozet": "Tepede villalar ve korunaklı siteler; şehrin parası burada uyur." },
+    { "id": "bezhane", "ad": "Bezhane", "yaka": "kuzey", "ozet": "Kapanan bez fabrikasının lojmanları; emekliler ve eski usul komşuluk." },
+    { "id": "kayalitepe", "ad": "Kayalıtepe", "yaka": "kuzey", "ozet": "Gecekondudan apartmana dönüşmüş, kalabalık işçi mahallesi." },
+    { "id": "kuzey_sanayi", "ad": "Kuzey Sanayi", "yaka": "kuzey", "ozet": "Organize sanayi; fabrikalar, servisler, vardiyalar." },
+    { "id": "ilicakoy", "ad": "Ilıcaköy", "yaka": "kuzey", "ozet": "Şehrin yuttuğu eski köy; bağ evleri ve yeni toplu konutlar." }
+  ],
+
+  "tarih": [
+    { "donem": "Antik çağ", "yillar": "MÖ 4. yy – MS 6. yy", "ozet": "Körfezde 'Kalimenos' adlı küçük bir ticaret kolonisi. Bugünkü adın da bu eski addan bozma olduğu söylenir; halk ise kömür limanı yüzünden 'Kara Liman' dendiğine inanır." },
+    { "donem": "Bizans", "yillar": "6. – 15. yy", "ozet": "Kaletepe'ye sur ve kale yapıldı. Liman, İstanbul'a giden tahıl gemilerinin uğrak yeri oldu." },
+    { "donem": "Osmanlı", "yillar": "1420 – 1922", "ozet": "Fetihten sonra tersane kuruldu (1590). 19. yüzyılda tütün depoları, ipek atölyeleri ve 1888'de demiryolu; Rum, Ermeni, Yahudi ve Türk mahalleleri yan yana." },
+    { "donem": "Erken Cumhuriyet", "yillar": "1923 – 1950", "ozet": "Mübadele ile Rum mahalleleri boşaldı, Selanik ve Kavala'dan gelenler yerleşti. Devlet eliyle Bezhane (1936) kuruldu; şehir bir sanayi kenti oldu." },
+    { "donem": "Göç ve büyüme", "yillar": "1950 – 1980", "ozet": "Fabrikalara iş için gelenler kuzey sırtlarına gecekondu kurdu. Üniversite açıldı (1972). Tersane büyüdü; 1979 grevi şehri ikiye böldü." },
+    { "donem": "Dönüşüm", "yillar": "1980 – 2008", "ozet": "Bezhane özelleştirildi ve kapandı, Kuzey Sanayi kuruldu. 2003 selinde Tabakhane ve İstasyon büyük zarar gördü." },
+    { "donem": "Yeni şehir", "yillar": "2008 – bugün", "ozet": "Tersane kapandı, eski sanayi arazisinde Marina yükseldi. Metro geldi, liman özelleştirildi, kira ve fiyatlar katlandı; eski mahalleler 'dönüşüm' kelimesinden korkar oldu." }
+  ],
+
+  "zamanCizelgesi": [
+    { "id": "tersane_kurulusu", "tarih": "1590", "ad": "Tersane kuruldu", "aciklama": "Osmanlı donanması için kadırga yapımı başladı; şehrin gemicilik geleneğinin başı.", "semtler": ["tersaneonu"], "etiketler": ["tarih", "tersane"] },
+    { "id": "demiryolu", "tarih": "1888-09-01", "ad": "Demiryolu ve gar açıldı", "aciklama": "İstasyon semti garın çevresinde doğdu; Demirspor'u kuran işçiler bu hattın işçileriydi.", "semtler": ["istasyon"], "etiketler": ["tarih", "ulasim"] },
+    { "id": "carsi_yangini", "tarih": "1911-07-16", "ad": "Büyük Çarşı Yangını", "aciklama": "Eski Çarşı'nın üçte ikisi yandı; bugünkü taş hanlar yangından sonra yapıldı.", "semtler": ["eski_carsi"], "etiketler": ["tarih", "afet"] },
+    { "id": "mubadele", "tarih": "1924-02", "ad": "Mübadele", "aciklama": "Aşağıliman'ın üst sokaklarındaki Rum evlerine Selanik ve Kavala'dan gelen mübadiller yerleşti. Mahallenin adı hâlâ 'Muhacir Sokakları'.", "semtler": ["asagi_liman"], "etiketler": ["tarih", "goc"], "kancalar": ["mubadil_torunu"] },
+    { "id": "bezhane_acilis", "tarih": "1936-10-29", "ad": "Bezhane açıldı", "aciklama": "Devletin bez fabrikası; lojmanları, hamamı, sineması, futbol takımıyla bir mahalle kurdu.", "semtler": ["bezhane"], "etiketler": ["tarih", "sanayi"] },
+    { "id": "ilk_gecekondular", "tarih": "1956", "ad": "Kayalıtepe'nin ilk gecekonduları", "aciklama": "Fabrikalara iş için gelenler bir gecede sırtlara evler kondurdu. Mahallenin ilk kuşağı bu günü 'ev bayramı' diye anar.", "semtler": ["kayalitepe"], "etiketler": ["tarih", "goc"], "kancalar": ["gecekondu_cocugu"] },
+    { "id": "universite", "tarih": "1972-11", "ad": "Karaliman Üniversitesi kuruldu", "aciklama": "Çamlık'taki çam ormanının bir kısmı kampüse dönüştü; Çamlık öğrenci semti oldu.", "semtler": ["camlik"], "etiketler": ["tarih", "egitim"] },
+    { "id": "tersane_grevi", "tarih": "1979-03", "ad": "93 günlük tersane grevi", "aciklama": "Şehrin en uzun grevi. Ustalar kazandı ama şehir ikiye bölündü; o günlerin dargınlıkları bazı ailelerde hâlâ sürer.", "semtler": ["tersaneonu", "asagi_liman"], "etiketler": ["tarih", "sendika", "tersane"], "kancalar": ["grevci_ailesi"] },
+    { "id": "bezhane_ozellestirme", "tarih": "1994-07", "ad": "Bezhane özelleştirildi", "aciklama": "Yeni sahipler üretimi yıllar içinde azalttı; 2001'de fabrika tamamen kapandı. Lojmanlar sakinlere satıldı.", "semtler": ["bezhane"], "etiketler": ["ekonomi", "sanayi"] },
+    { "id": "bezhane_kapanis", "tarih": "2001-04", "ad": "Bezhane kapandı", "aciklama": "Son vardiya çıkarken baca söndü. 1.800 işçi tazminat davasıyla yıllarını geçirdi.", "semtler": ["bezhane"], "etiketler": ["ekonomi", "issizlik"], "kancalar": ["bezhane_emeklisi"] },
+    { "id": "caybasi_seli", "tarih": "2003-11-14", "ad": "Çaybaşı Seli", "aciklama": "Üç gün süren yağmurdan sonra dere taştı. Tabakhane'de atölyeler, İstasyon'da bodrum katlar sular altında kaldı; on bir kişi hayatını kaybetti. Kimin ihmali olduğu hiçbir zaman tam açıklanmadı.", "semtler": ["tabakhane", "istasyon"], "etiketler": ["afet"], "kancalar": ["sel_magduru"] },
+    { "id": "tersane_kapanis", "tarih": "2008-12-19", "ad": "Tersane kapandı", "aciklama": "Küresel krizle siparişler iptal oldu, şirket iflas etti. 2.100 işçi işsiz kaldı; son gemi havuzda yarım kaldı.", "semtler": ["tersaneonu", "asagi_liman"], "etiketler": ["ekonomi", "issizlik", "tersane"], "kancalar": ["tersane_issizi"] },
+    { "id": "metro_m1", "tarih": "2012-06-30", "ad": "Metro M1 açıldı", "aciklama": "İstasyon ile Cumhuriyet arasında ilk hat. Hattın geçtiği yerlerde kiralar iki yılda ikiye katlandı.", "semtler": ["istasyon", "cumhuriyet", "camlik"], "etiketler": ["ulasim", "kira"] },
+    { "id": "demirspor_super_lig", "tarih": "2014-05-25", "ad": "Demirspor Süper Lig'de", "aciklama": "Kulüp tarihinde ilk kez Süper Lig'e çıktı. O gece Kordon'da kimse uyumadı.", "semtler": ["sahilyolu", "istasyon"], "etiketler": ["spor"], "kancalar": ["demirspor_oyuncusu", "demirspor_taraftari"] },
+    { "id": "marina_projesi", "tarih": "2016-04", "ad": "Marina Karaliman projesi başladı", "aciklama": "Tersanenin kuzeyindeki eski sanayi arazisi rezidans, AVM ve plaza için satıldı. Tersaneönü'nde kiralar yükselmeye başladı; eski kiracılarla yeni gelenler arasında gerilim o günden beri sürüyor.", "semtler": ["marina", "tersaneonu"], "etiketler": ["donusum", "kira", "insaat"] },
+    { "id": "deryapi_iflasi", "tarih": "2018-09", "ad": "Deryapı iflas etti", "aciklama": "Şehrin en büyük müteahhitlik firması kur şokuyla battı. Kayalıtepe ve Ilıcaköy'de üç site yarım kaldı; binlerce kişi parasını verdiği evine giremedi.", "semtler": ["kayalitepe", "ilicakoy"], "etiketler": ["ekonomi", "insaat", "iflas"], "kancalar": ["deryapi_magduru", "deryapi_calisani"] },
+    { "id": "demirspor_dusus", "tarih": "2019-05-19", "ad": "Demirspor küme düştü", "aciklama": "Beş yıl sonra kulüp borç içinde ligden düştü. Son maçta verilmeyen bir penaltı ve hakkında şike söylentileri çıkan bir kaleci hâlâ konuşulur.", "semtler": ["sahilyolu", "istasyon"], "etiketler": ["spor", "skandal"], "kancalar": ["demirspor_oyuncusu", "sakat_sporcu"] },
+    { "id": "liman_ozellestirme", "tarih": "2021-09", "ad": "Liman özelleştirildi", "aciklama": "Liman işletmesi Körfez Lojistik'e devredildi. Kadrolu hamalların çoğu taşerona geçirildi ya da çıkarıldı.", "semtler": ["asagi_liman"], "etiketler": ["ekonomi", "issizlik"], "kancalar": ["liman_iscisi"] },
+    { "id": "koinpazar_cokusu", "tarih": "2022-11-03", "ad": "KoinPazar çöktü", "aciklama": "Karaliman merkezli kripto para borsası bir gecede işlemleri durdurdu. Kurucusu yurt dışına çıkmıştı. Çoğu Karalimanlı on binlerce kişinin birikimi kayboldu; dava hâlâ sürüyor.", "semtler": ["marina", "cumhuriyet"], "etiketler": ["ekonomi", "dolandiricilik", "kripto"], "kancalar": ["kripto_magduru", "koinpazar_calisani"] },
+    { "id": "tabakhane_protestolari", "tarih": "2023-04", "ad": "Tabakhane dönüşüm protestoları", "aciklama": "Belediyenin 'dere kenarı yenileme' planına karşı mahalleli üç hafta nöbet tuttu. Plan durduruldu ama iptal edilmedi; mahallede herkes bir gün yıkım ekiplerinin geleceğini konuşuyor.", "semtler": ["tabakhane"], "etiketler": ["donusum", "siyaset"], "kancalar": ["tabakhane_nobetcisi"] },
+    { "id": "metro_m2", "tarih": "2024-10-28", "ad": "Metro M2 açıldı", "aciklama": "Marina'dan Kuzey Sanayi'ye uzanan ikinci hat; vardiya servislerinin yarısını bitirdi.", "semtler": ["marina", "kuzey_sanayi", "kayalitepe"], "etiketler": ["ulasim"] },
+    { "id": "liman_tv_kapanis", "tarih": "2025-03-31", "ad": "Liman TV kapandı", "aciklama": "Yirmi yıllık yerel kanal, reklam gelirleri bitince yayınını kesti. Ekranın tanıdık yüzlerinin çoğu bir anda işsiz kaldı.", "semtler": ["cumhuriyet"], "etiketler": ["medya", "issizlik"], "kancalar": ["unutulan_unlu", "medya_calisani"] },
+    { "id": "marina_avm", "tarih": "2026-06-12", "ad": "Marina AVM açıldı", "aciklama": "Şehrin en büyük alışveriş merkezi açıldı. Eski Çarşı esnafı aynı hafta kepenk kapatma eylemi yaptı.", "semtler": ["marina", "eski_carsi"], "etiketler": ["ekonomi", "donusum"] }
+  ]
+}

@@ -212,6 +212,19 @@ export const KONTROLLER = {
     return deger(yol, yolAl(ctx.durum, yol), Object.keys(kural).length ? kural : { var: true });
   },
 
+  // Hikaye yayı: { "yay": { "id": "apartman_borcu", "asama": ["borclu", "ertelendi"] } }
+  //   | { "yay": { "id": "x", "durum": "yok" | "aktif" | "bitti" } } | { "yay": { "id": "x", "sonuc": "odendi" } }
+  yay: (a, ctx) => {
+    const y = ctx.durum.yaylar?.[a.id];
+    const hal = !y ? 'yok' : y.bitti ? 'bitti' : 'aktif';
+    const alt = [];
+    if ('durum' in a) alt.push(deger(`yay ${a.id} durumu`, hal, a.durum));
+    if ('asama' in a) alt.push(deger(`yay ${a.id} aşaması`, y && !y.bitti ? y.asama : undefined, a.asama));
+    if ('sonuc' in a) alt.push(deger(`yay ${a.id} sonucu`, y?.bitti?.sonuc, a.sonuc));
+    if (!alt.length) alt.push(yaprak(hal === 'aktif', `yay ${a.id} sürüyor olmalı (${hal})`));
+    return { tamam: alt.every(x => x.tamam), aciklama: alt.map(x => x.aciklama).join('; ') };
+  },
+
   // ---- Suç dünyası kısa yazımları (sistemler Faz 4'te; alanlar yoksa "yok" sayılır) ----
   // { "aranma": { "min": 2 } }
   aranma: (a, ctx) => deger('aranma seviyesi', ctx.durum.suc?.aranma ?? 0, a),
@@ -332,6 +345,8 @@ export function kosulDogrula(kosul, yol = 'kosul') {
       if (a === 'olay' && typeof v?.id !== 'string') hatalar.push(`${y}.olay: id gerekli`);
       if (a === 'orgut' && typeof v === 'object' && typeof v.id !== 'string') hatalar.push(`${y}.orgut: id gerekli`);
       if (a === 'iliski' && v?.npc === undefined) hatalar.push(`${y}.iliski: npc gerekli`);
+      if (a === 'yay' && typeof v?.id !== 'string') hatalar.push(`${y}.yay: id gerekli`);
+      if (a === 'yay' && v?.durum !== undefined && ![].concat(v.durum.biri || v.durum).every(x => ['yok', 'aktif', 'bitti'].includes(x))) hatalar.push(`${y}.yay: durum yok/aktif/bitti olmalı`);
     }
   };
   gez(kosul, yol);

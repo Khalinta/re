@@ -31,20 +31,12 @@ import { kosulAcikla, nedenTutmadi } from './kosul.js';
 import { etkileriUygula, sureDk } from './etki.js';
 import { zamanGecir, sinirla } from './simulasyon.js';
 import { para as paraYaz } from './format.js';
+import { metinCoz } from './metin.js';
 
 export const VARSAYILAN_BASLANGIC = 'giris';
 
-// ------------------------------------------------------------- metin
-
-export function metinCoz(metin, rng) {
-  if (metin === undefined || metin === null) return [];
-  if (typeof metin === 'string') return [{ tur: 'anlati', metin }];
-  if (!Array.isArray(metin)) return [{ tur: 'anlati', ...metin }];
-  if (!metin.length) return [];
-  const cesit = metin.length === 1 ? metin[0] : rng.sec(metin);
-  if (Array.isArray(cesit)) return cesit.flatMap(p => metinCoz(p, rng));
-  return metinCoz(cesit, rng);
-}
+// Metin çözümü js/core/metin.js'te (ton, koşullu çeşit, şablon)
+export { metinCoz };
 
 // ------------------------------------------------------------- uygunluk ve seçim
 
@@ -124,9 +116,9 @@ function olayAl(veri, id) {
   return o;
 }
 
-function notlariEkle(paragraflar, sonuc, rng) {
+function notlariEkle(paragraflar, sonuc, rng, ctx) {
   for (const n of sonuc.notlar) paragraflar.push({ tur: 'sistem', metin: n });
-  for (const u of sonuc.uyarilar) paragraflar.push({ tur: 'icses', metin: rng.sec(u.metin) });
+  for (const u of sonuc.uyarilar) paragraflar.push(...metinCoz(u.metin, rng, ctx).map(p => ({ ...p, tur: 'icses' })));
 }
 
 // Sahneye girer: metni yazar, giriş etkilerini uygular. Seçeneksiz sahnede "git" ile devam eder.
@@ -136,10 +128,11 @@ function sahneyeGir(durum, olay, sahneId, veri, rng, paragraflar, zincir) {
     const sahne = olay.sahneler?.[id];
     if (!sahne) throw new Error(`Olay ${olay.id}: sahne yok "${id}"`);
     durum.aktifOlay.sahne = id;
-    paragraflar.push(...metinCoz(sahne.metin, rng));
+    paragraflar.push(...metinCoz(sahne.metin, rng, { durum, veri, baglam: durum.aktifOlay.baglam }));
     if (sahne.etki) {
-      const s = etkileriUygula(sahne.etki, { durum, veri, baglam: durum.aktifOlay.baglam, olayId: olay.id });
-      notlariEkle(paragraflar, s, rng);
+      const sctx = { durum, veri, baglam: durum.aktifOlay.baglam, olayId: olay.id };
+      const s = etkileriUygula(sahne.etki, sctx);
+      notlariEkle(paragraflar, s, rng, sctx);
       zincir.push(...s.zincir);
     }
     const secenekVar = (sahne.secenekler || []).length > 0;
@@ -210,7 +203,7 @@ export function olaySecenegiSec(durum, veri, rng, sira) {
   const m = s.maliyet || {};
   if (m.para) { durum.para -= m.para; paragraflar.push({ tur: 'sistem', metin: '−' + paraYaz(m.para) }); }
   if (m.enerji) durum.durumlar.enerji = sinirla(durum.durumlar.enerji - m.enerji);
-  if (m.dakika && veri.sim) for (const u of zamanGecir(durum, m.dakika, m.tur || 'normal', veri.sim)) paragraflar.push({ tur: 'icses', metin: rng.sec(u.metin) });
+  if (m.dakika && veri.sim) for (const u of zamanGecir(durum, m.dakika, m.tur || 'normal', veri.sim)) paragraflar.push(...metinCoz(u.metin, rng, ctx).map(p => ({ ...p, tur: 'icses' })));
 
   // Dal seçimi: kontrol, ağırlıklı sonuçlar ya da seçeneğin kendisi
   let dal = s;
@@ -224,7 +217,7 @@ export function olaySecenegiSec(durum, veri, rng, sira) {
     }
     if (s.etki) {
       const e = etkileriUygula(s.etki, ctx);
-      notlariEkle(paragraflar, e, rng);
+      notlariEkle(paragraflar, e, rng, ctx);
       zincir.push(...e.zincir);
     }
   } else if (s.sonuclar) {
@@ -232,15 +225,15 @@ export function olaySecenegiSec(durum, veri, rng, sira) {
     dal = rng.agirlikliSec(uygunlar, x => x.agirlik ?? 1) || {};
     if (s.etki) {
       const e = etkileriUygula(s.etki, ctx);
-      notlariEkle(paragraflar, e, rng);
+      notlariEkle(paragraflar, e, rng, ctx);
       zincir.push(...e.zincir);
     }
   }
 
-  paragraflar.push(...metinCoz(dal.sonuc, rng));
+  paragraflar.push(...metinCoz(dal.sonuc, rng, ctx));
   if (dal.etki) {
     const e = etkileriUygula(dal.etki, ctx);
-    notlariEkle(paragraflar, e, rng);
+    notlariEkle(paragraflar, e, rng, ctx);
     zincir.push(...e.zincir);
   }
 
@@ -252,9 +245,35 @@ export function olaySecenegiSec(durum, veri, rng, sira) {
   return { paragraflar, ...bitir(durum, zincir) };
 }
 
+// ------------------------------------------------------------- zamanlayıcılar
+
+// Vakti gelmiş ilk zamanlayıcıyı listeden çıkarıp verir (yoksa null).
+//  - Zamanlayıcının kendi koşulu tutmazsa: kosulTutmazsa "bekle" ise listede kalır, değilse iptal edilir.
+//  - Olayın kendi koşulu tutmazsa (ör. gece olmaz) zamanlayıcı bekler; sonraki fırsatta yeniden bakılır.
+// Döner: { zamanlayici, iptaller: [...] }
+export function vadesiGelenZamanlayici(durum, veri) {
+  const iptaller = [];
+  const liste = durum.zamanlayicilar;
+  for (let i = 0; i < liste.length; i++) {
+    const z = liste[i];
+    if (z.zaman > durum.zaman.dakika) break; // sıralı liste
+    const ctx = ctxYap(durum, veri, z.baglam);
+    const olay = veri.olaylar?.[z.olay];
+    if (!olay) { iptaller.push({ ...z, neden: 'olay yok' }); liste.splice(i--, 1); continue; }
+    if (z.kosul !== undefined && !kosulAcikla(z.kosul, ctx).tamam) {
+      if (z.kosulTutmazsa === 'bekle') continue;
+      iptaller.push({ ...z, neden: 'koşul tutmadı' }); liste.splice(i--, 1); continue;
+    }
+    if (!kosulAcikla(olay.kosul, ctx).tamam) continue;
+    liste.splice(i, 1);
+    return { zamanlayici: z, iptaller };
+  }
+  return { zamanlayici: null, iptaller };
+}
+
 // ------------------------------------------------------------- doğrulama
 
-export function olayDogrula(olay, { kosulDogrula, etkiDogrula, olaylar = {} }) {
+export function olayDogrula(olay, { kosulDogrula, etkiDogrula, metinDogrula, olaylar = {}, yaylar }) {
   const h = [];
   const y = `olay ${olay.id}`;
   if (!olay.id) h.push('id eksik');
@@ -263,6 +282,7 @@ export function olayDogrula(olay, { kosulDogrula, etkiDogrula, olaylar = {} }) {
   if (!olay.sahneler[bas]) h.push(`${y}: başlangıç sahnesi "${bas}" yok`);
   const tetik = olay.tetik || 'otomatik';
   if (!/^(otomatik|zamanlayici|zincir|aksiyon:[a-z0-9_]+)$/.test(tetik)) h.push(`${y}: geçersiz tetik "${tetik}"`);
+  if (olay.yay && yaylar && !yaylar[olay.yay]) h.push(`${y}: tanımsız yay "${olay.yay}"`);
   h.push(...kosulDogrula(olay.kosul, `${y}.kosul`));
   for (const c of olay.agirlik?.carpanlar || []) h.push(...kosulDogrula(c.kosul, `${y}.agirlik`));
   const gidilen = new Set([bas]);
@@ -275,11 +295,21 @@ export function olayDogrula(olay, { kosulDogrula, etkiDogrula, olaylar = {} }) {
     for (const e of [].concat(liste || [])) {
       if (e?.olay && !olaylar[e.olay]) h.push(`${yer}: zincirlenen olay "${e.olay}" yok`);
       if (e?.zamanla && !olaylar[e.zamanla.olay]) h.push(`${yer}: zamanlanan olay "${e.zamanla.olay}" yok`);
+      if (e?.zamanla) h.push(...kosulDogrula(e.zamanla.kosul, `${yer}.zamanla.kosul`));
+      if (yaylar && (e?.yay || e?.yayBitir)) {
+        const v = e.yay || e.yayBitir;
+        const tanim = yaylar[v.id];
+        if (!tanim) h.push(`${yer}: tanımsız yay "${v.id}" (data/yaylar.json)`);
+        else if (e.yay && !tanim.asamalar.includes(v.asama)) h.push(`${yer}: yay ${v.id} için tanımsız aşama "${v.asama}"`);
+        else if (e.yayBitir && !tanim.sonuclar.includes(v.sonuc)) h.push(`${yer}: yay ${v.id} için tanımsız sonuç "${v.sonuc}"`);
+      }
     }
   };
+  const metinKontrol = (m, yer) => { if (metinDogrula) h.push(...metinDogrula(m, yer, { kosulDogrula })); };
   for (const [sid, sahne] of Object.entries(olay.sahneler)) {
     const sy = `${y}/${sid}`;
     if (sahne.metin === undefined) h.push(`${sy}: metin yok`);
+    metinKontrol(sahne.metin, `${sy}.metin`);
     h.push(...etkiDogrula(sahne.etki, `${sy}.etki`));
     zincirKontrol(sahne.etki, sy);
     gitKontrol(sahne.git, sy);
@@ -288,6 +318,8 @@ export function olayDogrula(olay, { kosulDogrula, etkiDogrula, olaylar = {} }) {
     sec.forEach((s, i) => {
       const yy = `${sy}.secenekler[${i}]`;
       if (!s.metin) h.push(`${yy}: metin yok`);
+      metinKontrol(s.sonuc, `${yy}.sonuc`);
+      for (const d of [s.basari, s.basarisiz, ...(s.sonuclar || [])]) if (d) metinKontrol(d.sonuc, `${yy}.dal`);
       h.push(...kosulDogrula(s.kosul, `${yy}.kosul`));
       h.push(...etkiDogrula(s.etki, `${yy}.etki`));
       zincirKontrol(s.etki, yy);

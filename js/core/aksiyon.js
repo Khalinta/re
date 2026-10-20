@@ -6,6 +6,7 @@ import { aksiyonKaydet } from './durum.js';
 import { kosulAcikla, nedenTutmadi } from './kosul.js';
 import { sureliTemizle } from './bayrak.js';
 import { para as paraYaz, sure as sureYaz } from './format.js';
+import { metinCoz } from './metin.js';
 
 // Döner: { tamam: true } ya da { tamam: false, sebep: '...', teknik?: [...] }
 // a.kosul (koşul dili) tutmazsa oyuncuya a.kosulSebep gösterilir; teknik neden geliştirici paneli içindir.
@@ -35,12 +36,13 @@ export function aksiyonMaliyeti(durum, a, simCfg) {
   return { dakika: a.sure, para: a.para, enerji: a.enerji };
 }
 
-const metinSec = (rng, liste) => (Array.isArray(liste) && liste.length ? rng.sec(liste) : null);
 
 // Aksiyonu uygular, durumu değiştirir.
 // Döner: { paragraflar: [{ tur, metin }], uyarilar: [...] }
-export function aksiyonUygula(durum, a, simCfg, rng) {
+export function aksiyonUygula(durum, a, simCfg, rng, veri = { sim: simCfg }) {
   const d = durum.durumlar;
+  const ctx = { durum, veri };
+  const yaz = (metin, tur = 'anlati') => metinCoz(metin, rng, ctx).map(p => ({ ...p, tur: p.tur === 'anlati' ? tur : p.tur }));
   const paragraflar = [{ tur: 'secim', metin: a.ad }];
   let uyarilar = [];
 
@@ -49,12 +51,12 @@ export function aksiyonUygula(durum, a, simCfg, rng) {
     const plan = uykuPlani(bas, simCfg);
     const stresli = d.stres >= simCfg.uyku.stresliUykuEsik;
     const enerjiOnce = d.enerji;
-    paragraflar.push({ tur: 'anlati', metin: metinSec(rng, stresli ? a.metin.stresli : plan.gece ? a.metin.gece : a.metin.gunduz) });
+    paragraflar.push(...yaz(stresli ? a.metin.stresli : plan.gece ? a.metin.gece : a.metin.gunduz));
     uyarilar = zamanGecir(durum, plan.sure, 'uyku', simCfg);
     if (stresli) d.enerji = sinirla(enerjiOnce + (d.enerji - enerjiOnce) * simCfg.uyku.stresliUykuVerim);
     const duzenli = uykuDuzeniGuncelle(durum, bas, plan.sure, simCfg);
     paragraflar.push({ tur: 'sistem', metin: `${sureYaz(plan.sure)} uyudun${duzenli ? ' · düzenli' : ''}` });
-    if (plan.gece) paragraflar.push({ tur: 'anlati', metin: metinSec(rng, a.metin.uyanis) });
+    if (plan.gece) paragraflar.push(...yaz(a.metin.uyanis));
     // Uyanınca sadece hâlâ geçerli olan uyarıları göster (gece acıkmak gibi)
     uyarilar = uyarilar.filter(u => u.durum === 'aclik');
   } else {
@@ -62,7 +64,7 @@ export function aksiyonUygula(durum, a, simCfg, rng) {
     if (a.enerji) d.enerji = sinirla(d.enerji - a.enerji);
     uyarilar = zamanGecir(durum, a.sure || 0, a.tur || 'normal', simCfg);
     for (const [k, v] of Object.entries(a.etki || {})) if (k in d) d[k] = sinirla(d[k] + v);
-    paragraflar.push({ tur: 'anlati', metin: metinSec(rng, a.metin) });
+    paragraflar.push(...yaz(a.metin));
     if (a.para) paragraflar.push({ tur: 'sistem', metin: '−' + paraYaz(a.para) });
     // Etki sonrası artık geçersiz olan uyarıları at (yemekten sonra "acıktın" denmesin)
     uyarilar = uyarilar.filter(u => {
@@ -71,7 +73,7 @@ export function aksiyonUygula(durum, a, simCfg, rng) {
     });
   }
 
-  for (const u of uyarilar) paragraflar.push({ tur: 'icses', metin: metinSec(rng, u.metin) });
+  for (const u of uyarilar) paragraflar.push(...yaz(u.metin, 'icses'));
   sureliTemizle(durum);
   aksiyonKaydet(durum, a.id);
   return { paragraflar: paragraflar.filter(p => p.metin), uyarilar };

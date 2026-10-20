@@ -5,6 +5,7 @@ import { yeniDurum, rngAl } from '../js/core/durum.js';
 import { zamanGecir, uykuPlani, ruhHedefi } from '../js/core/simulasyon.js';
 import { aksiyonDurumu, aksiyonUygula } from '../js/core/aksiyon.js';
 import { kosulDogrula } from '../js/core/kosul.js';
+import { metinDogrula } from '../js/core/metin.js';
 import { bayrakKoy } from '../js/core/bayrak.js';
 
 const sim = JSON.parse(readFileSync(new URL('../data/simulasyon.json', import.meta.url)));
@@ -127,6 +128,7 @@ test('veri dosyası tutarlılığı: her aksiyonun metni ve geçerli türü var'
     if (a.tur) assert.ok(sim.saatlik[a.tur], a.id + ' tür');
     for (const k of Object.keys(a.etki || {})) assert.ok(sim.durumlar[k], a.id + ' bilinmeyen durum ' + k);
     assert.deepEqual(kosulDogrula(a.kosul, a.id + '.kosul'), []);
+    assert.deepEqual(metinDogrula(a.metin, a.id + '.metin', { kosulDogrula }), []);
   }
   for (const u of sim.uyarilar) assert.ok(sim.durumlar[u.durum] && u.metin.length, u.id);
 });

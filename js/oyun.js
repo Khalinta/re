@@ -2,7 +2,7 @@
 // Kayıt sistemi (1.6) ve olay motoru (1.8–1.9) buraya bağlanacak.
 import { yeniDurum, rngAl, anlatimKaydet } from './core/durum.js';
 import { aksiyonDurumu, aksiyonMaliyeti, aksiyonUygula } from './core/aksiyon.js';
-import { olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec } from './core/olay.js';
+import { olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec, vadesiGelenZamanlayici } from './core/olay.js';
 import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER } from './core/zaman.js';
 import { seedUret } from './core/rng.js';
 import { saat, tarih, tarihKisa, GUNLER, AYLAR } from './core/format.js';
@@ -19,13 +19,15 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
     jsonAl('./data/olay_ayarlari.json'),
     jsonAl('./data/olaylar/_liste.json'),
+    jsonAl('./data/yaylar.json'),
   ]);
+  veri.yaylar = Object.fromEntries(yaylar.yaylar.map(y => [y.id, y]));
   veri.sim = sim;
   veri.aksiyonlar = aks.aksiyonlar;
   veri.takvim = takvim;
@@ -100,7 +102,7 @@ export function aksiyonYap(id) {
   const kontrol = aksiyonDurumu(durum, a, veri.sim, veri);
   if (!kontrol.tamam) return { tamam: false, sebep: kontrol.sebep };
   const onceDk = durum.zaman.dakika;
-  const sonuc = aksiyonUygula(durum, a, veri.sim, rngAl(durum, 'aksiyon'));
+  const sonuc = aksiyonUygula(durum, a, veri.sim, rngAl(durum, 'aksiyon'), veri);
   const liste = [...sonuc.paragraflar];
   ayracEkle(liste, onceDk, a.ozel === 'uyku');
   liste.push(...olayDene(a.id));
@@ -109,8 +111,17 @@ export function aksiyonYap(id) {
   return { tamam: true, paragraflar: liste };
 }
 
-// Aksiyondan sonra olay çıkar mı? Önce aksiyona bağlı olaylar, sonra genel olaylar.
+// Vakti gelmiş gecikmeli sonuç var mı? Varsa olayını başlat.
+function zamanlayiciDene() {
+  const { zamanlayici } = vadesiGelenZamanlayici(durum, veri);
+  return zamanlayici ? olayuBaslat(zamanlayici.olay, zamanlayici.baglam || {}) : null;
+}
+
+// Aksiyondan sonra olay çıkar mı? Önce vakti gelen zamanlayıcılar, sonra aksiyona bağlı olaylar,
+// sonra genel olaylar.
 function olayDene(aksiyonId) {
+  const zamanli = zamanlayiciDene();
+  if (zamanli) return zamanli;
   const ayar = veri.olayAyar || {};
   const rng = rngAl(durum, 'olay');
   let olay = null;
@@ -132,9 +143,11 @@ function olayuBaslat(id, baglam = {}) {
   return liste;
 }
 
+// Olay bitince: zincirde sıradaki olay varsa o, yoksa vakti gelmiş bir zamanlayıcı
 function zinciriSurdur(zincir) {
   const [ilk] = zincir || [];
-  return ilk ? olayuBaslat(ilk) : [];
+  if (ilk) return olayuBaslat(ilk);
+  return zamanlayiciDene() || [];
 }
 
 export const aktifOlayVar = () => !!durum?.aktifOlay;

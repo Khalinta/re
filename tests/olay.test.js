@@ -5,6 +5,7 @@ import { yeniDurum, rngAl } from '../js/core/durum.js';
 import { olayUygunluk, olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec, kontrolOlasiligi, zorlukIfadesi, metinCoz, olayDogrula } from '../js/core/olay.js';
 import { etkileriUygula, etkiDogrula, sureDk } from '../js/core/etki.js';
 import { kosulDogrula } from '../js/core/kosul.js';
+import { metinDogrula } from '../js/core/metin.js';
 import { bayrakAl } from '../js/core/bayrak.js';
 import { zarfla, zarfAc } from '../js/core/kayitbicim.js';
 import { Rng } from '../js/core/rng.js';
@@ -212,8 +213,9 @@ test('veri: bütün olay dosyaları listede, kimlikler eşsiz, hepsi doğrulamad
     olaylar[o.id] = o;
   }
   const aksiyonlar = oku('../data/aksiyonlar.json').aksiyonlar.map(a => a.id);
+  const yaylar = Object.fromEntries(oku('../data/yaylar.json').yaylar.map(y => [y.id, y]));
   for (const o of Object.values(olaylar)) {
-    assert.deepEqual(olayDogrula(o, { kosulDogrula, etkiDogrula, olaylar }), [], o.id);
+    assert.deepEqual(olayDogrula(o, { kosulDogrula, etkiDogrula, metinDogrula, olaylar, yaylar }), [], o.id);
     const t = o.tetik || '';
     if (t.startsWith('aksiyon:')) assert.ok(aksiyonlar.includes(t.slice(8)), `${o.id}: tetik aksiyonu yok: ${t}`);
   }
@@ -225,7 +227,7 @@ test('örnek olaylar uçtan uca oynanabilir (her seçenek, çok sayıda seed)', 
   for (const o of Object.values(olaylar)) {
     for (let sira = 0; sira < o.sahneler.giris.secenekler.length; sira++) {
       for (let i = 0; i < 10; i++) {
-        const d = yeni(20); d.seed = `E${i}`;
+        const d = yeni(14); d.seed = `E${i}`; d.para = 5000;
         const r = rngAl(d, 'olay');
         olayBaslat(d, o.id, v, r);
         let s = olaySecenegiSec(d, v, r, sira);

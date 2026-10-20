@@ -94,13 +94,17 @@ export const ETKILER = {
     for (const [k, x] of Object.entries(v.semt || {})) ekle(d.itibar.semt, k, x);
     for (const [k, x] of Object.entries(v.sektor || {})) ekle(d.itibar.sektor, k, x);
   },
-  // { "zamanla": { "sure": { "hafta": 3 }, "olay": "patronun_teklifi", "baglam": true } }  gecikmeli sonuç
+  // { "zamanla": { "sure": { "hafta": 3 }, "olay": "patronun_teklifi", "baglam": true,
+  //               "kosul": { "bayrak": "aidat_borcu" }, "kosulTutmazsa": "iptal" | "bekle" } }   gecikmeli sonuç
+  // Vakti gelince koşul (varsa) tutarsa olay başlar; tutmazsa varsayılan olarak iptal olur.
   zamanla: (v, ctx) => {
     ctx.durum.zamanlayicilar.push({
       zaman: ctx.durum.zaman.dakika + sureDk(v.sure),
       olay: v.olay,
       ...(v.baglam && ctx.baglam ? { baglam: ctx.baglam } : {}),
       ...(ctx.olayId ? { kaynak: ctx.olayId } : {}),
+      ...(v.kosul !== undefined ? { kosul: v.kosul } : {}),
+      ...(v.kosulTutmazsa ? { kosulTutmazsa: v.kosulTutmazsa } : {}),
     });
     ctx.durum.zamanlayicilar.sort((a, b) => a.zaman - b.zaman);
   },
@@ -110,6 +114,20 @@ export const ETKILER = {
     if (dk > 0 && ctx.veri?.sim) ctx.uyarilar.push(...zamanGecir(ctx.durum, dk, 'normal', ctx.veri.sim));
     else ctx.durum.zaman.dakika += dk;
   },
+  // Hikaye yayı: { "yay": { "id": "apartman_borcu", "asama": "borclu" } }  (yay yoksa başlatır)
+  yay: (v, ctx) => {
+    const y = ((ctx.durum.yaylar ??= {})[v.id] ??= { asama: null, basladi: ctx.durum.zaman.dakika, gecmis: [] });
+    y.asama = v.asama;
+    y.guncellendi = ctx.durum.zaman.dakika;
+    y.gecmis.push(v.asama);
+    if (y.gecmis.length > 30) y.gecmis.shift();
+  },
+  // { "yayBitir": { "id": "apartman_borcu", "sonuc": "odendi" } }
+  yayBitir: (v, ctx) => {
+    const y = ((ctx.durum.yaylar ??= {})[v.id] ??= { asama: null, basladi: ctx.durum.zaman.dakika, gecmis: [] });
+    y.bitti = { sonuc: v.sonuc, z: ctx.durum.zaman.dakika };
+  },
+
   // { "olay": "sonraki_olay" }  bu olay bitince hemen başlar (zincir)
   olay: (v, ctx) => { ctx.zincir.push(v); },
   // { "gunluk": "Bugün Hüsnü Amca'nın dükkânında..." }
@@ -187,6 +205,9 @@ export function etkiDogrula(liste, yol = 'etki') {
       if (k === 'zamanla' && (typeof v?.olay !== 'string' || !sureDk(v.sure))) h.push(`${yol}[${i}].zamanla: olay ve sure gerekli`);
       if (k === 'orgut' && typeof v?.id !== 'string') h.push(`${yol}[${i}].orgut: id gerekli`);
       if (k === 'deger' && (typeof v?.yol !== 'string' || !('yaz' in v || 'ekle' in v))) h.push(`${yol}[${i}].deger: yol ve yaz/ekle gerekli`);
+      if (k === 'yay' && (typeof v?.id !== 'string' || typeof v?.asama !== 'string')) h.push(`${yol}[${i}].yay: id ve asama gerekli`);
+      if (k === 'yayBitir' && (typeof v?.id !== 'string' || typeof v?.sonuc !== 'string')) h.push(`${yol}[${i}].yayBitir: id ve sonuc gerekli`);
+      if (k === 'zamanla' && v?.kosulTutmazsa && !['iptal', 'bekle'].includes(v.kosulTutmazsa)) h.push(`${yol}[${i}].zamanla: kosulTutmazsa iptal ya da bekle olmalı`);
     }
   });
   return h;

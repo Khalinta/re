@@ -1,0 +1,12 @@
+{
+  "_aciklama": "Hikaye yayları: günlere, haftalara yayılan çok aşamalı hikayeler. Olaylar yayın aşamasına göre koşullanır ({ \"yay\": { \"id\", \"asama\" } }), etkiyle aşama değiştirir ({ \"yay\": ... }) ve yayı bir sonuçla bitirir ({ \"yayBitir\": ... }). Burada tanımlanmayan aşama ya da sonuç testte hata verir. Hayat özeti (Faz 6) bitmiş yayların sonuçlarını kullanacak.",
+  "yaylar": [
+    {
+      "id": "apartman_borcu",
+      "ad": "Defterdeki boşluk",
+      "aciklama": "Tesisat parasını ödemeyince apartmanın gözü üstünde. Küçük bir borç, büyük bir mahalle meselesine dönüşebilir.",
+      "asamalar": ["borclu", "ertelendi", "kaciyor"],
+      "sonuclar": ["odendi", "odendi_gec", "komsu_destegi", "rezil", "kavga"]
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "_aciklama": "Karaliman ulaşım ağı (adım 2.3). Düğümler semtlerdir (konum semt + mekan olduğu için durak = semt). yollar: semtler.json'daki her komşuluk için yürüme ve araba süresi (dakika, trafiksiz). hatlar: duraklar sırayla, sureler[i] = duraklar[i] → duraklar[i+1] dakikası (otobüs ve dolmuşta trafiksiz; trafik katsayısı ayrıca uygulanır). sefer: dilime göre iki sefer arası dakika (beklenen bekleme bunun yarısı); hafta sonu aralıklar haftaSonu katsayısıyla uzar. ilkSefer/sonSefer 'SS:DD'; son sefer gece yarısını geçerse 24'ten büyük yazılır ('24:30'). Ücretler asgari ücret (AÜ) oranıdır; ₺ karşılığı ekonomi dosyasındaki AÜ ile hesaplanır (adım 2.7). Kent Kart: ilk binişten sonraki aktarmaSuresi dakika içinde kart geçen hatlara binişler indirimli (en çok aktarmaSayisi kez).",
+
+  "tarife": {
+    "metro": 0.0009,
+    "otobus": 0.0009,
+    "vapur": 0.0011,
+    "dolmus": 0.0013,
+    "kentKart": { "turler": ["metro", "otobus", "vapur"], "aktarmaSuresi": 60, "aktarmaIndirimi": 0.5, "aktarmaSayisi": 2 },
+    "taksi": { "acilis": 0.0018, "dakika": 0.00045, "bekleme": { "sabah": 5, "ogle": 5, "aksam": 6, "gece": 9 } }
+  },
+
+  "trafik": [
+    { "bas": "07:00", "son": "09:30", "katsayi": 1.6, "ad": "sabah trafiği" },
+    { "bas": "12:00", "son": "13:30", "katsayi": 1.2, "ad": "öğle arası" },
+    { "bas": "17:00", "son": "19:30", "katsayi": 1.7, "ad": "akşam trafiği" },
+    { "bas": "23:00", "son": "06:00", "katsayi": 0.8, "ad": "boş yollar" }
+  ],
+
+  "aktarmaYurumesi": 3,
+
+  "yollar": [
+    { "a": "eski_carsi", "b": "asagi_liman", "yuruyus": 10, "araba": 5 },
+    { "a": "eski_carsi", "b": "tabakhane", "yuruyus": 15, "araba": 6 },
+    { "a": "eski_carsi", "b": "istasyon", "yuruyus": 18, "araba": 7 },
+    { "a": "eski_carsi", "b": "cumhuriyet", "yuruyus": 12, "araba": 6, "not": "Çaybaşı köprüleri" },
+    { "a": "asagi_liman", "b": "tersaneonu", "yuruyus": 15, "araba": 5 },
+    { "a": "tersaneonu", "b": "marina", "yuruyus": 15, "araba": 5 },
+    { "a": "tersaneonu", "b": "istasyon", "yuruyus": 20, "araba": 7 },
+    { "a": "marina", "b": "istasyon", "yuruyus": 25, "araba": 8 },
+    { "a": "tabakhane", "b": "istasyon", "yuruyus": 15, "araba": 6 },
+    { "a": "tabakhane", "b": "kayalitepe", "yuruyus": 22, "araba": 8, "not": "dik yokuş" },
+    { "a": "tabakhane", "b": "bezhane", "yuruyus": 15, "araba": 7, "not": "Tabakhane Köprüsü" },
+    { "a": "istasyon", "b": "kayalitepe", "yuruyus": 20, "araba": 7 },
+    { "a": "cumhuriyet", "b": "sahilyolu", "yuruyus": 15, "araba": 6 },
+    { "a": "cumhuriyet", "b": "camlik", "yuruyus": 18, "araba": 7 },
+    { "a": "camlik", "b": "yamacevler", "yuruyus": 25, "araba": 8, "not": "yokuş" },
+    { "a": "camlik", "b": "bezhane", "yuruyus": 20, "araba": 7 },
+    { "a": "camlik", "b": "sahilyolu", "yuruyus": 20, "araba": 7 },
+    { "a": "sahilyolu", "b": "yamacevler", "yuruyus": 25, "araba": 7, "not": "yokuş" },
+    { "a": "yamacevler", "b": "ilicakoy", "yuruyus": 45, "araba": 14 },
+    { "a": "bezhane", "b": "kayalitepe", "yuruyus": 20, "araba": 7 },
+    { "a": "bezhane", "b": "ilicakoy", "yuruyus": 35, "araba": 11 },
+    { "a": "kayalitepe", "b": "kuzey_sanayi", "yuruyus": 30, "araba": 9 },
+    { "a": "kuzey_sanayi", "b": "ilicakoy", "yuruyus": 35, "araba": 10 }
+  ],
+
+  "hatlar": [
+    {
+      "id": "m1", "ad": "M1 İstasyon–Çamlık", "kisa": "M1", "tur": "metro", "acilis": 2012,
+      "duraklar": ["istasyon", "eski_carsi", "cumhuriyet", "camlik"],
+      "durakAdlari": ["Gar", "Çarşı", "Meydan", "Kampüs"],
+      "sureler": [3, 3, 4],
+      "ilkSefer": "06:00", "sonSefer": "24:30",
+      "sefer": { "sabah": 5, "ogle": 8, "aksam": 6, "gece": 12 }, "haftaSonu": 1.3,
+      "not": "Şehrin ilk metrosu; Çaybaşı'nın altından tünelle geçer. Sabah sekizde Meydan durağında nefes alınmaz."
+    },
+    {
+      "id": "m2", "ad": "M2 Marina–Kuzey Sanayi", "kisa": "M2", "tur": "metro", "acilis": 2024,
+      "duraklar": ["marina", "istasyon", "kayalitepe", "kuzey_sanayi"],
+      "durakAdlari": ["Marina", "Gar", "Kayalıtepe", "OSB Kapısı"],
+      "sureler": [4, 4, 5],
+      "ilkSefer": "05:30", "sonSefer": "24:00",
+      "sefer": { "sabah": 6, "ogle": 10, "aksam": 7, "gece": 15 }, "haftaSonu": 1.4,
+      "not": "Vardiya hattı: sabah altıda Kuzey'e giden vagonlar dolu, Marina'ya giden boş; akşam tersi."
+    },
+    {
+      "id": "v1", "ad": "Vapur Marina–Liman–Sahilyolu", "kisa": "Vapur", "tur": "vapur", "acilis": 1950,
+      "duraklar": ["marina", "asagi_liman", "sahilyolu"],
+      "durakAdlari": ["Marina İskelesi", "Mübadil İskelesi", "Doğu Yakası İskelesi"],
+      "sureler": [8, 12],
+      "ilkSefer": "07:00", "sonSefer": "23:00",
+      "sefer": { "sabah": 20, "ogle": 30, "aksam": 20, "gece": 45 }, "haftaSonu": 1,
+      "havaHassas": true,
+      "not": "Körfezin iki yakasını bağlayan eski vapurlar; çay ocağı ve simit. Poyraz sert eserse seferler iptal."
+    },
+    {
+      "id": "o10", "ad": "10 Tersaneönü–Sahilyolu", "kisa": "10", "tur": "otobus",
+      "duraklar": ["tersaneonu", "asagi_liman", "eski_carsi", "cumhuriyet", "sahilyolu"],
+      "sureler": [5, 4, 5, 5],
+      "ilkSefer": "06:00", "sonSefer": "23:30",
+      "sefer": { "sabah": 10, "ogle": 15, "aksam": 12, "gece": 30 }, "haftaSonu": 1.25,
+      "not": "Sahil hattı; batı yakasının işçilerini doğu yakasının ofislerine taşır."
+    },
+    {
+      "id": "o22", "ad": "22 Meydan–Bezhane", "kisa": "22", "tur": "otobus",
+      "duraklar": ["cumhuriyet", "camlik", "bezhane"],
+      "sureler": [6, 6],
+      "ilkSefer": "06:00", "sonSefer": "23:00",
+      "sefer": { "sabah": 12, "ogle": 15, "aksam": 15, "gece": 30 }, "haftaSonu": 1.25
+    },
+    {
+      "id": "o31", "ad": "31 Çarşı–Sanayi", "kisa": "31", "tur": "otobus",
+      "duraklar": ["eski_carsi", "tabakhane", "kayalitepe", "kuzey_sanayi"],
+      "sureler": [5, 7, 8],
+      "ilkSefer": "05:30", "sonSefer": "24:00",
+      "sefer": { "sabah": 10, "ogle": 20, "aksam": 12, "gece": 30 }, "haftaSonu": 1.5,
+      "not": "Vardiya otobüsü; gece yarısı son seferde yarı uykulu işçiler."
+    },
+    {
+      "id": "o40", "ad": "40 Meydan–Yamaçevler", "kisa": "40", "tur": "otobus",
+      "duraklar": ["cumhuriyet", "sahilyolu", "yamacevler"],
+      "sureler": [5, 7],
+      "ilkSefer": "06:30", "sonSefer": "22:00",
+      "sefer": { "sabah": 20, "ogle": 30, "aksam": 25, "gece": 40 }, "haftaSonu": 1.25,
+      "not": "Yamaçevler'e giden tek otobüs; yolcularının çoğu oraya temizliğe, bahçeye, bakıcılığa giden çalışanlar."
+    },
+    {
+      "id": "o55", "ad": "55 Ilıcaköy–Meydan", "kisa": "55", "tur": "otobus",
+      "duraklar": ["ilicakoy", "bezhane", "camlik", "cumhuriyet"],
+      "sureler": [12, 6, 6],
+      "ilkSefer": "06:00", "sonSefer": "22:30",
+      "sefer": { "sabah": 40, "ogle": 60, "aksam": 50, "gece": 60 }, "haftaSonu": 1.2,
+      "not": "Ilıcaköy'ün tek bağlantısı, saatte bir. Son sefere yetişemeyen taksiye kalır."
+    },
+    {
+      "id": "d1", "ad": "Gar–Kampüs dolmuşu", "kisa": "Dolmuş", "tur": "dolmus",
+      "duraklar": ["istasyon", "tabakhane", "bezhane", "camlik"],
+      "sureler": [5, 5, 6],
+      "ilkSefer": "06:00", "sonSefer": "26:00",
+      "sefer": { "sabah": 6, "ogle": 8, "aksam": 6, "gece": 15 }, "haftaSonu": 1,
+      "not": "Sarı dolmuşlar; dolunca kalkar, şoförü ne isterse o çalar. Gece ikiye kadar öğrencilerin kurtarıcısı."
+    },
+    {
+      "id": "d2", "ad": "Kayalıtepe–Çarşı dolmuşu", "kisa": "Dolmuş", "tur": "dolmus",
+      "duraklar": ["kayalitepe", "istasyon", "eski_carsi"],
+      "sureler": [6, 5],
+      "ilkSefer": "05:30", "sonSefer": "25:00",
+      "sefer": { "sabah": 5, "ogle": 8, "aksam": 6, "gece": 15 }, "haftaSonu": 1
+    }
+  ]
+}

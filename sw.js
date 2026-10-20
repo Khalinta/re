@@ -4,13 +4,14 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-4872c4b884c1';
+const ONBELLEK_SURUMU = 'yeniden-26d930c9aa4f';
 const DOSYALAR = [
   './',
   './css/temel.css',
   './data/aksiyonlar.json',
   './data/dunya/sehir.json',
   './data/dunya/semtler.json',
+  './data/dunya/ulasim.json',
   './data/olay_ayarlari.json',
   './data/olaylar/_liste.json',
   './data/olaylar/ev.json',
@@ -53,6 +54,7 @@ const DOSYALAR = [
   './js/core/rng.js',
   './js/core/simulasyon.js',
   './js/core/tr.js',
+  './js/core/ulasim.js',
   './js/core/zaman.js',
   './js/depolama.js',
   './js/dev/panel.js',

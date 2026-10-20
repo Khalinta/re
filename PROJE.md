@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kapandı: 2026-10-20)
-- **Son tamamlanan adım:** 2.2 Semt ayrıntıları (`data/dunya/semtler.json`): 14 semtin karakteri, gün dilimine göre atmosferi, duyular, sosyoekonomik ölçekler ve kira katsayısı, 27 sakin türüyle ağırlıklı sakin listesi, 56 ünlü yer, 41 gerilim (zaman çizelgesine bağlı), yürüme komşulukları, semtler arası ilişkiler; denetim ve yardımcılar `core/dunya.js`'de
-- **Sıradaki adım:** 2.3 Ulaşım ağı (`data/dunya/ulasim.json`): metro M1/M2, otobüs, vapur, dolmuş hatları, duraklar, süreler, ücretler ve yol bulma — **orta**
+- **Son tamamlanan adım:** 2.3 Ulaşım ağı (`data/dunya/ulasim.json` + `core/ulasim.js`): 2 metro, 1 vapur, 5 otobüs, 2 dolmuş hattı; her komşuluk için yürüme/araba süresi; saate göre sefer aralığı, ilk/son sefer, hafta sonu, trafik; Kent Kart aktarma indirimi, taksi; zamana bağlı yol bulma (toplu / yürüyüş / taksi)
+- **Sıradaki adım:** 2.4 Kurumlar, şirketler (iş ilanlarına kaynak), yerel figürler, kurgusal suç örgütleri ve bölgeleri — **büyük**
 - **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). 0.1.5 ekran görüntüsüyle doğrulandı (şerit sekme çubuğuyla aynı renkte, yazılar tam): **Faz 1 kapandı.**
 - **Kullanıcıdan beklenen:** "devam" demesi (sıradaki: 2.2).
 
@@ -39,8 +39,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 |---|---|---|---|
 | 2.1 | Şehrin kimliği, coğrafya, iklim, tarih, zaman çizelgesi (hikaye kancaları), semt iskeleti, dünya denetimi | orta | ✅ |
 | 2.2 | Semt ayrıntıları: karakter, sosyoekonomik durum, kira katsayısı, sakinler, ünlü yerler, gerilimler, semtler arası ilişkiler | orta | ✅ |
-| 2.3 | Ulaşım ağı: hatlar (metro, otobüs, vapur, dolmuş), duraklar, süreler, ücretler, yol bulma | orta | ⏳ |
-| 2.4 | Kurumlar, şirketler (iş ilanlarına kaynak), yerel figürler, kurgusal suç örgütleri ve bölgeleri | büyük | ⬜ |
+| 2.3 | Ulaşım ağı: hatlar (metro, otobüs, vapur, dolmuş), duraklar, süreler, ücretler, yol bulma | orta | ✅ |
+| 2.4 | Kurumlar, şirketler (iş ilanlarına kaynak), yerel figürler, kurgusal suç örgütleri ve bölgeleri | büyük | ⏳ |
 | 2.5 | Mekanlar: sahip (NPC tohumu), saatler, müşteri profili, geçmiş, dedikodular, fırsatlar | büyük | ⬜ |
 | 2.6 | Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkan açılıp kapanması, fiyatlar, şehir olayları) | orta | ⬜ |
 | 2.7 | Ekonomi dosyası (asgari ücrete oranlı her şey), PROJE.md ekonomi tablosunun kesinleşmesi | orta | ⬜ |
@@ -110,6 +110,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K45 | **Şehir: Karaliman** (kurgusal; ad `data/dunya/sehir.json` → `ad` alanından tek yerden değişir). Gerçek Türkiye'de, gerçek bölgede (Marmara), kurgusal şehir; gerçek ülke olayları (salgın, kur şokları) arka planda kalabilir ama şehre özgü kişiler, şirketler, kulüpler, felaketler kurgusaldır. | Gerçek kişi/kuruma gönderme yapmadan "son derece sağlam temelli" bir dünya. |
 | K46 | **Dünya kitabının şimdisi = 2026-10-20 (`DUNYA_SIMDISI`).** Zaman çizelgesi bu tarihe kadar olan "geçmiş"tir; oyun içinde dünyanın ilerlemesi (2.6) kayda yazılır, dünya kitabına değil. Hikaye kancaları (`kancalar`) zaman çizelgesi olaylarına bağlıdır; karakter geçmişleri (Faz 3) bunları kullanır ve tarih/yaş tutarlılığı buradan denetlenir. | Geçmişteki olaylar dünya kitabıyla uyumlu olsun (bölüm 5): anılan yer, şirket ve tarih gerçekten var olsun. |
 | K47 | **Adı iyelik ekiyle biten yerlere `"iyelik": true`** (Tersaneönü, Sahilyolu; ileride "Çınaraltı Kahvesi" gibi mekanlar). Test, her semt adının bulunma ekiyle doğru çekimlendiğini denetler. | Ek motoru iyeliği kendisi anlayamaz (1.2'de not edildi). |
+| K48 | **Ulaşımda durak = semt; yol bulma beklenen sürelerle ve rastgelelik olmadan.** Hatlar semtleri sırayla bağlar; bekleme sefer aralığının yarısı, trafik saate göre katsayı. | Konum semt + mekan düzeyinde (K-konum); sokak düzeyi gereksiz ayrıntı olur. Rotanın her seferinde aynı çıkması test edilebilirlik ve oyuncunun planlayabilmesi için; sürprizler (kaçan otobüs, iptal vapur) olay motorunun işi. |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -140,7 +141,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   │                       kayitbicim (zarf, sağlama, doğrulama), kayitdeposu (yuva/yedek mantığı), migration,
 │   │                       aktarim (kayıt kodu, dosya), bayrak (bayrak/sayaç), kosul (koşul dili),
 │   │                       etki (olay sonuçları), olay (olay motoru, zamanlayıcılar), metin (şablon, ton, çeşit),
-│   │                       rapor (hata raporu metni), dunya (dünya kitabı denetimi ve yardımcıları)
+│   │                       rapor (hata raporu metni), dunya (dünya kitabı denetimi ve yardımcıları),
+│   │                       ulasim (hatlar, bekleme, trafik, ücret, yol bulma)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
@@ -150,7 +152,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── aksiyonlar.json     Temel günlük aksiyonlar (1.5)
 │   ├── takvim.json         Resmi tatiller (1.5); bayram tarihleri ve okul takvimi Faz 2'de
 │   ├── ekonomi.json        Tüm fiyatlar (asgari ücrete oranlı) — Faz 2
-│   ├── dunya/              Dünya kitabı (Faz 2): sehir.json (2.1), semtler.json (2.2); ulaşım, kurumlar, mekanlar sırayla
+│   ├── dunya/              Dünya kitabı (Faz 2): sehir.json (2.1), semtler.json (2.2), ulasim.json (2.3); kurumlar, mekanlar sırayla
 │   ├── olay_ayarlari.json  Olayların çıkma sıklığı (1.9a)
 │   ├── yaylar.json         Hikaye yayı tanımları (1.9b)
 │   ├── olaylar/            Olay dosyaları (her dosya bir tema); _liste.json hepsini sayar — içerik Faz 5
@@ -346,6 +348,8 @@ Kurgusal, Marmara kıyısında, 4,18 milyonluk bir liman şehri. Çaybaşı Dere
 | Tabakhane | 1 | 0,6 | 2 | 3 | deri atölyeleri, göçmenler, dönüşüm korkusu |
 | Kuzey Sanayi | 2 | 0,55 | 2 | 1 | fabrikalar, vardiyalar, gece depoları |
 
+**Ulaşım (`ulasim.json`, 2.3):** Durak = semt. Hatlar: M1 Gar–Çarşı–Meydan–Kampüs, M2 Marina–Gar–Kayalıtepe–OSB, vapur Marina–Liman–Sahilyolu (havaya duyarlı), otobüs 10 / 22 / 31 / 40 / 55 (Ilıcaköy'e saatte bir), dolmuş Gar–Kampüs (gece 02:00'ye kadar) ve Kayalıtepe–Çarşı. Bekleme = sefer aralığının yarısı (dilime göre; hafta sonu uzar); otobüs, dolmuş ve taksi trafiğe takılır (sabah ×1,6, akşam ×1,7, gece ×0,8). Ücretler AÜ oranı: metro/otobüs 0,0009 (≈25 ₺), vapur 0,0011, dolmuş 0,0013, taksi açılış 0,0018 + dakika 0,00045; Kent Kart 60 dk içinde en çok 2 aktarma %50. Gece 01:00–05:30 arası hiçbir hat yok: yürüyüş ya da taksi. Yol bulma beklenen sürelerle çalışır (rastgelelik yok); gerçek bekleme ve aksilikler (kaçan otobüs, iptal vapur) oyun sırasında olaylarla eklenecek.
+
 Suç dünyası için yalnızca zemin var (tekinsiz sokaklar, gece depoları, kayıt dışı yükler — anlatı düzeyinde); örgütler ve bölgeleri 2.4'te bu semtlere bağlanacak.
 
 ---
@@ -508,6 +512,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.7 | 2026-10-20 | Adım 2.3: `data/dunya/ulasim.json` (10 hat, 23 yol, tarife, trafik) ve `core/ulasim.js` (zamana bağlı yol bulma: toplu/yürüyüş/taksi, bekleme, trafik, Kent Kart aktarma indirimi, taksi ücreti, veri denetimi); dünya denetimine bağlandı, oyun dosyayı yüklüyor. 267 test. |
 | 0.1.6 | 2026-10-20 | Adım 2.2: `data/dunya/semtler.json` (14 semt ayrıntısı, 27 sakin türü, 56 ünlü yer, 41 gerilim, komşuluk ağı, ilişkiler); `core/dunya.js` semt denetimi (ölçekler, sakin türleri, iki yönlü komşuluk, olay başvuruları, iyelik şüphesi) ve yardımcılar (`semtBul` birleşik, `semtKomsulari`, `semtIliskisi`, `sakinTuruSec`); oyun dosyayı yüklüyor. 256 test. |
 | 0.1.5 | 2026-10-20 | Alttaki şerit, kalıcı çözüm: 0.1.4'teki 100vh geri alındı; sekme çubuğu ve kök arka plan --arka (şerit rengi), theme-color --arka; ana ekran modunda şerit algılanınca (`ios-alt-serit`) alt güvenli alan boşluğu 0. Palet tazelendi, `--vurgu-zemin` (seçili sekme, seçilen seçenek, aktif yuva). |
 | 0.1.4 | 2026-10-20 | Alttaki şerit, ölçüme dayalı deneme: `@media (display-mode: standalone) { body { height: 100vh } }`; theme-color sekme çubuğu rengi. |

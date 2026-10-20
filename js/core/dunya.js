@@ -1,3 +1,5 @@
+import { ulasimDogrula } from './ulasim.js';
+
 // Dünya kitabı: yükleme sonrası yardımcılar ve tutarlılık denetimi.
 // "Hiçbir şey havada kalmasın": her başvuru (semt, olay, kurum...) gerçekten var olan bir şeye gitmeli.
 // Denetim testlerde çalışır (tests/dunya.test.js); oyun açılışında da hafif bir denetim yapılabilir.
@@ -143,5 +145,9 @@ export function dunyaDogrula(dunya) {
     for (const k of o.kancalar || []) if (!KIMLIK.test(k)) h.push(`${y}: kanca biçimi "${k}"`);
   }
   if (dunya.semtler) h.push(...semtDetayDogrula(dunya, semtIdler, olayIdler));
+  if (dunya.ulasim) {
+    const ciftler = dunya.semtler ? new Set(dunya.semtler.semtler.flatMap(x => (x.komsular || []).map(k => [x.id, k].sort().join('|')))) : null;
+    h.push(...ulasimDogrula(dunya.ulasim, semtIdler, ciftler).map(x => 'ulaşım: ' + x));
+  }
   return h;
 }

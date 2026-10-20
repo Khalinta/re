@@ -9,11 +9,11 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 
 ## 🧭 NEREDE KALDIK
 
-- **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kodu bitti; kapanışı kullanıcının telefon testine bağlı)
+- **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kapandı: 2026-10-20)
 - **Son tamamlanan adım:** 2.1 Şehrin kimliği (Karaliman), coğrafya, iklim, kimlik, tarih, 23 olaylık zaman çizelgesi, 14 semtlik iskelet; `core/dunya.js` denetimi; şablonlarda `{sehir.ad}`
 - **Sıradaki adım:** 2.2 Semtlerin ayrıntıları (`data/dunya/semtler.json`): karakter, sosyoekonomik durum, kira katsayısı, kim yaşıyor, ünlü yerler, gerilimler ve semtler arası ilişkiler — **orta**
-- **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). Kullanıcıdan 0.1.5 ekran görüntüsü bekleniyor; onaylanırsa Faz 1 kapanır.
-- **Kullanıcıdan beklenen:** uygulamayı güncelleyip (0.1.5) ekran görüntüsü atması; sonra "devam".
+- **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). 0.1.5 ekran görüntüsüyle doğrulandı (şerit sekme çubuğuyla aynı renkte, yazılar tam): **Faz 1 kapandı.**
+- **Kullanıcıdan beklenen:** "devam" demesi (sıradaki: 2.2).
 
 ### Faz 1 adım listesi
 
@@ -31,7 +31,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.9b | Olay motoru B2: metin şablonları ve ruh haline göre ton, zamanlayıcıların çalışması, hikaye yayları | orta | ✅ |
 | 1.10 | Global hata yakalama, hata ekranı, hata raporu | orta | ✅ |
 | 1.11 | Gizli geliştirici paneli | orta | ✅ |
-| 1.12 | Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı | küçük | ⏳ kullanıcı testi bekleniyor |
+| 1.12 | Yayın (GitHub Pages), telefonda test listesi, Faz 1 kapanışı | küçük | ✅ |
 
 ### Faz 2 adım listesi
 
@@ -50,7 +50,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 
 | Faz | İçerik | Durum |
 |---|---|---|
-| 1 | Altyapı (+ suç dünyası için koşul/etki türleri: 1.8–1.9) | ✅ kod bitti · ⏳ telefon testi bekleniyor |
+| 1 | Altyapı (+ suç dünyası için koşul/etki türleri: 1.8–1.9) | ✅ kapandı (2026-10-20) |
 | 2 | Dünya kitabı + ekonomi dosyası (+ örgütler, bölgeler, emniyet/adliye/cezaevi kurumları, suç ekonomisi) | ⏳ devam ediyor |
 | 3 | Başlangıç hikayesi motoru, açılış sahneleri, NPC üretimi (+ örgüt hiyerarşisi/lider NPC'leri, suçla bağlantılı geçmiş bileşenleri) | ⬜ |
 | 4 | İş, para, borç, barınma, eşya; ilişkiler, telefon ekranı (+ örgüt, aranma, adalet, hapishane, kara para sistemleri) | ⬜ |

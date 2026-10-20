@@ -7,6 +7,10 @@ import { onayIste, bilgiGoster } from '../panel.js';
 import { sure as sureYaz, saat } from '../../core/format.js';
 import { ek } from '../../core/tr.js';
 import * as oyun from '../../oyun.js';
+import { guvenli } from '../../hata.js';
+
+// Hamle hata verirse: hata paneli açılır; "Devam et" menüyü yeniden kurar.
+const hataSecenekleri = () => ({ yenidenDene: () => menuyuGoster(), yenidenBaslat: () => location.reload() });
 
 let anlatim, secenekKap;
 
@@ -70,7 +74,8 @@ export function menuyuGoster() {
     devreDisi: !x.tamam,
     sebep: x.sebep,
   })), async s => {
-    const sonuc = oyun.aksiyonYap(s.id);
+    const sonuc = await guvenli('aksiyon:' + s.id, () => oyun.aksiyonYap(s.id), hataSecenekleri());
+    if (!sonuc) return; // hata paneli açık; "Devam et" menüyü yeniden kurar
     if (!sonuc.tamam) bilgiGoster(s.metin, sonuc.sebep);
     await anlatim.sira;
     menuyuGoster();
@@ -80,7 +85,8 @@ export function menuyuGoster() {
 // Etkin olayın seçenekleri
 function olayMenusu() {
   secenekleriGoster(secenekKap, oyun.olaySecenekleriAl().map(x => ({ ...x, ton: 'olay' })), async s => {
-    const sonuc = oyun.olaySeceneginiYap(s.sira);
+    const sonuc = await guvenli('olaySecenegi', () => oyun.olaySeceneginiYap(s.sira), hataSecenekleri());
+    if (!sonuc) return;
     if (!sonuc.tamam) bilgiGoster(s.metin, sonuc.sebep);
     await anlatim.sira;
     menuyuGoster();
@@ -97,7 +103,8 @@ async function uyu() {
   const ok = await onayIste({ baslik: 'Uyu', metin: `${ek(bitis, 'e')} kadar uyuyacaksın (${sureYaz(x.maliyet.dakika)}).`, evet: 'Uyu', hayir: 'Vazgeç' });
   if (!ok) return;
   secenekKap.classList.add('kilitli');
-  oyun.aksiyonYap('uyu');
+  const sonuc = await guvenli('aksiyon:uyu', () => oyun.aksiyonYap('uyu'), hataSecenekleri());
+  if (!sonuc) return;
   await anlatim.sira;
   menuyuGoster();
 }

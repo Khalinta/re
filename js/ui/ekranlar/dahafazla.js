@@ -4,6 +4,7 @@ import { IKON } from '../ikonlar.js';
 import { kayitlariGoster } from './kayitlar.js';
 import { SECENEKLER, al, degistir } from '../../ayarlar.js';
 import { OYUN_SURUMU } from '../../surum.js';
+import { hataPaneli } from '../../hata.js';
 
 function segment(anahtar, etiket) {
   const grup = h('div', { class: 'segment', role: 'radiogroup', 'aria-label': etiket });
@@ -33,6 +34,9 @@ export const dahaFazlaEkrani = {
           h('span', { class: 'satir-ok', html: IKON.ok }))),
       h('h2', { class: 'bolum-baslik' }, 'Hakkında'),
       h('div', { class: 'kart-liste' },
+        h('button', { class: 'satir', onclick: () => hataPaneli(null) },
+          h('span', { class: 'satir-metin' }, h('span', {}, 'Sorun bildir'), h('span', { class: 'satir-alt' }, 'Hata raporunu kopyala')),
+          h('span', { class: 'satir-ok', html: IKON.ok })),
         h('div', { class: 'satir', id: 'surum-satiri' },
           h('span', { class: 'satir-metin' }, h('span', {}, 'Sürüm'), h('span', { class: 'satir-alt' }, OYUN_SURUMU)))),
     ));

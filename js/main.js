@@ -7,6 +7,11 @@ import { bilgiGoster, panelAc } from './ui/panel.js';
 import { h } from './ui/dom.js';
 import * as oyun from './oyun.js';
 import * as kayit from './kayit.js';
+import * as hata from './hata.js';
+
+// Hata yakalama her şeyden önce kurulur
+hata.kur();
+hata.bagla({ durum: () => oyun.durumAl(), kayitUyarilari: () => kayit.hatalar, bilgi: () => ({ depolama: kayit.depolamaBilgisi() }) });
 import { telefonEkrani, sehirEkrani, hayatimEkrani } from './ui/ekranlar/yertutucu.js';
 import { dahaFazlaEkrani } from './ui/ekranlar/dahafazla.js';
 
@@ -76,14 +81,9 @@ async function basla() {
   const [, sw] = await Promise.all([cssYukle('./css/temel.css'), swKur().catch(h => ({ durum: 'hata', hata: h }))]);
   if (sw.durum === 'guncelleniyor') return;
 
-  try {
-    await oyun.veriYukle();
-  } catch (hata) {
-    clearTimeout(window.__acilisZamanlayici);
-    $('#acilis-mesaj').textContent = 'Oyun verisi yüklenemedi: ' + hata.message;
-    return;
-  }
+  await oyun.veriYukle();
 
+  hata.bagla({ panel: panelAc });
   const arayuz = arayuzKur($('#uygulama'), {
     simdi: simdiEkrani,
     telefon: telefonEkrani,
@@ -146,4 +146,8 @@ async function kayitliOyunuAc() {
 
 let kayitHatasiGosterildi = false;
 
-basla();
+basla().catch(e => {
+  hata.hataKaydet(e, { kaynak: 'açılış', ciddi: true });
+  // Arayüz kurulduysa panel, kurulmadıysa açılış ekranında rapor düğmesi
+  hata.hataPaneli(e, { yenidenBaslat: () => location.reload() });
+});

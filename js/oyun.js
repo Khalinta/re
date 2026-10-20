@@ -1,6 +1,6 @@
 // Oyun denetleyicisi: veriyi yükler, mevcut durumu tutar, aksiyonları çalıştırır, arayüze haber verir.
 // Kayıt sistemi (1.6) ve olay motoru (1.8–1.9) buraya bağlanacak.
-import { yeniDurum, rngAl, anlatimKaydet } from './core/durum.js';
+import { yeniDurum, rngAl, anlatimKaydet, aksiyonKaydet, geriAlinabilir } from './core/durum.js';
 import { aksiyonDurumu, aksiyonMaliyeti, aksiyonUygula } from './core/aksiyon.js';
 import { olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec, vadesiGelenZamanlayici } from './core/olay.js';
 import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER } from './core/zaman.js';
@@ -95,7 +95,13 @@ function ayracEkle(liste, onceDk, uykuSonrasi = false) {
   liste.splice(i, 0, ayrac(durum.zaman.dakika, gunDegisti));
 }
 
+// Oyuncu hamleleri geri alınabilir sarmalda çalışır: hata olursa durum hamleden önceki haline döner,
+// arayüze bildirim gitmez (dolayısıyla yarım hal kaydedilmez), hata yukarı iletilir.
 export function aksiyonYap(id) {
+  return geriAlinabilir(durum, () => aksiyonYapIc(id));
+}
+
+function aksiyonYapIc(id) {
   const a = aksiyonBul(id);
   if (!a) throw new Error('Bilinmeyen aksiyon: ' + id);
   if (durum.aktifOlay) return { tamam: false, sebep: 'Önce şu an olanla ilgilen.' };
@@ -135,6 +141,7 @@ function olayDene(aksiyonId) {
 
 function olayuBaslat(id, baglam = {}) {
   durum.sonOlayZamani = durum.zaman.dakika;
+  aksiyonKaydet(durum, 'olayBasladi:' + id);
   const onceDk = durum.zaman.dakika;
   const s = olayBaslat(durum, id, veri, rngAl(durum, 'olay'), baglam);
   const liste = [...s.paragraflar];
@@ -154,7 +161,14 @@ export const aktifOlayVar = () => !!durum?.aktifOlay;
 export const olaySecenekleriAl = () => olaySecenekleri(durum, veri);
 
 export function olaySeceneginiYap(sira) {
+  return geriAlinabilir(durum, () => olaySeceneginiYapIc(sira));
+}
+
+function olaySeceneginiYapIc(sira) {
   const onceDk = durum.zaman.dakika;
+  const ao = durum.aktifOlay;
+  const secenek = ao ? veri.olaylar[ao.id]?.sahneler[ao.sahne]?.secenekler?.[sira] : null;
+  if (ao) aksiyonKaydet(durum, 'olay:' + ao.id, { sahne: ao.sahne, secim: secenek?.metin });
   const s = olaySecenegiSec(durum, veri, rngAl(durum, 'olay'), sira);
   if (s.reddedildi) return { tamam: false, sebep: s.reddedildi };
   const liste = [...s.paragraflar];
@@ -167,11 +181,13 @@ export function olaySeceneginiYap(sira) {
 
 // Geliştirici paneli ve testler için: bir olayı koşulsuz başlat
 export function olayiZorla(id, baglam = {}) {
-  if (durum.aktifOlay) durum.aktifOlay = null;
-  const liste = olayuBaslat(id, baglam);
-  paragraflariKaydet(liste);
-  bildir(liste);
-  return liste;
+  return geriAlinabilir(durum, () => {
+    if (durum.aktifOlay) durum.aktifOlay = null;
+    const liste = olayuBaslat(id, baglam);
+    paragraflariKaydet(liste);
+    bildir(liste);
+    return liste;
+  });
 }
 
 // Durum çubuğunun beklediği biçim (bkz. ui/durumcubugu.js)

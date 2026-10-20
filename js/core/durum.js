@@ -50,3 +50,17 @@ export function anlatimKaydet(durum, paragraf) {
   durum.anlatim.push(paragraf);
   if (durum.anlatim.length > ANLATIM_GECMISI_SINIRI) durum.anlatim.splice(0, durum.anlatim.length - ANLATIM_GECMISI_SINIRI);
 }
+
+// Bir işi durumu bozmadan dener: iş hata fırlatırsa durum, işten önceki haline YERİNDE döndürülür
+// (aynı nesne kalır; ona referans tutan kayıt sistemi yarım kalmış bir hali asla görmez).
+export function geriAlinabilir(durum, is) {
+  const yedek = structuredClone(durum);
+  try {
+    return is();
+  } catch (e) {
+    for (const k of Object.keys(durum)) delete durum[k];
+    Object.assign(durum, yedek);
+    try { e.geriAlindi = true; } catch { /* dondurulmuş hata */ }
+    throw e;
+  }
+}

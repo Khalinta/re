@@ -264,6 +264,10 @@ button.satir:active { background: var(--yuzey2); }
 }
 .bant button { min-height: 44px; padding: 0 16px; border-radius: 10px; border: 0; background: var(--vurgu); color: var(--vurgu-metin); font-weight: 600; }
 
+.hata-bant { border-color: var(--kotu); }
+.hata-bant button { background: var(--kotu); color: #fff; }
+.hata-ayrinti { font-family: ui-monospace, Menlo, monospace; word-break: break-word; }
+
 /* ---------- Hareketi azalt ---------- */
 [data-hareket="azalt"] *, [data-hareket="azalt"] *::before, [data-hareket="azalt"] *::after {
   transition: none !important; animation: none !important; scroll-behavior: auto !important;

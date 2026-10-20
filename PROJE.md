@@ -12,8 +12,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 - **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kodu bitti; kapanışı kullanıcının telefon testine bağlı)
 - **Son tamamlanan adım:** 2.1 Şehrin kimliği (Karaliman), coğrafya, iklim, kimlik, tarih, 23 olaylık zaman çizelgesi, 14 semtlik iskelet; `core/dunya.js` denetimi; şablonlarda `{sehir.ad}`
 - **Sıradaki adım:** 2.2 Semtlerin ayrıntıları (`data/dunya/semtler.json`): karakter, sosyoekonomik durum, kira katsayısı, kim yaşıyor, ünlü yerler, gerilimler ve semtler arası ilişkiler — **orta**
-- **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Bulunan tek sorun: altta boş şerit. 0.1.2'deki düzeltme (yükseklik visualViewport'tan alınmıyor) yetmedi. 0.1.3: kök arka plan sekme çubuğu renginde (şerit kalırsa görsel olarak sekme çubuğuna karışır) + hata raporuna ekran ölçümleri (`olcum`). Kullanıcının 0.1.3 raporu bekleniyor; kesin sebep ölçümden belirlenip kalıcı düzeltilecek, sonra Faz 1 kapanır.
-- **Kullanıcıdan beklenen:** "devam" demesi.
+- **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). Kullanıcıdan 0.1.5 ekran görüntüsü bekleniyor; onaylanırsa Faz 1 kapanır.
+- **Kullanıcıdan beklenen:** uygulamayı güncelleyip (0.1.5) ekran görüntüsü atması; sonra "devam".
 
 ### Faz 1 adım listesi
 
@@ -450,7 +450,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 - **1.4 → 1.6:** Liste sayfalarında içerik ekrana sığmayınca bloklar sıkışıp görünmez oluyordu.
 
 ### Açık sınırlar
-- **Açık hata (Faz 1 telefon testi):** iPhone (iOS 26) ana ekran modunda altta ~59 pt'lik boş şerit. 0.1.3 ölçümü: `screen 932, outerHeight 932, 100vh 932, 100lvh 932` ama `innerHeight 873, visualViewport 873, 100dvh 873, 100svh 873`; gövde ve sekme çubuğu 873'te bitiyor. Kök arka plan şeridi boyamadı (şerit sayfanın dışında; iOS onu tema rengiyle boyuyor olmalı). 0.1.4 denemesi: ana ekran modunda gövde `height: 100vh`; tema rengi = sekme çubuğu rengi (yedek). Sonuç bekleniyor; tutmazsa geri alınacak.
+- **Açık sınır (iPhone, iOS 26, ana ekran modu):** sistem sayfanın altına ~59 pt'lik bir şerit çiziyor ve onu manifest rengiyle (#1b1916) boyuyor; sayfa o alana inemiyor (ölçüm: ekran 932, innerHeight/dvh 873). ~~0.1.4: gövdeyi 100vh yapmak~~ — 873'ün altı hiç çizilmiyor, sekme yazıları kesildi. 0.1.5'ten beri sekme çubuğu bu renkte, şerit çubuğun devamı gibi görünür (karanlık tema). Aydınlık temada şerit koyu kalır; manifest rengi tek olabildiği için şimdilik böyle.
 
 - Ek motoru: 3. tekil iyelikle biten adlarda (Kahvesi, Sarayı, Belediyesi) `{ iyelik: true }` verilmeli; motor bunu kendisi anlayamaz. Veri dosyalarında mekan adlarına `iyelik` alanı konacak.
 - Ek motoru: alışılmadık okunuşlu yabancı adlarda `{ okunus: '...' }` verilmeli (Bordeaux → bordo).
@@ -487,6 +487,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.5 | 2026-10-20 | Alttaki şerit, kalıcı çözüm: 0.1.4'teki 100vh geri alındı; sekme çubuğu ve kök arka plan --arka (şerit rengi), theme-color --arka; ana ekran modunda şerit algılanınca (`ios-alt-serit`) alt güvenli alan boşluğu 0. Palet tazelendi, `--vurgu-zemin` (seçili sekme, seçilen seçenek, aktif yuva). |
 | 0.1.4 | 2026-10-20 | Alttaki şerit, ölçüme dayalı deneme: `@media (display-mode: standalone) { body { height: 100vh } }`; theme-color sekme çubuğu rengi. |
 | 0.1.3 | 2026-10-20 | Alttaki şerit 0.1.2 ile gitmedi: kök arka plan sekme çubuğu renginde yapıldı (görsel yama), hata raporuna ekran ölçümleri eklendi (screen/inner/visualViewport/100vh-dvh-lvh-svh/güvenli alan/gövde ve sekme alt kenarı). |
 | 0.1.2 | 2026-10-20 | Faz 1 telefon testi: iOS 26 standalone'da her şey çalışıyor (kalıcı depolama izni verildi). Alttaki boş şerit düzeltildi (yükseklik visualViewport'tan alınmıyor). |

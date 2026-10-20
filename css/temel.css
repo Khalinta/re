@@ -5,28 +5,34 @@
    ========================================================= */
 
 :root {
-  --arka: #f6f1e8; --yuzey: #fffaf2; --yuzey2: #ece5d8; --cizgi: #e0d7c8;
-  --metin: #2a2622; --soluk: #6f675c; --vurgu: #b8621f; --vurgu-metin: #fffaf2;
-  --iyi: #4f8a4b; --orta: #b8860b; --kotu: #b8442f;
+  --arka: #f5f0e7; --yuzey: #fffbf4; --yuzey2: #ece5d8; --cizgi: #e3dacb;
+  --metin: #27231f; --soluk: #72695d; --vurgu: #a95a1c; --vurgu-metin: #fffbf4;
+  --vurgu-zemin: rgba(169, 90, 28, .11);
+  --iyi: #4a8547; --orta: #a87a0c; --kotu: #b3432e;
   --perde: rgba(30, 25, 20, .38); --golge: 0 -6px 30px rgba(0, 0, 0, .12);
   --olcek: 1;
   --ust-bosluk: env(safe-area-inset-top, 0px);
   --alt-bosluk: env(safe-area-inset-bottom, 0px);
   color-scheme: light;
 }
+/* iPhone ana ekran modu (iOS 26): sistem altta kendi şeridini (ana ekran çizgisinin alanı) çiziyor,
+   sayfa onun üstünde bitiyor. O zaman ayrıca güvenli alan boşluğu bırakmaya gerek yok (arayuz.js). */
+.ios-alt-serit { --alt-bosluk: 0px; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="aydinlik"]) {
-    --arka: #1b1916; --yuzey: #252220; --yuzey2: #302c28; --cizgi: #3a3530;
-    --metin: #ece6dc; --soluk: #a79f92; --vurgu: #f0b04a; --vurgu-metin: #1b1916;
-    --iyi: #7fb77a; --orta: #e0b04a; --kotu: #e0735d;
+    --arka: #1b1916; --yuzey: #242120; --yuzey2: #2f2b27; --cizgi: #36312b;
+    --metin: #efe8dc; --soluk: #9f968a; --vurgu: #e8a65a; --vurgu-metin: #1b1916;
+    --vurgu-zemin: rgba(232, 166, 90, .15);
+    --iyi: #8cc08a; --orta: #e2b65c; --kotu: #e8826c;
     --perde: rgba(0, 0, 0, .55); --golge: 0 -6px 30px rgba(0, 0, 0, .5);
     color-scheme: dark;
   }
 }
 :root[data-tema="karanlik"] {
-  --arka: #1b1916; --yuzey: #252220; --yuzey2: #302c28; --cizgi: #3a3530;
-  --metin: #ece6dc; --soluk: #a79f92; --vurgu: #f0b04a; --vurgu-metin: #1b1916;
-  --iyi: #7fb77a; --orta: #e0b04a; --kotu: #e0735d;
+  --arka: #1b1916; --yuzey: #242120; --yuzey2: #2f2b27; --cizgi: #36312b;
+  --metin: #efe8dc; --soluk: #9f968a; --vurgu: #e8a65a; --vurgu-metin: #1b1916;
+  --vurgu-zemin: rgba(232, 166, 90, .15);
+  --iyi: #8cc08a; --orta: #e2b65c; --kotu: #e8826c;
   --perde: rgba(0, 0, 0, .55); --golge: 0 -6px 30px rgba(0, 0, 0, .5);
   color-scheme: dark;
 }
@@ -43,10 +49,10 @@ html {
 }
 html, body { margin: 0; color: var(--metin); }
 body { background: var(--arka); }
-/* Kök arka plan alt sekme çubuğuyla aynı renk: iPhone ana ekran modunda gövdenin altında
-   bir şerit kalırsa (Faz 1 telefon testi, iOS 26) ayrı bir boş bar gibi değil, sekme çubuğunun
-   devamı gibi görünsün. Gövde kendi arka planını taşıdığı için başka hiçbir yer etkilenmez. */
-html { background: var(--yuzey); }
+/* ~~0.1.3: kök arka plan --yuzey~~ → 0.1.5: her şey --arka. iPhone ana ekran modunda (iOS 26) sistemin
+   alta çizdiği şerit uygulama rengiyle (manifest, #1b1916 = karanlık --arka) boyanıyor ve CSS ile
+   değiştirilemiyor; sekme çubuğu ve kök aynı renkte olunca şerit çubuğun devamı gibi görünür. */
+html { background: var(--arka); }
 body {
   /* Tüm ekranı kapla. Yükseklik visualViewport'tan ALINMAZ: iPhone'da ana ekrandan açılınca
      (iOS 18/26) innerHeight ve visualViewport.height durum çubuğu kadar eksik geliyor ve altta
@@ -64,12 +70,8 @@ h1, h2 { font-weight: 600; }
 svg { display: block; }
 
 #uygulama { display: flex; flex-direction: column; height: 100%; }
-/* iPhone ana ekran modu (iOS 26): görünen alan (innerHeight, dvh) durum çubuğu kadar kısa bildiriliyor
-   ama ekran gerçekte 100vh (= lvh = ekran yüksekliği). Ölçüm (0.1.3 raporu): 100vh 932, innerHeight 873.
-   Gövdeyi tam ekran yüksekliğine uzat ki altta boş şerit kalmasın. */
-@media (display-mode: standalone) {
-  body { bottom: auto; height: 100vh; }
-}
+/* ~~0.1.4: ana ekran modunda gövde 100vh~~ — kaldırıldı: iOS 26 873 pt'nin altını hiç çizmiyor,
+   sekme yazıları kesildi (0.1.4 telefon testi). Şerit artık renk eşlemesiyle çözülüyor (yukarıda). */
 .klavye body { bottom: auto; height: var(--gorunur, 100%); } /* klavye açıkken içerik klavyenin üstünde kalsın */
 
 /* ---------- Durum çubuğu (üst) ---------- */
@@ -156,24 +158,25 @@ svg { display: block; }
 .secenek-sebep { font-size: .8em; color: var(--soluk); font-style: italic; }
 .secenek[aria-disabled="true"] { opacity: .5; }
 .secenek.ton-tehlikeli { border-color: var(--kotu); }
-.secenek.secildi { border-color: var(--vurgu); }
+.secenek.secildi { border-color: var(--vurgu); background: var(--vurgu-zemin); }
 .kilitli .secenek:not(.secildi) { opacity: .35; }
 
 /* ---------- Sekme çubuğu (alt) ---------- */
 .sekme-cubugu {
   flex: none;
   display: grid; grid-template-columns: repeat(5, 1fr);
-  padding: 4px 4px calc(var(--alt-bosluk) + 2px);
+  padding: 4px 4px calc(var(--alt-bosluk) + 4px);
   border-top: 1px solid var(--cizgi);
-  background: var(--yuzey);
+  background: var(--arka);   /* alttaki sistem şeridiyle aynı renk */
 }
 .sekme {
   position: relative; min-height: 52px; border: 0; background: none;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   color: var(--soluk); font-size: calc(11px * var(--olcek));
 }
-.sekme svg { width: 24px; height: 24px; }
-.sekme[aria-current="page"] { color: var(--vurgu); }
+.sekme svg { width: 24px; height: 24px; box-sizing: content-box; padding: 3px 16px; border-radius: 999px; transition: background .2s ease; }
+.sekme[aria-current="page"] { color: var(--vurgu); font-weight: 600; }
+.sekme[aria-current="page"] svg { background: var(--vurgu-zemin); }
 .sekme-rozet {
   position: absolute; top: 4px; left: calc(50% + 6px);
   min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
@@ -246,7 +249,7 @@ button.satir:active { background: var(--yuzey2); }
 /* Kayıtlar */
 .kucuk { font-size: .85em; }
 .yuva-kart { border: 1px solid var(--cizgi); border-radius: 14px; padding: 12px 14px; margin: 0 0 10px; background: var(--arka); }
-.yuva-kart.aktif { border-color: var(--vurgu); }
+.yuva-kart.aktif { border-color: var(--vurgu); background: var(--vurgu-zemin); }
 .yuva-ust { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
 .rozet { font-size: .72em; padding: 1px 8px; border-radius: 999px; background: var(--vurgu); color: var(--vurgu-metin); font-weight: 600; }
 .rozet.kotu { background: var(--kotu); color: #fff; }

@@ -71,10 +71,23 @@ function klavyeyiIzle() {
     if (!yaziAlani(document.activeElement)) kok.classList.remove('klavye');
   }, 50));
   const vv = window.visualViewport;
-  const ayarla = () => kok.style.setProperty('--gorunur', (vv ? vv.height : window.innerHeight) + 'px');
+  const ayarla = () => {
+    kok.style.setProperty('--gorunur', (vv ? vv.height : window.innerHeight) + 'px');
+    if (!kok.classList.contains('klavye')) kok.classList.toggle('ios-alt-serit', altSeritVar());
+  };
   vv?.addEventListener('resize', ayarla);
   window.addEventListener('resize', ayarla);
   ayarla();
+}
+
+// iPhone ana ekran modu (iOS 26): sayfa ekranın altına kadar inmiyor, kalan ~59 pt'yi sistem uygulama
+// rengiyle boyuyor (0.1.3 ölçümü: ekran 932, innerHeight 873). Bu şerit varken ayrıca alt güvenli alan
+// boşluğu bırakılmaz. Yalnızca dikey tutuşta ve klavye kapalıyken ölçülür.
+function altSeritVar() {
+  const bagimsiz = window.matchMedia?.('(display-mode: standalone)').matches || navigator.standalone === true;
+  if (!bagimsiz || window.innerHeight < window.innerWidth) return false;
+  const fark = screen.height - window.innerHeight;
+  return fark >= 20 && fark <= 80;
 }
 
 // iOS'ta iki parmakla yakınlaştırmayı engelle (çift dokunma CSS'te touch-action ile engelleniyor)

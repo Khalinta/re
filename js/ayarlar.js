@@ -48,9 +48,9 @@ function uygula() {
   kok.dataset.hareket = az ? 'azalt' : 'tam';
 
   const karanlik = ayarlar.tema === 'karanlik' || (ayarlar.tema === 'otomatik' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  // Tema rengi = alt sekme çubuğunun rengi (--yuzey): iPhone ana ekran modunda sayfanın dışında kalan
-  // alanı bu renkle boyuyor (Faz 1 telefon testi, alttaki şerit).
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', karanlik ? '#252220' : '#fffaf2');
+  // Tema rengi = ana arka plan (--arka), sekme çubuğu da bu renkte. (~~0.1.4: --yuzey~~ — iOS 26 alttaki
+  // şeridi tema rengiyle değil manifest rengiyle boyuyor; şerit karanlık --arka ile eşleşiyor.)
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', karanlik ? '#1b1916' : '#f5f0e7');
 }
 
 // Metin hızı: harf başına milisaniye (0 = anında)

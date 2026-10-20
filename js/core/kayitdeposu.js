@@ -163,6 +163,18 @@ export class KayitDeposu {
     return durum;
   }
 
+  // Yuvanın en güncel geçerli zarfı (dışa aktarma için). Yoksa null.
+  async enIyiZarf(n) {
+    const s = KayitDeposu.#enYeni(await this.#adaylar(n, []));
+    return s ? s.zarf : null;
+  }
+
+  // Dışarıdan gelen (doğrulanmış) durumu yuvaya yazar; yuva doluysa mevcut hal önce yedeklenir.
+  async iceAktar(n, durum) {
+    await this.yedekAl(n);
+    return this.kaydet(n, durum);
+  }
+
   // Yuvayı boşaltır; mevcut hal önce yedeğe alınır (yedeklerden geri getirilebilir).
   async yuvaSil(n) {
     await this.yedekAl(n);

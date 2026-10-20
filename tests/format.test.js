@@ -2,20 +2,22 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { para, paraKisa, sayi, tarih, saat, sure, yuzde, onceMetni } from '../js/core/format.js';
 
+const B = s => s.replace(/ /g, '\u00a0'); // beklenen metinde boşluklar bölünmez boşluk
+
 test('para', () => {
-  assert.equal(para(1250.5), '1.250,50 ₺');
-  assert.equal(para(1250), '1.250 ₺');
-  assert.equal(para(1250, { kurus: true }), '1.250,00 ₺');
-  assert.equal(para(0.5), '0,50 ₺');
-  assert.equal(para(-28000), '-28.000 ₺');
-  assert.equal(para(1234567.891), '1.234.567,89 ₺');
-  assert.equal(para(999), '999 ₺');
+  assert.equal(para(1250.5), B('1.250,50 ₺'));
+  assert.equal(para(1250), B('1.250 ₺'));
+  assert.equal(para(1250, { kurus: true }), B('1.250,00 ₺'));
+  assert.equal(para(0.5), B('0,50 ₺'));
+  assert.equal(para(-28000), B('-28.000 ₺'));
+  assert.equal(para(1234567.891), B('1.234.567,89 ₺'));
+  assert.equal(para(999), B('999 ₺'));
 });
 
 test('kısa para', () => {
-  assert.equal(paraKisa(85000), '85.000 ₺');
-  assert.equal(paraKisa(125000), '125 bin ₺');
-  assert.equal(paraKisa(3250000), '3,3 milyon ₺');
+  assert.equal(paraKisa(85000), B('85.000 ₺'));
+  assert.equal(paraKisa(125000), B('125 bin ₺'));
+  assert.equal(paraKisa(3250000), B('3,3 milyon ₺'));
 });
 
 test('sayı', () => {

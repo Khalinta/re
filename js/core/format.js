@@ -26,11 +26,12 @@ export function sayi(n, ondalik) {
 }
 
 // para(1250.5) -> "1.250,50 ₺"; para(1250, { kurus: false }) -> "1.250 ₺"
+// Sayı ile ₺ arasında bölünmez boşluk (\u00a0) var: satır sonunda ₺ tek başına alt satıra düşmesin.
 // kurus: 'otomatik' (varsayılan) => tam sayıysa kuruşsuz yazar
 export function para(n, { kurus = 'otomatik' } = {}) {
   const x = Math.round(Number(n) * 100) / 100;
   const kurusYaz = kurus === true || (kurus === 'otomatik' && !Number.isInteger(x));
-  return sayi(x, kurusYaz ? 2 : 0) + ' ₺';
+  return sayi(x, kurusYaz ? 2 : 0) + '\u00a0₺';
 }
 
 // Kısa para: 1.250 ₺, 12,5 bin ₺, 3,2 milyon ₺ (durum çubuğu gibi dar yerler için)
@@ -38,9 +39,9 @@ export function paraKisa(n) {
   const x = Number(n);
   const a = Math.abs(x);
   if (a < 100000) return para(Math.round(x), { kurus: false });
-  if (a < 1e6) return sayi(Math.round(x / 100) / 10) + ' bin ₺';
-  if (a < 1e9) return sayi(Math.round(x / 1e5) / 10) + ' milyon ₺';
-  return sayi(Math.round(x / 1e8) / 10) + ' milyar ₺';
+  if (a < 1e6) return sayi(Math.round(x / 100) / 10) + '\u00a0bin\u00a0₺';
+  if (a < 1e9) return sayi(Math.round(x / 1e5) / 10) + '\u00a0milyon\u00a0₺';
+  return sayi(Math.round(x / 1e8) / 10) + '\u00a0milyar\u00a0₺';
 }
 
 export function yuzde(oran) {

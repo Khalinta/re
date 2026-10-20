@@ -7,6 +7,7 @@ import * as kayit from '../../kayit.js';
 import * as oyun from '../../oyun.js';
 import { oyunuGoster, yeniOyunuGoster } from './simdi.js';
 import { sekmeyeGec } from '../arayuz.js';
+import { disaAktarGoster, iceAktarGoster } from './aktarim.js';
 
 function ozetSatiri(o) {
   if (!o) return '';
@@ -33,6 +34,7 @@ async function ciz(govde) {
       dugmeler.push(dugme('Burada yeni oyun başlat', () => yeniOyun(y.yuva, false), 'birincil'));
     } else {
       if (!benim && !y.bozuk) dugmeler.push(dugme('Bu oyuna geç', () => gec(y.yuva), 'birincil'));
+      if (!y.bozuk) dugmeler.push(dugme('Dışa aktar', () => disaAktarGoster(y.yuva)));
       dugmeler.push(dugme('Yedekler', () => yedekleriGoster(y.yuva, govde)));
       dugmeler.push(dugme('Yeni oyun', () => yeniOyun(y.yuva, true)));
       if (!benim) dugmeler.push(dugme('Sil', () => sil(y.yuva, govde), 'tehlikeli-metin'));
@@ -57,14 +59,15 @@ async function ciz(govde) {
     h('div', { class: 'ozet-satir' }, h('span', {}, 'Kalıcı depolama'),
       h('span', { class: bilgi.kalici ? 's-iyi' : 's-orta' }, bilgi.kalici ? 'İzin verildi ✓' : 'İzin verilmedi')),
     bilgi.kalici ? null : h('p', { class: 'soluk kucuk' },
-      'Telefon yer darlığında bu uygulamanın verisini silebilir. Ana ekrana eklenmiş uygulamada bu çok nadirdir; yine de arada bir kaydını dışa aktarman iyi olur (dışa aktarma bir sonraki güncellemede geliyor).'),
+      'Telefon yer darlığında bu uygulamanın verisini silebilir. Ana ekrana eklenmiş uygulamada bu çok nadirdir; yine de arada bir kaydını dışa aktarman iyi olur (her yuvada "Dışa aktar" düğmesi var).'),
     bilgi.kalici ? null : dugme('İzni tekrar iste', async () => {
       const ok = await kayit.kaliciTekrarIste();
       bilgiGoster('Kalıcı depolama', ok ? 'İzin verildi. Kayıtların artık daha güvende.' : 'Tarayıcı izni yine vermedi. Bu genellikle uygulama ana ekrana eklenince düzelir.');
       ciz(govde);
     }));
 
-  bosalt(govde, kartlar, h('h2', { class: 'bolum-baslik' }, 'Depolama'), depolama);
+  const iceAktar = h('button', { class: 'dugme ice-aktar', onclick: () => iceAktarGoster(() => ciz(govde)) }, 'Kayıt içe aktar (kod ya da dosya)');
+  bosalt(govde, kartlar, iceAktar, h('h2', { class: 'bolum-baslik' }, 'Depolama'), depolama);
 }
 
 function dugme(metin, eylem, tur = '') {

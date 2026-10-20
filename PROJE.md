@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.6 Kayıt sistemi (iki depo, 3 yuva, yuva başına 5 yedek, arka planda kayıt, kalıcı depolama izni, migration altyapısı, Kayıtlar ekranı)
-- **Sıradaki adım:** 1.7 Dışa / içe aktarma (dosya + sıkıştırılmış metin kodu, sağlama) — **orta**
+- **Son tamamlanan adım:** 1.7 Dışa / içe aktarma (sıkıştırılmış metin kodu, dosya, yuva seçimi)
+- **Sıradaki adım:** 1.8 Olay motoru A: bayraklar/sayaçlar (kalıcı, süreli, NPC'ye özel), koşul dili (VE/VEYA/DEĞİL + tüm kontroller), "neden tetiklenmedi" açıklayıcısı — **orta**
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -24,8 +24,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 1.4 | Arayüz iskeleti: alt sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar, yazı boyutu, safe-area | büyük | ✅ |
 | 1.5 | Oyun durumu, takvim, zaman dilimleri, durumlar (enerji, açlık, stres...), aksiyon döngüsü | orta | ✅ |
 | 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ✅ |
-| 1.7 | Dışa/içe aktarma: dosya + sıkıştırılmış metin kodu, sağlama (checksum) | orta | ⏳ |
-| 1.8 | Olay motoru A: bayraklar/sayaçlar, koşul dili, koşul açıklayıcı ("neden tetiklenmedi") | orta | ⬜ |
+| 1.7 | Dışa/içe aktarma: dosya + sıkıştırılmış metin kodu, sağlama (checksum) | orta | ✅ |
+| 1.8 | Olay motoru A: bayraklar/sayaçlar, koşul dili, koşul açıklayıcı ("neden tetiklenmedi") | orta | ⏳ |
 | 1.9 | Olay motoru B: ağırlıklı seçim, cooldown, çok aşamalı olaylar, beceri/şans kontrolleri, zamanlayıcılar, zincirler, metin şablonları, çoklu etki | büyük | ⬜ |
 | 1.10 | Global hata yakalama, hata ekranı, hata raporu | orta | ⬜ |
 | 1.11 | Gizli geliştirici paneli | orta | ⬜ |
@@ -77,6 +77,9 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K27 | **Kayıt anları:** her aksiyondan sonra (oyun durumu her değiştiğinde), uygulama arka plana atılınca (`visibilitychange`), sayfa kapanırken (`pagehide`), güncelleme bandındaki "Yenile"den önce. Kayıt sürerken gelen istekler birleştirilir (en son hal yazılır). | Her an kesilebilecekmiş gibi. |
 | K28 | **Migration kuralı:** şema değişince `KAYIT_SURUMU` +1, `js/core/migration.js`'e `n → n+1` adımı eklenir (eskiler asla silinmez/değişmez), `node tools/ornek-kayit.mjs` ile yeni sürüm örneği üretilir; `tests/ornekler/` içindeki TÜM eski örnekler testte güncel şemaya açılabilmeli. Daha yeni sürümden gelen kayıt reddedilir (bozulmadan). | Güncellemelerde eski kayıtlar sorunsuz dönüşsün. |
 | K29 | **Kalıcı depolama:** ilk açılışta bir kez `navigator.storage.persist()` istenir; sonuç Kayıtlar ekranında gösterilir, "İzni tekrar iste" düğmesi var. İzin yoksa oyuncu birkaç hamle yaptıktan sonra bir kez kibar bir uyarı çıkar (dışa aktarma önerisiyle). | Bölüm 2 gereksinimi; ilk saniyede oyuncuyu uyarıyla karşılamamak. |
+| K30 | ~~K8: "YND1." öneki + sağlama, CompressionStream yoksa sıkıştırmasız biçim~~ → **kesinleşti:** kod = `YND1.` + base64url(deflate-raw(zarf JSON)); sıkıştırma yoksa `YND0.` + base64url(zarf JSON). Ayrı bir kod sağlaması yok, çünkü zarfın kendi sağlaması zaten tüm veriyi kapsıyor; kesik kod sıkıştırma çözülürken düşüyor. Kodun arasındaki boşluk ve satır sonları yok sayılır (mesajlaşma uygulamaları kodu bölebilir). | Tek bütünlük mekanizması; iki ayrı sağlama gereksiz karmaşa olurdu. Değişiklik değil, K8'in netleşmesi. |
+| K31 | **Dosya dışa aktarma:** okunabilir JSON (`{ aciklama, zarf }`), adı `yeniden-<ad>-yuva<N>-<tarih-saat>.json`. iPhone'da paylaşım menüsü açılır (Web Share, "Dosyalar'a Kaydet"); desteklenmezse indirme. İçe aktarma kodu da dosyayı da (sarmallı ya da çıplak zarf) kabul eder; önce özet + "sağlam ✓" gösterilir, sonra yuva seçilir; dolu yuvanın mevcut hali önce yedeklenir. | Hem kopyala-yapıştır hem dosya (bölüm 2); içe aktarma hiçbir şeyi geri dönüşsüz ezmez. |
+| K32 | **Para biçiminde sayı ile ₺ arasında bölünmez boşluk** (`\u00a0`). | Dar ekranda "1.995" ile "₺" ayrı satırlara düşüyordu. |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -102,10 +105,11 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── depolama.js         Tarayıcı depoları: IndexedDB, localStorage
 │   ├── surum.js            Oyun sürümü
 │   ├── core/               Saf mantık: rng, tr (ek motoru), format, zaman, simulasyon, durum, aksiyon,
-│   │                       kayitbicim (zarf, sağlama, doğrulama), kayitdeposu (yuva/yedek mantığı), migration
+│   │                       kayitbicim (zarf, sağlama, doğrulama), kayitdeposu (yuva/yedek mantığı), migration,
+│   │                       aktarim (kayıt kodu, dosya)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
-│   │   └── ekranlar/       Sekme ekranları (simdi, dahafazla, yertutucu)
+│   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
 │   └── dev/                Gizli geliştirici paneli
 ├── data/
 │   ├── simulasyon.json     Durumların değişim kuralları, eşik uyarıları (1.5)
@@ -289,6 +293,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.7 | 2026-10-20 | Adım 1.7: dışa/içe aktarma — `core/aktarim.js` (YND1 sıkıştırılmış kod, YND0 yedek biçim, boşluk toleransı, kesik/değişmiş kod reddi, dosya içeriği ve adı), Kayıtlar'da her yuvaya "Dışa aktar" (kodu kopyala, dosya olarak kaydet/paylaş) ve "Kayıt içe aktar" (kod ya da dosya → özet → yuva seç → dolu yuva önce yedeklenir → istersen oyuna geç). Depoya `enIyiZarf` ve `iceAktar`. Para biçiminde bölünmez boşluk. 207 test. |
 | 0.0.6 | 2026-10-20 | Adım 1.6: kayıt sistemi — `kayitbicim.js` (zarf, sağlama, doğrulama), `migration.js` (adım altyapısı), `kayitdeposu.js` (iki depo, onarım, yedekten kurtarma, 5 yedek sınırı, silme/geri dönüşte önce yedek), `depolama.js` (IndexedDB strict + localStorage, IndexedDB yoksa tam localStorage), `kayit.js` (otomatik kayıt, birleştirme, arka planda kayıt, kalıcı izin), Kayıtlar ekranı (3 yuva, geç, yeni oyun, yedekler, sil, depolama durumu). Hata düzeltmesi: liste sayfalarında içerik taşınca bloklar sıkışıp görünmez oluyordu (1.4'ten beri). 196 test (300 adımlık bozulma stres testi dahil). |
 | 0.0.5 | 2026-10-20 | Adım 1.5: `zaman.js` (gerçek takvim, dilimler, mevsim, yaş, özel günler), `simulasyon.js` (saatlik değişim, ruh hedefi, sağlık, uyku planı ve düzeni, eşik uyarıları), `durum.js` (kayıt şeması, kayıtlı RNG akışları, aksiyon/anlatım geçmişi), `aksiyon.js`, `oyun.js`; veri: simulasyon, aksiyonlar (10 aksiyon, her biri 2–4 metin), takvim (resmi tatiller). Deneme sahnesi kaldırıldı. Ek motoruna saat desteği (07:00'ye, 23:30'a). 177 test. |
 | 0.0.4 | 2026-10-20 | Adım 1.4: arayüz iskeleti — durum çubuğu (dokununca ayrıntı paneli), 5 sekme, alttan panel, anlatım akışı (yazı hızı, atlama, geçmiş), seçenek kartları (maliyet, uzun basma), kısayollar, tema/yazı/hız/animasyon ayarları, safe-area, zoom ve aşağı çekme engeli, klavye takibi. Geçici deneme sahnesi. |

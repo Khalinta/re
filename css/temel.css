@@ -241,6 +241,10 @@ button.satir:active { background: var(--yuzey2); }
 .depolama-kart .ozet-satir { border: 0; margin: 0; padding: 6px 0; gap: 12px; }
 .depolama-kart .ozet-satir span:last-child { text-align: right; }
 
+.kod-alani { width: 100%; font: 16px/1.4 ui-monospace, Menlo, monospace; padding: 10px 12px; border-radius: 12px;
+  border: 1px solid var(--cizgi); background: var(--arka); color: var(--metin); resize: vertical; word-break: break-all; margin: 8px 0; }
+.ice-aktar { margin: 4px 0 0; }
+
 /* Durum ayrıntıları */
 .ozet-satir { display: flex; justify-content: space-between; padding: 6px 0 12px; border-bottom: 1px solid var(--cizgi); margin-bottom: 8px; }
 .olcer { padding: 7px 0; }

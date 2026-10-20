@@ -238,3 +238,16 @@ test('stres: 300 ardışık kayıt, rastgele aralıklarla ana bozuluyor — son 
     assert.deepEqual(y.durum, sonGecerli, 'adım ' + i);
   }
 });
+
+test('depo: içe aktarma dolu yuvanın mevcut halini önce yedekler', async () => {
+  const { depo } = depoKur();
+  const eski = oynat(yeni(), 3);
+  await depo.kaydet(1, eski);
+  const gelen = oynat(yeni(), 9);
+  await depo.iceAktar(1, gelen);
+  assert.deepEqual((await depo.yukle(1)).durum, gelen);
+  const yedekler = await depo.yedekListesi(1);
+  assert.ok(yedekler.some(y => y.ozet.dakika === eski.zaman.dakika), 'eski hal yedekte olmalı');
+  assert.equal((await depo.enIyiZarf(1)).ozet.dakika, gelen.zaman.dakika);
+  assert.equal(await depo.enIyiZarf(2), null);
+});

@@ -110,7 +110,7 @@ async function kayitliOyunuAc() {
   oyun.dinle(durum => { kayit.otomatikKaydet(durum); });
   kayit.dinle(olay => {
     if (olay.tur === 'kaydedildi' && (oyun.durumAl()?.aksiyonGecmisi.length ?? 0) >= 3 && kayit.kaliciUyariGosterilsinMi()) {
-      bilgiGoster('Kayıtların hakkında', 'Oyun her hamlede kendini kaydediyor. Ancak tarayıcı, kayıtları kalıcı tutma iznini vermedi; telefonda yer çok daralırsa silinebilirler. Uygulamayı Ana Ekrana eklemek bunu çoğu zaman çözer. Ayrıca arada bir kaydını dışa aktarman iyi olur (çok yakında).');
+      bilgiGoster('Kayıtların hakkında', 'Oyun her hamlede kendini kaydediyor. Ancak tarayıcı, kayıtları kalıcı tutma iznini vermedi; telefonda yer çok daralırsa silinebilirler. Uygulamayı Ana Ekrana eklemek bunu çoğu zaman çözer. Ayrıca arada bir kaydını dışa aktarman iyi olur: Daha Fazla → Kayıtlar → Dışa aktar.');
     }
     if (olay.tur === 'hata' && !kayitHatasiGosterildi) {
       kayitHatasiGosterildi = true;

@@ -450,7 +450,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 - **1.4 → 1.6:** Liste sayfalarında içerik ekrana sığmayınca bloklar sıkışıp görünmez oluyordu.
 
 ### Açık sınırlar
-- **Açık hata (Faz 1 telefon testi):** iPhone (iOS 26) ana ekran modunda altta ~59 pt'lik boş şerit. Kesin sebep bilinmiyor; ölçüm verisi bekleniyor (rapor → `olcum`). 0.1.2'deki ilk teşhis (innerHeight'ın eksik gelmesi) tek başına açıklamadı.
+- **Açık hata (Faz 1 telefon testi):** iPhone (iOS 26) ana ekran modunda altta ~59 pt'lik boş şerit. 0.1.3 ölçümü: `screen 932, outerHeight 932, 100vh 932, 100lvh 932` ama `innerHeight 873, visualViewport 873, 100dvh 873, 100svh 873`; gövde ve sekme çubuğu 873'te bitiyor. Kök arka plan şeridi boyamadı (şerit sayfanın dışında; iOS onu tema rengiyle boyuyor olmalı). 0.1.4 denemesi: ana ekran modunda gövde `height: 100vh`; tema rengi = sekme çubuğu rengi (yedek). Sonuç bekleniyor; tutmazsa geri alınacak.
 
 - Ek motoru: 3. tekil iyelikle biten adlarda (Kahvesi, Sarayı, Belediyesi) `{ iyelik: true }` verilmeli; motor bunu kendisi anlayamaz. Veri dosyalarında mekan adlarına `iyelik` alanı konacak.
 - Ek motoru: alışılmadık okunuşlu yabancı adlarda `{ okunus: '...' }` verilmeli (Bordeaux → bordo).
@@ -487,6 +487,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.4 | 2026-10-20 | Alttaki şerit, ölçüme dayalı deneme: `@media (display-mode: standalone) { body { height: 100vh } }`; theme-color sekme çubuğu rengi. |
 | 0.1.3 | 2026-10-20 | Alttaki şerit 0.1.2 ile gitmedi: kök arka plan sekme çubuğu renginde yapıldı (görsel yama), hata raporuna ekran ölçümleri eklendi (screen/inner/visualViewport/100vh-dvh-lvh-svh/güvenli alan/gövde ve sekme alt kenarı). |
 | 0.1.2 | 2026-10-20 | Faz 1 telefon testi: iOS 26 standalone'da her şey çalışıyor (kalıcı depolama izni verildi). Alttaki boş şerit düzeltildi (yükseklik visualViewport'tan alınmıyor). |
 | 0.1.1 | 2026-10-20 | Adım 2.1: `data/dunya/sehir.json` (Karaliman: coğrafya, 12 aylık iklim, kimlik, deyişler, mutfak, kulüp, medya, şehir efsaneleri, 7 dönemlik tarih, 23 olaylık zaman çizelgesi ve hikaye kancaları, 14 semt iskeleti), `core/dunya.js` (denetim, semt/kanca yardımcıları), şablonda `{sehir.*}`, giriş metni şehri anıyor. 250 test. |

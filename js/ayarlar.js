@@ -48,7 +48,9 @@ function uygula() {
   kok.dataset.hareket = az ? 'azalt' : 'tam';
 
   const karanlik = ayarlar.tema === 'karanlik' || (ayarlar.tema === 'otomatik' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', karanlik ? '#1b1916' : '#f6f1e8');
+  // Tema rengi = alt sekme çubuğunun rengi (--yuzey): iPhone ana ekran modunda sayfanın dışında kalan
+  // alanı bu renkle boyuyor (Faz 1 telefon testi, alttaki şerit).
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', karanlik ? '#252220' : '#fffaf2');
 }
 
 // Metin hızı: harf başına milisaniye (0 = anında)

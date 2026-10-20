@@ -1,0 +1,82 @@
+{
+  "_aciklama": "Açılış sahneleri (adım 3.4). Yeni oyunun ilk sabahı: uyanış → telefon → cebindekiler → geçmişten biri → iç ses ve ilk niyet. Hikâye motorunun ürettiği karaktere göre değişir: 'hikaye' koşulu (tip, arketip, etiket, var: yakin / gergin / disarida / alacakli / borcVar / kalanDeger) ve {hk.*} değişkenleri (hk.yakin, hk.yakinRol, hk.alacakli, hk.alacakliTutar, hk.borcToplam, hk.gunIdare, hk.kalan, hk.ani, hk.sir, hk.icSes...). npc: \"hk:yakin\" hikâyenin o kişisidir. tetik 'acilis': rastgele çıkmaz, yeni oyunda bir kez başlar.",
+  "olaylar": [
+    {
+      "id": "acilis",
+      "tetik": "acilis",
+      "baslik": "İlk sabah",
+      "etiketler": ["acilis"],
+      "sahneler": {
+        "giris": {
+          "metin": {
+            "kosullu": [
+              { "kosul": { "hikaye": { "arketip": "tahliye" } }, "metin": [["Gözlerini açtığında ilk iş tavana bakıyorsun; burada sayım yok, kimse adını bağırmıyor. Yine de altıda uyandın.", "Koridorda biri yürüyor. Bir an kalbin hızlanıyor; sonra hatırlıyorsun: kapı içeriden kilitleniyor."], ["Saat altı buçuk. Vücudun hâlâ koğuşun saatiyle kalkıyor.", "Pansiyonun duvarından komşu odanın radyosu geliyor; içeride radyo yasaktı, şimdi bir şarkının sözlerini hatırlamaya çalışıyorsun."]] },
+              { "kosul": { "hikaye": { "arketip": "sakat_sporcu" } }, "metin": [["Yataktan kalkarken dizin önce sen kalkmadan haber veriyor: bugün hava değişecek.", "Duvarda çivi izi var; birisi oraya bir şey asmış, sonra indirmiş. Senin de asacak bir şeyin kalmadı."]] },
+              { "kosul": { "hikaye": { "etiket": "unlu" } }, "metin": [["Rüyanda yine bir sahnedeydin; ışıklar yanıyordu, bir kalabalık adını bağırıyordu.", "Uyanınca tavandaki rutubet lekesine bakıyorsun. Işık yok, kalabalık yok. Sadece aşağıdan geçen bir çöp kamyonunun sesi."]] },
+              { "kosul": { "hikaye": { "arketip": "afet" } }, "metin": [["Bir kamyon geçiyor, cam titriyor; yataktan fırlamışsın bile, ayakkabıların elinde.", "Sonra duruyorsun. Bina sağlam. Sadece bir kamyon. Kalbin uzun süre yavaşlamıyor."]] },
+              { "kosul": { "hikaye": { "arketip": "yetistirme_yurdu" } }, "metin": [["Hayatında ilk kez sabah zili çalmadan uyandın. Kimse yatakları saymıyor, kimse kahvaltıya çağırmıyor.", "Bu sessizlik özgürlük mü, yoksa yalnızlık mı, henüz karar veremedin."]] },
+              { "kosul": { "hikaye": { "arketip": "yurtdisindan_donen" } }, "metin": [["Bir an nerede olduğunu bilemiyorsun; tavan, pencere, ses... Sonra dışarıdan bir simitçinin sesi geliyor.", "Döndün. Gerçekten döndün. Valizin hâlâ köşede, açılmamış."]] },
+              { "kosul": { "hikaye": { "tip": "zirveden" } }, "metin": [["Gözlerini açıyorsun ve birkaç saniye boyunca her şey eskisi gibi. Sonra tavan, dar pencere, eski bir dolap.", "Hafıza her sabah aynı yerden vuruyor: buradasın. Bu oda senin odan."], ["Uyandığında elin alışkanlıkla komodinin üstündeki o eski saati arıyor; komodin yok.", "Odanın kokusu yabancı; perdenin arkasında yabancı bir şehir uyanıyor, ki o şehir senin şehrin."]] }
+            ],
+            "varsayilan": [["Bir horozun değil, bir motosikletin sesiyle uyanıyorsun.", "Oda küçük; bir yatak, bir sandalye, kapağı tam kapanmayan bir dolap. Ama kirası ödendi, bu ay için."], ["Sabah ışığı perdenin yırtığından içeri sızıyor, tam yüzüne.", "Bir gün daha. Bu şehirde kaçıncı sabah olduğunu saymayı çoktan bıraktın; ama bu sabah bir şey farklı. Belki sadece sen."]]
+          },
+          "secenekler": [
+            { "metin": "Kalk, pencereyi aç", "maliyet": { "dakika": 5 }, "etki": [{ "durum": { "ruh": 3 } }], "sonuc": ["Soğuk hava yüzüne çarpıyor. Aşağıda {semt.ad} uyanıyor: kepenk sesleri, bir çay ocağının dumanı, okula koşan çocuklar.", "Pencereyi açınca şehrin sesi doluyor odaya; uzaktan bir vapur düdüğü, yakından bir kavga, daha yakından bir ezan."], "git": "telefon" },
+            { "metin": "Telefona uzan", "maliyet": { "dakika": 2 }, "sonuc": "Elin gözlerinden önce davranıyor; ekran yanıyor.", "git": "telefon" },
+            { "metin": "Yorganı başına çek", "alt": "Biraz daha.", "maliyet": { "dakika": 40 }, "etki": [{ "durum": { "enerji": 6, "ruh": -2 } }], "sonuc": ["Kırk dakika daha. Uyumuyorsun aslında; sadece dünyanın biraz daha beklemesini istiyorsun.", "Gözlerini kapatıyorsun. Dışarıdaki şehir bekliyor; sen de onu bekletiyorsun."], "git": "telefon" }
+          ]
+        },
+        "telefon": {
+          "metin": {
+            "kosullu": [
+              { "kosul": { "hikaye": { "var": "alacakli" } }, "metin": [["Ekranda tek bir mesaj var. Numara kayıtlı değil, ama kimden geldiğini biliyorsun.", { "tur": "konusma", "konusan": "Bilinmeyen numara", "metin": "Döndüğünü duyduk. {hk.alacakli} selam söyledi. Hesap {hk.alacakliTutar}, unutmadık. Acelemiz yok; şimdilik." }], ["Gece yarısından kalma bir mesaj:", { "tur": "konusma", "konusan": "Bilinmeyen numara", "metin": "Hayırlı sabahlar. {hk.alacakli} hatırlatmamızı istedi: {hk.alacakliTutar}. Konuşuruz." }, "Mesajın sonunda bir gülümseme yüzü var. Bu, her şeyden kötü."]] },
+              { "kosul": { "hikaye": { "var": "disarida" } }, "metin": [["Gece bir mesaj gelmiş. {hk.disaridaRol|bas}: {hk.disarida}.", { "tur": "konusma", "konusan": "{hk.disarida}", "metin": "Nasılsın? Gittiğinden beri hiç ses yok. Bir haber ver, merak ediyorum." }]] },
+              { "kosul": { "hikaye": { "var": "borcVar" } }, "metin": [["Bankadan otomatik bir mesaj: 'Gecikmiş ödemeniz bulunmaktadır.' Altında bir rakam.", "Kafandaki toplam daha büyük: {hk.borcToplam}. Telefonu yüzüstü çeviriyorsun."]] }
+            ],
+            "varsayilan": [["Hiç bildirim yok. Ne bir mesaj, ne bir cevapsız arama.", "Bir zamanlar bu sessizliği isterdin."], ["Ekranda sadece bir operatör mesajı: 'Paketiniz bitmek üzere.' Kimse aramamış."]]
+          },
+          "secenekler": [
+            { "metin": "Cevap verme", "kosul": { "hikaye": { "var": "alacakli" } }, "gizle": true, "maliyet": { "dakika": 2 }, "etki": [{ "durum": { "stres": 6 } }, { "bayrak": "alacakliya_cevapsiz" }], "sonuc": "Ekranı kapatıyorsun. Mesaj hâlâ orada; sen de.", "git": "cep" },
+            { "metin": "'Ödeyeceğim' yaz", "kosul": { "hikaye": { "var": "alacakli" } }, "gizle": true, "maliyet": { "dakika": 4 }, "etki": [{ "durum": { "stres": 3 } }, { "iliski": { "npc": "hk:alacakli", "guven": 3 } }, { "bayrak": "alacakliya_soz" }, { "gunluk": "Alacaklıya ödeyeceğimi yazdım. Nasıl, bilmiyorum." }], "sonuc": "'Ödeyeceğim. Biraz zaman.' Gönder. Cevap hemen geliyor: tek bir onay işareti. Sonra iki.", "git": "cep" },
+            { "metin": "Cevap yaz", "kosul": { "hikaye": { "var": "disarida", "yok": "alacakli" } }, "gizle": true, "maliyet": { "dakika": 10 }, "etki": [{ "iliski": { "npc": "hk:disarida", "yakinlik": 5 } }, { "durum": { "ruh": 4 } }, { "ani": { "npc": "hk:disarida", "metin": "döndüğün ilk sabah ona yazdın" } }], "sonuc": ["Uzun bir şey yazıyorsun, siliyorsun. Sonunda: 'İyiyim. Döndüm. Sonra anlatırım.' Cevap çabuk geliyor: 'Oh be.'", "'Buradayım, ayaktayım,' diye yazıyorsun. Bir dakika sonra bir kalp geliyor. Beklemediğin kadar iyi geliyor."], "git": "cep" },
+            { "metin": "Sonra yazarsın", "kosul": { "hikaye": { "var": "disarida", "yok": "alacakli" } }, "gizle": true, "maliyet": { "dakika": 1 }, "etki": [{ "iliski": { "npc": "hk:disarida", "yakinlik": -1 } }], "sonuc": "Sonra. Her şey sonra.", "git": "cep" },
+            { "metin": "Telefonu bırak", "kosul": { "hikaye": { "yok": ["alacakli", "disarida"] } }, "gizle": true, "maliyet": { "dakika": 1 }, "sonuc": "Telefonu yatağın üstüne bırakıyorsun.", "git": "cep" }
+          ]
+        },
+        "cep": {
+          "metin": [["Cebindekileri yatağın üstüne döküyorsun: bozuk paralar, birkaç kâğıt para, bir otobüs kartı. Hepsi {para}.", "Ve {hk.kalan}. Onu da çıkarıyorsun; nedense hep yanında."], ["Cüzdanı açıyorsun; açmaya gerek yoktu aslında, ne olduğunu biliyorsun: {para}.", "Ceketin iç cebinde {hk.kalan} duruyor. Parmakların ona değince bir an duruyorsun."]],
+          "secenekler": [
+            { "metin": "Hesap yap", "alt": "Kira, yemek, yol...", "maliyet": { "dakika": 15 }, "etki": [{ "durum": { "stres": 3 } }, { "bayrak": "hesap_yapti" }], "sonuc": { "kosullu": [{ "kosul": { "hikaye": { "var": "borcVar" } }, "metin": [["Kâğıdın kenarına rakamlar yazıyorsun. İdareli gidersen bu para {hk.gunIdare} gün eder.", "Borçların toplamı {hk.borcToplam}. İki rakamı yan yana görünce kalemi bırakıyorsun. Ama en azından artık biliyorsun."]] }], "varsayilan": [["Kâğıdın kenarına rakamlar yazıyorsun. İdareli gidersen bu para {hk.gunIdare} gün eder.", "Sonrası için bir iş lazım. Bu kadar basit, bu kadar zor."]] }, "git": "kisi" },
+            { "metin": "Elindekine bak", "alt": "Biraz daha tut.", "maliyet": { "dakika": 10 }, "etki": [{ "durum": { "ruh": 2, "stres": -2 } }], "sonuc": [["{hk.kalan|bas} avucunda. Bir anı geliyor, istemeden:", "{hk.ani}"]], "git": "kisi" },
+            { "metin": "Düşünmek istemiyorsun", "maliyet": { "dakika": 2 }, "etki": [{ "durum": { "stres": 2 } }], "sonuc": "Hepsini tekrar ceplere dolduruyorsun. Bugün değil.", "git": "kisi" }
+          ]
+        },
+        "kisi": {
+          "metin": {
+            "kosullu": [
+              { "kosul": { "hikaye": { "var": "yakin" } }, "metin": [["Telefon titriyor. Ekranda bir isim: {hk.yakin}. {hk.yakinRol|bas}.", "Kaç zamandır konuşmadınız? Elin ekranın üstünde bekliyor."], ["Telefon çalıyor; {hk.yakin}. {hk.yakinRol|bas}. Nereden duydu, kimden öğrendi, bilmiyorsun.", "Çalmaya devam ediyor."]] },
+              { "kosul": { "hikaye": { "var": "gergin" } }, "metin": [["Pencereden aşağı bakıyorsun. Karşı kaldırımda biri duruyor; bir an {hk.gergin} sanıyorsun. {hk.gerginRol|bas}.", "O kişi başını kaldırıyor; başkası. Ama kalbin bunu sana geç söylüyor."]] }
+            ],
+            "varsayilan": [["Kimse aramıyor, kimse kapıyı çalmıyor. Koridorda bir kapı kapanıyor, sonra sessizlik.", "Bu şehirde seni bekleyen kimse yok. Bu hem korkutucu hem de garip bir şekilde rahatlatıcı."]]
+          },
+          "secenekler": [
+            { "metin": "Aç", "kosul": { "hikaye": { "var": "yakin" } }, "gizle": true, "maliyet": { "dakika": 15 }, "etki": [{ "iliski": { "npc": "hk:yakin", "yakinlik": 6, "guven": 2 } }, { "durum": { "ruh": 6, "stres": -3 } }, { "ani": { "npc": "hk:yakin", "metin": "ilk sabah telefonunu açtın" } }, { "bayrak": { "ad": "bulusma_sozu", "sure": { "gun": 7 } } }, { "gunluk": "İlk sabah {hk.yakin} aradı. Bir çay sözü verdik." }], "sonuc": [[{ "tur": "konusma", "konusan": "{hk.yakin}", "metin": "Sonunda! Sesini duyunca rahatladım. Nasılsın, gerçekten nasılsın?" }, "Ne diyeceğini bilmiyorsun; 'idare ediyorum' diyorsun. Bir süre ikiniz de susuyorsunuz; kötü bir sessizlik değil.", { "tur": "konusma", "konusan": "{hk.yakin}", "metin": "Bu hafta bir çay içelim. Söz ver." }, "Söz veriyorsun."]], "git": "son" },
+            { "metin": "Açma", "kosul": { "hikaye": { "var": "yakin" } }, "gizle": true, "maliyet": { "dakika": 2 }, "etki": [{ "iliski": { "npc": "hk:yakin", "yakinlik": -2 } }, { "durum": { "ruh": -2 } }], "sonuc": "Telefon susuyor. Sonra bir mesaj: 'Ne zaman istersen.' Bu daha da ağır geliyor.", "git": "son" },
+            { "metin": "Perdeyi çek", "kosul": { "hikaye": { "var": "gergin", "yok": "yakin" } }, "gizle": true, "maliyet": { "dakika": 2 }, "etki": [{ "durum": { "stres": 3 } }], "sonuc": "Perdeyi çekiyorsun. Oda yarı karanlık; sen de.", "git": "son" },
+            { "metin": "Bakmaya devam et", "kosul": { "hikaye": { "var": "gergin", "yok": "yakin" } }, "gizle": true, "maliyet": { "dakika": 10 }, "etki": [{ "durum": { "stres": -1 } }], "sonuc": "Yürüyüp gidiyor. Bir yabancı. Geçmiş, sokağın köşesinde beklemiyor; en azından bugün.", "git": "son" },
+            { "metin": "Hazırlan", "kosul": { "hikaye": { "yok": ["yakin", "gergin"] } }, "gizle": true, "maliyet": { "dakika": 20 }, "etki": [{ "durum": { "hijyen": 8 } }], "sonuc": "Musluktan buz gibi su akıyor; yüzünü yıkıyorsun. Aynadaki yüz yorgun ama tanıdık.", "git": "son" }
+          ]
+        },
+        "son": {
+          "metin": [["Bir an duruyorsun. Kafanın içindeki ses, her zamanki gibi, susmuyor:", { "tur": "icses", "metin": "{hk.icSes}" }, "Bugün bir yerden başlaman lazım. Neden başlayacaksın?"]],
+          "secenekler": [
+            { "metin": "İş bulmaktan", "alt": "Önce para.", "etki": [{ "bayrak": { "ad": "niyet", "deger": "is" } }, { "gunluk": "İlk iş: iş bulmak." }], "sonuc": "İş. Ne olursa. Gerisi sonra gelir.", "son": true },
+            { "metin": "Borçlarla yüzleşmekten", "kosul": { "hikaye": { "var": "borcVar" } }, "gizle": true, "etki": [{ "bayrak": { "ad": "niyet", "deger": "borc" } }, { "durum": { "stres": 2 } }, { "gunluk": "Borçlardan kaçmayacağım. Bunu yazdım ki unutmayayım." }], "sonuc": "Kaçmak bir yere götürmedi. Bu kez yüzleşeceksin; nasıl, henüz bilmiyorsun.", "son": true },
+            { "metin": "Şehri yeniden tanımaktan", "alt": "Sokaklar, insanlar.", "etki": [{ "bayrak": { "ad": "niyet", "deger": "sehir" } }, { "durum": { "ruh": 2 } }, { "gunluk": "Önce şehri yeniden tanıyacağım." }], "sonuc": "Dışarı çıkacaksın. Yürüyeceksin, bakacaksın, dinleyeceksin. Bu şehir sana bir şey borçlu; belki de sen ona.", "son": true },
+            { "metin": "Kendini toplamaktan", "alt": "Biraz nefes.", "etki": [{ "bayrak": { "ad": "niyet", "deger": "kendin" } }, { "durum": { "stres": -4 } }, { "gunluk": "Bugün sadece ayakta kalmak yeter." }], "sonuc": "Bugün büyük kararlar yok. Bir çay, bir yürüyüş, belki bir duş. Ayakta kalmak da bir iş.", "son": true }
+          ]
+        }
+      }
+    }
+  ]
+}

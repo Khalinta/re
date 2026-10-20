@@ -15,7 +15,8 @@ export function sureDk(s) {
   return Object.entries(s).reduce((t, [k, v]) => t + (SURE[k] ?? 0) * v, 0);
 }
 
-const npcId = (ctx, ref) => ctx.baglam?.npc?.[ref] ?? ref;
+// "hk:yakin": başlangıç hikâyesinin kişisi (durum.hikaye.npc); başka adlar bağlamdan ya da olduğu gibi
+const npcId = (ctx, ref) => (typeof ref === 'string' && ref.startsWith('hk:') ? ctx.durum?.hikaye?.npc?.[ref.slice(3)] : undefined) ?? ctx.baglam?.npc?.[ref] ?? ref;
 
 function npcKaydi(d, id) {
   d.npcler ??= {};

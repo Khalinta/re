@@ -7,7 +7,7 @@ import { olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec, vadesiGelenZaman
 import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER, isoTarih, gunDakikasi, yas as yasHesapla } from './core/zaman.js';
 import { seedUret } from './core/rng.js';
 import { saat, tarih, tarihKisa, GUNLER, AYLAR, sure as sureYaz } from './core/format.js';
-import { kucuk } from './core/tr.js';
+import { kucuk, ek } from './core/tr.js';
 import { dunyaDogrula } from './core/dunya.js';
 import { metinCoz } from './core/metin.js';
 import { dunyaIlerlet } from './core/ilerleme.js';
@@ -119,7 +119,18 @@ function paragraflariKaydet(liste) {
   return liste;
 }
 
-// secim: { tip, cinsiyet, ad } (yeni oyun ekranı 3.4'te); verilmeyenler seed'den
+// Yeni oyun ekranı: seçime göre kim olacağını önceden gösterir (aynı seed ile yeniOyun aynı karakteri üretir)
+export function karakterOnizle(seed, secim = {}, baslangic = bugunTurkiye()) {
+  const k = karakterUret(seed, secim, veri, { baslangic });
+  const c = k.karakter;
+  return {
+    seed, tamAd: c.tamAd, cinsiyet: c.cinsiyet, yas: yasHesapla(c.dogum, tarihAl(baslangic, 0)), memleket: c.yore === 'yerli' ? 'Karalimanlı' : ek(c.memleket, 'li'),
+    eskiMeslek: c.eskiMeslek, ozet: k.hikaye.zincir.at(-1).metin, ilk: k.hikaye.zincir[0].metin, tip: k.hikaye.tip,
+    gorunus: c.fizik ? fizikTarifi({ ...c }, veri.npc.gorunus).split('. ')[0] + '.' : '', para: k.para, borc: k.hikaye.borclar.reduce((t, b) => t + (b.aylik ? 0 : b.tutar), 0),
+  };
+}
+
+// secim: { tip, cinsiyet, ad } (yeni oyun ekranından); verilmeyenler seed'den
 export function yeniOyun({ seed = seedUret(), baslangic = bugunTurkiye(), secim = {} } = {}) {
   seed = seed || seedUret();
   baslangic = baslangic || bugunTurkiye();
@@ -129,16 +140,20 @@ export function yeniOyun({ seed = seedUret(), baslangic = bugunTurkiye(), secim 
   const t = tarihAl(baslangic, durum.zaman.dakika);
   const semt = semtBul(veri.dunya, durum.ev.semt);
   const rng = rngAl(durum, 'metin');
-  const ctx = { durum, veri, baglam: { degisken: { semt, ev: durum.ev.ad } } };
+  const ctx = { durum, veri, baglam: { degisken: { semt, ev: { ad: durum.ev.ad, iyelik: /[ıiuü]$/.test(durum.ev.ad) } } } }; // "pansiyon odası" → odasında
   const hk = durum.hikaye;
   const giris = paragraflariKaydet([
     ayrac(durum.zaman.dakika, true),
     ...metinCoz(`${tarih(t)}. ${MEVSIMLER[mevsim(t)]}. {sehir.ad}, {semt.ad}. {ev|de|bas} uyanıyorsun.`, rng, ctx),
     { tur: 'anlati', metin: semt.ozet },
     ...hk.zincir.map(z => ({ tur: 'anlati', metin: z.metin })),
-    { tur: 'icses', metin: rng.sec(hk.icSes.ornekler) },
     { tur: 'sistem', metin: 'Geçmişin, borçların ve hayatındaki insanlar: Hayatım → Karakter.' },
   ]);
+  // İlk sabahın etkileşimli sahneleri (data/olaylar/acilis.json)
+  if (veri.olaylar.acilis) {
+    const s = olayBaslat(durum, 'acilis', veri, rngAl(durum, 'olay'), { degisken: { semt: { ad: semt.ad, iyelik: semt.iyelik } } });
+    giris.push(...paragraflariKaydet(s.paragraflar));
+  }
   bildir(giris);
   return durum;
 }

@@ -165,3 +165,59 @@ test('hikâye yeni oyuna işlenir: bağlantılar Tanıdıklarım\'da, bayraklar 
   for (const x of t) assert.ok(x.ad && x.tanim, x.id);
   assert.ok(JSON.stringify(d).length < 40000);
 });
+
+// ------------------------------------------------------------------ açılış sahneleri ve geçmişin iplikleri (3.4)
+import { olayBaslat, olaySecenekleri, olaySecenegiSec, olayUygunluk } from '../js/core/olay.js';
+import { Rng } from '../js/core/rng.js';
+
+const olayVeri = { ...veri, takvim: oku('data/takvim.json'), olaylar: {} };
+for (const f of ['acilis.json', 'gecmis.json']) for (const o of oku('data/olaylar/' + f).olaylar) olayVeri.olaylar[o.id] = o;
+const metinler = ps => ps.map(p => p.metin + (p.konusan ? ' ' + p.konusan : ''));
+function oynat(d, id, rng, baglam) {
+  const ciktilar = [];
+  let s = olayBaslat(d, id, olayVeri, rng, baglam);
+  ciktilar.push(...metinler(s.paragraflar));
+  for (let i = 0; !s.bitti && i < 20; i++) {
+    const l = olaySecenekleri(d, olayVeri).filter(x => !x.devreDisi);
+    assert.ok(l.length, `${id}: ${d.aktifOlay?.sahne} sahnesinde seçilebilir seçenek yok (${d.hikaye.arketip})`);
+    s = olaySecenegiSec(d, olayVeri, rng, rng.sec(l).sira);
+    ciktilar.push(...metinler(s.paragraflar));
+  }
+  assert.ok(s.bitti, id + ' bitmedi');
+  return ciktilar;
+}
+const yeniKarakterDurumu = (seed, secim) => {
+  const k = karakterUret(seed, secim, veri);
+  const d = yeniDurum(veri.sim, { seed, baslangic: '2026-10-20', karakter: k.karakter, para: k.para, ev: k.ev });
+  return hikayeyiUygula(d, k);
+};
+
+test('açılış sahneleri her karakterle sonuna kadar oynanır; şablonlar çözülür, roller gerçek kişilere gider', () => {
+  for (let i = 0; i < 600; i++) {
+    const d = yeniKarakterDurumu('AC-' + i, i < 190 ? { arketip: A[i % A.length].id } : {});
+    const r = Rng.akis('AC-' + i, 'test');
+    const cikti = oynat(d, 'acilis', r, { degisken: { semt: { ad: 'Bezhane' } } });
+    for (const m of cikti) assert.ok(!/[{}«»]|\[\[|undefined/.test(m), `${d.hikaye.arketip}: ${m}`);
+    for (const id of Object.keys(d.npcler ?? {})) assert.ok(!id.startsWith('hk:'), `rol çözülmedi: ${id}`);
+    assert.ok(['is', 'borc', 'sehir', 'kendin'].includes(d.bayraklar.kalici.niyet?.deger ?? d.bayraklar.kalici.niyet), 'niyet seçildi');
+  }
+});
+
+test('geçmişin iplikleri: yalnızca hikâyede o kişi/borç varsa çıkar ve oynanır', () => {
+  const sayim = {};
+  for (let i = 0; i < 400; i++) {
+    const d = yeniKarakterDurumu('IP-' + i, { arketip: A[i % A.length].id });
+    for (const o of Object.values(olayVeri.olaylar).filter(x => x.id !== 'acilis')) {
+      const gerek = o.kosul.hikaye.var;
+      const var_ = !!(d.hikaye.npc[gerek] || d.hikaye.degisken[gerek]);
+      // koşulun hikâye dışı kısımları (gün, saat, yer) sağlanmış say: yalnızca hikâye kısmını sına
+      const u = olayUygunluk(d, { ...o, kosul: { hikaye: o.kosul.hikaye }, yer: undefined }, olayVeri);
+      assert.equal(u.uygun, var_, `${o.id} / ${d.hikaye.arketip}`);
+      if (!var_) continue;
+      sayim[o.id] = (sayim[o.id] ?? 0) + 1;
+      const cikti = oynat(structuredClone(d), o.id, Rng.akis('IP-' + i, o.id));
+      for (const m of cikti) assert.ok(!/[{}«»]|\[\[|undefined/.test(m), `${o.id}: ${m}`);
+    }
+  }
+  for (const o of Object.values(olayVeri.olaylar).filter(x => x.id !== 'acilis')) assert.ok(sayim[o.id] > 10, `${o.id} neredeyse hiç çıkmıyor (${sayim[o.id] ?? 0})`);
+});

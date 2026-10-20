@@ -317,3 +317,18 @@ button.satir:active { background: var(--yuzey2); }
 .duyulan p { margin: 2px 0; }
 .panel .bolum-baslik { margin: 16px 0 6px; }
 .dugme-yigini .secenek { text-align: left; }
+
+/* Yeni hayat ekranı (3.4) */
+.panel.yeni-hayat { max-height: 94%; }
+.dugme.secim { display: grid; gap: 2px; text-align: left; padding: 10px 14px; height: auto; }
+.dugme.secim.secili { border-color: var(--vurgu); background: var(--vurgu-zemin); }
+.secim-ad { font-weight: 650; }
+.secim-alt { font-weight: 400; font-size: .88em; color: var(--soluk); }
+.secim-satir { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.secim-satir .dugme.secim { text-align: center; }
+.ad-alan { margin: 12px 0 4px; }
+.ad-girdi { width: 100%; min-height: 48px; border-radius: 12px; border: 1px solid var(--cizgi); background: var(--yuzey2); color: inherit; padding: 0 14px; box-sizing: border-box; }
+.alt-bosluk { margin-top: 14px; }
+.onizleme { border: 1px solid var(--cizgi); border-radius: 14px; padding: 12px 14px; background: var(--yuzey); }
+.onizleme-ad { margin: 0 0 4px; font-size: 1.15em; }
+.dugme.dugme-metin { background: none; border-color: transparent; color: var(--soluk); }

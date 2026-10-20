@@ -1,0 +1,94 @@
+{
+  "_aciklama": "Geçmişin açık uçları (adım 3.4): başlangıç hikâyesinin kişileri ve borçları oyunun ilk haftalarında geri döner. 'hikaye' koşuluyla yalnızca o hikâyede o kişi/borç varsa çıkar; npc \"hk:yakin\" / \"hk:gergin\" / \"hk:disarida\" / \"hk:alacakli\" hikâyenin o kişisidir. Faz 4–5'te bu iplikler kendi yaylarına dönüşecek.",
+  "olaylar": [
+    {
+      "id": "gecmis_yakin_cay",
+      "baslik": "Bir çay",
+      "etiketler": ["gecmis", "iliski"],
+      "kosul": { "hikaye": { "var": "yakin" }, "oyunGunu": { "min": 2 }, "zamanDilimi": ["ogle", "aksam"] },
+      "agirlik": { "temel": 12, "carpanlar": [{ "kosul": { "bayrak": "bulusma_sozu" }, "carpan": 3 }] },
+      "sahneler": {
+        "giris": {
+          "metin": [["Telefonda bir mesaj: {hk.yakin}.", { "tur": "konusma", "konusan": "{hk.yakin}", "metin": "Hadi, şimdi müsaitim. Yakındaki çay bahçesindeyim, gel. Bahane istemem." }], ["{hk.yakin} arıyor; sesi her zamanki gibi.", { "tur": "konusma", "konusan": "{hk.yakin}", "metin": "Sözünü tutmayacak mısın? Bir saatin var mı? Çaylar benden." }]],
+          "secenekler": [
+            { "metin": "Git", "maliyet": { "dakika": 90 }, "etki": [{ "iliski": { "npc": "hk:yakin", "yakinlik": 8, "guven": 4 } }, { "durum": { "ruh": 8, "stres": -6 } }, { "ani": { "npc": "hk:yakin", "metin": "döndükten sonra ilk kez çay içtiniz" } }, { "bayrakKaldir": "bulusma_sozu" }, { "gunluk": "{hk.yakin} ile çay içtik. Uzun zamandır ilk kez biri karşımda oturup beni dinledi." }],
+              "sonuc": [["Çay bahçesinin plastik sandalyeleri, ince belli bardaklar. {hk.yakin} seni görünce kalkıyor; sarılıyor, biraz fazla uzun.", "Eskiyi konuşuyorsunuz; sonra bugünü. Bir noktada gülüyorsun ve gülmeyi unuttuğunu fark ediyorsun.", { "tur": "konusma", "konusan": "{hk.yakin}", "metin": "Bir şey lazım olursa bana söylersin. Söz mü?" }], ["{hk.yakin} iki çay söylüyor, sonra iki tane daha. Az konuşuyorsunuz; az konuşmak da iyi geliyor.", "Kalkarken omzuna dokunuyor: 'Yalnız değilsin, bunu bil.'"]] },
+            { "metin": "Bu hafta olmaz", "maliyet": { "dakika": 3 }, "etki": [{ "iliski": { "npc": "hk:yakin", "yakinlik": -2 } }], "sonuc": "'Başka zaman' yazıyorsun. Cevap gecikiyor: 'Tamam. Kapım açık.'" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gecmis_alacakli",
+      "baslik": "Hatırlatma",
+      "etiketler": ["gecmis", "borc", "tehlike"],
+      "yer": "ev",
+      "kosul": { "hikaye": { "var": "alacakli" }, "oyunGunu": { "min": 3 } },
+      "agirlik": 10, "bekleme": { "gun": 6 }, "tekrar": 3,
+      "sahneler": {
+        "giris": {
+          "metin": [["Kapı çalınıyor; iki kez, kısa ve kibar. Kapının deliğinden bakıyorsun: tanımadığın, iyi giyimli biri.", { "tur": "konusma", "konusan": "Kapıdaki adam", "metin": "Rahatsız etmeyeceğim. {hk.alacakli} hatır sordu, o kadar. Bir de şu {hk.alacakliTutar} meselesini." }], ["Telefonunda bir fotoğraf: bulunduğun binanın kapısı. Altında tek bir cümle.", { "tur": "konusma", "konusan": "Bilinmeyen numara", "metin": "Güzel semt. {hk.alacakli} sizi merak ediyor. Hesap {hk.alacakliTutar}." }]],
+          "secenekler": [
+            { "metin": "Biraz zaman iste", "maliyet": { "dakika": 10 }, "kontrol": { "sans": 0.55, "bonus": [{ "kosul": { "bayrak": "alacakliya_soz" }, "deger": 15 }] },
+              "basari": { "sonuc": "'Biraz zaman.' Karşı taraf bir süre susuyor. 'Tamam. Ama unutma: biz unutmayız.' Bir süre rahat bırakacaklar; bir süre.", "etki": [{ "durum": { "stres": 4 } }, { "bayrak": { "ad": "alacakli_mehil", "sure": { "gun": 12 } } }] },
+              "basarisiz": { "sonuc": "'Zaman çok verildi,' diyor ses. Kibarlık incelmiş; altındaki şey görünüyor. 'Bir dahakine konuşarak gelmeyiz.'", "etki": [{ "durum": { "stres": 12, "ruh": -4 } }, { "iliski": { "npc": "hk:alacakli", "gerginlik": 5 } }] } },
+            { "metin": "Hiç ses verme", "maliyet": { "dakika": 20 }, "etki": [{ "durum": { "stres": 8 } }], "sonuc": "Nefesini tutuyorsun. Bir süre sonra ayak sesleri uzaklaşıyor. Bu sefer." }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gecmis_disaridan",
+      "baslik": "Uzak bir ses",
+      "etiketler": ["gecmis", "iliski"],
+      "kosul": { "hikaye": { "var": "disarida" }, "oyunGunu": { "min": 4 }, "zamanDilimi": ["aksam", "gece"] },
+      "agirlik": 8, "bekleme": { "gun": 10 }, "tekrar": 2,
+      "sahneler": {
+        "giris": {
+          "metin": [["Telefon çalıyor; şehir dışından bir numara. {hk.disarida}. {hk.disaridaRol|bas}.", "Hattın öbür ucunda başka bir şehrin uğultusu var."]],
+          "secenekler": [
+            { "metin": "Konuş", "maliyet": { "dakika": 30 }, "etki": [{ "iliski": { "npc": "hk:disarida", "yakinlik": 5, "gerginlik": -2 } }, { "durum": { "ruh": 3 } }, { "ani": { "npc": "hk:disarida", "metin": "uzun uzun telefonda konuştunuz" } }], "sonuc": ["Uzun bir konuşma. Bazı şeyleri söylüyorsun, bazılarını söylemiyorsun; o da öyle.", "Konuşma tuhaf başlıyor, sonra açılıyor. Kapattığında sesi hâlâ kulağında."] },
+            { "metin": "Açma", "maliyet": { "dakika": 1 }, "etki": [{ "iliski": { "npc": "hk:disarida", "yakinlik": -2 } }, { "durum": { "stres": 2 } }], "sonuc": "Telefon susana kadar ekrana bakıyorsun." }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gecmis_sir",
+      "baslik": "Gece",
+      "etiketler": ["gecmis", "ic"],
+      "yer": "ev",
+      "kosul": { "hikaye": { "var": "sir" }, "oyunGunu": { "min": 2 }, "zamanDilimi": ["gece"] },
+      "agirlik": 6, "bekleme": { "gun": 12 }, "tekrar": 2,
+      "sahneler": {
+        "giris": {
+          "metin": [["Gecenin bir yarısı uyanıyorsun. Oda karanlık, kafan değil.", "Yine o düşünce: {hk.sir}"], ["Uyku gelmiyor. Tavandaki gölgeler, aşağıdan geçen bir araba, ve hep aynı düşünce:", "{hk.sir}"]],
+          "secenekler": [
+            { "metin": "Kalk, su iç", "maliyet": { "dakika": 20 }, "etki": [{ "durum": { "stres": -2, "uyku": -5 } }], "sonuc": "Mutfakta, karanlıkta bir bardak su. Pencereden şehrin ışıkları. Bir süre sonra düşünce susuyor; bitmiyor, susuyor." },
+            { "metin": "Bir gün birine anlatmayı düşün", "maliyet": { "dakika": 15 }, "etki": [{ "durum": { "stres": -4 } }, { "gunluk": "Bir gün birine anlatmam lazım. Kime, bilmiyorum." }], "sonuc": "Birine anlatsan ne olurdu? Kime? Düşüncenin kendisi bile biraz hafifletiyor." },
+            { "metin": "Düşünmemeye çalış", "maliyet": { "dakika": 40 }, "etki": [{ "durum": { "stres": 3, "uyku": -8 } }], "sonuc": "Düşünmemeye çalıştıkça daha çok düşünüyorsun. Sabaha karşı uyuyakalıyorsun." }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gecmis_gergin",
+      "baslik": "Tanıdık bir yüz",
+      "etiketler": ["gecmis", "iliski", "gerilim"],
+      "kosul": { "hikaye": { "var": "gergin" }, "oyunGunu": { "min": 3 }, "degil": { "mekan": "ev" } },
+      "agirlik": 8, "bekleme": { "gun": 8 }, "tekrar": 2,
+      "sahneler": {
+        "giris": {
+          "metin": [["Kalabalığın içinde bir yüz; bir an duruyorsun. {hk.gergin}. {hk.gerginRol|bas}.", "O da seni görüyor. İkiniz de bir an ne yapacağınızı bilmiyorsunuz."]],
+          "secenekler": [
+            { "metin": "Yanına git", "maliyet": { "dakika": 20 }, "kontrol": { "sans": 0.5, "bonus": [{ "kosul": { "durum": { "ozguven": { "min": 60 } } }, "deger": 15 }] },
+              "basari": { "sonuc": [["Birkaç adım. 'Merhaba.' Kısa, soğuk; ama bir merhaba.", "Bir şeyler konuşuyorsunuz; eski kavgaya değmeden. Ayrılırken buz biraz incelmiş."]], "etki": [{ "iliski": { "npc": "hk:gergin", "gerginlik": -5, "yakinlik": 2 } }, { "durum": { "ozguven": 3 } }] },
+              "basarisiz": { "sonuc": [["Yanına varmadan yüzünü çeviriyor. Ya da sen çeviriyorsun; artık hangisi olduğunu bilmiyorsun.", "Eski sözler yeniden ağzınızda; sesler yükseliyor, birileri dönüp bakıyor."]], "etki": [{ "iliski": { "npc": "hk:gergin", "gerginlik": 3 } }, { "durum": { "stres": 6, "ruh": -3 } }] } },
+            { "metin": "Başını salla, geç", "maliyet": { "dakika": 2 }, "etki": [{ "durum": { "stres": 2 } }], "sonuc": "Kısa bir baş selamı. O da sallıyor. Yeter; bugünlük." },
+            { "metin": "Uzaklaş", "maliyet": { "dakika": 5 }, "etki": [{ "durum": { "stres": 3 } }], "sonuc": "Kalabalığın içinde kayboluyorsun. Arkana bakmamaya çalışıyorsun." }
+          ]
+        }
+      }
+    }
+  ]
+}

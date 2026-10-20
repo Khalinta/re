@@ -15,7 +15,7 @@
 //   {karakter.ad|in}         Türkçe ekle: "Deniz'in"  — ekler zincirlenir: {semt|de|ki}
 //   {karakter.ad|bas}        süzgeçler: bas (ilk harf büyük), buyuk, kucuk
 //   [[olmuş|olacak|olmalı]]  küçük çeşitleme: biri rastgele
-// Değişkenler: karakter.*, sehir.* (dünya kitabı), saat, gun, tarih, dilim, mevsim, para, oyunGunu, yas + bağlamdan gelenler (baglam.degisken).
+// Değişkenler: karakter.*, sehir.* (dünya kitabı), hk.* (başlangıç hikâyesi: hk.yakin, hk.alacakli, hk.kalan...), saat, gun, tarih, dilim, mevsim, para, oyunGunu, yas + bağlamdan gelenler (baglam.degisken).
 // Değer bir nesne olabilir: { "ad": "Çınaraltı Kahvesi", "iyelik": true } — ek doğru kaynaştırmayla gelir (Kahvesi'ne).
 import { ek, basHarfBuyuk, buyuk, kucuk } from './tr.js';
 import { kosulAcikla } from './kosul.js';
@@ -51,6 +51,7 @@ export function degiskenler(ctx) {
     oyunGunu: gunNo(d.zaman.dakika) + 1,
     yas: d.karakter?.dogum ? yas(d.karakter.dogum, t) : undefined,
     sehir: ctx.veri?.dunya?.sehir,
+    hk: d.hikaye?.degisken,
     ...(ctx.baglam?.degisken || {}),
   };
 }
@@ -120,7 +121,7 @@ export function metinCoz(metin, rng, ctx) {
 
 // Veri doğrulaması: metin yapısı ve şablon söz dizimi (değişken adları bağlama bağlı olduğundan
 // yalnızca bilinen kök adları uyarı olarak denetlenir)
-const BILINEN_KOKLER = new Set(['sehir', 'karakter', 'saat', 'gun', 'tarih', 'dilim', 'mevsim', 'para', 'oyunGunu', 'yas', 'npc', 'mekan', 'semt', 'yer', 'kisi', 'sayi', 'tutar', 'nesne', 'olay']);
+const BILINEN_KOKLER = new Set(['sehir', 'karakter', 'saat', 'gun', 'tarih', 'dilim', 'mevsim', 'para', 'oyunGunu', 'yas', 'npc', 'mekan', 'semt', 'yer', 'kisi', 'sayi', 'tutar', 'nesne', 'olay', 'hk']);
 export function metinDogrula(metin, yol, { kosulDogrula } = {}) {
   const h = [];
   const gez = (m, y) => {

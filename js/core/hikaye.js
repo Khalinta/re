@@ -42,6 +42,7 @@ function dogumTarihi(r, yas, baslangic) {
   return `${y - yas}-${iki(d.getUTCMonth() + 1)}-${iki(d.getUTCDate())}`;
 }
 
+const karakter0 = (r, a) => r.sec(a.eskiMeslek ?? ['—']);
 const cocukMeslegi = yas => yas < 6 ? 'okul çağında değil' : yas < 14 ? 'ilkokul / ortaokul öğrencisi' : yas < 18 ? 'lise öğrencisi' : null;
 
 function semtSec(r, dunya, sakinTuru, evSemt) {
@@ -232,7 +233,7 @@ export function karakterUret(seed, secim = {}, veri, { baslangic = '2026-10-20' 
   }
   for (const [i, x] of alacaklar.entries()) iplikler.push({ id: 'alacak:' + i, tur: 'alacak', metin: sab(B.iplikler.alacak, { kimden: adi(x.kimden) ?? x.kimden, tutar: paraYaz(x.tutar) }), npc: x.kimden });
   for (const b of baglantilar) {
-    const rol = b.figur ? h[b.rol] : b.etiket.split(';')[0];
+    const rol = b.figur ? h[b.rol] : { ad: b.etiket.split(';')[0], ozel: false }; // etiket büyük harfle başlasa da özel ad değil
     const tur = b.nerede === 'disarida' ? 'kisiDisarida' : (b.iliski.gerginlik ?? 0) >= 15 ? 'kisiGergin' : (b.iliski.yakinlik ?? 0) >= 40 ? 'kisiYakin' : null;
     if (tur) iplikler.push({ id: 'kisi:' + b.rol, tur: 'kisi', metin: sab(B.iplikler[tur], { rol }), npc: b.id });
   }
@@ -242,9 +243,33 @@ export function karakterUret(seed, secim = {}, veri, { baslangic = '2026-10-20' 
   const secilenMetin = [...hikaye.map(z => z.metin), ...sirlar, ...anilar, ...kalanlar.map(x => x.ad), ...borclar.map(x => x.ad)].join(' ');
   if (/kardeş/i.test(secilenMetin) && !aile.anne?.bilinmiyor) aile.kardes = Math.max(1, aile.kardes || 0);
 
+  // Olaylar için: hikâyenin kişilerine roller (npc: "hk:yakin") ve şablon değişkenleri ({hk.yakin})
+  const ilkParca = e => (e ?? '').split(';')[0];
+  const sehirde = baglantilar.filter(b => b.nerede === 'karaliman' && !b.figur);
+  const yakin = [...sehirde].sort((x, y) => (y.iliski.yakinlik ?? 0) - (x.iliski.yakinlik ?? 0)).find(b => (b.iliski.yakinlik ?? 0) >= 20 && (b.iliski.gerginlik ?? 0) < 15);
+  const gergin = [...baglantilar.filter(b => b.nerede === 'karaliman')].sort((x, y) => (y.iliski.gerginlik ?? 0) - (x.iliski.gerginlik ?? 0)).find(b => (b.iliski.gerginlik ?? 0) >= 15 && b !== yakin);
+  const disarida = baglantilar.find(b => b.nerede === 'disarida' && (b.iliski.gerginlik ?? 0) < 15); // seni merak eden biri (dolandıran ortak değil)
+  const alacakli = [...borclar].sort((x, y) => y.tutar - x.tutar).find(b => b.npc && !b.aylik && b.kime !== 'aile');
+  const npcRolleri = {};
+  const degisken = { ...h, eskiMeslek: karakter0(r, a), borcToplam: paraYaz(borclar.reduce((t, b) => t + (b.aylik ? 0 : b.tutar), 0)), borcVar: borclar.length > 0,
+    gunIdare: Math.max(1, Math.floor(para / (AU * B.gunlukMasraf))), kalan: kalanlar[0]?.ad, kalanDeger: kalanlar[0]?.deger ? paraYaz(kalanlar[0].deger) : null,
+    ani: anilar[0], sir: sirlar[0], icSes: icSes.ornekler[1] ?? icSes.ornekler[0], icSesTon: icSes.ad };
+  for (const [ad, b] of Object.entries({ yakin, gergin, disarida })) {
+    if (!b) continue;
+    npcRolleri[ad] = b.id;
+    degisken[ad] = b.figur ? b.sablon.ad : h[b.rol];
+    degisken[ad + 'Rol'] = ilkParca(b.etiket);
+  }
+  if (alacakli) {
+    npcRolleri.alacakli = alacakli.npc;
+    degisken.alacakli = adi(alacakli.npc);
+    degisken.alacakliTutar = paraYaz(alacakli.tutar);
+    degisken.alacakliBorc = alacakli.ad;
+  }
+
   const karakter = {
-    ad: ben.hitapAdi, soyad: ben.soyad, tamAd: ben.tamAd, cinsiyet, dogum, memleket: ben.memleket, yore: ben.yore, agiz: ben.agiz, koken: ben.koken,
-    egitim: ben.egitim, eskiMeslek: r.sec(a.eskiMeslek ?? ['—']), sakinTuru, eksenler: ben.eksenler, ozellikler: ben.ozellikler,
+    ad: ben.ad, soyad: ben.soyad, tamAd: ben.tamAd, cinsiyet, dogum, memleket: ben.memleket, yore: ben.yore, agiz: ben.agiz, koken: ben.koken,
+    egitim: ben.egitim, eskiMeslek: degisken.eskiMeslek, sakinTuru, eksenler: ben.eksenler, ozellikler: ben.ozellikler,
     alisanliklar: ben.alisanliklar, tuhaflik: ben.tuhaflik, tik: ben.tik, kancalar: ben.kancalar, fizik: ben.fizik, aile, uslup: ben.uslup,
   };
   return {
@@ -253,7 +278,7 @@ export function karakterUret(seed, secim = {}, veri, { baslangic = '2026-10-20' 
       arketip: a.id, arketipAdi: a.ad, tip: a.tip, nadir: !!a.nadir, hata: Math.round(hata * 100) / 100,
       zincir: hikaye, borclar, alacaklar, kalanlar, sirlar, anilar, gucluYanlar, kusurlar, icSes, iplikler,
       baglantilar: baglantilar.map(({ id, rol, etiket, nerede, figur }) => ({ id, rol, etiket: etiket ?? null, nerede, figur: !!figur })),
-      bayraklar: a.bayraklar || [], etiketler: a.etiketler,
+      bayraklar: a.bayraklar || [], etiketler: a.etiketler, npc: npcRolleri, degisken,
     },
     _baglantilar: baglantilar,
     _uyarilar: uyarilar,
@@ -273,6 +298,7 @@ export function hikayeyiUygula(durum, k) {
     kayit.anilar.push({ zaman: 0, metin: 'geçmişten tanıdık' });
   }
   for (const f of k.hikaye.bayraklar) bayrakKoy(durum, f);
+  if (k.hikaye.bayraklar.includes('sabika')) (durum.suc ??= {}).sabika = [{ tur: 'gecmis', z: 0, not: 'başlangıç hikâyesi' }];
   return durum;
 }
 

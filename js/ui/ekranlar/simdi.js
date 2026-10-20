@@ -9,6 +9,7 @@ import { ek } from '../../core/tr.js';
 import * as oyun from '../../oyun.js';
 import { guvenli } from '../../hata.js';
 import { sekmeyeGec } from '../arayuz.js';
+import { yeniHayatSec } from './yenihayat.js';
 
 // Hamle hata verirse: hata paneli açılır; "Devam et" menüyü yeniden kurar.
 const hataSecenekleri = () => ({ yenidenDene: () => menuyuGoster(), yenidenBaslat: () => location.reload() });
@@ -51,10 +52,11 @@ export async function oyunuGoster() {
   menuyuGoster();
 }
 
-// Yeni oyun başlatır ve girişi yazar
+// Yeni oyun başlatır ve girişi yazar. Seçim verilmediyse önce yeni hayat ekranı (başlangıç tipi, cinsiyet, ad).
 export async function yeniOyunuGoster(secenek = {}) {
   anlatim.temizle();
   secenekKap.replaceChildren();
+  if (!secenek.secim) secenek = { ...secenek, ...(await yeniHayatSec({ seed: secenek.seed })) };
   oyun.yeniOyun(secenek);
   await anlatim.sira;
   menuyuGoster();

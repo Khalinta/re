@@ -3,7 +3,7 @@
 // Olay (data/olaylar/*.json):
 // {
 //   "id", "baslik", "etiketler": [...],
-//   "tetik": "otomatik" | "aksiyon:<aksiyonId>" | "zamanlayici" | "zincir"   (varsayılan otomatik)
+//   "tetik": "otomatik" | "aksiyon:<aksiyonId>" | "zamanlayici" | "zincir" | "acilis" (yeni oyunun ilk sahneleri)   (varsayılan otomatik)
 //   "kosul": koşul dili, "agirlik": 10 | { "temel": 10, "carpanlar": [{ "kosul": ..., "carpan": 2 }] },
 //   "bekleme": { "gun": 30 }, "tekrar": false | true | 3 (en çok kaç kez; varsayılan false = bir kez),
 //   "baslangic": "giris",
@@ -290,7 +290,7 @@ export function olayDogrula(olay, { kosulDogrula, etkiDogrula, metinDogrula, ola
   const bas = olay.baslangic || VARSAYILAN_BASLANGIC;
   if (!olay.sahneler[bas]) h.push(`${y}: başlangıç sahnesi "${bas}" yok`);
   const tetik = olay.tetik || 'otomatik';
-  if (!/^(otomatik|zamanlayici|zincir|aksiyon:[a-z0-9_]+)$/.test(tetik)) h.push(`${y}: geçersiz tetik "${tetik}"`);
+  if (!/^(otomatik|zamanlayici|zincir|acilis|aksiyon:[a-z0-9_]+)$/.test(tetik)) h.push(`${y}: geçersiz tetik "${tetik}"`);
   if (olay.yay && yaylar && !yaylar[olay.yay]) h.push(`${y}: tanımsız yay "${olay.yay}"`);
   if (olay.yer !== undefined && !OLAY_YERLERI.includes(olay.yer)) h.push(`${y}: geçersiz yer "${olay.yer}"`);
   h.push(...kosulDogrula(olay.kosul, `${y}.kosul`));

@@ -77,7 +77,8 @@ function zamanBilgisi(ctx) {
 }
 
 const saatDk = s => { const [h, m] = String(s).split(':').map(Number); return h * 60 + (m || 0); };
-const npcId = (ctx, ref) => ctx.baglam?.npc?.[ref] ?? ref;
+// "hk:yakin": başlangıç hikâyesinin kişisi (durum.hikaye.npc); başka adlar bağlamdan ya da olduğu gibi
+const npcId = (ctx, ref) => (typeof ref === 'string' && ref.startsWith('hk:') ? ctx.durum?.hikaye?.npc?.[ref.slice(3)] : undefined) ?? ctx.baglam?.npc?.[ref] ?? ref;
 
 // Durum adını veri dosyasından okunur hale getir ("aclik" -> "Açlık")
 const durumAdi = (ctx, k) => ctx.veri?.sim?.durumlar?.[k]?.ad || k;
@@ -236,6 +237,20 @@ export const KONTROLLER = {
   aranma: (a, ctx) => deger('aranma seviyesi', ctx.durum.suc?.aranma ?? 0, a),
   // { "karaPara": { "min": 10000 } }
   karaPara: (a, ctx) => deger('kara para', ctx.durum.suc?.karaPara ?? 0, a),
+  // { "hikaye": { "tip": "dipten", "arketip": ["kumar", "kripto"], "etiket": ["borc"], "var": "yakin" } }  başlangıç hikâyesi (3.3)
+  // var: hikâyede o rol (yakin, gergin, disarida, alacakli) ya da değişken (borcVar, kalanDeger...) olmalı; "yok" tersini ister
+  hikaye: (a, ctx) => {
+    const hk = ctx.durum.hikaye;
+    if (!hk) return yaprak(false, 'başlangıç hikâyesi yok');
+    const alt = [];
+    if (a.tip) alt.push(yaprak(hk.tip === a.tip, `hikâye tipi ${a.tip} (şu an ${hk.tip})`));
+    if (a.arketip) { const l = [].concat(a.arketip); alt.push(yaprak(l.includes(hk.arketip), `arketip ${l.join('/')} (şu an ${hk.arketip})`)); }
+    if (a.etiket) { const l = [].concat(a.etiket); alt.push(yaprak(l.some(e => hk.etiketler?.includes(e)), `hikâye etiketi ${l.join('/')}`)); }
+    const varMi = ad => !!(hk.npc?.[ad] || hk.degisken?.[ad]);
+    for (const ad of [].concat(a.var || [])) alt.push(yaprak(varMi(ad), `hikâyede ${ad} olmalı`));
+    for (const ad of [].concat(a.yok || [])) alt.push(yaprak(!varMi(ad), `hikâyede ${ad} olmamalı`));
+    return { tamam: alt.every(x => x.tamam), aciklama: alt.map(x => x.aciklama).join('; ') || 'hikâye var' };
+  },
   // { "sabika": true } | { "sabika": false } | { "sabika": "hirsizlik" } | { "sabika": { "min": 2 } } (kayıt sayısı)
   sabika: (a, ctx) => {
     const l = ctx.durum.suc?.sabika || [];

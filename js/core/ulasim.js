@@ -127,8 +127,9 @@ function adimlaraCevir(kenarlar, hatlar) {
 
 // kip: 'toplu' (yürüyüş + hatlar), 'yuruyus', 'taksi'
 // t: yola çıkış anı (oyun dakikası ya da günün dakikası; yalnızca günün saati kullanılır)
+// firtina: true ise havaya duyarlı hatlar (vapur) çalışmaz
 // Döner: { kip, nereden, nereye, cikis, varis, toplamDakika, ucret, adimlar } ya da null (o saatte yol yok)
-export function yolBul(ulasim, nereden, nereye, { kip = 'toplu', t = 8 * 60, haftaSonu = false, asgariUcret = ASGARI_UCRET_TASLAK } = {}) {
+export function yolBul(ulasim, nereden, nereye, { kip = 'toplu', t = 8 * 60, haftaSonu = false, firtina = false, asgariUcret = ASGARI_UCRET_TASLAK } = {}) {
   const kom = komsuluklar(ulasim);
   if (!kom.has(nereden) || !kom.has(nereye)) return null;
   const sonuc = (varis, adimlar, ucret) => ({ kip, nereden, nereye, cikis: t, varis, toplamDakika: Math.round(varis - t), ucret, adimlar });
@@ -144,7 +145,7 @@ export function yolBul(ulasim, nereden, nereye, { kip = 'toplu', t = 8 * 60, haf
     return sonuc(t + bekleme + yolDk, [{ tur: 'taksi', nereden, nereye, bekleme, dakika: yolDk }], taksiUcret(ulasim, yolDk, asgariUcret));
   }
 
-  const hatlar = new Map(kip === 'toplu' ? ulasim.hatlar.map(h => [h.id, h]) : []);
+  const hatlar = new Map(kip === 'toplu' ? ulasim.hatlar.filter(h => !(firtina && h.havaHassas)).map(h => [h.id, h]) : []);
   const duraktakiHatlar = new Map();
   for (const h of hatlar.values()) h.duraklar.forEach((s, i) => {
     if (!duraktakiHatlar.has(s)) duraktakiHatlar.set(s, []);

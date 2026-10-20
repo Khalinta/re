@@ -1,0 +1,70 @@
+{
+  "_aciklama": "Hava durumu modeli ayarları ve anlatım metinleri (adım 2.6). Günlük hava seed + tarihten hesaplanır (kayda yazılmaz, hep aynı çıkar); iklim ortalamaları sehir.json → cografya.iklim.aylik. kalicilik: bugünün yağış olasılığına dünün ne kadar karıştığı (0 = bağımsız, 1 = dün ne ise o). sapma: günlük sıcaklık sapmasının en çok kaç derece olduğu. ruzgar: aylara göre poyraz/lodos ağırlıkları ve fırtına olasılığı; siddet 3 = fırtına (vapurlar iptal). Metinler şablon motoruyla çözülür; {derece} anlık sıcaklıktır.",
+
+  "kalicilik": 0.45,
+  "sapma": 4,
+  "gunlukFark": { "acik": 9, "bulutlu": 6, "yagisli": 4 },
+  "karEsigi": 2,
+  "sisOlasiligi": { "kis": 0.18, "ilkbahar": 0.1, "yaz": 0.02, "sonbahar": 0.15 },
+  "ruzgar": {
+    "kis": { "poyraz": 5, "lodos": 3, "sakin": 2, "firtina": 0.07 },
+    "ilkbahar": { "poyraz": 3, "lodos": 3, "sakin": 4, "firtina": 0.03 },
+    "yaz": { "poyraz": 5, "lodos": 1, "sakin": 4, "firtina": 0.01 },
+    "sonbahar": { "poyraz": 4, "lodos": 4, "sakin": 2, "firtina": 0.05 }
+  },
+
+  "adlar": {
+    "acik": "açık", "parcali": "parçalı bulutlu", "bulutlu": "kapalı", "yagmurlu": "yağmurlu", "saganak": "sağanak", "kar": "karlı", "sisli": "sisli"
+  },
+  "ruzgarAdlari": { "poyraz": "poyraz", "lodos": "lodos", "sakin": "rüzgârsız" },
+
+  "metinler": {
+    "acik": {
+      "sabah": ["Gökyüzü tertemiz; körfezin üstünde ince bir ışık.", "Güneş daha yeni çatıların üstüne çıkmış, gölgeler uzun."],
+      "ogle": ["Güneş tepede, kaldırımlar ısınmış.", "Bulutsuz bir gün; körfez göz kamaştırıyor."],
+      "aksam": ["Gün batarken her şey turuncuya kesmiş.", "Hava açık; akşamın serinliği yavaş yavaş iniyor."],
+      "gece": ["Yıldızlar şehrin ışıklarına rağmen seçiliyor.", "Açık ve serin bir gece."]
+    },
+    "parcali": {
+      "sabah": ["Bulutların arasından güneş göz kırpıyor.", "Parça parça bulutlar; gölgeler sokakta yer değiştiriyor."],
+      "ogle": ["Güneş bir görünüp bir kayboluyor.", "Bulutlar acele ediyor; hava kararsız."],
+      "aksam": ["Batan güneş bulutların kenarlarını yakıyor.", "Akşam bulutları körfezin üstünde toplanıyor."],
+      "gece": ["Bulutlar ayın önünden geçip gidiyor.", "Gece serin; gökyüzü yarı açık."]
+    },
+    "bulutlu": {
+      "sabah": ["Gökyüzü gri bir battaniye gibi şehrin üstüne çekilmiş.", "Kapalı bir sabah; ışık bir türlü açılmıyor."],
+      "ogle": ["Hava kapalı, her şey biraz soluk.", "Bulutlar alçak; vinçlerin tepesi kaybolmuş."],
+      "aksam": ["Gün, güneş görmeden bitiyor.", "Kurşuni bir akşam."],
+      "gece": ["Ne ay var ne yıldız; sokak lambaları daha sarı.", "Kapalı, nemli bir gece."]
+    },
+    "yagmurlu": {
+      "sabah": ["İnce bir yağmur çiseliyor; şemsiyeler açılmış.", "Yağmur camlara tıkırdıyor."],
+      "ogle": ["Yağmur dinmiyor; kaldırımlarda su birikintileri.", "Islak asfaltın kokusu her yerde."],
+      "aksam": ["Yağmur altında farlar uzayıp parlıyor.", "Akşam yağmuru; herkes bir saçağın altına sığınmış."],
+      "gece": ["Yağmurun sesi şehrin bütün sesini bastırıyor.", "Gece yağmuru; oluklardan şırıl şırıl su akıyor."]
+    },
+    "saganak": {
+      "sabah": ["Gök gürlüyor; sağanak sokakları dereye çevirmiş.", "Bardaktan boşanırcasına yağıyor."],
+      "ogle": ["Sağanak bir anda bastırıyor; insanlar kapı aralarına kaçışıyor.", "Yağmur o kadar sert ki karşı kaldırım görünmüyor."],
+      "aksam": ["Şimşek körfezi aydınlatıyor, ardından gümbürtü.", "Sağanak akşam trafiğini kilitlemiş."],
+      "gece": ["Gece boyunca şimşek çakıyor; Çaybaşı'nın kabardığı konuşuluyor.", "Sağanak çatıları dövüyor."]
+    },
+    "kar": {
+      "sabah": ["Kar yağmış! Şehir bembeyaz ve tuhaf bir sessizlik var.", "Lapa lapa kar; yokuşlarda arabalar kayıyor."],
+      "ogle": ["Kar hâlâ yağıyor; çocuklar okula gitmemenin keyfinde.", "Kaldırımlar buz tutmuş, herkes penguen gibi yürüyor."],
+      "aksam": ["Karın üstüne sokak lambalarının ışığı düşüyor.", "Kar yüzünden otobüsler seyrekleşmiş."],
+      "gece": ["Kar her sesi yutuyor; şehir uyuyor gibi.", "Karlı bir gece; ayak izleri kayboluyor."]
+    },
+    "sisli": {
+      "sabah": ["Sis körfezi yutmuş; vapur düdükleri boşlukta yankılanıyor.", "Yoğun bir sis; elli metre ötesi görünmüyor."],
+      "ogle": ["Sis yavaş yavaş kalkıyor.", "Puslu bir öğle."],
+      "aksam": ["Akşam sisi dereden yukarı tırmanıyor.", "Sisin içinde ışıklar bulanık."],
+      "gece": ["Sisli bir gece; her şey bir rüya kadar uzak.", "Sis sokak lambalarının etrafında hale yapmış."]
+    }
+  },
+  "ruzgarMetinleri": {
+    "poyraz": ["Poyraz esiyor; soğuk, sert ve ısrarcı.", "Kuzeyden poyraz; denizde köpükler."],
+    "lodos": ["Lodos esiyor; hava ılık ama insanın başını ağrıtıyor.", "Lodos dalgaları sahile vuruyor."],
+    "firtina": ["Fırtına var; vapur seferleri iptal edildi.", "Rüzgâr uğulduyor; tabelalar sallanıyor, vapurlar kalkmıyor."]
+  }
+}

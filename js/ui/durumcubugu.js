@@ -3,7 +3,7 @@
 //
 // veri = {
 //   saat: '08:15', gunKisa: '20 Eki', tarihUzun: '20 Ekim 2026, Salı', dilim: 'Sabah',
-//   para: 1250, enerji: 62, ruh: 55,
+//   para: 1250, enerji: 62, ruh: 55, hava: '14°, yağmurlu, poyraz',
 //   ayrinti: [{ ad: 'Sağlık', deger: 80, aciklama: '...', ters: false }]   // ters: yüksek = kötü (stres, açlık)
 // }
 import { h, bosalt } from './dom.js';
@@ -50,6 +50,7 @@ function ayrintiGoster() {
     baslik: v.tarihUzun,
     icerik: h('div', {},
       h('div', { class: 'ozet-satir' }, h('span', {}, v.dilim + ' · ' + v.saat), h('b', { class: v.para < 0 ? 'eksi' : '' }, para(v.para))),
+      v.hava ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Hava'), h('span', { class: 'soluk' }, v.hava)) : null,
       satirlar),
   });
 }

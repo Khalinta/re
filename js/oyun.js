@@ -4,12 +4,14 @@ import { yeniDurum, rngAl, anlatimKaydet, aksiyonKaydet, geriAlinabilir } from '
 import { zamanGecir } from './core/simulasyon.js';
 import { aksiyonDurumu, aksiyonMaliyeti, aksiyonUygula } from './core/aksiyon.js';
 import { olaySec, olayBaslat, olaySecenekleri, olaySecenegiSec, vadesiGelenZamanlayici, olayUygunluk } from './core/olay.js';
-import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER } from './core/zaman.js';
+import { tarihAl, dilim, gunNo, bugunTurkiye, ozelGun, mevsim, MEVSIMLER, isoTarih, gunDakikasi } from './core/zaman.js';
 import { seedUret } from './core/rng.js';
 import { saat, tarih, tarihKisa, GUNLER, AYLAR, sure as sureYaz } from './core/format.js';
 import { kucuk } from './core/tr.js';
 import { dunyaDogrula } from './core/dunya.js';
 import { metinCoz } from './core/metin.js';
+import { dunyaIlerlet } from './core/ilerleme.js';
+import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
 
 export const veri = {};
 let durum = null;
@@ -22,7 +24,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -37,7 +39,11 @@ export async function veriYukle() {
     jsonAl('./data/dunya/figurler.json'),
     jsonAl('./data/dunya/orgutler.json'),
     jsonAl('./data/dunya/mekanlar.json'),
+    jsonAl('./data/dunya/ilerleme.json'),
+    jsonAl('./data/hava.json'),
   ]);
+  veri.ilerleme = ilerleme;
+  veri.hava = hava;
   veri.dunya = { sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar };
   const dunyaSorunlari = dunyaDogrula(veri.dunya);
   if (dunyaSorunlari.length) console.error('[dünya kitabı] tutarsızlık:', dunyaSorunlari);
@@ -60,15 +66,26 @@ export const durumAl = () => durum;
 export function dinle(f) { dinleyiciler.add(f); return () => dinleyiciler.delete(f); }
 const bildir = (paragraflar = []) => dinleyiciler.forEach(f => f(durum, paragraflar));
 
-// Zaman ayracı metni: "Salı, sabah" — gün değiştiyse "21 Ekim, Çarşamba · sabah", özel gün varsa eklenir
+// O anın havası (seed + tarihten; kayda yazılmaz)
+export function havaAl(dk = durum.zaman.dakika) {
+  const iso = isoTarih(tarihAl(durum.zaman.baslangic, dk));
+  return anlikHava(gununHavasi(durum.seed, veri.dunya.sehir.cografya.iklim, veri.hava, iso), gunDakikasi(dk));
+}
+
+// Zaman ayracı metni: "Salı, sabah · 14°, yağmurlu" — gün değiştiyse "21 Ekim, Çarşamba · sabah · …", özel gün varsa eklenir
+// (birden çok günlük dönemler — Ramazan — ayraçta gösterilmez)
 function ayrac(dk, gunDegisti) {
   const t = tarihAl(durum.zaman.baslangic, dk);
   const dl = kucuk(dilim(dk).ad);
-  const ozel = ozelGun(veri.takvim, t).map(o => o.ad);
+  const ozel = ozelGun(veri.takvim, t).filter(o => o.tur !== 'donem').map(o => o.ad);
   let metin = gunDegisti ? `${t.getUTCDate()} ${AYLAR[t.getUTCMonth()]}, ${GUNLER[t.getUTCDay()]} · ${dl}` : `${GUNLER[t.getUTCDay()]}, ${dl}`;
+  if (veri.hava) metin += ' · ' + havaOzeti(veri.hava, havaAl(dk));
   if (gunDegisti && ozel.length) metin += ' · ' + ozel.join(', ');
   return { tur: 'ayrac', metin };
 }
+
+// Zaman ilerledikten sonra: geçen günlerde dünyada olanlar işlenir (gündem, enflasyon, maçlar...)
+const dunyayiIlerlet = () => dunyaIlerlet(durum, veri);
 
 function paragraflariKaydet(liste) {
   for (const p of liste) anlatimKaydet(durum, p);
@@ -126,6 +143,7 @@ function aksiyonYapIc(id) {
   if (!kontrol.tamam) return { tamam: false, sebep: kontrol.sebep };
   const onceDk = durum.zaman.dakika;
   const sonuc = aksiyonUygula(durum, a, veri.sim, rngAl(durum, 'aksiyon'), veri);
+  dunyayiIlerlet();
   const liste = [...sonuc.paragraflar];
   ayracEkle(liste, onceDk, a.ozel === 'uyku');
   liste.push(...olayDene(a.id));
@@ -188,6 +206,7 @@ function olaySeceneginiYapIc(sira) {
   if (ao) aksiyonKaydet(durum, 'olay:' + ao.id, { sahne: ao.sahne, secim: secenek?.metin });
   const s = olaySecenegiSec(durum, veri, rngAl(durum, 'olay'), sira);
   if (s.reddedildi) return { tamam: false, sebep: s.reddedildi };
+  dunyayiIlerlet();
   const liste = [...s.paragraflar];
   ayracEkle(liste, onceDk);
   if (s.bitti) liste.push(...zinciriSurdur(s.zincir));
@@ -213,6 +232,7 @@ export function durumCubuguVerisi() {
   const d = durum.durumlar;
   return {
     saat: saat(durum.zaman.dakika), gunKisa: tarihKisa(t), tarihUzun: tarih(t), dilim: dilim(durum.zaman.dakika).ad,
+    hava: veri.hava ? havaOzeti(veri.hava, havaAl()) : null,
     para: durum.para, enerji: d.enerji, ruh: d.ruh,
     ayrinti: Object.entries(veri.sim.durumlar).map(([k, v]) => ({ ad: v.ad, deger: d[k], ters: v.ters, aciklama: String(Math.round(d[k])) })),
   };
@@ -236,6 +256,7 @@ export function zamanAtla(dakika, { simule = false } = {}) {
     const onceDk = durum.zaman.dakika;
     if (simule) zamanGecir(durum, dakika, 'normal', veri.sim);
     else durum.zaman.dakika += dakika;
+    dunyayiIlerlet();
     const liste = [];
     ayracEkle(liste, onceDk);
     paragraflariKaydet(liste);

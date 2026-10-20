@@ -6,9 +6,11 @@
 //   3) tests/ornekler/ altına eski sürüm örnek kaydı kalır; test, onun güncel şemaya sorunsuz taşındığını denetler.
 // Adımlar asla silinmez ya da değiştirilmez; yalnızca yenisi eklenir.
 import { KAYIT_SURUMU } from './durum.js';
+import { dunyaBaslangici } from './ilerleme.js';
 
 export const ADIMLAR = {
-  // 1: d => ({ ...d, yeniAlan: varsayilan, kayitSurumu: 2 }),
+  // 1 → 2 (0.1.10, adım 2.6): kendi ilerleyen dünya. Geçmiş günler sonradan işlenmez; dünya kayıt anından başlar.
+  1: d => ({ ...d, dunya: dunyaBaslangici(d.zaman), kayitSurumu: 2 }),
 };
 
 export function tasi(d, adimlar = ADIMLAR, hedef = KAYIT_SURUMU) {

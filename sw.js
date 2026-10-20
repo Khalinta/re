@@ -4,12 +4,13 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-44762df1e8de';
+const ONBELLEK_SURUMU = 'yeniden-a4b714b5407a';
 const DOSYALAR = [
   './',
   './css/temel.css',
   './data/aksiyonlar.json',
   './data/dunya/figurler.json',
+  './data/dunya/ilerleme.json',
   './data/dunya/kurumlar.json',
   './data/dunya/mekanlar.json',
   './data/dunya/orgutler.json',
@@ -17,6 +18,7 @@ const DOSYALAR = [
   './data/dunya/semtler.json',
   './data/dunya/sirketler.json',
   './data/dunya/ulasim.json',
+  './data/hava.json',
   './data/olay_ayarlari.json',
   './data/olaylar/_liste.json',
   './data/olaylar/ev.json',
@@ -49,6 +51,8 @@ const DOSYALAR = [
   './js/core/durum.js',
   './js/core/etki.js',
   './js/core/format.js',
+  './js/core/hava.js',
+  './js/core/ilerleme.js',
   './js/core/kayitbicim.js',
   './js/core/kayitdeposu.js',
   './js/core/kosul.js',
@@ -59,6 +63,7 @@ const DOSYALAR = [
   './js/core/rapor.js',
   './js/core/rng.js',
   './js/core/simulasyon.js',
+  './js/core/takvim.js',
   './js/core/toplum.js',
   './js/core/tr.js',
   './js/core/ulasim.js',

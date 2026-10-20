@@ -2,8 +2,9 @@
 // Şema sürümü kayıt sisteminde (1.6) migration için kullanılır.
 import { Rng } from './rng.js';
 import { OYUN_SURUMU } from '../surum.js';
+import { dunyaBaslangici } from './ilerleme.js';
 
-export const KAYIT_SURUMU = 1;
+export const KAYIT_SURUMU = 2;
 export const AKSIYON_GECMISI_SINIRI = 50;
 export const ANLATIM_GECMISI_SINIRI = 150;
 
@@ -11,12 +12,13 @@ export const ANLATIM_GECMISI_SINIRI = 150;
 export function yeniDurum(simCfg, { seed, baslangic, saat = 8, karakter = {}, para = 0 } = {}) {
   const durumlar = {};
   for (const [k, v] of Object.entries(simCfg.durumlar)) durumlar[k] = v.baslangic;
+  const zaman = { baslangic, dakika: saat * 60 };
   return {
     kayitSurumu: KAYIT_SURUMU,
     oyunSurumu: OYUN_SURUMU,
     seed,
     olusturma: new Date().toISOString(),
-    zaman: { baslangic, dakika: saat * 60 },
+    zaman,
     karakter: { ad: 'Deniz', dogum: '1996-03-14', ...karakter },
     durumlar,
     para,
@@ -29,6 +31,7 @@ export function yeniDurum(simCfg, { seed, baslangic, saat = 8, karakter = {}, pa
     aksiyonGecmisi: [],
     anlatim: [],
     gunluk: [],
+    dunya: dunyaBaslangici(zaman),   // kendi ilerleyen dünya (2.6, kayıt sürümü 2)
   };
 }
 

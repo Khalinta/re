@@ -15,6 +15,7 @@
 // ctx = { durum, veri: { sim, takvim }, baglam: { npc: { rol: npcId }, ... } }
 import { bayrakAl, sayacAl } from './bayrak.js';
 import { tarihAl, dilim, mevsim, ozelGun, gunNo, gunDakikasi, yas as yasHesapla, isoTarih } from './zaman.js';
+import { okulDurumu, universiteDurumu } from './takvim.js';
 
 const GUN_ADLARI = ['pazar', 'pazartesi', 'sali', 'carsamba', 'persembe', 'cuma', 'cumartesi'];
 const MEVSIM_ADLARI = ['kis', 'ilkbahar', 'yaz', 'sonbahar'];
@@ -171,6 +172,11 @@ export const KONTROLLER = {
     else tamam = (Array.isArray(a) ? a : [a]).some(x => adlar.includes(x));
     return yaprak(tamam, `tatil/özel gün ${goster(a)} (bugün: ${adlar.join(', ') || 'yok'})`);
   },
+
+  // { "okul": "ders" } | { "okul": ["yariyil", "yaz"] }   (ders, hafta_sonu, tatil, ara_tatil, yariyil, yaz — 2.6)
+  okul: (a, ctx) => deger('okul', okulDurumu(ctx.veri?.takvim, zamanBilgisi(ctx).iso), a),
+  // { "universite": "donem" } | { "universite": "tatil" }
+  universite: (a, ctx) => deger('üniversite', universiteDurumu(ctx.veri?.takvim, zamanBilgisi(ctx).iso), a),
 
   // { "tarih": { "min": "2026-11-01" } }   (YYYY-AA-GG metin karşılaştırması)
   tarih: (a, ctx) => deger('tarih', zamanBilgisi(ctx).iso, a),

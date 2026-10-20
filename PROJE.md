@@ -10,10 +10,11 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kapandı: 2026-10-20)
-- **Son tamamlanan adım:** 2.5 Mekanlar (`data/dunya/mekanlar.json`): 52 mekan (her semtte en az 2), 31 tohum sahip (Faz 3'te NPC), 63 dedikodu (doğru/yanlış, konulu), fırsatlar, 8 gizli örgüt bağı; `core/mekan.js` (açık mı, kalabalık, semtteki mekanlar, konu dedikoduları, müdavimler, denetim)
-- **Sıradaki adım:** 2.6 Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkân açılıp kapanması, fiyatlar, şehir olayları) — **orta**
+- **Son tamamlanan adım:** 2.6 Takvim (bayramlar 2026–2036, okul ve üniversite takvimi), hava modeli (seed + tarihten, iklime uygun; fırtınada vapur yok), kendi ilerleyen dünya (enflasyon, ocak/temmuz zammı, Demirspor maçları, gündem, mekanların geçici kapanması); kayıt sürümü 2
+- **Sıradaki adım:** 2.7 Ekonomi dosyası (`data/ekonomi.json`, asgari ücrete oranlı her şey) ve PROJE.md ekonomi tablosunun kesinleşmesi — **orta**
+- **Kullanıcı isteği (2026-10-20):** "Benim deneyeceğim bir şey gelene kadar devam et." → 2.6, 2.7, 2.8 arka arkaya; 2.8'de (Şehir sekmesi, gezinme, mekanlar) durup telefonda denemesi istenecek.
 - **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). 0.1.5 ekran görüntüsüyle doğrulandı (şerit sekme çubuğuyla aynı renkte, yazılar tam): **Faz 1 kapandı.**
-- **Kullanıcıdan beklenen:** "devam" demesi (sıradaki: 2.2).
+- **Kullanıcıdan beklenen:** şimdilik bir şey yok; 2.8 bitince telefonda deneme.
 
 ### Faz 1 adım listesi
 
@@ -42,8 +43,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 2.3 | Ulaşım ağı: hatlar (metro, otobüs, vapur, dolmuş), duraklar, süreler, ücretler, yol bulma | orta | ✅ |
 | 2.4 | Kurumlar, şirketler (iş ilanlarına kaynak), yerel figürler, kurgusal suç örgütleri ve bölgeleri | büyük | ✅ |
 | 2.5 | Mekanlar: sahip (NPC tohumu), saatler, müşteri profili, geçmiş, dedikodular, fırsatlar | büyük | ✅ |
-| 2.6 | Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkan açılıp kapanması, fiyatlar, şehir olayları) | orta | ⏳ |
-| 2.7 | Ekonomi dosyası (asgari ücrete oranlı her şey), PROJE.md ekonomi tablosunun kesinleşmesi | orta | ⬜ |
+| 2.6 | Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkan açılıp kapanması, fiyatlar, şehir olayları) | orta | ✅ |
+| 2.7 | Ekonomi dosyası (asgari ücrete oranlı her şey), PROJE.md ekonomi tablosunun kesinleşmesi | orta | ⏳ |
 | 2.8 | Konum sistemi (kayıt şeması v2 + migration), Şehir sekmesi arayüzü, semtler arası gezinme | büyük | ⬜ |
 
 ### Fazlar
@@ -145,7 +146,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   │                       rapor (hata raporu metni), dunya (dünya kitabı denetimi ve yardımcıları),
 │   │                       ulasim (hatlar, bekleme, trafik, ücret, yol bulma),
 │   │                       toplum (kurum, şirket, figür, örgüt yardımcıları ve denetimi),
-│   │                       mekan (açık mı, kalabalık, dedikodular, mekan denetimi)
+│   │                       mekan (açık mı, kalabalık, dedikodular, mekan denetimi),
+│   │                       takvim (okul/üniversite), hava (günlük ve anlık hava), ilerleme (kendi ilerleyen dünya)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
@@ -153,10 +155,12 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ├── data/
 │   ├── simulasyon.json     Durumların değişim kuralları, eşik uyarıları (1.5)
 │   ├── aksiyonlar.json     Temel günlük aksiyonlar (1.5)
-│   ├── takvim.json         Resmi tatiller (1.5); bayram tarihleri ve okul takvimi Faz 2'de
+│   ├── takvim.json         Resmi tatiller (1.5); bayramlar 2026–2036 ve okul takvimi kuralları (2.6)
+│   ├── hava.json           Hava modeli ayarları ve hava anlatımları (2.6)
 │   ├── ekonomi.json        Tüm fiyatlar (asgari ücrete oranlı) — Faz 2
 │   ├── dunya/              Dünya kitabı (Faz 2): sehir.json (2.1), semtler.json (2.2), ulasim.json (2.3),
-│   │                       kurumlar / sirketler / figurler / orgutler.json (2.4), mekanlar.json (2.5)
+│   │                       kurumlar / sirketler / figurler / orgutler.json (2.4), mekanlar.json (2.5),
+│   │                       ilerleme.json (kendi ilerleyen dünya, 2.6)
 │   ├── olay_ayarlari.json  Olayların çıkma sıklığı (1.9a)
 │   ├── yaylar.json         Hikaye yayı tanımları (1.9b)
 │   ├── olaylar/            Olay dosyaları (her dosya bir tema); _liste.json hepsini sayar — içerik Faz 5
@@ -354,7 +358,13 @@ Kurgusal, Marmara kıyısında, 4,18 milyonluk bir liman şehri. Çaybaşı Dere
 
 **Ulaşım (`ulasim.json`, 2.3):** Durak = semt. Hatlar: M1 Gar–Çarşı–Meydan–Kampüs, M2 Marina–Gar–Kayalıtepe–OSB, vapur Marina–Liman–Sahilyolu (havaya duyarlı), otobüs 10 / 22 / 31 / 40 / 55 (Ilıcaköy'e saatte bir), dolmuş Gar–Kampüs (gece 02:00'ye kadar) ve Kayalıtepe–Çarşı. Bekleme = sefer aralığının yarısı (dilime göre; hafta sonu uzar); otobüs, dolmuş ve taksi trafiğe takılır (sabah ×1,6, akşam ×1,7, gece ×0,8). Ücretler AÜ oranı: metro/otobüs 0,0009 (≈25 ₺), vapur 0,0011, dolmuş 0,0013, taksi açılış 0,0018 + dakika 0,00045; Kent Kart 60 dk içinde en çok 2 aktarma %50. Gece 01:00–05:30 arası hiçbir hat yok: yürüyüş ya da taksi. Yol bulma beklenen sürelerle çalışır (rastgelelik yok); gerçek bekleme ve aksilikler (kaçan otobüs, iptal vapur) oyun sırasında olaylarla eklenecek.
 
-~~Suç dünyası için yalnızca zemin var; örgütler ve bölgeleri 2.4'te bu semtlere bağlanacak.~~ → 2.4'te bağlandı (aşağıda).
+~~**Takvim, hava, ilerleyen dünya (2.6):**
+- **Takvim:** Ramazan (3 gün) ve Kurban (4 gün) bayramları + arifeleri 2026–2036, Ramazan'ın ilk günü ve Ramazan dönemi (`tur: donem`, ayraçta gösterilmez). Okul (`okulDurumu`: ders, hafta sonu, tatil, ara tatil, yarıyıl, yaz) ve üniversite (`universiteDurumu`: dönem / tatil) kuralları; koşul diline `okul` ve `universite` eklendi.
+- **Hava (`core/hava.js`):** günün havası seed + tarihten hesaplanır, kayda yazılmaz (geri yüklemede değişmez). Yağış olasılığı ayın yağışlı gün sayısından, yağışlı günler art arda gelme eğiliminde; sıcaklık ay ortalamaları arasında yumuşak geçer, gün içinde 05:00'te en düşük, 15:00'te en yüksek. Yağış saatleri, sabah sisi, rüzgâr (poyraz / lodos / sakin, şiddet 0–3; 3 = fırtına → vapur çalışmaz, `yolBul({ firtina })`). Ayraçta ve durum panelinde: "14°, yağmurlu, poyraz". Anlatım metinleri `data/hava.json`.
+- **Kendi ilerleyen dünya (`core/ilerleme.js`, `durum.dunya`):** her gün işlenir. Fiyat endeksi her ay %1,8–3,2; ücret endeksi yalnızca ocak ve temmuzda, enflasyonun %88–100'ü kadar (aradaki aylarda geçim zorlaşır). Demirspor sezonda her pazar maç, puan durumu. Gündem: 21 haber şablonu (belediye, ulaşım, asayiş, ekonomi, kültür, hava, medya; koşullu ve tekrar süreli), günde en çok bir haber, son 60'ı saklanır — haber akışının (Telefon) kaynağı. Sıradan sahipli mekanlar arada bir 1–6 gün kapanır (tadilat, cenaze...). Belirlenimli: aynı seed ve gidişatta aynı dünya; gün gün ilerlemek ile toptan atlamak aynı sonucu verir (test).
+- **Kayıt sürümü 2:** `durum.dunya` eklendi; v1 kayıtlar otomatik taşınır (dünya kayıt anından başlar, geçmiş günler sonradan işlenmez).
+
+Suç dünyası için yalnızca zemin var; örgütler ve bölgeleri 2.4'te bu semtlere bağlanacak.~~ → 2.4'te bağlandı (aşağıda).
 
 **Toplum (2.4):**
 - **Kurumlar (35):** belediye, iş kurumu, SGK, vergi; Emniyet + 5 karakol (her semt tam bir karakola bağlı: Liman, Gar, Kuzey, Meydan, Sahil); adliye, baro, kapalı ve açık cezaevi (Ilıcaköy), denetimli serbestlik; 5 sağlık kurumu (devlet, üniversite, özel, ruh sağlığı, bağımlılık); üniversite ve 5 okul + halk eğitim; sosyal yardım, kadın danışma; sendika, esnaf odası, 4 dernek (mübadil, Tabakhane, KoinPazar ve Deryapı mağdurları); Demirspor.
@@ -494,7 +504,8 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 - İki depo birden bozulursa en yakın otomatik yedeğe dönülür; bu yedek birkaç hamle (en kötü durumda bir oyun günü) geride olabilir. Oyuncuya söylenir.
 - Uygulama aynı anda iki sekmede açılırsa iki sekme aynı yuvaya sırayla yazar (sayaç en son yazanı kazandırır). iPhone uygulamasında bu durum oluşmaz; önlem alınmadı.
 - Bir zamanlayıcının olayı kendi koşulu yüzünden (ör. "gece olmaz") hiç tutmazsa zamanlayıcı süresiz bekler. Şu an bu sadece birkaç saatlik gecikme demek; uzun bekleyenler için Faz 7'de "son geçerlilik" eklenebilir.
-- Ramazan ve Kurban Bayramı tarihleri henüz takvimde yok (Faz 2).
+- ~~Ramazan ve Kurban Bayramı tarihleri henüz takvimde yok (Faz 2).~~ → 2.6'da eklendi. 2029 ve sonrası tahmini (±1 gün); Ramazan ayı 29 gün varsayıldı. Okul takvimi yaklaşık kurallarla (eylülün 2. pazartesi … haziranın 3. cuması); MEB'in o yılki gerçek takvimi birkaç gün farklı olabilir.
+- Hava modeli: yağışlı günler art arda gelir ama zincir yalnızca bir gün geriye bakar (uzun yağmurlu haftalar az çıkar).
 - Ek motoru: istisna listeleri (Kemal'e, saate, kitabı/topu) yaygın sözcükleri kapsar; yeni istisna çıkarsa `js/core/tr.js` içindeki listelere eklenir.
 
 ## 📝 YAPILACAKLAR / FİKİR HAVUZU
@@ -524,6 +535,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.10 | 2026-10-20 | Adım 2.6: bayramlar 2026–2036, okul/üniversite takvimi (`core/takvim.js`, koşul dilinde `okul`, `universite`); hava modeli (`core/hava.js`, `data/hava.json`; ayraçta ve durum panelinde hava; fırtınada vapur yok); kendi ilerleyen dünya (`core/ilerleme.js`, `data/dunya/ilerleme.json`: enflasyon, zam, Demirspor, gündem, mekan kapanmaları). Kayıt sürümü 2 + migration. 297 test. |
 | 0.1.9 | 2026-10-20 | Adım 2.5: `data/dunya/mekanlar.json` (52 mekan, 31 tohum sahip, 63 dedikodu, 8 gizli örgüt bağı; tür / hizmet / fırsat katalogları) ve `core/mekan.js` (açık mı — gece yarısını geçen saatler önceki güne sayılır, kalabalık, semtteki mekanlar, konu dedikoduları, müdavimler, denetim). Oyun dosyayı yüklüyor. 284 test. |
 | 0.1.8 | 2026-10-20 | Adım 2.4: `kurumlar.json` (35), `sirketler.json` (32 + 22 iş türü), `figurler.json` (26), `orgutler.json` (4 kurgusal örgüt); `core/toplum.js` (karakol, semtteki örgütler, iş verenler, paravanlar, üyeler; çapraz başvuru denetimi: karakol kapsamı, sahip/paravan/lider/rütbe, iki yönlü örgüt ilişkileri, yaş, iyelik şüphesi). Oyun dosyaları yüklüyor. 276 test. |
 | 0.1.7 | 2026-10-20 | Adım 2.3: `data/dunya/ulasim.json` (10 hat, 23 yol, tarife, trafik) ve `core/ulasim.js` (zamana bağlı yol bulma: toplu/yürüyüş/taksi, bekleme, trafik, Kent Kart aktarma indirimi, taksi ücreti, veri denetimi); dünya denetimine bağlandı, oyun dosyayı yüklüyor. 267 test. |

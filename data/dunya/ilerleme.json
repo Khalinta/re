@@ -1,0 +1,48 @@
+{
+  "_aciklama": "Kendi ilerleyen dünya (adım 2.6): oyuncudan bağımsız olarak her gün işlenir ve kayda yazılır (durum.dunya). fiyatEndeksi her ayın başında aylık enflasyonla artar; ucretEndeksi (asgari ücret ve maaşlar) yalnızca ocak ve temmuzda, enflasyonun biraz gerisinde kalarak artar: aradaki aylarda geçim zorlaşır. gundem: şehirde olup bitenler (haber akışının kaynağı); günde en çok bir olay, 'kosul' koşul dilindedir, 'tekrar' aynı haberin en az kaç gün sonra yeniden çıkabileceği. mekanKapanma: sahibi sıradan biri (tohum) olan mekanların arada bir birkaç gün kapanması. demirspor: sezon ağustos–mayıs, her pazar maç.",
+
+  "enflasyon": { "aylikMin": 0.018, "aylikMax": 0.032 },
+  "ucretZammi": { "aylar": [1, 7], "enflasyonaOranMin": 0.88, "enflasyonaOranMax": 1.0 },
+
+  "mekanKapanma": {
+    "gunlukOlasilik": 0.0025,
+    "sureGun": [1, 6],
+    "sebepler": ["tadilat", "cenaze", "hastalık", "aile işi", "su baskını"]
+  },
+
+  "demirspor": {
+    "sezonBasAyi": 8, "sezonBitAyi": 5, "macGunu": 0,
+    "sonucAgirlik": { "galibiyet": 33, "beraberlik": 30, "maglubiyet": 37 },
+    "rakipler": ["Kıyıboyu Belediyespor", "Ovacık Gençlikspor", "Taşlıburun Spor", "Demirkapı Spor", "Yeşilvadi Spor", "Sarıkum Belediyespor", "Kızılyar İdman", "Dumanlı Sanayispor"],
+    "metinler": {
+      "galibiyet": ["Demirspor sahasında {rakip} karşısında {skor} kazandı. Kuzey Tribünü maçtan sonra İstasyon'dan Kayalıtepe'ye yürüdü.", "Demirspor deplasmanda {rakip|i} {skor} yendi; kahvelerde çaylar bedava."],
+      "beraberlik": ["Demirspor, {rakip} ile {skor} berabere kaldı. Taraftar ne sevinebildi ne kızabildi.", "{rakip} maçı {skor} bitti; başkan Ertürk tribünlerden yine istifa çağrısı duydu."],
+      "maglubiyet": ["Demirspor {rakip} karşısında {skor} kaybetti. Kuzey Tribünü maç bitmeden stadı terk etti.", "Demirspor {rakip} deplasmanından {skor} yenik döndü; kulüpte maaşların yine ödenmediği konuşuluyor."]
+    }
+  },
+
+  "gundem": [
+    { "id": "tabakhane_toplanti", "tur": "belediye", "agirlik": 3, "tekrar": 21, "metin": ["Belediye Tabakhane için yeni bir 'uzlaşma toplantısı' duyurdu. Nöbet çadırı katılmayacağını açıkladı.", "Tabakhane dönüşüm projesinin yeni çizimleri belediyenin sitesinde yayımlandı; derenin kenarında on iki katlı bloklar var."] },
+    { "id": "metro_ariza", "tur": "ulasim", "agirlik": 2, "tekrar": 14, "metin": ["M1'de sabah saatlerinde arıza: Meydan durağında yüzlerce kişi yarım saat bekledi.", "M2'de sinyal arızası nedeniyle seferler bir saat aksadı; Kuzey'den işe gidenler servise döndü."] },
+    { "id": "koinpazar_dava", "tur": "asayis", "agirlik": 2, "tekrar": 30, "metin": ["KoinPazar davası yine ertelendi. Adliye önündeki mağdurlar her ay biraz daha az.", "KoinPazar soruşturmasında yeni bir isim: eski bir yöneticinin yurt dışına çıkış yasağı kaldırıldı."] },
+    { "id": "deryapi_eylem", "tur": "asayis", "agirlik": 2, "tekrar": 30, "metin": ["Deryapı mağdurları şantiyenin önünde yine toplandı; bu kez belediye başkanından randevu istediler.", "Deryapı şantiyesinin bir bloğunda yangın çıktı. İçeride kimin kaldığı bilinmiyor."] },
+    { "id": "liman_gozalti", "tur": "asayis", "agirlik": 1, "tekrar": 45, "metin": ["Limanda bir konteynerde kayıt dışı yük bulunduğu iddia edildi; şirket açıklama yapmadı.", "Emniyet Müdürü Aksoy: 'Bu şehirde kimse dokunulmaz değildir.' Açıklama limanda epey konuşuldu."] },
+    { "id": "gar_kavga", "tur": "asayis", "agirlik": 3, "tekrar": 7, "metin": ["Gece İstasyon'da bir mekânın önünde kavga çıktı; iki kişi hastaneye kaldırıldı.", "Gar çevresinde yankesicilik şikâyetleri arttı; esnaf polis istiyor."] },
+    { "id": "kayalitepe_operasyon", "tur": "asayis", "agirlik": 1, "tekrar": 40, "metin": ["Kayalıtepe'de sabaha karşı operasyon: üç genç gözaltına alındı, mahalle kapıların önüne çıktı.", "Kuzey Karakolu'na ek ekip verileceği açıklandı; muhtar 'asıl ihtiyaç iş' dedi."] },
+    { "id": "marina_etkinlik", "tur": "kultur", "agirlik": 2, "tekrar": 14, "metin": ["Marina AVM'de hafta sonu ünlü bir şarkıcının imza günü var; otopark şimdiden dolu.", "Marina'da 'Körfez Işık Festivali' düzenleniyor; yat limanı ışıklarla süslendi."] },
+    { "id": "carsi_esnaf", "tur": "ekonomi", "agirlik": 2, "tekrar": 21, "metin": ["Eski Çarşı'da bir dükkân daha kepenk indirdi; yerine hediyelikçi açılacakmış.", "Esnaf Odası seçimi öncesi çarşıda gerginlik: iki aday birbirini 'çarşıyı satmakla' suçluyor."] },
+    { "id": "kira_artis", "tur": "ekonomi", "agirlik": 2, "tekrar": 30, "metin": ["Karaliman'da kiralar bir yılda yüzde altmış arttı; en çok artış Tersaneönü'nde.", "Çamlık'ta ev sahipleri yeni dönem öncesi kiraları yine artırdı; öğrenciler kampüste çadır kurdu."] },
+    { "id": "fabrika_isci", "tur": "ekonomi", "agirlik": 2, "tekrar": 30, "metin": ["Çaybaşı Tekstil yüz işçi alacağını duyurdu; OSB Kapısı'nda sabah kuyruk vardı.", "Kuzey Sanayi'de bir fabrika vardiya sayısını azalttı; işçiler zorunlu izne çıkarıldı."] },
+    { "id": "is_kazasi", "tur": "asayis", "agirlik": 1, "tekrar": 30, "metin": ["Kuzey Sanayi'de iş kazası: bir işçi ağır yaralandı. Fabrika açıklama yapmadı.", "Şanlı Yapı şantiyesinde iskeleden düşen işçinin sigortasız olduğu ortaya çıktı."] },
+    { "id": "korfez_postasi_manset", "tur": "medya", "agirlik": 1, "tekrar": 30, "metin": ["Körfez Postası'nın manşeti bugün yine belediyenin yeni parkıydı.", "KaralimanHaber'in 'şok' başlığı şehri bir gün meşgul etti, akşam haber sessizce silindi."] },
+    { "id": "universite_eylem", "tur": "kultur", "agirlik": 2, "tekrar": 21, "kosul": { "mevsim": ["sonbahar", "kis", "ilkbahar"] }, "metin": ["Kampüste yemekhane zammına karşı boykot: öğrenciler merkezi kantinde oturma eylemi yaptı.", "Üniversite öğrencileri yurt sorununu Cumhuriyet Meydanı'nda protesto etti."] },
+    { "id": "kordon_temizlik", "tur": "belediye", "agirlik": 1, "tekrar": 30, "metin": ["Kordon'da gönüllüler sahil temizliği yaptı; iki saatte yüz torba çöp toplandı.", "Belediye Kordon'un ucuna yeni bir seyir terası yapılacağını duyurdu."] },
+    { "id": "bezhane_kultur", "tur": "belediye", "agirlik": 1, "tekrar": 60, "metin": ["Belediye eski Bezhane fabrikası için 'kültür merkezi' sözünü yineledi. Bezhaneliler gülümsedi.", "Bezhane fabrikasının arazisiyle ilgili tapu kayıtlarının değiştiği iddia edildi."] },
+    { "id": "dere_uyari", "tur": "hava", "agirlik": 3, "tekrar": 10, "kosul": { "mevsim": ["sonbahar", "kis"] }, "metin": ["Meteoroloji kuvvetli yağış uyarısı yaptı; Tabakhane'de yaşlılar eşyalarını üst kata taşıdı.", "Çaybaşı Deresi'nin su seviyesi yükseldi; belediye dere kenarına kum torbası dizdi."] },
+    { "id": "yaz_sicak", "tur": "hava", "agirlik": 3, "tekrar": 10, "kosul": { "mevsim": "yaz" }, "metin": ["Sıcak hava dalgası: Kordon gece yarısına kadar dolu.", "Elektrik kesintisi: Kayalıtepe ve Bezhane üç saat karanlıkta kaldı."] },
+    { "id": "bayram_yolu", "tur": "ulasim", "agirlik": 4, "tekrar": 30, "kosul": { "tatil": ["Ramazan Bayramı Arifesi", "Kurban Bayramı Arifesi"] }, "metin": ["Bayram öncesi otogar tıklım tıklım; ek seferler konuldu.", "Arife günü şehirden çıkış yollarında kilometrelerce kuyruk."] },
+    { "id": "cumhuriyet_kutlama", "tur": "kultur", "agirlik": 6, "tekrar": 300, "kosul": { "tatil": "Cumhuriyet Bayramı" }, "metin": ["Cumhuriyet Meydanı'nda tören ve akşam fener alayı; Kordon bayraklarla süslendi."] },
+    { "id": "yilbasi_baca", "tur": "kultur", "agirlik": 6, "tekrar": 300, "kosul": { "tatil": "Yılbaşı" }, "metin": ["Bezhane Bacası'na bu yıl da gece yarısı bir bayrak asıldı. Kimin astığı yine bilinmiyor."] }
+  ],
+  "gundemOlasiligi": 0.35
+}

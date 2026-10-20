@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 1 — Altyapı
-- **Son tamamlanan adım:** 1.1 Proje hafızası ve klasör iskeleti
-- **Sıradaki adım:** 1.2 Çekirdek yardımcılar (seed tabanlı rastgelelik, Türkçe ek motoru, para/tarih/saat biçimleri, testler) — **orta**
+- **Son tamamlanan adım:** 1.2 Çekirdek yardımcılar (rng, Türkçe ek motoru, biçimler, 154 test)
+- **Sıradaki adım:** 1.3 PWA kabuğu (manifest, service worker, ikon, açılış ekranı) — **orta**
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -19,8 +19,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | Adım | İçerik | Boyut | Durum |
 |---|---|---|---|
 | 1.1 | PROJE.md, CLAUDE.md, klasör yapısı, yer tutucu sayfa | küçük | ✅ |
-| 1.2 | Seed RNG, Türkçe ek motoru, biçimlendirme (para/tarih/saat), tr-TR sıralama, Node testleri | orta | ⏳ |
-| 1.3 | PWA kabuğu: manifest, service worker (çevrimdışı), ikon, açılış ekranı | orta | ⬜ |
+| 1.2 | Seed RNG, Türkçe ek motoru, biçimlendirme (para/tarih/saat), tr-TR sıralama, Node testleri | orta | ✅ |
+| 1.3 | PWA kabuğu: manifest, service worker (çevrimdışı), ikon, açılış ekranı | orta | ⏳ |
 | 1.4 | Arayüz iskeleti: alt sekme çubuğu, durum çubuğu, bottom sheet, anlatım akışı, temalar, yazı boyutu, safe-area | büyük | ⬜ |
 | 1.5 | Oyun durumu, takvim, zaman dilimleri, durumlar (enerji, açlık, stres...), aksiyon döngüsü | orta | ⬜ |
 | 1.6 | Kayıt sistemi: IndexedDB + localStorage yedek, 3 yuva, yuva başına 5 yedek, arka plana atılınca kayıt, kalıcı depolama izni, migration | büyük | ⬜ |
@@ -57,9 +57,10 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K6 | **Kayıt: IndexedDB ana depo, localStorage yedek, her aksiyondan sonra otomatik kayıt.** Kayıt önce doğrulanır (şema + sağlama), sonra yazılır; yazma başarısızsa eski kayıt korunur. | "Asla veri kaybı" gereksinimi. Bozuk yazma hiçbir zaman sağlam kaydın üstüne geçmez. |
 | K7 | **Kayıt şemasında `kayitSurumu` alanı + sıralı migration fonksiyonları** (`1→2`, `2→3` ...). | Eski kayıtlar güncellemede otomatik dönüştürülür; her migration testlenir. |
 | K8 | **Dışa aktarma kodu: JSON → deflate (CompressionStream) → base64url, başında `YND1.` öneki ve sağlama.** CompressionStream yoksa sıkıştırmasız yedek biçim. | Kopyala-yapıştır kodu kısa olur; yanlış/eksik kopyalanırsa sağlama sayesinde fark edilir. |
-| K9 | **Testler Node'un yerleşik test koşucusuyla** (`node --test tests/`). Sadece saf mantık modülleri test edilir (ek motoru, koşul dili, RNG, migration). | Ek bağımlılık yok; geliştirme aracı, oyunun çalışmasına gerekmiyor. |
+| K9 | **Testler Node'un yerleşik test koşucusuyla** (`node --test tests/*.test.js`). Sadece saf mantık modülleri test edilir (ek motoru, koşul dili, RNG, migration). | Ek bağımlılık yok; geliştirme aracı, oyunun çalışmasına gerekmiyor. |
 | K10 | **Service worker "önce önbellek, sonra ağ" + sürümlü önbellek adı.** Yeni sürümde eski önbellek silinir, kullanıcıya "güncelleme hazır" denir. | Tam çevrimdışı çalışma; güncellemeler kontrollü. |
 | K11 | **NPC'ler tembel üretim:** dünyada yalnızca NPC kimliği + seed'i durur; ayrıntılar ilk karşılaşmada seed'den üretilir, kayda sadece *değişen* şeyler (ilişki, anılar, hayat olayları) yazılır. | Binlerce NPC'de bile kayıt küçük ve tutarlı kalır. |
+| K13 | **Ek motoru kalıp gösterimi:** ekler kısa adla (`'in'`, `'e'`, `'de'`) ya da kalıpla (`'(y)lA'`, `'DAn'`) verilir. A=a/e, I=ı/i/u/ü, D=d/t, C=c/ç; `(y)(n)(s)` yalnız ünlüden sonra, `(I)` yalnız ünsüzden sonra. Sayılar okunuşlarına göre (2026 → "altı" → 2026'da), kısaltmalar harf okunuşuna göre (THY → "ye" → THY'ye) ya da okunabiliyorsa sözcük gibi (NATO'ya). | Tek fonksiyon bütün eklerde doğru sonuç verir; yeni ek eklemek bir satır. |
 | K12 | **Yayın: GitHub Pages (dal üzerinden).** Netlify'a geçiş için ek ayar gerekmez (statik dosyalar + göreli yollar). | Kullanıcı isteği; kodu gizlemek istenirse Netlify'a sürükle-bırak yeterli. |
 
 ---
@@ -72,6 +73,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ├── manifest.webmanifest    PWA tanımı (1.3)
 ├── sw.js                   Service worker — kökte olmalı ki tüm siteyi kapsasın (1.3)
 ├── .nojekyll               GitHub Pages'in dosyaları işlememesi için
+├── package.json            Sadece Node testleri için (oyun bunu kullanmaz)
 ├── PROJE.md                Bu dosya
 ├── CLAUDE.md               Claude için oturum kuralı
 ├── css/                    Stiller
@@ -216,23 +218,30 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 
 ---
 
-## 🐞 BİLİNEN HATALAR
+## 🐞 BİLİNEN HATALAR / SINIRLAR
 
-- (henüz yok)
+- Ek motoru: 3. tekil iyelikle biten adlarda (Kahvesi, Sarayı, Belediyesi) `{ iyelik: true }` verilmeli; motor bunu kendisi anlayamaz. Veri dosyalarında mekan adlarına `iyelik` alanı konacak.
+- Ek motoru: alışılmadık okunuşlu yabancı adlarda `{ okunus: '...' }` verilmeli (Bordeaux → bordo).
+- Ek motoru: istisna listeleri (Kemal'e, saate, kitabı/topu) yaygın sözcükleri kapsar; yeni istisna çıkarsa `js/core/tr.js` içindeki listelere eklenir.
 
 ## 📝 YAPILACAKLAR / FİKİR HAVUZU
 
-- Kullanıcıya önerilen ek fikirler (onay bekliyor) — aşağıda.
 - Ramazan ve Kurban Bayramı tarihleri ay takvimine bağlı; Faz 2'de 2020–2060 arası tablo `data/takvim.json`'a yazılacak.
 - Şehrin adı ve kimliği Faz 2'de belirlenecek.
 
-### Önerilen ek fikirler (kullanıcı onayı bekliyor, uygulanmadı)
+### Ek fikirler — kullanıcı kararları (2026-10-20)
 
-1. **Alışkanlık sistemi:** Tekrarlanan davranışlar (sabah koşusu, gece telefon, her akşam kahvehane) zamanla alışkanlığa dönüşsün; bırakmak/edinmek kendi başına bir uğraş olsun.
-2. **Dedikodu ağı:** Oyuncunun yaptığı bir şey, NPC'lerin birbirini tanıma ağı üzerinden semtte yayılsın; semt itibarı bu yayılımla değişsin.
-3. **Şehir gazetesi / haber akışı:** Telefonda dünya kitabından beslenen haberler (şirket iflası, yeni metro hattı, kira artışı haberi) — oyuncu bunlardan fırsat yakalayabilsin.
-4. **Kırılma anları:** Hayatta nadir, geri dönüşü olmayan büyük kararlar (şehirden gitmek, birini ihbar etmek, mirası reddetmek) — özette öne çıksın.
-5. **Nesil devri (Faz 6+):** Karakter ölünce, isterse çocuğuyla/yeğeniyle aynı dünyada devam.
+1. **Alışkanlık sistemi** — ❔ Kullanıcı henüz yanıt vermedi.
+2. **Dedikodu ağı** — ✅ Onaylandı, **şartlı**: basit bir "itibar +/-" sistemi olacaksa yapılmayacak. Yapılacaksa detaylı ve akıllı olmalı:
+   - Bilgi NPC'den NPC'ye gerçek tanışıklık ağı üzerinden yayılır (kim kimi tanıyor, ne kadar yakın).
+   - Her NPC kişiliğine göre aktarır: geveze büyütür, sadık olan saklar, düşman çarpıtır.
+   - Bilgi yayıldıkça bozulur (çarpıtma), kaynağı izlenebilir ("bunu sana kim söyledi?").
+   - Oyuncu bunu fark edebilir, kaynağı bulabilir, düzeltebilir ya da kendi lehine kullanabilir.
+   - Hedef faz: Faz 4 (ilişkiler) altyapısı, Faz 5 içerik. Saçma sonuç üretmemesi için tutarlılık kuralları yazılacak.
+3. **Şehir haber akışı** — ✅ Onaylandı. Telefonda, dünya kitabından beslenen haberler; içlerinde fırsat ipuçları. (Faz 2 veri + Faz 4 telefon ekranı)
+4. **Kırılma anları** — ✅ Onaylandı, **şartlı**: çok iyi düşünülmüş olmalı. Nadir, geri dönüşü olmayan, geçmişe ve karaktere bağlı, hem kolay hem zor seçeneğin gerçek bedeli olan kararlar. Hayat özetinde öne çıkacak. (Faz 5 içerik, Faz 6 özet)
+5. **Nesil devri** — ✅ Onaylandı, **şartlı**: zaman hızlı akmamalı (birkaç dokunuşta yıllar geçmesin), karakter hayatını gerçekten yaşamalı. Devir sadece ölüm/yaşlılıkta, çocuk/yeğen ile aynı dünyada. (Faz 6)
+   - Bu şart zaman tasarımını da bağlar: oyunun temposu gün/dilim bazlı kalacak; "rutini tekrarla" kısayolu en fazla bir hafta atlatır ve olay çıkınca durur.
 
 ---
 
@@ -241,3 +250,4 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.0.2 | 2026-10-20 | Adım 1.2: `js/core/rng.js` (seed, alt akışlar, ağırlıklı seçim), `js/core/tr.js` (ek motoru, tr-TR harf/sıralama), `js/core/format.js` (para, tarih, saat, süre), 154 Node testi. Ek fikir kararları işlendi. |

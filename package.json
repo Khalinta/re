@@ -1,0 +1,9 @@
+{
+  "name": "yeniden",
+  "private": true,
+  "type": "module",
+  "description": "Oyun build adımı gerektirmez. Bu dosya sadece Node testlerinin ES modüllerini tanıması için var.",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}

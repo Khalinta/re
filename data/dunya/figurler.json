@@ -1,0 +1,250 @@
+{
+  "_aciklama": "Karaliman'ın yerel figürleri (adım 2.4): şehirde adı bilinen kişiler. Hepsi kurgusaldır (K45); gerçek kişilere benzerlik tesadüftür. Faz 3'te NPC motoru bunları sabit, ayrıntılı karakterler olarak oyuna sokar (ad, yaş, bağlar değişmez). kamuoyu: şehrin onun hakkında bildiği. gercek: gizli olan; oyuncu ancak ipucu, dedikodu ya da olaylarla öğrenir. zaaf: kırılgan yanı. istek: şu an en çok istediği şey. durum: sehirde / yurtdisinda / cezaevinde. iliskiler tek yönlüdür (A'nın B'ye bağı).",
+
+  "iliskiTurleri": {
+    "aile": "Aile bağı",
+    "ortak": "İş ya da çıkar ortağı",
+    "dusman": "Düşman",
+    "rakip": "Rakip",
+    "borclu": "Ona borçlu (para ya da iyilik)",
+    "koruma": "Onu kolluyor",
+    "sir": "Onun bir sırrını biliyor",
+    "eski_dost": "Eski dost",
+    "ask": "Aşk ya da eski aşk",
+    "hayranlik": "Hayranlık / bağlılık"
+  },
+
+  "figurler": [
+    { "id": "haluk_tanriverdi", "ad": "Haluk Tanrıverdi", "unvan": "Büyükşehir Belediye Başkanı", "cinsiyet": "e", "dogumYili": 1964, "semt": "sahilyolu", "durum": "sehirde",
+      "kurum": "buyuksehir_belediyesi",
+      "kamuoyu": "İkinci döneminde. Metroyu bitiren, Marina'yı getiren, 'Karaliman'ı yeniden ayağa kaldıran adam'. Muhalifleri ona 'müteahhit başkan' der.",
+      "gercek": "Şanlı Yapı'nın ihalelerinden pay aldığı yıllardır konuşulur ve doğrudur; paranın bir kısmı oğlunun kumar borçlarını kapatmaya gidiyor.",
+      "zaaf": "Oğlu Kaan.", "istek": "Üçüncü dönem ve ardından Ankara.",
+      "iliskiler": [
+        { "figur": "cemal_sanli", "tur": "ortak", "aciklama": "İhaleler ve kampanya bağışları." },
+        { "figur": "feridun_oransay", "tur": "borclu", "aciklama": "İlk seçimini Oransay'ın desteğiyle kazandı." },
+        { "figur": "hasan_karakas", "tur": "borclu", "aciklama": "Oğlunun borcu yüzünden Karakaş'a karşı eli bağlı; bunu yalnızca ikisi biliyor." },
+        { "figur": "muammer_sezgin", "tur": "koruma", "aciklama": "Belediye ilanlarıyla gazeteyi ayakta tutuyor, karşılığında manşetleri yumuşak." }
+      ] },
+    { "id": "kaan_tanriverdi", "ad": "Kaan Tanrıverdi", "unvan": "Başkanın oğlu", "cinsiyet": "e", "dogumYili": 1993, "semt": "marina", "durum": "sehirde",
+      "kamuoyu": "Marina'da restoranı olan, magazin sayfalarından tanınan 'başkanın oğlu'.",
+      "gercek": "Gar Palas'ın bodrumundaki masalarda büyük borç biriktirdi; babası farkında, borç kapanmıyor, büyüyor.",
+      "zaaf": "Kumar; kaybettikçe daha büyük oynuyor.", "istek": "Babasının gölgesinden çıkmak, bir kez büyük kazanmak.",
+      "iliskiler": [
+        { "figur": "haluk_tanriverdi", "tur": "aile", "aciklama": "Babası; ona hem kızgın hem muhtaç." },
+        { "figur": "hasan_karakas", "tur": "borclu", "aciklama": "Masaların sahibi." }
+      ] },
+    { "id": "nermin_aksoy", "ad": "Nermin Aksoy", "unvan": "Emniyet Müdürü", "cinsiyet": "k", "dogumYili": 1974, "semt": "cumhuriyet", "durum": "sehirde",
+      "kurum": "emniyet_mudurlugu",
+      "kamuoyu": "2025'te atandı. Sert, kurallara düşkün; ilk ay Gar Karakolu'nda üç memuru başka şehre gönderdi.",
+      "gercek": "Kalyoncular'ın liman işini biliyor ama kanıt yok; içeriden bir tanık arıyor. Önceki görev yerinde bir muhbirini korumayı başaramamış, bu onu hâlâ uyutmuyor.",
+      "zaaf": "Muhbirlerine fazla bağlanıyor.", "istek": "Gar Karakolu'ndaki çürüğü temizlemek ve Kalyoncu'yu içeri almak.",
+      "iliskiler": [
+        { "figur": "sadik_bekdemir", "tur": "dusman", "aciklama": "Ondan şüpheleniyor, henüz elinde bir şey yok." },
+        { "figur": "ismail_kalyoncu", "tur": "dusman", "aciklama": "Asıl hedefi." },
+        { "figur": "haluk_tanriverdi", "tur": "rakip", "aciklama": "Başkan onu 'şehrin huzurunu bozmakla' suçluyor." }
+      ] },
+    { "id": "sadik_bekdemir", "ad": "Sadık Bekdemir", "unvan": "Gar Karakolu Komiseri", "cinsiyet": "e", "dogumYili": 1971, "semt": "istasyon", "durum": "sehirde",
+      "kurum": "gar_karakolu",
+      "kamuoyu": "Yirmi yıldır Gar'da. Mahalleyi en iyi bilen polis; esnaf onu sever, çünkü 'sorun çıkarmaz'.",
+      "gercek": "Karakaşlar'dan düzenli 'hediye' alıyor; baskın günlerini önceden haber veren o.",
+      "zaaf": "Kızının özel okul taksitleri ve kendi vicdanı.", "istek": "Üç yıl daha dayanıp emekli olmak.",
+      "iliskiler": [
+        { "figur": "hasan_karakas", "tur": "ortak", "aciklama": "Yıllardır süren sessiz anlaşma." },
+        { "figur": "nermin_aksoy", "tur": "dusman", "aciklama": "Yeni müdür ona bakınca soğuk terliyor." }
+      ] },
+
+    { "id": "feridun_oransay", "ad": "Feridun Oransay", "unvan": "Oransay Holding Yönetim Kurulu Başkanı", "cinsiyet": "e", "dogumYili": 1948, "semt": "yamacevler", "durum": "sehirde",
+      "sirketler": ["oransay_holding", "korfez_liman"],
+      "kamuoyu": "Şehrin en zengin adamı. Tersanenin son ortaklarından; okul ve cami yaptıran hayırsever.",
+      "gercek": "Tersanenin kapanacağını bir yıl önce biliyordu; çevredeki arazileri o yıl ucuza topladı. Marina o arazilerin üstünde.",
+      "zaaf": "Mirasını kime bırakacağına karar veremiyor.", "istek": "Tersane arazisini de alıp Marina'yı tamamlamak.",
+      "iliskiler": [
+        { "figur": "leyla_oransay", "tur": "aile", "aciklama": "Kızı ve varisi; ona güvenmiyor." },
+        { "figur": "ismail_kalyoncu", "tur": "ortak", "aciklama": "Limanın gece işlerinden haberi var, payını sormuyor; Kalyoncu da onun sırrını biliyor." },
+        { "figur": "riza_kocabas", "tur": "dusman", "aciklama": "1979 grevinde karşı karşıya geldiler." }
+      ] },
+    { "id": "leyla_oransay", "ad": "Leyla Oransay", "unvan": "Oransay Holding Genel Müdürü", "cinsiyet": "k", "dogumYili": 1981, "semt": "marina", "durum": "sehirde",
+      "sirketler": ["marina_avm_yonetimi"],
+      "kamuoyu": "Londra'da okudu; Marina projesinin ve AVM'nin yüzü. Sürdürülebilirlik ve kültür sanat konuşmalarıyla tanınır.",
+      "gercek": "KoinPazar'a holding parasıyla büyük yatırım yaptı ve çöküşten iki hafta önce, içeriden aldığı bir uyarıyla çıktı. Bunu babası bile bilmiyor.",
+      "zaaf": "Babasına kendini kanıtlama ihtiyacı.", "istek": "Holdingi babasından gerçekten devralmak.",
+      "iliskiler": [
+        { "figur": "feridun_oransay", "tur": "aile", "aciklama": "Babası." },
+        { "figur": "baris_cetinel", "tur": "sir", "aciklama": "Uyarıyı ondan aldı; ikisi de birbirini batırabilir." },
+        { "figur": "cemal_sanli", "tur": "rakip", "aciklama": "Onu kaba buluyor ama Marina'yı o inşa ediyor." }
+      ] },
+    { "id": "cemal_sanli", "ad": "Cemal Şanlı", "unvan": "Şanlı Yapı Sahibi", "cinsiyet": "e", "dogumYili": 1967, "semt": "yamacevler", "durum": "sehirde",
+      "sirketler": ["sanli_yapi"],
+      "kamuoyu": "Kayalıtepe'den çıkıp Yamaçevler'e yerleşmiş müteahhit. 'Ben de gecekonduda büyüdüm' diye başlayan konuşmaları meşhur.",
+      "gercek": "Tabakhane dönüşüm ihalesini sözleşme yazılmadan önce kazanmıştı; riskli alan raporu onun mühendislerince hazırlandı.",
+      "zaaf": "Kabul görme arzusu; Karaliman Kulübü'ne hâlâ üye alınmadı.", "istek": "Tabakhane'yi yıkıp yerine 'Dere Evleri'ni yapmak.",
+      "iliskiler": [
+        { "figur": "haluk_tanriverdi", "tur": "ortak", "aciklama": "İhaleler." },
+        { "figur": "gulizar_atesoglu", "tur": "dusman", "aciklama": "Nöbet çadırı yüzünden iki yıldır iş başlayamıyor." },
+        { "figur": "volkan_serter", "tur": "ortak", "aciklama": "Şantiyelerin 'güvenliği' için mahallenin gençlerini ondan alıyor." }
+      ] },
+    { "id": "orhan_deryal", "ad": "Orhan Deryal", "unvan": "Deryapı kurucusu", "cinsiyet": "e", "dogumYili": 1959, "semt": "yamacevler", "durum": "yurtdisinda",
+      "sirketler": ["deryapi"],
+      "kamuoyu": "Yedi yüz ailenin evini satıp 2018'de yurt dışına kaçan müteahhit. Hakkında kırmızı bülten var; ara sıra bir tatil fotoğrafı yayılıyor.",
+      "gercek": "Kaçmadan önce paranın bir kısmını Sarıkaya üzerinden çıkardı; Sarıkaya'nın hâlâ onun adına tuttuğu bir hesap var.",
+      "zaaf": "Şehirde kalan annesi.", "istek": "Bir gün sessizce dönebilmek.",
+      "iliskiler": [ { "figur": "mahir_sarikaya", "tur": "ortak", "aciklama": "Parasını o taşıdı." } ] },
+    { "id": "baris_cetinel", "ad": "Barış Çetinel", "unvan": "KoinPazar kurucusu", "cinsiyet": "e", "dogumYili": 1990, "semt": "marina", "durum": "yurtdisinda",
+      "sirketler": ["koinpazar"],
+      "kamuoyu": "Kaçmadan önceki gece Marina'daki restoranda herkesin hesabını ödeyen genç 'dahi'. Nerede olduğu bilinmiyor.",
+      "gercek": "Çöküşten önce birkaç güçlü ismi uyardı ve onların parası kurtuldu; listeyi saklıyor, sigortası o.",
+      "zaaf": "Tanınma isteği; sosyal medyadan uzak duramıyor.", "istek": "Listeyle pazarlık edip dönmek.",
+      "iliskiler": [ { "figur": "leyla_oransay", "tur": "sir", "aciklama": "Uyardıklarından biri." } ] },
+
+    { "id": "muammer_sezgin", "ad": "Muammer Sezgin", "unvan": "Körfez Postası İmtiyaz Sahibi", "cinsiyet": "e", "dogumYili": 1951, "semt": "cumhuriyet", "durum": "sehirde",
+      "sirketler": ["korfez_postasi"],
+      "kamuoyu": "Babasından kalan gazeteyi elli yıldır çıkaran, 'Karaliman'ın hafızası'.",
+      "gercek": "Gazete belediye ilanları olmadan üç ay dayanamaz; bu yüzden masasında yayımlanmamış dosyalar birikiyor, Şanlı Yapı dosyası da onlardan biri.",
+      "zaaf": "Gururu ve borcu.", "istek": "Gazeteyi kapatmadan ölmek.",
+      "iliskiler": [
+        { "figur": "haluk_tanriverdi", "tur": "borclu", "aciklama": "İlanlar." },
+        { "figur": "deniz_ural", "tur": "rakip", "aciklama": "Ona 'gazeteci değil, tıklama tüccarı' der." }
+      ] },
+    { "id": "deniz_ural", "ad": "Deniz Ural", "unvan": "KaralimanHaber kurucusu", "cinsiyet": "k", "dogumYili": 1995, "semt": "camlik", "durum": "sehirde",
+      "sirketler": ["karaliman_haber"],
+      "kamuoyu": "Şehrin en çok okunan sitesinin genç kurucusu; her kazayı ve kavgayı ilk o yazar.",
+      "gercek": "En iyi kaynağı Gar Karakolu'ndan Bekdemir; karşılığında Karakaşlar hakkında hiçbir şey yazmıyor.",
+      "zaaf": "Hıza bağımlı; doğrulamaya vakti yok.", "istek": "Büyük bir haberle 'gerçek gazeteci' olduğunu kanıtlamak.",
+      "iliskiler": [
+        { "figur": "sadik_bekdemir", "tur": "ortak", "aciklama": "Kaynağı." },
+        { "figur": "ferda_yalcinkaya", "tur": "hayranlik", "aciklama": "Çocukken onun haberlerini izleyerek büyüdü." }
+      ] },
+    { "id": "ferda_yalcinkaya", "ad": "Ferda Yalçınkaya", "unvan": "Eski Liman TV haber spikeri", "cinsiyet": "k", "dogumYili": 1968, "semt": "sahilyolu", "durum": "sehirde",
+      "kamuoyu": "Yirmi beş yıl şehrin akşam haberlerinin yüzüydü. Kanal kapanınca ortadan kayboldu; Kordon'da görenler 'zayıflamış' diyor.",
+      "gercek": "Tazminatını alamadı, evinin kredisini ödeyemiyor. Bir zamanlar yayından kaldırılan bir Oransay haberi hâlâ arşivinde.",
+      "zaaf": "Unutulmaktan korkuyor.", "istek": "Ekrana dönmek, ya da en azından son bir haberi yapmak.",
+      "iliskiler": [ { "figur": "feridun_oransay", "tur": "sir", "aciklama": "Yayından kaldırılan haber." } ] },
+
+    { "id": "kazim_erturk", "ad": "Kâzım Ertürk", "unvan": "Demirspor Kulüp Başkanı", "cinsiyet": "e", "dogumYili": 1961, "semt": "sahilyolu", "durum": "sehirde",
+      "kurum": "demirspor",
+      "kamuoyu": "Kulübü Süper Lig'e çıkaran da, düşüren de onun dönemi. Taraftar istifasını istiyor, o 'kulübü batırmadan bırakmam' diyor.",
+      "gercek": "Kulübün maaşlarını ödemek için Sarıkaya'dan tefeci faiziyle borç aldı; stadın tapusu teminatta.",
+      "zaaf": "Kulübe gerçekten âşık.", "istek": "Kulübü kurtarıp alnının akıyla çekilmek.",
+      "iliskiler": [
+        { "figur": "mahir_sarikaya", "tur": "borclu", "aciklama": "Stadın tapusu." },
+        { "figur": "volkan_serter", "tur": "dusman", "aciklama": "Kuzey Tribünü'nün sert çekirdeği onu tehdit ediyor." }
+      ] },
+    { "id": "riza_kocabas", "ad": "Rıza Kocabaş", "unvan": "Emekli tersane ustabaşı, sendikacı", "cinsiyet": "e", "dogumYili": 1949, "semt": "tersaneonu", "durum": "sehirde",
+      "kurum": "liman_sendikasi",
+      "kamuoyu": "Herkes 'Rıza Usta' der. 1979 grevinin genç sözcüsü; bugün Ustalar Kahvesi'nin baş köşesinde.",
+      "gercek": "Grevin son günü bir arkadaşının grev kırıcı olduğunu öğrenmiş ve kimseye söylememişti; o adam İsmail Kalyoncu'ydu.",
+      "zaaf": "Geçmişe takılı kalmışlık.", "istek": "'Bekleyen'in sökülmemesi ve tersanenin bir müze olması.",
+      "iliskiler": [
+        { "figur": "ismail_kalyoncu", "tur": "sir", "aciklama": "Grev kırıcılığını biliyor." },
+        { "figur": "feridun_oransay", "tur": "dusman", "aciklama": "Grevde patron tarafı." }
+      ] },
+    { "id": "gulizar_atesoglu", "ad": "Gülizar Ateşoğlu", "unvan": "Tabakhane Dayanışma Derneği sözcüsü", "cinsiyet": "k", "dogumYili": 1977, "semt": "tabakhane", "durum": "sehirde",
+      "kurum": "tabakhane_dayanisma",
+      "kamuoyu": "Selde iki çocuğunu sırtında taşıyıp kurtaran kadın; şimdi nöbet çadırının ruhu.",
+      "gercek": "Şanlı Yapı ona sessizce Marina'da bir daire teklif etti; reddetti ama kimseye söylemedi, çünkü söylerse derneğin bölüneceğinden korkuyor.",
+      "zaaf": "Yorgunluk; on yıldır hiç tatil yapmadı.", "istek": "Tabakhane'nin yerinde kalması ve dere yatağının nihayet düzeltilmesi.",
+      "iliskiler": [
+        { "figur": "cemal_sanli", "tur": "dusman", "aciklama": "Dönüşüm." },
+        { "figur": "sevda_kaynak", "tur": "eski_dost", "aciklama": "Davaların avukatı ve can dostu." }
+      ] },
+    { "id": "sevda_kaynak", "ad": "Av. Sevda Kaynak", "unvan": "Avukat", "cinsiyet": "k", "dogumYili": 1986, "semt": "bezhane", "durum": "sehirde",
+      "kurum": "baro",
+      "kamuoyu": "Baronun görevli avukatlarından; parası olmayanların, Tabakhane'nin ve Deryapı mağdurlarının avukatı.",
+      "gercek": "Bir müvekkilinden, Kalyoncular'ın liman işine dair bir belge aldı; ne yapacağını bilmiyor.",
+      "zaaf": "Kaybettiği davaları eve götürüyor.", "istek": "Bir kez büyük bir davayı kazanmak.",
+      "iliskiler": [
+        { "figur": "tarik_yesiltepe", "tur": "rakip", "aciklama": "Adliye koridorunun iki ucu." },
+        { "figur": "gulizar_atesoglu", "tur": "eski_dost", "aciklama": "Çadırda birlikte çay içerler." }
+      ] },
+    { "id": "tarik_yesiltepe", "ad": "Av. Tarık Yeşiltepe", "unvan": "Ceza avukatı", "cinsiyet": "e", "dogumYili": 1965, "semt": "yamacevler", "durum": "sehirde",
+      "kamuoyu": "Şehrin en pahalı ceza avukatı; 'kaybetmeyen avukat'. Müvekkil listesi şehrin kimin kim olduğunu anlatır.",
+      "gercek": "Kalyoncular'ın ve zaman zaman Karakaşlar'ın avukatı; bazı tanıkların neden ifade değiştirdiğini en iyi o bilir.",
+      "zaaf": "Kibir.", "istek": "Baro başkanlığı.",
+      "iliskiler": [
+        { "figur": "ismail_kalyoncu", "tur": "koruma", "aciklama": "Yirmi yıllık avukatı." },
+        { "figur": "hasan_karakas", "tur": "ortak", "aciklama": "Gerektiğinde." }
+      ] },
+    { "id": "ohannes_saatciyan", "ad": "Ohannes Saatçiyan", "unvan": "Saatçi", "cinsiyet": "e", "dogumYili": 1955, "semt": "eski_carsi", "durum": "sehirde",
+      "kamuoyu": "1911 yangınında yanmayan dükkânın üçüncü kuşak saatçisi. Çarşının yaşayan tarihi; turistler fotoğrafını çeker.",
+      "gercek": "Kaletepe tünelinin girişini bildiği söylenir; doğrudur, dedesinin defterinde çizimi var.",
+      "zaaf": "Yalnızlık; çocukları İstanbul'da.", "istek": "Dükkânı devredecek biri bulmak.",
+      "iliskiler": [ { "figur": "mahir_sarikaya", "tur": "dusman", "aciklama": "Sarıkaya dükkânı satın almak istiyor; o asla satmayacak." } ] },
+    { "id": "muhtar_sukru", "ad": "Şükrü Bayazıt", "unvan": "Kayalıtepe Muhtarı", "cinsiyet": "e", "dogumYili": 1958, "semt": "kayalitepe", "durum": "sehirde",
+      "kamuoyu": "Herkes 'Muhtar Şükrü' der. Kayalıtepe'de kimin ne yaptığını, kimin kime borçlu olduğunu bilen adam.",
+      "gercek": "Tepeliler'le mahalle arasındaki görünmez çizgiyi o çiziyor: çocuklara dokunulmayacak, okulun önünde iş yapılmayacak. Karşılığında Volkan'ın varlığını görmezden geliyor.",
+      "zaaf": "Mahalleyi kendi malı sanması.", "istek": "Deryapı şantiyesinin bitirilmesi.",
+      "iliskiler": [
+        { "figur": "volkan_serter", "tur": "eski_dost", "aciklama": "Volkan'ı çocukken okula o yazdırmıştı." },
+        { "figur": "cemal_sanli", "tur": "eski_dost", "aciklama": "Aynı sokakta büyüdüler." }
+      ] },
+
+    { "id": "ismail_kalyoncu", "ad": "İsmail Kalyoncu", "unvan": "Kalyon Su Ürünleri sahibi", "cinsiyet": "e", "dogumYili": 1955, "semt": "asagi_liman", "durum": "sehirde",
+      "sirketler": ["kalyon_su_urunleri"], "orgut": "kalyoncular", "rutbe": "reis",
+      "kamuoyu": "Aşağıliman'ın 'Kaptan'ı. Balıkçıların babası; düğün masrafı karşılar, hastane parası öder, kimse ona 'hayır' demez.",
+      "gercek": "Kalyoncular'ın reisi. 1979 grevini kırmanın bedeli olarak ilk teknesini aldı; limandaki gece işlerinin ve Martı Lojistik'in gerçek sahibi.",
+      "zaaf": "Yaşı ve halef kavgası: oğlu Tufan mı, yeğeni Cevat mı?", "istek": "Ölmeden önce işi temiz bir şekilde devretmek ve adını 'hayırsever' olarak bırakmak.",
+      "iliskiler": [
+        { "figur": "tufan_kalyoncu", "tur": "aile", "aciklama": "Oğlu; onu fazla yumuşak buluyor." },
+        { "figur": "cevat_kalyoncu", "tur": "aile", "aciklama": "Yeğeni; gözü pek, fazla aç." },
+        { "figur": "feridun_oransay", "tur": "sir", "aciklama": "Tersane arazisi meselesini biliyor." },
+        { "figur": "hasan_karakas", "tur": "rakip", "aciklama": "Yıllardır süren soğuk ateşkes." }
+      ] },
+    { "id": "tufan_kalyoncu", "ad": "Tufan Kalyoncu", "unvan": "Kalyon Su Ürünleri müdürü", "cinsiyet": "e", "dogumYili": 1982, "semt": "asagi_liman", "durum": "sehirde",
+      "sirketler": ["kalyon_su_urunleri"], "orgut": "kalyoncular", "rutbe": "kahya",
+      "kamuoyu": "Kaptan'ın üniversite okumuş oğlu; şirketi büyüten, ihracatı açan genç patron.",
+      "gercek": "Babasının işinden çıkmak istiyor; Emniyet'e gitmeyi bir kez ciddi ciddi düşündü.",
+      "zaaf": "Karısı ve kızı; onları bu dünyadan uzak tutma takıntısı.", "istek": "Temiz bir hayat, başka bir şehirde.",
+      "iliskiler": [
+        { "figur": "ismail_kalyoncu", "tur": "aile", "aciklama": "Babası." },
+        { "figur": "cevat_kalyoncu", "tur": "rakip", "aciklama": "Kuzeni; ona güvenmiyor." }
+      ] },
+    { "id": "cevat_kalyoncu", "ad": "Cevat Kalyoncu", "unvan": "Tekne kaptanı", "cinsiyet": "e", "dogumYili": 1988, "semt": "asagi_liman", "durum": "sehirde",
+      "orgut": "kalyoncular", "rutbe": "kaptan",
+      "kamuoyu": "Meyhanelerin en cömert müşterisi, limanın en hızlı teknesinin kaptanı.",
+      "gercek": "Amcasının 'eski kurallarını' gereksiz buluyor; Tepeliler'le gizlice iş yapmaya başladı, ki bu Kalyoncu kurallarına göre ihanet.",
+      "zaaf": "Hırs ve öfke.", "istek": "Reis olmak.",
+      "iliskiler": [
+        { "figur": "ismail_kalyoncu", "tur": "aile", "aciklama": "Amcası." },
+        { "figur": "volkan_serter", "tur": "ortak", "aciklama": "Gizli anlaşma." }
+      ] },
+    { "id": "volkan_serter", "ad": "Volkan Serter", "unvan": "Altın Oto Galeri sahibi", "cinsiyet": "e", "dogumYili": 1992, "semt": "kayalitepe", "durum": "sehirde",
+      "orgut": "tepeliler", "rutbe": "abi",
+      "kamuoyu": "Herkes 'Vole' der. Kayalıtepe'nin yoksul çocuklarından çıkıp galeri sahibi olan, mahallenin gençlerine harçlık dağıtan adam.",
+      "gercek": "Tepeliler'in abisi. Sokaktaki satış, depolardan kaybolan mallar ve Kuzey Tribünü'nün sert çekirdeği ona bağlı. On yedi yaşında yattığı ıslahevinden öğrendikleriyle büyüdü.",
+      "zaaf": "Annesi ve küçük kardeşi Eren; Eren'in bu işe girmesini istemiyor.", "istek": "Kalyoncular gibi 'aile' olmak, saygı görmek.",
+      "iliskiler": [
+        { "figur": "cevat_kalyoncu", "tur": "ortak", "aciklama": "Limana açılan kapı." },
+        { "figur": "hasan_karakas", "tur": "dusman", "aciklama": "Tabakhane'nin gecesi için kavga." },
+        { "figur": "muhtar_sukru", "tur": "hayranlik", "aciklama": "Ona hâlâ 'Muhtar Amca' der." }
+      ] },
+    { "id": "hasan_karakas", "ad": "Hasan Karakaş", "unvan": "Gar Palas Oteli sahibi", "cinsiyet": "e", "dogumYili": 1970, "semt": "istasyon", "durum": "sehirde",
+      "sirketler": ["gar_palas"], "orgut": "karakaslar", "rutbe": "bey",
+      "kamuoyu": "'Hasan Bey'. Garın karşısındaki tarihi otelin sahibi, pansiyonların ve gece mekânlarının yarısının ortağı.",
+      "gercek": "Karakaşlar'ın başı: kumar masaları, gece mekânlarının 'koruması', saatlik pansiyonlar. Belediye başkanının oğlunun borcu cebinde.",
+      "zaaf": "Kız kardeşi Selda'ya bağımlılığı; defterler onda.", "istek": "İstasyon'un dönüşüm planından kendi mekânlarını korumak, mümkünse planı kendisi yönetmek.",
+      "iliskiler": [
+        { "figur": "selda_karakas", "tur": "aile", "aciklama": "Kız kardeşi ve sağ kolu." },
+        { "figur": "sadik_bekdemir", "tur": "ortak", "aciklama": "Karakoldaki adamı." },
+        { "figur": "haluk_tanriverdi", "tur": "sir", "aciklama": "Oğlunun borcu." },
+        { "figur": "volkan_serter", "tur": "dusman", "aciklama": "Kuzeyden inen 'çocuklar'." }
+      ] },
+    { "id": "selda_karakas", "ad": "Selda Karakaş", "unvan": "Gar Palas müdürü", "cinsiyet": "k", "dogumYili": 1976, "semt": "istasyon", "durum": "sehirde",
+      "sirketler": ["gar_palas", "kale_guvenlik"], "orgut": "karakaslar", "rutbe": "kalem",
+      "kamuoyu": "Otelin müdürü; kibar, mesafeli, hiçbir şeyi unutmayan kadın.",
+      "gercek": "Bütün hesaplar onda. Ağabeyinin düştüğü gün işi devralacak olan da, ona ihanet edebilecek tek kişi de o.",
+      "zaaf": "Hiç kimseye güvenmemek.", "istek": "Kendi adıyla bir şey kurmak.",
+      "iliskiler": [ { "figur": "hasan_karakas", "tur": "aile", "aciklama": "Ağabeyi." } ] },
+    { "id": "mahir_sarikaya", "ad": "Hacı Mahir Sarıkaya", "unvan": "Çarşı Döviz sahibi", "cinsiyet": "e", "dogumYili": 1952, "semt": "eski_carsi", "durum": "sehirde",
+      "sirketler": ["carsi_doviz"], "orgut": "sarraflar", "rutbe": "hoca",
+      "kamuoyu": "Bedesten'in en eski sarrafı. Hacı, hayırsever, sözünün eri; esnafın derdine yetişen adam.",
+      "gercek": "Şehrin tefecilik ağının başı. Esnaftan kulüp başkanına kadar herkesin senedi kasasında; Deryal'ın kaçırdığı paranın bir kısmı hâlâ onun defterinde.",
+      "zaaf": "Para sevgisi değil, bilgi sevgisi; herkesin sırrını toplamak.", "istek": "Yanmayan Dükkân'ı satın almak (neden istediğini kimse bilmiyor).",
+      "iliskiler": [
+        { "figur": "kazim_erturk", "tur": "sir", "aciklama": "Kulübün borcu." },
+        { "figur": "orhan_deryal", "tur": "ortak", "aciklama": "Kaçırılan para." },
+        { "figur": "ohannes_saatciyan", "tur": "rakip", "aciklama": "Dükkân." },
+        { "figur": "ismail_kalyoncu", "tur": "eski_dost", "aciklama": "Kırk yıllık hesap ortaklığı." }
+      ] }
+  ]
+}

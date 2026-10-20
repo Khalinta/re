@@ -1,0 +1,192 @@
+{
+  "_aciklama": "Karaliman'ın kurgusal suç örgütleri (adım 2.4). İçerik kuralı (PROJE.md, Suç dünyası): faaliyetler yalnızca anlatı düzeyindedir; gerçek dünyada uygulanabilir yöntem ayrıntısı yazılmaz; gerçek örgütlere gönderme yoktur. bolgeler.guc: 1 (varlık gösteriyor) – 5 (tam hakimiyet); aynı semtte birden çok örgüt olabilir (çekişme). hiyerarsi yukarıdan aşağıya rütbelerdir; figürlerin 'rutbe' alanı bunlardan biri olmalı, alt kademeler Faz 3'te NPC olarak üretilir. itibar: korku ve saygı 1–5. polisBilgisi: Emniyet'in örgüt hakkında bildiği 0 (hiç) – 5 (her şey, kanıt eksik). cikisZorlugu 1–5. girisYollari Faz 5 giriş yaylarına bağlanır. paravan şirketler sirketler.json'daki 'paravan' alanından gelir.",
+
+  "faaliyetTurleri": {
+    "harac": "Haraç ve 'koruma' parası",
+    "kacakcilik": "Kaçakçılık",
+    "kumar": "Kumar",
+    "tefecilik": "Tefecilik",
+    "calinti_mal": "Çalıntı mal",
+    "uyusturucu": "Uyuşturucu satışı",
+    "kara_para": "Kara para",
+    "tehdit": "Tehdit ve 'ikna'"
+  },
+  "girisYollari": {
+    "borc": "Ödenemeyen bir borç",
+    "mahalle": "Mahalleden bir tanıdık",
+    "eski_arkadas": "Eski bir arkadaş",
+    "caresizlik": "Çaresizlik anı",
+    "sahitlik": "Görülmemesi gereken bir şeyi görmek",
+    "is": "Masum görünen bir iş teklifi"
+  },
+  "iliskiTurleri": {
+    "muttefik": "Müttefik",
+    "is_ortagi": "İş ortağı",
+    "ateskes": "Ateşkes",
+    "rekabet": "Rekabet",
+    "dusman": "Düşman"
+  },
+
+  "orgutler": [
+    {
+      "id": "kalyoncular", "ad": "Kalyoncular", "halkArasinda": "'Kaptan'ın adamları'", "tur": "aile", "kurulus": 1980, "lider": "ismail_kalyoncu",
+      "ozet": "Aşağıliman'ın eski usul ailesi. Limandan, teknelerden ve sadakatten oluşan bir dünya. Sokakta bağırmaz, gazetelere çıkmaz; şehrin en eski ve en sessiz gücü.",
+      "tarihce": [
+        { "olay": "tersane_grevi", "aciklama": "Grevin son haftası İsmail Kalyoncu'nun 'arabuluculuğu' grevi böldü; karşılığında ilk teknesini ve patronların minnetini aldı." },
+        { "olay": "tersane_kapanis", "aciklama": "Tersane kapanınca işsiz kalan ustaların bir kısmı Kalyoncu teknelerinde iş buldu; aile o yıl mahallenin gözünde 'baba' oldu." },
+        { "olay": "liman_ozellestirme", "aciklama": "Özelleştirmeden sonra taşeron düzeni ve gece vardiyaları Kalyoncular'a limanda hiç olmadığı kadar geniş bir alan açtı." }
+      ],
+      "bolgeler": [
+        { "semt": "asagi_liman", "guc": 5, "faaliyetler": ["kacakcilik", "harac"], "aciklama": "Mahalle onların. Meyhaneler 'aidat' öder ama bunu haraç saymaz; balıkçının teknesi batınca yenisini de onlar alır." },
+        { "semt": "tersaneonu", "guc": 3, "faaliyetler": ["kacakcilik"], "aciklama": "Eski ustaların arasında sevilir; tersane havuzunun gece neden kilitli olmadığını kimse sormaz." },
+        { "semt": "kuzey_sanayi", "guc": 2, "faaliyetler": ["kacakcilik"], "aciklama": "Martı Lojistik'in depoları." },
+        { "semt": "marina", "guc": 2, "faaliyetler": ["kara_para"], "aciklama": "Restoranlar ve dairelerle parayı temize çıkarır; yat limanında bir iki tekne onların." }
+      ],
+      "kurallar": [
+        { "kural": "Aileye ve mahalleye dokunulmaz.", "ihlal": "Affedilmez; ihlal edenin bu şehirde işi biter." },
+        { "kural": "Polisle konuşan, bir daha kimseyle konuşamaz.", "ihlal": "İhanetin bedeli en ağırıdır." },
+        { "kural": "Uyuşturucuya bulaşılmaz (en azından görünürde).", "ihlal": "Reis bunu kendi adına bir leke sayar." },
+        { "kural": "Borç ödenir; ödenemiyorsa çalışılarak ödenir.", "ihlal": "Borç büyür, aile de borca ortak olur." }
+      ],
+      "hiyerarsi": [
+        { "id": "reis", "ad": "Reis", "sayi": [1, 1], "aciklama": "Ailenin başı; her şeyin son sözü." },
+        { "id": "kahya", "ad": "Kâhya", "sayi": [1, 2], "aciklama": "Reisin sağ kolu, işlerin yöneticisi; genellikle aileden." },
+        { "id": "kaptan", "ad": "Kaptan", "sayi": [3, 6], "aciklama": "Tekne ve depo sorumluları; her birinin kendi tayfası var." },
+        { "id": "tayfa", "ad": "Tayfa", "sayi": [15, 30], "aciklama": "Güvenilen adamlar; çoğu mahallenin çocukları." },
+        { "id": "yanasma", "ad": "Yanaşma", "sayi": [10, 40], "aciklama": "Ne iş yaptığını tam bilmeden iş yapanlar; sınanmamış olanlar." }
+      ],
+      "faaliyetler": [
+        { "tur": "kacakcilik", "aciklama": "Limandan ve denizden giren, kayda geçmeyen yükler. Ne olduğunu bilenler az, soranlar daha az." },
+        { "tur": "harac", "aciklama": "Aşağıliman esnafından 'mahalle aidatı'. Karşılığında hırsız girmez, borç sorulmaz, kavga büyümez." },
+        { "tur": "kara_para", "aciklama": "Marina'daki restoranlar, balık ihracatı ve el değiştiren daireler." }
+      ],
+      "iliskiler": [
+        { "orgut": "karakaslar", "tur": "ateskes", "aciklama": "1990'lardaki kavgadan beri: liman Kalyoncu'nun, gar Karakaş'ın. İkisi de bu çizgiyi korumaktan memnun." },
+        { "orgut": "tepeliler", "tur": "rekabet", "aciklama": "Reis onları 'sokak çocukları' diye küçümser; Cevat'ın onlarla gizli işinden haberi yok." },
+        { "orgut": "sarraflar", "tur": "is_ortagi", "aciklama": "Kırk yıldır paranın yolunu Sarıkaya çizer." }
+      ],
+      "itibar": { "korku": 3, "saygi": 5, "halk": "'Kaptan'ın olduğu yerde çocuk kaybolmaz.' Mahalle onları sever; mahalle dışı onlardan korkar." },
+      "polisBilgisi": 3, "cikisZorlugu": 5,
+      "cikis": "Kalyoncular'dan çıkılmaz, uzaklaşılır: şehirden gidilir ve bir daha dönülmez. Reisin izniyle çıkan, ömür boyu borçlu kalır.",
+      "girisYollari": ["mahalle", "borc", "is", "eski_arkadas"]
+    },
+    {
+      "id": "karakaslar", "ad": "Karakaşlar", "halkArasinda": "'Hasan Bey'in mekânları'", "tur": "aile", "kurulus": 1992, "lider": "hasan_karakas",
+      "ozet": "İstasyon'un gece ekonomisinin sahibi kardeşler. Kumar masaları, gece mekânlarının 'koruması', pansiyonlar; her şey bir otel lobisinden yönetilir.",
+      "tarihce": [
+        { "aciklama": "1992'de babaları Gar Palas'ı satın aldı; iki yıl içinde garın çevresindeki pavyonların yarısı 'ortak' oldu." },
+        { "olay": "caybasi_seli", "aciklama": "Selden sonra boşalan dükkânları ucuza toplayıp pansiyona çevirdiler." },
+        { "olay": "demirspor_dusus", "aciklama": "Kulüp düşünce stat çevresindeki bahis masaları büyüdü; Kuzey Tribünü ile ilk kavga o yıl." }
+      ],
+      "bolgeler": [
+        { "semt": "istasyon", "guc": 5, "faaliyetler": ["kumar", "harac", "tefecilik"], "aciklama": "Garın çevresinde hiçbir gece mekânı onlara sormadan açılmaz." },
+        { "semt": "tabakhane", "guc": 2, "faaliyetler": ["kumar"], "aciklama": "Arka sokaklarda birkaç masa; Tepeliler bu sokakları istiyor." },
+        { "semt": "marina", "guc": 1, "faaliyetler": ["kumar"], "aciklama": "Zengin müşteriler için 'özel davetler'." }
+      ],
+      "kurallar": [
+        { "kural": "Masada borç yazılır, masadan kalkınca ödenir.", "ihlal": "Borç Selda Hanım'ın defterine geçer; defter hiç unutmaz." },
+        { "kural": "Mekânda kavga çıkmaz, polis çağrılmaz.", "ihlal": "Kavgayı çıkaran bir daha İstasyon'a giremez." },
+        { "kural": "Müşterinin adı söylenmez.", "ihlal": "Söyleyenin dili değil işi kesilir; ama bu şehirde iş bulamamak da yeterince ağırdır." }
+      ],
+      "hiyerarsi": [
+        { "id": "bey", "ad": "Bey", "sayi": [1, 1], "aciklama": "Hasan Karakaş." },
+        { "id": "kalem", "ad": "Kalem", "sayi": [1, 2], "aciklama": "Defterleri ve hesabı tutan; şu an Selda Karakaş." },
+        { "id": "mekan_sorumlusu", "ad": "Mekân sorumlusu", "sayi": [4, 8], "aciklama": "Her mekânın 'müdürü'." },
+        { "id": "kapi", "ad": "Kapı", "sayi": [10, 25], "aciklama": "Kale Güvenlik üniformalı kapı adamları." },
+        { "id": "tahsildar", "ad": "Tahsildar", "sayi": [3, 6], "aciklama": "Borçları hatırlatanlar." }
+      ],
+      "faaliyetler": [
+        { "tur": "kumar", "aciklama": "Gar Palas'ın bodrumu ve birkaç pansiyonun arka odası; masada esnaf, futbolcu, başkanın oğlu." },
+        { "tur": "harac", "aciklama": "Gece mekânları 'güvenlik hizmeti' alır; Kale Güvenlik faturası keser." },
+        { "tur": "tefecilik", "aciklama": "Masada kaybedenlere masada borç." }
+      ],
+      "iliskiler": [
+        { "orgut": "kalyoncular", "tur": "ateskes", "aciklama": "Eski çizgi korunuyor." },
+        { "orgut": "tepeliler", "tur": "dusman", "aciklama": "Kuzeyden inen 'çocuklar' Tabakhane'nin ve İstasyon'un gecesini istiyor." },
+        { "orgut": "sarraflar", "tur": "is_ortagi", "aciklama": "Büyük borçlar Sarıkaya'ya devredilir." }
+      ],
+      "itibar": { "korku": 3, "saygi": 2, "halk": "'Hasan Bey kibar adamdır; borcun yoksa.' İstasyon esnafı onlarla yaşamayı öğrenmiş." },
+      "polisBilgisi": 2, "cikisZorlugu": 3,
+      "cikis": "Borcu olmayan çıkabilir; bildiklerini unutmayı vaat ederek. Defterde adı olan için çıkış, borcun kapanmasıdır.",
+      "girisYollari": ["borc", "is", "caresizlik"]
+    },
+    {
+      "id": "tepeliler", "ad": "Tepeliler", "halkArasinda": "'Vole'nin çocukları'", "tur": "cete", "kurulus": 2015, "lider": "volkan_serter",
+      "ozet": "Kayalıtepe'nin genç, hızlı büyüyen mahalle çetesi. Kuralları az, öfkesi çok; eski ailelerin 'düzenini' yıkmak istiyorlar.",
+      "tarihce": [
+        { "olay": "demirspor_super_lig", "aciklama": "Kuzey Tribünü'nün sert çekirdeği olarak ortaya çıktılar." },
+        { "olay": "deryapi_iflasi", "aciklama": "Terk edilen şantiye onların karargâhı oldu; işsiz kalan inşaat işçilerinin oğulları onlara katıldı." },
+        { "olay": "metro_m2", "aciklama": "M2 açılınca Kuzey'den Marina'ya yirmi dakikada inilir oldu; iş alanları da genişledi." }
+      ],
+      "bolgeler": [
+        { "semt": "kayalitepe", "guc": 4, "faaliyetler": ["uyusturucu", "calinti_mal"], "aciklama": "Mahallenin sokakları; ama Muhtar Şükrü'nün çizdiği çizgi var: okul önü ve çocuklar yasak." },
+        { "semt": "kuzey_sanayi", "guc": 3, "faaliyetler": ["calinti_mal"], "aciklama": "Gece depolardan kaybolan mallar ve Küçük Sanayi'de sorulmadan alınan parçalar." },
+        { "semt": "tabakhane", "guc": 2, "faaliyetler": ["uyusturucu"], "aciklama": "Karakaşlar'la çekişilen arka sokaklar." },
+        { "semt": "istasyon", "guc": 1, "faaliyetler": ["uyusturucu"], "aciklama": "Maç günleri ve gece; Karakaşlar'ın sınırında." }
+      ],
+      "kurallar": [
+        { "kural": "Abiye sadakat.", "ihlal": "Mahallede yürüyemezsin." },
+        { "kural": "Mahallenin çocuklarına ve okula dokunulmaz (Muhtar'ın şartı).", "ihlal": "Volkan bunu kendisi cezalandırır; mahalleyi kaybetmek istemez." },
+        { "kural": "Tutuklanan konuşmaz; ailesine bakılır.", "ihlal": "Konuşanın ailesi de mahalleden çıkar." }
+      ],
+      "hiyerarsi": [
+        { "id": "abi", "ad": "Abi", "sayi": [1, 1], "aciklama": "Volkan Serter." },
+        { "id": "sag_kol", "ad": "Sağ kol", "sayi": [2, 3], "aciklama": "Volkan'ın çocukluk arkadaşları." },
+        { "id": "sokak_sorumlusu", "ad": "Sokak sorumlusu", "sayi": [4, 8], "aciklama": "Her sokağın 'büyüğü'." },
+        { "id": "cocuk", "ad": "Çocuk", "sayi": [20, 50], "aciklama": "On altı ile yirmi beş yaş arası; motorlar, telefonlar, hızlı para." }
+      ],
+      "faaliyetler": [
+        { "tur": "uyusturucu", "aciklama": "Sokakta; mahallenin bir kısmı göz yumar, bir kısmı her gece bunun için dua eder." },
+        { "tur": "calinti_mal", "aciklama": "Depolardan ve otoparklardan kaybolanlar, Küçük Sanayi'de yeni sahiplerini bulur." },
+        { "tur": "tehdit", "aciklama": "Şantiye 'güvenliği' ve tribün; korkutmak, iş." }
+      ],
+      "iliskiler": [
+        { "orgut": "karakaslar", "tur": "dusman", "aciklama": "Gece için savaş." },
+        { "orgut": "kalyoncular", "tur": "rekabet", "aciklama": "Onları hem kıskanıyor hem taklit ediyorlar; Cevat üzerinden limana sızıyorlar." },
+        { "orgut": "sarraflar", "tur": "is_ortagi", "aciklama": "Hacı'nın tahsildarlık işleri iyi para; ama Volkan yaşlı adamın onları küçümsediğini biliyor." }
+      ],
+      "itibar": { "korku": 4, "saygi": 2, "halk": "Mahallenin gençleri için kahraman, anneler için kâbus. 'Vole kötü çocuk değil, kötü olan bu dünya.'" },
+      "polisBilgisi": 4, "cikisZorlugu": 3,
+      "cikis": "Çıkmak kolay görünür, mahallede kalmak zordur: eski arkadaşlar her köşede. Çıkanların çoğu ya şehirden gider ya da askere.",
+      "girisYollari": ["mahalle", "eski_arkadas", "caresizlik"]
+    },
+    {
+      "id": "sarraflar", "ad": "Sarraflar", "halkArasinda": "'Hacı'nın defteri'", "tur": "sebeke", "kurulus": 1983, "lider": "mahir_sarikaya",
+      "ozet": "Bedesten'in arka odalarında kurulmuş, bankaya gidemeyenlerin bankası. Silahları senet ve sırdır; kimseye bağırmazlar, sadece hatırlatırlar.",
+      "tarihce": [
+        { "aciklama": "1983'te Çarşı Döviz açıldı; ilk müşteriler kredi alamayan esnaftı." },
+        { "olay": "deryapi_iflasi", "aciklama": "Deryal'ın kaçırdığı paranın bir kısmı Sarıkaya'nın defterinden geçti." },
+        { "olay": "koinpazar_cokusu", "aciklama": "Çöküşten sonra borç batağına düşen yüzlerce aile Sarıkaya'nın kapısını çaldı; ağ hiç olmadığı kadar büyüdü." }
+      ],
+      "bolgeler": [
+        { "semt": "eski_carsi", "guc": 4, "faaliyetler": ["tefecilik", "kara_para"], "aciklama": "Çarşı esnafının yarısının senedi kasada." },
+        { "semt": "cumhuriyet", "guc": 2, "faaliyetler": ["tefecilik"], "aciklama": "Memurlar, KoinPazar mağdurları, kulüp yöneticileri." },
+        { "semt": "kayalitepe", "guc": 2, "faaliyetler": ["tefecilik"], "aciklama": "Deryapı mağdurlarının ödediği kredinin üstüne ödediği ikinci borç." },
+        { "semt": "marina", "guc": 1, "faaliyetler": ["kara_para"], "aciklama": "Paranın yolu." }
+      ],
+      "kurallar": [
+        { "kural": "Senet senettir.", "ihlal": "Borç kefile, kefilden aileye geçer." },
+        { "kural": "Ağız sıkı tutulur.", "ihlal": "Defterden silinmek; bu şehirde hiçbir kapı bir daha açılmaz." }
+      ],
+      "hiyerarsi": [
+        { "id": "hoca", "ad": "Hoca", "sayi": [1, 1], "aciklama": "Hacı Mahir Sarıkaya." },
+        { "id": "katip", "ad": "Kâtip", "sayi": [2, 3], "aciklama": "Defterleri tutanlar." },
+        { "id": "simsar", "ad": "Simsar", "sayi": [5, 12], "aciklama": "Müşteri getiren esnaf, emlakçı, muhasebeci." },
+        { "id": "tahsildar", "ad": "Tahsildar", "sayi": [2, 5], "aciklama": "Gerektiğinde Karakaşlar'dan ya da Tepeliler'den kiralanır." }
+      ],
+      "faaliyetler": [
+        { "tur": "tefecilik", "aciklama": "Bankanın vermediği parayı verir; faizi bankanınkinin çok üstündedir ama soru sormaz." },
+        { "tur": "kara_para", "aciklama": "Altın, döviz ve el değiştiren senetler; başkalarının parası için yol." }
+      ],
+      "iliskiler": [
+        { "orgut": "kalyoncular", "tur": "is_ortagi", "aciklama": "Kırk yıllık ortaklık." },
+        { "orgut": "karakaslar", "tur": "is_ortagi", "aciklama": "Masada biten borçlar." },
+        { "orgut": "tepeliler", "tur": "is_ortagi", "aciklama": "Gerektiğinde tahsildar kiralar; onları sevmez." }
+      ],
+      "itibar": { "korku": 2, "saygi": 4, "halk": "'Hacı Abi yetişmeseydi dükkânı kapatırdım.' Borcu olan dışında herkes onu sever." },
+      "polisBilgisi": 1, "cikisZorlugu": 2,
+      "cikis": "Borcunu kapatan çıkar. Ama Hacı unutmaz: bir gün bir iyilik istenir ve 'hayır' demek zordur.",
+      "girisYollari": ["borc", "caresizlik", "is"]
+    }
+  ]
+}

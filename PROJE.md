@@ -10,8 +10,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 ## 🧭 NEREDE KALDIK
 
 - **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kapandı: 2026-10-20)
-- **Son tamamlanan adım:** 2.6 Takvim (bayramlar 2026–2036, okul ve üniversite takvimi), hava modeli (seed + tarihten, iklime uygun; fırtınada vapur yok), kendi ilerleyen dünya (enflasyon, ocak/temmuz zammı, Demirspor maçları, gündem, mekanların geçici kapanması); kayıt sürümü 2
-- **Sıradaki adım:** 2.7 Ekonomi dosyası (`data/ekonomi.json`, asgari ücrete oranlı her şey) ve PROJE.md ekonomi tablosunun kesinleşmesi — **orta**
+- **Son tamamlanan adım:** 2.7 Ekonomi (`data/ekonomi.json`, `core/ekonomi.js`): kira (konut tipi × semt katsayısı), yaşam giderleri, mekan fiyatları (seviye 1–5), maaşlar (22 iş türü × şirket katsayısı), suç ekonomisi sayıları; fiyat ve ücret endeksine bağlı; ekonomi tablosu kesinleşti
+- **Sıradaki adım:** 2.8 Konum sistemi (kayıt şeması v3 + migration), Şehir sekmesi arayüzü, semtler arası gezinme, mekanlara girme — **büyük** (bitince kullanıcı telefonda deneyecek)
 - **Kullanıcı isteği (2026-10-20):** "Benim deneyeceğim bir şey gelene kadar devam et." → 2.6, 2.7, 2.8 arka arkaya; 2.8'de (Şehir sekmesi, gezinme, mekanlar) durup telefonda denemesi istenecek.
 - **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Tek sorun alttaki koyu şeritti. ~~0.1.2 yükseklik düzeltmesi~~, ~~0.1.3 kök arka plan~~, ~~0.1.4 gövde 100vh~~ (sekme yazılarını kesti) tutmadı. Kesin sebep (0.1.3 ölçümü): iOS 26 sayfayı 873 pt'de bitiriyor, altını kendisi uygulama rengiyle (#1b1916) boyuyor; CSS ile değiştirilemiyor. **0.1.5 çözümü (kullanıcının isteği):** sekme çubuğu ve kök arka plan şerit rengine (--arka) alındı, şerit varken ek alt boşluk kaldırıldı, palet tazelendi (seçili sekmede yumuşak vurgu zemini). 0.1.5 ekran görüntüsüyle doğrulandı (şerit sekme çubuğuyla aynı renkte, yazılar tam): **Faz 1 kapandı.**
 - **Kullanıcıdan beklenen:** şimdilik bir şey yok; 2.8 bitince telefonda deneme.
@@ -44,8 +44,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | 2.4 | Kurumlar, şirketler (iş ilanlarına kaynak), yerel figürler, kurgusal suç örgütleri ve bölgeleri | büyük | ✅ |
 | 2.5 | Mekanlar: sahip (NPC tohumu), saatler, müşteri profili, geçmiş, dedikodular, fırsatlar | büyük | ✅ |
 | 2.6 | Takvim (Ramazan/Kurban Bayramı tarihleri, okul takvimi), hava durumu modeli, kendi ilerleyen dünya (dükkan açılıp kapanması, fiyatlar, şehir olayları) | orta | ✅ |
-| 2.7 | Ekonomi dosyası (asgari ücrete oranlı her şey), PROJE.md ekonomi tablosunun kesinleşmesi | orta | ⏳ |
-| 2.8 | Konum sistemi (kayıt şeması v2 + migration), Şehir sekmesi arayüzü, semtler arası gezinme | büyük | ⬜ |
+| 2.7 | Ekonomi dosyası (asgari ücrete oranlı her şey), PROJE.md ekonomi tablosunun kesinleşmesi | orta | ✅ |
+| 2.8 | Konum sistemi (~~kayıt şeması v2~~ → v3, çünkü v2 2.6'da dünya için kullanıldı + migration), Şehir sekmesi arayüzü, semtler arası gezinme | büyük | ⏳ |
 
 ### Fazlar
 
@@ -147,7 +147,8 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   │                       ulasim (hatlar, bekleme, trafik, ücret, yol bulma),
 │   │                       toplum (kurum, şirket, figür, örgüt yardımcıları ve denetimi),
 │   │                       mekan (açık mı, kalabalık, dedikodular, mekan denetimi),
-│   │                       takvim (okul/üniversite), hava (günlük ve anlık hava), ilerleme (kendi ilerleyen dünya)
+│   │                       takvim (okul/üniversite), hava (günlük ve anlık hava), ilerleme (kendi ilerleyen dünya),
+│   │                       ekonomi (AÜ oranı → ₺, kira, maaş, mekan fiyatı)
 │   ├── ayarlar.js          Cihaz görünüm ayarları (tema, yazı, hız, hareket)
 │   ├── ui/                 Arayüz parçaları (panel, anlatım, seçenekler, durum çubuğu, sekmeler)
 │   │   └── ekranlar/       Sekme ekranları ve paneller (simdi, dahafazla, kayitlar, aktarim, yertutucu)
@@ -157,7 +158,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 │   ├── aksiyonlar.json     Temel günlük aksiyonlar (1.5)
 │   ├── takvim.json         Resmi tatiller (1.5); bayramlar 2026–2036 ve okul takvimi kuralları (2.6)
 │   ├── hava.json           Hava modeli ayarları ve hava anlatımları (2.6)
-│   ├── ekonomi.json        Tüm fiyatlar (asgari ücrete oranlı) — Faz 2
+│   ├── ekonomi.json        Tüm fiyatlar, kiralar, maaşlar, suç ekonomisi (asgari ücrete oranlı; 2.7)
 │   ├── dunya/              Dünya kitabı (Faz 2): sehir.json (2.1), semtler.json (2.2), ulasim.json (2.3),
 │   │                       kurumlar / sirketler / figurler / orgutler.json (2.4), mekanlar.json (2.5),
 │   │                       ilerleme.json (kendi ilerleyen dünya, 2.6)
@@ -465,12 +466,43 @@ Kısa vadede kolay ve hızlı para gibi görünür; uzun vadede hayatı daraltı
 
 ---
 
-## 💰 EKONOMİ REFERANS TABLOSU (taslak — Faz 2'de `data/ekonomi.json` ile kesinleşecek)
+## 💰 EKONOMİ (kesinleşti: adım 2.7, `data/ekonomi.json`, `core/ekonomi.js`)
+
+Bütün tutarlar **asgari ücret (AÜ) oranı**dır: ₺ = oran × AÜ × endeks. **AÜ başlangıçta 28.000 ₺/ay (net)**. Fiyatlar **fiyat endeksiyle** (her ay %1,8–3,2), maaşlar **ücret endeksiyle** (yalnızca ocak ve temmuzda, enflasyonun %88–100'ü) büyür (2.6). Görünen fiyatlar esnaf yuvarlamasıyla (100 ₺ altı 1, 1.000 altı 5, üstü 50 ₺).
+
+**Kira = taban × semtin kira katsayısı** (aylık, oyun başında):
+
+| Konut | Taban (AÜ) | Tabakhane (×0,6) | Çamlık (×1,0) | Cumhuriyet (×1,35) | Marina (×2,4) | Yamaçevler (×3,0) |
+|---|---|---|---|---|---|---|
+| Paylaşımlı evde oda | 0,55 | 9.250 | 15.400 | 20.800 | 36.950 | 46.200 |
+| Stüdyo | 0,95 | 15.950 | 26.600 | 35.900 | 63.850 | 79.800 |
+| 1+1 | 1,2 | 20.150 | 33.600 | 45.350 | 80.650 | 100.800 |
+| 2+1 | 1,6 | 26.900 | 44.800 | 60.500 | 107.500 | 134.400 |
+| 3+1 | 2,1 | 35.300 | 58.800 | 79.400 | 141.100 | 176.400 |
+
+Fatura (aylık, payına düşen): oda 0,08 · stüdyo 0,10 · 1+1 0,12 · 2+1 0,15 · 3+1 0,18 AÜ. Depozito 2 kira, emlakçı 1 kira.
+
+**Yaşam:** mutfak (tek kişi, idareli) 0,34 AÜ ≈ 9.500 ₺/ay · telefon + internet ≈ 1.100 · abonman ≈ 1.700 · ekmek 15 ₺ · sigara 95 ₺.
+**Örnek bütçe (asgari ücretli, Tabakhane'de oda):** 28.000 − (9.250 kira + 2.250 fatura + 9.500 mutfak + 1.700 ulaşım + 1.100 telefon) ≈ **4.200 ₺ kalır**; her ay biraz eriyerek (zam ocak ve temmuzda).
+
+**Mekan fiyatları** (fiyat seviyesi 1 → 5; çarpanlar 1 / 1,6 / 2,6 / 4 / 6,5): çay 15 → 98 ₺ · kahve 45 → 290 · çorba 81 → 530 · döner/köfte ekmek 100 → 655 · bir öğün yemek 180 → 1.150 · bir içki 120 → 785 · tatlı 70 → 455 · gecelik konaklama 505 → 3.300 · hamam 250 → 1.650 · spor günlük 195 → 1.250. Mekanın her ücretli hizmeti bir ürüne bağlı (`hizmetUrun`).
+
+**Maaşlar** (aylık net, AÜ; şirketin ücret katsayısıyla çarpılır, hiçbir zaman AÜ'nün altına inmez): vasıfsız 1,0–1,15 · depo 1,0–1,25 · fabrika 1,0–1,3 · temizlik 1,0–1,05 · güvenlik 1,0–1,25 · çağrı merkezi 1,0–1,2 · garson 1,0–1,2 (+ bahşiş 0,1–0,4) · kurye 1,0–1,8 · satış 1,0–1,3 · mutfak 1,0–1,5 · inşaat 1,1–1,6 · şoför 1,1–1,6 · denizci 1,1–2,0 · medya 1,1–2,2 · ofis 1,2–1,8 · usta 1,4–2,4 · tasarım 1,4–3,0 · muhasebe 1,5–3,0 · öğretmen 1,6–2,2 · sağlık 1,6–4,0 · yazılım 2,0–6,0 · yönetici 4–15. Gündelik iş: günlük 0,03–0,05 AÜ (nakit, sigortasız).
+
+**Ulaşım:** `ulasim.json` tarifesi (metro/otobüs ≈ 25 ₺, vapur ≈ 31, dolmuş ≈ 36, taksi açılış ≈ 50 + dakika ≈ 13) — fiyat endeksiyle büyür.
+
+**Suç ekonomisi (yalnızca oyun sayıları):** tefeci faizi aylık %10–25 · haraç (mekan başına aylık) 0,1–0,6 AÜ · avukat: görevli 0, sıradan 1,5–4, "bağlantılı" 8–30 AÜ · kefalet 0,5–20 · adli para cezası 0,2–10 · örgüt geliri aylık: alt kademe 0,5–1,5, orta 2–6, üst 10–40 AÜ · kirli para şüphe eşiği: 3 AÜ'yü aşan göze batan harcama.
+
+<details><summary>~~Eski taslak (2.7 öncesi)~~ — 2.7'de semt katsayısına bağlı kira ve tam liste ile değişti</summary>
+
 
 Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıyı (`asgariUcret`) değiştirmek tüm ekonomiyi ölçekler. Oyunun başlangıç değeri: **AÜ = 28.000 ₺/ay (net)** (2026 Türkiye net asgari ücretine yakın yuvarlak değer; kurgusal).
 
 | Kalem | AÜ oranı (taslak) | ≈ ₺ |
-|---|---|---|
+|
+</details>
+
+---|---|---|
 | Oda kirası (ucuz semt, paylaşımlı ev) | 0,35 – 0,50 | 9.800 – 14.000 |
 | 1+1 kira (ucuz semt) | 0,75 – 0,95 | 21.000 – 26.600 |
 | 1+1 kira (orta semt) | 1,1 – 1,5 | 30.800 – 42.000 |
@@ -535,7 +567,8 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
-| 0.1.10 | 2026-10-20 | Adım 2.6: bayramlar 2026–2036, okul/üniversite takvimi (`core/takvim.js`, koşul dilinde `okul`, `universite`); hava modeli (`core/hava.js`, `data/hava.json`; ayraçta ve durum panelinde hava; fırtınada vapur yok); kendi ilerleyen dünya (`core/ilerleme.js`, `data/dunya/ilerleme.json`: enflasyon, zam, Demirspor, gündem, mekan kapanmaları). Kayıt sürümü 2 + migration. 297 test. |
+| 0.1.11 | 2026-10-20 | Adım 2.7: `data/ekonomi.json` + `core/ekonomi.js` (esnaf yuvarlaması, fiyat/ücret endeksi, ürün ve hizmet fiyatı, kira, maaş aralığı, denetim); ekonomi tablosu kesinleşti. 302 test. |
+| 0.1.10 | 2026-10-20 | Adım 2.6: bayramlar 2026–2036, okul/üniversite takvimi (`core/takvim.js`, koşul dilinde `okul`, `universite`); hava modeli (`core/hava.js`, `data/hava.json`; ayraçta ve durum panelinde hava; fırtınada vapur yok); kendi ilerleyen dünya (`core/ilerleme.js`, `data/dunya/ilerleme.json`: enflasyon, zam, Demirspor, gündem, mekan kapanmaları). Kayıt sürümü 2 + migration. 296 test. |
 | 0.1.9 | 2026-10-20 | Adım 2.5: `data/dunya/mekanlar.json` (52 mekan, 31 tohum sahip, 63 dedikodu, 8 gizli örgüt bağı; tür / hizmet / fırsat katalogları) ve `core/mekan.js` (açık mı — gece yarısını geçen saatler önceki güne sayılır, kalabalık, semtteki mekanlar, konu dedikoduları, müdavimler, denetim). Oyun dosyayı yüklüyor. 284 test. |
 | 0.1.8 | 2026-10-20 | Adım 2.4: `kurumlar.json` (35), `sirketler.json` (32 + 22 iş türü), `figurler.json` (26), `orgutler.json` (4 kurgusal örgüt); `core/toplum.js` (karakol, semtteki örgütler, iş verenler, paravanlar, üyeler; çapraz başvuru denetimi: karakol kapsamı, sahip/paravan/lider/rütbe, iki yönlü örgüt ilişkileri, yaş, iyelik şüphesi). Oyun dosyaları yüklüyor. 276 test. |
 | 0.1.7 | 2026-10-20 | Adım 2.3: `data/dunya/ulasim.json` (10 hat, 23 yol, tarife, trafik) ve `core/ulasim.js` (zamana bağlı yol bulma: toplu/yürüyüş/taksi, bekleme, trafik, Kent Kart aktarma indirimi, taksi ücreti, veri denetimi); dünya denetimine bağlandı, oyun dosyayı yüklüyor. 267 test. |

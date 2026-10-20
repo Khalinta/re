@@ -1,0 +1,64 @@
+{
+  "_aciklama": "Ekonomi (adım 2.7). Bütün tutarlar asgari ücret (AÜ) oranıdır; ₺ = oran × asgariUcret × endeks. Fiyatlar fiyat endeksiyle (her ay enflasyon), ücretler ücret endeksiyle (ocak/temmuz zam) büyür (ilerleme.json). Tek sayıyı (asgariUcret) değiştirmek bütün ekonomiyi ölçekler. Yuvarlama: 100 ₺ altı 1 ₺'ye, 1.000 ₺ altı 5 ₺'ye, üstü 50 ₺'ye. konut: şehir ortalaması (kiraKatsayisi 1) aylık kira; semtte kira = taban × semtin kiraKatsayisi. urunler: fiyat seviyesi 1 (en ucuz) mekandaki fiyat; seviye çarpanları 1–5. hizmetUrun: mekan hizmetinin hangi ürünle ücretlendirildiği. maaslar: iş türüne göre aylık net aralık (şirketin ucretKatsayisi ile çarpılır). suc: suç ekonomisinin oyun değerleri (yalnızca sayılar; yöntem yok).",
+
+  "asgariUcret": 28000,
+
+  "konut": {
+    "oda": { "ad": "Paylaşımlı evde oda", "kira": 0.55, "fatura": 0.08 },
+    "studyo": { "ad": "Stüdyo daire", "kira": 0.95, "fatura": 0.1 },
+    "1+1": { "ad": "1+1 daire", "kira": 1.2, "fatura": 0.12 },
+    "2+1": { "ad": "2+1 daire", "kira": 1.6, "fatura": 0.15 },
+    "3+1": { "ad": "3+1 daire", "kira": 2.1, "fatura": 0.18 }
+  },
+  "depozitoAy": 2,
+  "emlakciAy": 1,
+
+  "yasam": {
+    "mutfak": { "ad": "Mutfak (tek kişi, idareli, aylık)", "oran": 0.34 },
+    "telefon": { "ad": "Telefon + internet (aylık)", "oran": 0.04 },
+    "abonman": { "ad": "Toplu taşıma abonmanı (aylık)", "oran": 0.06 },
+    "ekmek": { "ad": "Ekmek", "oran": 0.00054 },
+    "sigara": { "ad": "Bir paket sigara", "oran": 0.0034 }
+  },
+
+  "seviyeCarpani": [1, 1.6, 2.6, 4, 6.5],
+  "urunler": {
+    "cay": { "ad": "Çay", "oran": 0.00054 },
+    "kahve": { "ad": "Kahve", "oran": 0.0016 },
+    "corba": { "ad": "Çorba", "oran": 0.0029 },
+    "atistirma": { "ad": "Döner, köfte ekmek, simit", "oran": 0.0036 },
+    "yemek": { "ad": "Bir öğün yemek", "oran": 0.0064 },
+    "icki": { "ad": "Bir içki", "oran": 0.0043 },
+    "tatli": { "ad": "Tatlı", "oran": 0.0025 },
+    "gecelik": { "ad": "Bir gece konaklama", "oran": 0.018 },
+    "hamam": { "ad": "Hamam", "oran": 0.009 },
+    "spor": { "ad": "Günlük giriş", "oran": 0.007 },
+    "bakim": { "ad": "Küçük tamir", "oran": 0.012 },
+    "alisveris": { "ad": "Küçük alışveriş", "oran": 0.0055 },
+    "okuma": { "ad": "İkinci el kitap", "oran": 0.0045 }
+  },
+  "hizmetUrun": {
+    "cay_kahve": "cay", "yemek": "yemek", "alkol": "icki", "konaklama": "gecelik", "yikanma": "hamam",
+    "spor": "spor", "bakim": "bakim", "alisveris": "alisveris", "okuma": "okuma", "ekmek": "atistirma"
+  },
+
+  "maaslar": {
+    "vasifsiz": [1.0, 1.15], "depo": [1.0, 1.25], "fabrika": [1.0, 1.3], "usta": [1.4, 2.4], "insaat": [1.1, 1.6],
+    "sofor": [1.1, 1.6], "kurye": [1.0, 1.8], "garson": [1.0, 1.2], "mutfak": [1.0, 1.5], "satis": [1.0, 1.3],
+    "temizlik": [1.0, 1.05], "guvenlik": [1.0, 1.25], "cagri_merkezi": [1.0, 1.2], "ofis": [1.2, 1.8], "muhasebe": [1.5, 3.0],
+    "yazilim": [2.0, 6.0], "tasarim": [1.4, 3.0], "medya": [1.1, 2.2], "saglik": [1.6, 4.0], "ogretmen": [1.6, 2.2],
+    "denizci": [1.1, 2.0], "yonetici": [4.0, 15.0]
+  },
+  "bahsis": { "garson": [0.1, 0.4], "kurye": [0.05, 0.15] },
+  "gundelik": { "ad": "Gündelik iş (nakit, sigortasız, günlük)", "aralik": [0.03, 0.05] },
+
+  "suc": {
+    "tefeciFaizAylik": [0.1, 0.25],
+    "haracAylik": [0.1, 0.6],
+    "avukat": { "gorevli": 0, "siradan": [1.5, 4], "baglantili": [8, 30] },
+    "kefalet": [0.5, 20],
+    "adliParaCezasi": [0.2, 10],
+    "rutbeGeliriAylik": { "alt": [0.5, 1.5], "orta": [2, 6], "ust": [10, 40] },
+    "kirliParaSupheEsigi": 3
+  }
+}

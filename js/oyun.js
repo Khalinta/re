@@ -11,6 +11,7 @@ import { kucuk } from './core/tr.js';
 import { dunyaDogrula } from './core/dunya.js';
 import { metinCoz } from './core/metin.js';
 import { dunyaIlerlet } from './core/ilerleme.js';
+import { ekonomiDogrula } from './core/ekonomi.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
 
 export const veri = {};
@@ -24,7 +25,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -41,7 +42,11 @@ export async function veriYukle() {
     jsonAl('./data/dunya/mekanlar.json'),
     jsonAl('./data/dunya/ilerleme.json'),
     jsonAl('./data/hava.json'),
+    jsonAl('./data/ekonomi.json'),
   ]);
+  veri.ekonomi = ekonomi;
+  const ekoSorunlari = ekonomiDogrula(ekonomi, { isTurleri: sirketler.isTurleri, hizmetler: mekanlar.hizmetler, ulasim });
+  if (ekoSorunlari.length) console.error('[ekonomi] tutarsızlık:', ekoSorunlari);
   veri.ilerleme = ilerleme;
   veri.hava = hava;
   veri.dunya = { sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar };

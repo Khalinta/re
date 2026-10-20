@@ -12,7 +12,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 - **Şu anki faz:** Faz 2 — Dünya kitabı ve ekonomi (Faz 1 kodu bitti; kapanışı kullanıcının telefon testine bağlı)
 - **Son tamamlanan adım:** 2.1 Şehrin kimliği (Karaliman), coğrafya, iklim, kimlik, tarih, 23 olaylık zaman çizelgesi, 14 semtlik iskelet; `core/dunya.js` denetimi; şablonlarda `{sehir.ad}`
 - **Sıradaki adım:** 2.2 Semtlerin ayrıntıları (`data/dunya/semtler.json`): karakter, sosyoekonomik durum, kira katsayısı, kim yaşıyor, ünlü yerler, gerilimler ve semtler arası ilişkiler — **orta**
-- **Bekleyen (Faz 1):** Kullanıcının GitHub Pages'i açması ve telefon test listesi ("Yayın ve telefonda test"). Bir sorun bildirilirse Faz 2'ye ara verilip önce o düzeltilir.
+- **Faz 1 telefon testi (2026-10-20):** Yayın açıldı (https://khalinta.github.io/re/). iPhone, iOS 26 Safari, ana ekrandan: tam ekran ✓, IndexedDB ✓, kalıcı depolama izni verildi ✓, hata yok ✓, olay ve kayıt çalışıyor ✓. Bulunan tek sorun: altta boş şerit → 0.1.2'de düzeltildi; kullanıcının doğrulaması bekleniyor, doğrulanınca Faz 1 kapanır.
 - **Kullanıcıdan beklenen:** "devam" demesi.
 
 ### Faz 1 adım listesi
@@ -444,6 +444,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 ## 🐞 BİLİNEN HATALAR / SINIRLAR
 
 ### Düzeltilen hatalar (kayıt için)
+- **Faz 1 telefon testi → 0.1.2:** iPhone'da ana ekrandan açınca altta boş koyu bir şerit kalıyordu. Sebep: iOS standalone modda `innerHeight` / `visualViewport.height` durum çubuğu kadar (59 pt) eksik bildiriyor (rapor: ekran 932, pencere 873); gövde yüksekliği bu değerden alınıyordu. Düzeltme: gövde `position: fixed; inset: 0` ile tüm ekranı kaplar; görünür yükseklik yalnızca klavye açıkken kullanılır.
 - **1.3 → 1.11:** İlk ziyarette service worker kontrolü alınca sayfa gereksiz yere yeniden yükleniyordu (yarıda kalan indirmeler sahte hata olarak kaydediliyordu). Düzeltildi: yalnızca gerçekten bir önceki sürümden geçilirken yenilenir.
 - **1.6 → 1.11:** Güncelleme bandındaki "Yenile" çalışmıyordu: service worker kaydını tutan yerel değişkenin adı (`kayit`) kayıt modülünü gölgeliyordu; "önce kaydet" adımı hata verip yenilemeyi engelliyordu. 1.10'daki hata kaydı sayesinde bulundu. Düzeltildi; ayrıca kayıt hata verse bile güncelleme artık sürer. Bu tür hatalar için ESLint teste eklendi (K44).
 - **1.4 → 1.6:** Liste sayfalarında içerik ekrana sığmayınca bloklar sıkışıp görünmez oluyordu.
@@ -485,6 +486,7 @@ Tüm fiyatlar **asgari ücret (AÜ)** katı olarak tanımlanır. Tek bir sayıy�
 | Sürüm | Tarih | Not |
 |---|---|---|
 | 0.0.1 | 2026-10-20 | Adım 1.1: PROJE.md, CLAUDE.md, klasör iskeleti, yer tutucu sayfa. |
+| 0.1.2 | 2026-10-20 | Faz 1 telefon testi: iOS 26 standalone'da her şey çalışıyor (kalıcı depolama izni verildi). Alttaki boş şerit düzeltildi (yükseklik visualViewport'tan alınmıyor). |
 | 0.1.1 | 2026-10-20 | Adım 2.1: `data/dunya/sehir.json` (Karaliman: coğrafya, 12 aylık iklim, kimlik, deyişler, mutfak, kulüp, medya, şehir efsaneleri, 7 dönemlik tarih, 23 olaylık zaman çizelgesi ve hikaye kancaları, 14 semt iskeleti), `core/dunya.js` (denetim, semt/kanca yardımcıları), şablonda `{sehir.*}`, giriş metni şehri anıyor. 250 test. |
 | 0.1.0 | 2026-10-20 | Faz 1 sürümü (1.12 hazırlığı): alt adreste (/re/) açılış, service worker kapsamı, çevrimdışı açılış ve kayıt doğrulandı; yayın adımları, Netlify notu ve 13 maddelik telefon test listesi PROJE.md'ye yazıldı. Kullanıcı testi bekleniyor. |
 | 0.0.12 | 2026-10-20 | Adım 1.11: gizli geliştirici paneli (6 bölüm), `oyun.js` geliştirici işlevleri (gelistiriciDegistir, zamanAtla, olayListesi, aktifOlayiIptal, zamanlayiciCalistir), belirli seed/tarihle yeni oyun. Hata düzeltmeleri: ilk ziyarette gereksiz yeniden yükleme; güncelleme bandının çalışmaması (değişken gölgeleme). ESLint denetimi teste eklendi, bulduğu 7 gölgeleme/kullanılmayan değişken temizlendi. 246 test. |

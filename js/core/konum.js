@@ -10,6 +10,7 @@ import { yolSecenekleri } from './ulasim.js';
 import { gununHavasi, anlikHava, havaMetni } from './hava.js';
 import { urunFiyati, fiyatBirimi } from './ekonomi.js';
 import { metinCoz } from './metin.js';
+import { cesitSec, cesitHavuzu, havuzAnahtari } from './cesit.js';
 import { ek } from './tr.js';
 import { para as paraYaz, sure as sureYaz } from './format.js';
 import { aksiyonKaydet } from './durum.js';
@@ -137,8 +138,10 @@ export function yolOzeti(veri, yol) {
   return yol.adimlar.map(a => a.tur === 'hat' ? `${a.hatKisa} ${ad(a.nereden)} → ${ad(a.nereye)}` : a.tur === 'taksi' ? 'Taksi' : `Yürüyüş ${ad(a.nereden)} → ${ad(a.nereye)}`).join(' · ') || 'Buradasın';
 }
 
+// Düz havuzlarda son kullanılanlar bir süre gelmez (3.18)
 function yaz(metin, rng, ctx, tur = 'anlati') {
-  return metinCoz(metin, rng, ctx).map(p => ({ ...p, tur: p.tur === 'anlati' ? tur : p.tur }));
+  const m = ctx?.durum && cesitHavuzu(metin) ? cesitSec(ctx.durum, havuzAnahtari(metin), metin, rng) : metin;
+  return metinCoz(m, rng, ctx).map(p => ({ ...p, tur: p.tur === 'anlati' ? tur : p.tur }));
 }
 
 // Semtten semte gider. kip: toplu | yuruyus | taksi. Döner: { tamam, sebep?, paragraflar }

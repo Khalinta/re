@@ -45,9 +45,12 @@ const ANI_SINIRI = 30;
 
 export const ETKILER = {
   // { "para": -150 }  (eksi harcama, artı kazanç)
+  // Kasa eksiye düşmez (3.17): cebindekinden fazlası istenirse elindeki kadarı gider
   para: (v, ctx, notlar) => {
-    ctx.durum.para = Math.round((ctx.durum.para + v) * 100) / 100;
-    notlar.push((v < 0 ? '−' : '+') + paraYaz(Math.abs(v)));
+    const once = ctx.durum.para;
+    ctx.durum.para = Math.max(Math.min(once, 0), Math.round((once + v) * 100) / 100);
+    const fark = Math.round((ctx.durum.para - once) * 100) / 100;
+    if (fark) notlar.push((fark < 0 ? '−' : '+') + paraYaz(Math.abs(fark)));
   },
   // { "durum": { "enerji": -10, "ruh": 5 } }
   durum: (v, ctx) => {

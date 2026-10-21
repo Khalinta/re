@@ -7,6 +7,7 @@ import { kosulAcikla, nedenTutmadi } from './kosul.js';
 import { sureliTemizle } from './bayrak.js';
 import { para as paraYaz, sure as sureYaz } from './format.js';
 import { metinCoz } from './metin.js';
+import { cesitSec, cesitHavuzu, havuzAnahtari } from './cesit.js';
 
 // Döner: { tamam: true } ya da { tamam: false, sebep: '...', teknik?: [...] }
 // a.kosul (koşul dili) tutmazsa oyuncuya a.kosulSebep gösterilir; teknik neden geliştirici paneli içindir.
@@ -42,7 +43,8 @@ export function aksiyonMaliyeti(durum, a, simCfg) {
 export function aksiyonUygula(durum, a, simCfg, rng, veri = { sim: simCfg }) {
   const d = durum.durumlar;
   const ctx = { durum, veri };
-  const yaz = (metin, tur = 'anlati') => metinCoz(metin, rng, ctx).map(p => ({ ...p, tur: p.tur === 'anlati' ? tur : p.tur }));
+  // Düz havuzlarda son kullanılanlar bir süre gelmez (3.18)
+  const yaz = (metin, tur = 'anlati') => metinCoz(cesitHavuzu(metin) ? cesitSec(durum, havuzAnahtari(metin), metin, rng) : metin, rng, ctx).map(p => ({ ...p, tur: p.tur === 'anlati' ? tur : p.tur }));
   const paragraflar = [{ tur: 'secim', metin: a.ad }];
   let uyarilar = [];
 

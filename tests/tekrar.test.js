@@ -82,3 +82,21 @@ test('aynı kişinin tepkileri: 6 iltifatta aynı tepki iki kez gelmez', () => {
   }
   assert.equal(new Set(onun).size, onun.length, onun.join('\n'));
 });
+
+test('ev hareketleri (3.18): saate uymayan cümle yok (gece güneşlenen kedi), son cümleler kısa sürede tekrar gelmiyor', async () => {
+  const { aksiyonUygula } = await import('../js/core/aksiyon.js');
+  const aks = oku('data/aksiyonlar.json').aksiyonlar;
+  const pencere = aks.find(a => a.id === 'pencere'), dinlen = aks.find(a => a.id === 'dinlen');
+  const d = yeniDurum(veri.sim, { seed: 'AKS', baslangic: '2026-10-20', saat: 23, ev: { semt: 'camlik', tip: 'oda', ad: 'oda' }, karakter: { ad: 'Deniz', dogum: '1996-03-01', cinsiyet: 'e' } });
+  const r = Rng.akis('AKS', 'x');
+  const gunduz = pencere.metin.filter(x => x.dilim && !x.dilim.includes('gece')).map(x => x.metin);
+  for (let i = 0; i < 20; i++) {
+    d.zaman.dakika = i * 1440 + 23 * 60 + 10;
+    const m = aksiyonUygula(d, pencere, veri.sim, r, veri).paragraflar.find(p => p.tur === 'anlati').metin;
+    assert.ok(!gunduz.includes(m), m);
+  }
+  const l = [];
+  for (let i = 0; i < 14; i++) { l.push(aksiyonUygula(d, dinlen, veri.sim, r, veri).paragraflar.find(p => p.tur === 'anlati').metin); }
+  const pencereBoy = Math.floor(dinlen.metin.length * 0.6);
+  for (let i = 0; i + pencereBoy <= l.length; i++) assert.equal(new Set(l.slice(i, i + pencereBoy)).size, pencereBoy, l.join('\n'));
+});

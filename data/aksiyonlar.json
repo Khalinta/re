@@ -1,9 +1,13 @@
 {
   "_aciklama": "yer (2.8): ev = yalnızca evde listelenir (ve kosul ile evde olmak şartı), disarisi = evde ya da sokakta (mekanda değil), yoksa her yerde. Temel günlük aksiyonlar. sure: dakika, tur: zamanın nasıl geçtiği (normal/dinlenme/agir/uyku), enerji ve para: ek harcama, etki: aksiyon bitince durumlara eklenen değer, dilimler: hangi dilimlerde yapılabildiği (yoksa her zaman), metin: rastgele seçilen anlatım çeşitleri. Faz 1.8'den sonra 'dilimler' yerine genel 'kosul' alanı da kullanılabilir.",
-
   "aksiyonlar": [
     {
-      "id": "uyu", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
+      "id": "uyu",
+      "yer": "ev",
+      "kosul": {
+        "mekan": "ev"
+      },
+      "kosulSebep": "Evde değilsin.",
       "ad": "Uyu",
       "ozel": "uyku",
       "kisayol": true,
@@ -11,123 +15,380 @@
         "gece": [
           "Işığı kapatıyorsun. Tavandaki çatlak karanlıkta bile seçiliyor; sayarken uyuyakalıyorsun.",
           "Yastığı iki kez katlayıp başının altına sıkıştırıyorsun. Uyku, beklediğinden çabuk geliyor.",
-          "Dışarıda bir köpek havlıyor, sonra bir motor geçiyor, sonra hiçbir şey."
+          "Dışarıda bir köpek havlıyor, sonra bir motor geçiyor, sonra hiçbir şey.",
+          "Yorganı çenene kadar çekiyorsun. Günün sesleri bir bir sönüyor; en son kendi nefesin kalıyor.",
+          "Telefonu ters çevirip başucuna bırakıyorsun. Ekran bir kez yanıyor; bakmıyorsun. Aferin.",
+          "Yatağın serin tarafını bulup oraya kayıyorsun. Küçük mutluluklar.",
+          "Aklın yarına koşuyor; geri çağırıyorsun. Bir, iki, üç... Sayının birinde kayboluyorsun.",
+          "Borulardan bir su sesi geliyor; ev de yatıyor gibi. Sen de bırakıyorsun kendini.",
+          "Gözlerini kapatınca bugünün bir sahnesi tekrar oynuyor; sonra bir başkası, sonra hiçbiri.",
+          "Pencereyi biraz aralık bırakıyorsun; içeri serin bir hava ve uzak bir deniz kokusu giriyor."
         ],
         "gunduz": [
           "Perdeyi çekip kanepeye uzanıyorsun. Gün ortasında uyumak hep biraz suçluluk gibi.",
-          "Kısa bir kestirme niyetiyle gözlerini kapatıyorsun."
+          "Kısa bir kestirme niyetiyle gözlerini kapatıyorsun.",
+          "Gözlerini kapatıyorsun; dışarıdan gelen gün sesleri bir ninni gibi.",
+          "Üstünü örtmeden uzanıyorsun; 'beş dakika' diyorsun kendine. Yalan.",
+          "Öğle uykusu: yaşlıların ve bebeklerin bildiği sır. Sen de öğreniyorsun.",
+          "Perdeden sızan ışık yüzüne vuruyor; kolunu gözlerinin üstüne koyup dalıyorsun."
         ],
         "stresli": [
           "Uyumaya çalışıyorsun ama aklın durmuyor. Gece birkaç kez uyanıp telefona bakıyorsun.",
-          "Yatakta dönüp duruyorsun. Uyku geliyor, gidiyor, yine geliyor."
+          "Yatakta dönüp duruyorsun. Uyku geliyor, gidiyor, yine geliyor.",
+          "Saat her baktığında on dakika ilerlemiş. Uyku, kapının önünde bekleyip içeri girmiyor.",
+          "Kafanın içinde bitmeyen bir konuşma var; iki taraf da sensin, ikisi de haklı.",
+          "Bir ara dalıyorsun; tuhaf bir rüya, düşmek üzere olduğun bir yer. Sıçrayıp uyanıyorsun.",
+          "Yastığı çeviriyorsun, ters dönüyorsun, battaniyeyi atıp geri çekiyorsun. Gece uzun."
         ],
         "uyanis": [
           "Gözünü açtığında perdenin aralığından ince bir ışık sızıyor.",
           "Alarmdan önce uyanıyorsun; bir süre tavana bakıp bugünün ne getireceğini düşünüyorsun.",
-          "Ağzın kurumuş, boynun tutulmuş. Ama uyumuşsun, o da bir şey."
+          "Ağzın kurumuş, boynun tutulmuş. Ama uyumuşsun, o da bir şey.",
+          "Bir an nerede olduğunu hatırlamıyorsun. Sonra hatırlıyorsun. Karaliman. Yeni hayat. Peki.",
+          "Dışarıdan simitçinin sesi geliyor. Gün senden önce başlamış.",
+          "Rüyanın son sahnesi gözünün önünde; tutmaya çalışıyorsun, parmaklarının arasından kayıyor.",
+          "Yorganın altından çıkmak istemiyorsun. Bir dakika daha. Bir dakika daha.",
+          "Erkenden uyanıyorsun ve şaşırtıcı biçimde dinç hissediyorsun. Bunu kimseye söyleme; bozulur.",
+          "Kuşlar bağırıyor, çöp kamyonu bağırıyor, bir komşu bağırıyor. Günaydın.",
+          "Uyandığında yastığın yere düşmüş. Gece bir savaş vermişsin belli ki."
         ]
       }
     },
     {
-      "id": "dinlen", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
+      "id": "dinlen",
+      "yer": "ev",
+      "kosul": {
+        "mekan": "ev"
+      },
+      "kosulSebep": "Evde değilsin.",
       "ad": "Biraz uzan, dinlen",
       "sure": 60,
       "tur": "dinlenme",
-      "etki": { "stres": -2 },
+      "etki": {
+        "stres": -2
+      },
       "metin": [
         "Kanepeye uzanıp hiçbir şey yapmadan duruyorsun. Bazen en zor iş bu.",
         "Gözlerini kapatıp nefesini dinliyorsun. Bir süre sonra omuzların kulaklarından aşağı iniyor.",
-        "Tavana bakıyorsun. Tavan da sana bakıyor. Anlaşmışsınız gibi."
+        "Tavana bakıyorsun. Tavan da sana bakıyor. Anlaşmışsınız gibi.",
+        "Yatağın kenarına oturup bir süre ellerine bakıyorsun. Düşünmeden durmak da bir şey.",
+        "Gözlerini kapatıyorsun; aklına bir şarkının yarım bir dizesi takılıyor. Gerisini bir türlü hatırlayamıyorsun.",
+        "Sırtüstü uzanıp bacaklarını duvara dayıyorsun. Biri görse güler; ama iyi geliyor.",
+        "Bir süre sadece yan odadan, sokaktan, borulardan gelen seslere kulak veriyorsun. Ev de nefes alıyor.",
+        "Uzanıyorsun; aklın bir eski güne kayıyor, sonra bir başkasına. Hiçbirine takılmadan geçip gidiyorsun.",
+        "Yorganı başına kadar çekip bir süre dünyadan saklanıyorsun. On dakika. Hak ettin.",
+        "Duvardaki lekenin bir haritaya benzediğine karar veriyorsun. Hiç gitmediğin bir ülkenin haritası.",
+        "Saatin tik takları bu kadar yüksek miydi? Saymaya başlıyorsun; yüzü geçmeden dalıp gidiyorsun.",
+        "Kafandaki listeyi bir kenara koyuyorsun. Yarın. Hepsi yarın."
       ]
     },
     {
-      "id": "yemek_hazirla", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
+      "id": "yemek_hazirla",
+      "yer": "ev",
+      "kosul": {
+        "mekan": "ev"
+      },
+      "kosulSebep": "Evde değilsin.",
       "ad": "Evde bir şeyler pişir",
       "alt": "Ucuz ve doyurucu; ama zaman alır.",
       "sure": 45,
       "para": 80,
-      "etki": { "aclik": -50, "ruh": 3 },
+      "etki": {
+        "aclik": -50,
+        "ruh": 3
+      },
       "metin": [
         "Dolapta iki yumurta, yarım soğan ve bir domates buluyorsun. Menemen olmasa da menemene benzer bir şey çıkıyor.",
         "Makarnayı haşlayıp üstüne biraz salça, biraz pul biber. Öğrenci evlerinin klasik yemeği; hâlâ iş görüyor.",
-        "Mercimeği ocağa koyup başında bekliyorsun. Mutfağa yayılan koku, annenin evini hatırlatıyor bir an."
+        "Mercimeği ocağa koyup başında bekliyorsun. Mutfağa yayılan koku, annenin evini hatırlatıyor bir an.",
+        "Patatesleri ince ince doğrayıp tavaya atıyorsun. Kızarma sesi evi bir anda ev gibi yapıyor.",
+        "Dolapta ne varsa bir tencereye: biraz pirinç, biraz bezelye, bir parça tereyağı. Adı yok ama güzel.",
+        "Bir soğanı doğrarken gözlerin yaşarıyor. Ağlıyor gibi görünüyorsun; kimse yok, sorun değil.",
+        "Tarif aklında yarım yamalak; gerisini doğaçlıyorsun. Sonuç beklediğinden iyi. Kimse inanmazdı.",
+        "Yumurtayı kırarken sarısı dağılıyor; omlet olmaya karar veriyor. Sen de razı oluyorsun.",
+        "Tencerenin kapağı hafif hafif oynuyor. Bekliyorsun; beklemek de yemeğin parçası.",
+        "Bir yemek yapıp iki öğün yiyeceksin; yarın daha lezzetli olur, herkes bilir."
       ]
     },
     {
-      "id": "atistir", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
+      "id": "atistir",
+      "yer": "ev",
+      "kosul": {
+        "mekan": "ev"
+      },
+      "kosulSebep": "Evde değilsin.",
       "ad": "Ayakta bir şeyler atıştır",
       "alt": "Çabuk ama yarım yamalak.",
       "sure": 10,
       "para": 40,
-      "etki": { "aclik": -25 },
+      "etki": {
+        "aclik": -25
+      },
       "metin": [
         "Ekmeğin arasına bir dilim peynir koyup ayakta yiyorsun. Doymuyorsun ama açlık da susuyor.",
         "Dolabın kapısını açık bırakıp ne varsa ağzına atıyorsun. Kimse görmüyor, neyse ki.",
-        "Bir paket bisküviyi çayla bitiriyorsun. Sağlıklı değil, ama şu an bu kadar."
+        "Bir paket bisküviyi çayla bitiriyorsun. Sağlıklı değil, ama şu an bu kadar.",
+        "Bir avuç leblebiyi ağzına atıp pencerenin önünde ayakta yiyorsun.",
+        "Dünden kalan yarım böreği soğuk soğuk yiyorsun. Bazı şeyler soğukken daha güzel.",
+        "Kavanozun dibindeki son kaşık reçeli ekmeğe sürüyorsun. Kavanoz bir haftadır bu anı bekliyordu.",
+        "Bir elma alıp kemirirken buzdolabının önünde dikiliyorsun; sanki içinden başka bir şey çıkacakmış gibi.",
+        "Ayakta bir tost. Peyniri tam erimemiş; idare.",
+        "Bir dilim ekmek, biraz zeytin. Annelerin 'bu yemek mi şimdi' dediği türden.",
+        "Bir paket kraker. Kırıntıları üstünden silkelerken yarısının bittiğini fark ediyorsun."
       ]
     },
     {
-      "id": "dus", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
+      "id": "dus",
+      "yer": "ev",
+      "kosul": {
+        "mekan": "ev"
+      },
+      "kosulSebep": "Evde değilsin.",
       "ad": "Duş al",
       "sure": 20,
-      "etki": { "hijyen": 60, "ruh": 3, "stres": -3 },
+      "etki": {
+        "hijyen": 60,
+        "ruh": 3,
+        "stres": -3
+      },
       "metin": [
         "Sıcak su önce yakıyor, sonra iyi geliyor. Aynadaki buğuyu elinle silip kendine bakıyorsun.",
         "Şofben bir öksürüyor, bir duruyor; sonunda ılık bir su akıyor. Yetiyor.",
-        "Duştan çıkınca insan biraz yeni gibi oluyor. Biraz."
+        "Duştan çıkınca insan biraz yeni gibi oluyor. Biraz.",
+        "Suyun altında durup hiçbir şey düşünmüyorsun. Banyonun buğusu bütün dertleri bulanıklaştırıyor.",
+        "Sabunun kokusu çocukluğunu hatırlatıyor; aynı marka, aynı köpük. Bazı şeyler değişmiyor.",
+        "Su bir an buz gibi akıyor; bağırıyorsun. Sonra ısınıyor. Kalbin hâlâ hızlı.",
+        "Duşta yüksek sesle bir şarkı söylüyorsun. Komşular duydu mu? Duyduysa da alkışlamadılar.",
+        "Saçını yıkarken aklına söylemen gereken ama söylemediğin bir şey geliyor. Köpükle birlikte gidiyor.",
+        "Havluya sarınıp bir süre öyle oturuyorsun. Acelen yok.",
+        "Aynada kendine bakıyorsun; yorgun ama tanıdık biri. İyi ki tanıyorsun."
       ]
     },
     {
-      "id": "cay", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
+      "id": "cay",
+      "yer": "ev",
+      "kosul": {
+        "mekan": "ev"
+      },
+      "kosulSebep": "Evde değilsin.",
       "ad": "Çay demle",
       "sure": 15,
       "para": 5,
-      "etki": { "enerji": 4, "ruh": 2 },
+      "etki": {
+        "enerji": 4,
+        "ruh": 2
+      },
       "metin": [
         "Demlik fokurdarken mutfağı ince bir koku sarıyor. İlk yudum her şeye rağmen güzel.",
         "Çayı tavşan kanı tutturuyorsun. Küçük bir zafer ama zafer.",
-        "Bardağı iki elinle tutup pencerenin önünde içiyorsun. Sıcaklık parmaklarından içine yayılıyor."
+        "Bardağı iki elinle tutup pencerenin önünde içiyorsun. Sıcaklık parmaklarından içine yayılıyor.",
+        "Demliği ocağa koyup başında bekliyorsun; suyun sesini dinlemek bile insanı yavaşlatıyor.",
+        "İlk bardak fazla açık oluyor, ikincisi tam. Hayat gibi; ilkine kızmamak lazım.",
+        "Çayın üstüne bir dilim limon. Bugün biraz lüks hak ettin.",
+        "Bardağı üfleye üfleye içiyorsun. Pencereden giren ışık çayın rengini değiştiriyor.",
+        "Şekeri bıraktın sanıyordun; iki tane atıyorsun. Kimseye söylemezsen sayılmaz.",
+        "Demlik eski, kulpu sallanıyor; ama bu demlikten başka çay içemezsin artık.",
+        "Çay demlenirken bir şarkı mırıldanıyorsun. Ne zaman öğrendiğini hatırlamıyorsun.",
+        "Sıcak bardak avucunu yakıyor; bırakmıyorsun. Biraz yanmak iyi geliyor bazen."
       ]
     },
     {
-      "id": "yuruyus", "yer": "disarisi",
+      "id": "yuruyus",
+      "yer": "disarisi",
       "ad": "Mahallede yürüyüşe çık",
       "alt": "Kafanı dağıtır.",
       "sure": 45,
       "enerji": 6,
-      "etki": { "stres": -10, "ruh": 5 },
-      "dilimler": ["sabah", "ogle", "aksam"],
+      "etki": {
+        "stres": -10,
+        "ruh": 5
+      },
+      "dilimler": [
+        "sabah",
+        "ogle",
+        "aksam"
+      ],
       "metin": [
         "Sokakları rastgele dolaşıyorsun. Bir fırının önünden geçerken taze ekmek kokusu adımlarını yavaşlatıyor.",
         "Parktaki bankta oturan iki yaşlı adam bir şey hakkında hararetle tartışıyor. Ne olduğunu duyamıyorsun ama ikisi de haklı gibi.",
         "Yürüdükçe düşünceler sıraya giriyor. Hepsi çözülmüyor ama en azından itişmiyorlar.",
-        "Köşedeki manavın kasaları kaldırıma taşmış. Biri sana gülümsüyor, sen de karşılık veriyorsun; ikiniz de şaşırıyorsunuz."
+        "Köşedeki manavın kasaları kaldırıma taşmış. Biri sana gülümsüyor, sen de karşılık veriyorsun; ikiniz de şaşırıyorsunuz.",
+        {
+          "dilim": [
+            "sabah"
+          ],
+          "metin": "Sabahın serinliğinde yürüyorsun; dükkânların kepenkleri birer birer kalkıyor."
+        },
+        {
+          "dilim": [
+            "sabah",
+            "ogle"
+          ],
+          "metin": "Bir okulun önünden geçiyorsun; teneffüs zili çalıyor ve bütün sokak bir anda çocuk sesiyle doluyor."
+        },
+        {
+          "dilim": [
+            "ogle"
+          ],
+          "metin": "Öğle güneşi kaldırımları ısıtmış. Gölgeden gölgeye yürüyorsun, kediler gibi."
+        },
+        {
+          "dilim": [
+            "aksam"
+          ],
+          "metin": "Akşam üstü. Simitçinin tablası boşalmış, çaycı son bardakları topluyor. Gün kapanıyor."
+        },
+        {
+          "dilim": [
+            "aksam",
+            "gece"
+          ],
+          "metin": "Işıklar yanınca sokaklar başka bir şehir oluyor. Aynı yollar, başka yüzler."
+        },
+        {
+          "dilim": [
+            "gece"
+          ],
+          "metin": "Gece yürüyüşü. Sokakta senden başka bir tek bir bekçi köpeği var; o da seni ciddiye almıyor."
+        },
+        "Hiç girmediğin bir sokağa sapıyorsun. Bir duvarda eski bir yazı: 'Unutmadık.' Neyi, kim bilir.",
+        "Bir apartmanın önünde biri koltuk taşıyor; elinden bir ucunu tutuyorsun. Teşekkür ediyor; sen de iyi hissediyorsun."
       ]
     },
     {
-      "id": "pencere", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
+      "id": "pencere",
+      "yer": "ev",
+      "kosul": {
+        "mekan": "ev"
+      },
+      "kosulSebep": "Evde değilsin.",
       "ad": "Pencereden dışarı bak",
       "sure": 10,
       "tur": "dinlenme",
-      "etki": { "ruh": 1 },
+      "etki": {
+        "ruh": 1
+      },
       "metin": [
-        "Karşı apartmanda biri balkona çamaşır asıyor. Mandalları ağzına almış, bir yandan da telefonla kavga ediyor.",
-        "Bir kedi, park etmiş bir arabanın kaputunda güneşleniyor. Dünyanın en dertsiz canlısı.",
-        "Çöp kamyonu geçiyor; arkasından iki çocuk koşuyor, neden koştuklarını kendileri de bilmiyor.",
-        "Sokak lambası yanıp sönüyor. Belediyeye kaç kez yazıldığını mahallede herkes biliyor."
+        {
+          "dilim": [
+            "sabah",
+            "ogle"
+          ],
+          "metin": "Karşı apartmanda biri balkona çamaşır asıyor. Mandalları ağzına almış, bir yandan da telefonla kavga ediyor."
+        },
+        {
+          "dilim": [
+            "sabah",
+            "ogle"
+          ],
+          "metin": "Bir kedi, park etmiş bir arabanın kaputunda güneşleniyor. Dünyanın en dertsiz canlısı."
+        },
+        {
+          "dilim": [
+            "sabah",
+            "aksam"
+          ],
+          "metin": "Çöp kamyonu geçiyor; arkasından iki çocuk koşuyor, neden koştuklarını kendileri de bilmiyor."
+        },
+        {
+          "dilim": [
+            "aksam",
+            "gece"
+          ],
+          "metin": "Sokak lambası yanıp sönüyor. Belediyeye kaç kez yazıldığını mahallede herkes biliyor."
+        },
+        {
+          "dilim": [
+            "gece"
+          ],
+          "metin": "Sokak bomboş. Bir taksi yavaşlıyor, kimseyi bulamayınca gaz verip gidiyor."
+        },
+        {
+          "dilim": [
+            "gece"
+          ],
+          "metin": "Karşı binada tek bir pencere yanık. Orada da biri uyuyamıyor; bir an ona selam vermek geliyor içinden."
+        },
+        {
+          "dilim": [
+            "gece"
+          ],
+          "metin": "Uzaktan bir köpek havlıyor, sonra bir başkası cevap veriyor. Şehir gece de konuşuyor."
+        },
+        {
+          "dilim": [
+            "sabah"
+          ],
+          "metin": "Fırının önünde sıra var. Biri simit poşetini koltuğunun altına sıkıştırmış, bir yandan da otobüse koşuyor."
+        },
+        {
+          "dilim": [
+            "sabah"
+          ],
+          "metin": "Okul servisi kornaya basıyor; üçüncü kattan bir anne 'geliyor, geliyor!' diye bağırıyor."
+        },
+        {
+          "dilim": [
+            "ogle"
+          ],
+          "metin": "Kaldırımda iki komşu ayaküstü konuşuyor; poşetler yere değdi, belli ki uzun sürecek."
+        },
+        {
+          "dilim": [
+            "ogle"
+          ],
+          "metin": "Seyyar satıcı bir şey bağırıyor; ne sattığını anlamıyorsun ama sesi güzel."
+        },
+        {
+          "dilim": [
+            "aksam"
+          ],
+          "metin": "Işıklar birer birer yanıyor. Her pencerede başka bir akşam yemeği, başka bir kavga, başka bir televizyon."
+        },
+        {
+          "dilim": [
+            "aksam"
+          ],
+          "metin": "Balkonda biri sigarasını yakıyor; dumanı sokak lambasının ışığında kıvrılıp kayboluyor."
+        },
+        {
+          "dilim": [
+            "aksam",
+            "gece"
+          ],
+          "metin": "Yukarıdan bir müzik geliyor; eski bir şarkı. Kimin dinlediğini bilmiyorsun ama zevki iyi."
+        },
+        "Camın kenarındaki çatlağı ilk kez fark ediyorsun. Ne zamandır orada, kim bilir.",
+        "Pencerenin pervazına bir güvercin konuyor; birbirinize bakıyorsunuz. Önce o vazgeçiyor."
       ]
     },
     {
-      "id": "ev_topla", "yer": "ev", "kosul": { "mekan": "ev" }, "kosulSebep": "Evde değilsin.",
+      "id": "ev_topla",
+      "yer": "ev",
+      "kosul": {
+        "mekan": "ev"
+      },
+      "kosulSebep": "Evde değilsin.",
       "ad": "Evi topla",
       "alt": "Dağınıklık insanın içine de siner.",
       "sure": 60,
       "tur": "agir",
-      "etki": { "ruh": 5, "stres": -4, "ozguven": 1 },
+      "etki": {
+        "ruh": 5,
+        "stres": -4,
+        "ozguven": 1
+      },
       "metin": [
         "Bulaşıkları yıkıyor, yerleri süpürüyorsun. Bitince oda büyümüş gibi geliyor.",
         "Yığılmış kıyafetleri katlıyorsun. Bir ceketin cebinden eski bir sinema bileti çıkıyor; kiminle gittiğini hatırlayınca bir süre elinde tutuyorsun.",
-        "Çöpü çıkarıyor, camı açıyorsun. Temiz hava girince ev de sen de nefes alıyorsunuz."
+        "Çöpü çıkarıyor, camı açıyorsun. Temiz hava girince ev de sen de nefes alıyorsunuz.",
+        "Masanın üstündeki her şeyi bir kutuya dolduruyorsun. Toplamak sayılır mı? Sayılır.",
+        "Yatağı düzeltip çarşafı geriyorsun. Akşam bu yatağa girmek daha güzel olacak.",
+        "Lavabonun altını açınca bir dünya çıkıyor. Yarısını atıyorsun; diğer yarısını 'belki lazım olur' diye geri koyuyorsun.",
+        "Çekmecede eski bir fotoğraf buluyorsun. Temizlik yarım saat duruyor.",
+        "Toz bezini her yere sürüyorsun; ev bir tık daha senin oluyor.",
+        "Müziği açıp bulaşığa giriyorsun. Şarkı bitmeden bulaşık bitiyor; bir şarkı daha açıyorsun.",
+        "Kıyafetleri ikiye ayırıyorsun: giyilecekler ve 'bir gün giyerim'ler. İkinci yığın daha büyük."
       ]
     },
     {
@@ -136,11 +397,22 @@
       "alt": "Zaman çabuk geçer. Fazla çabuk.",
       "sure": 60,
       "tur": "dinlenme",
-      "etki": { "ruh": -1, "stres": 1 },
+      "etki": {
+        "ruh": -1,
+        "stres": 1
+      },
       "metin": [
         "Ekranı kaydırıyorsun. Birileri tatilde, birileri nişanlanmış, birileri yeni araba almış. Bir saat sonra başını kaldırdığında boynun ağrıyor.",
         "Bir videodan ötekine geçiyorsun. Ne izlediğini sorsalar söyleyemezsin.",
-        "Eski bir arkadaşın paylaşımına takılıyorsun. Beğen tuşuna basmakla basmamak arasında epey kalıyorsun."
+        "Eski bir arkadaşın paylaşımına takılıyorsun. Beğen tuşuna basmakla basmamak arasında epey kalıyorsun.",
+        "Bir tarif videosu izliyorsun; hiçbir zaman yapmayacağın bir yemek. Yine de sonuna kadar.",
+        "Haberlere bakıyorsun; üç başlıktan sonra kapatıyorsun. Yeterince kötü.",
+        "Biri hakkında bir şey arıyorsun, sonra o kişinin eski fotoğraflarında buluyorsun kendini. Ne zaman bu kadar daldın?",
+        "Bir yorum okuyup gülüyorsun; tek başına, odanın ortasında. Telefon bazen iyi arkadaş.",
+        "Eski mesajları kaydırıyorsun. Bazı konuşmalar yarım kalmış; bazıları hiç bitmemeliydi.",
+        "Bir ilan sitesinde hiç almayacağın evlere bakıyorsun. Deniz manzaralı olanı beğendin.",
+        "Bildirimler bitiyor, sen bitmiyorsun. Ekran kendi kendine kararıyor; sen de bir süre karanlığa bakıyorsun.",
+        "Bir yarışma videosu, bir kedi, bir tartışma, bir reklam. Kırk dakika gitti; geriye bir şey kalmadı."
       ]
     }
   ]

@@ -192,6 +192,8 @@ export function yeniOyun({ seed = seedUret(), baslangic = bugunTurkiye(), secim 
 // Kayıttan gelen durumu etkin oyun yapar (anlatım geçmişini arayüz kendisi geri koyar)
 export function durumYukle(d) {
   durum = d;
+  // 0.1.32'ye kadar bazı olaylar olmayan parayla ödeme yaptırıyordu (3.17); eksi kalan kasa sıfırlanır
+  if (typeof durum.para === 'number' && durum.para < 0) durum.para = 0;
   bildir([]);
   return durum;
 }

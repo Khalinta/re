@@ -192,7 +192,7 @@ export function ilgi(durum, veri, n, k) {
 }
 
 // Buluşma: ertesi akşam 20.00'de olay (data/olaylar/iliski.json → randevu)
-function randevuKur(durum, veri, id, n, k) {
+export function randevuKur(durum, veri, id, n, k) {
   const dk = durum.zaman.dakika;
   const zaman = dk - gunDakikasi(dk) + 1440 + 20 * 60;
   durum.zamanlayicilar.push({ zaman, olay: 'randevu', baglam: { npc: { kisi: id }, degisken: { kisi: { ad: n.hitapAdi } } } });

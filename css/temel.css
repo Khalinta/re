@@ -332,3 +332,14 @@ button.satir:active { background: var(--yuzey2); }
 .onizleme { border: 1px solid var(--cizgi); border-radius: 14px; padding: 12px 14px; background: var(--yuzey); }
 .onizleme-ad { margin: 0 0 4px; font-size: 1.15em; }
 .dugme.dugme-metin { background: none; border-color: transparent; color: var(--soluk); }
+
+/* Serbest sohbet (3.9) */
+.serbest:empty { display: none; }
+.serbest { padding: 6px 12px 2px; display: grid; gap: 6px; }
+.serbest-satir { display: flex; gap: 8px; align-items: flex-end; }
+.serbest-girdi { flex: 1; min-height: 44px; max-height: 120px; resize: none; border-radius: 14px; border: 1px solid var(--cizgi); background: var(--yuzey); color: inherit; padding: 11px 12px; box-sizing: border-box; line-height: 1.35; }
+.serbest-gonder.dugme { width: auto; min-height: 44px; padding: 0 16px; }
+.serbest-oneriler { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.serbest-oneri { flex: 0 0 auto; max-width: 80%; border: 1px solid var(--cizgi); background: var(--yuzey2); color: inherit; border-radius: 999px; padding: 7px 12px; font-size: .9em; text-align: left; white-space: normal; }
+.serbest.bekliyor { opacity: .6; }
+.serbest-durum:empty { display: none; }

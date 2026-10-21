@@ -17,6 +17,8 @@ import * as insanlar from './core/insanlar.js';
 import * as sohbet from './core/sohbet.js';
 import { npcVeriDogrula } from './core/npc.js';
 import { npcHayatGunu } from './core/npchayat.js';
+import { istekHazirla, cevabiUygula } from './core/yz.js';
+import { hazirMi as yzHazirMi } from './yz/ayar.js';
 import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
 import { karakterUret, hikayeyiUygula, hikayeVeriDogrula } from './core/hikaye.js';
@@ -285,6 +287,44 @@ export const yolculukSecenekleri = hedef => konum.yolculukSecenekleri(durum, ver
 export const konumMetni = () => konum.konumMetni(durum, veri);
 export const duyulanlar = () => konum.duyulanlar(durum, veri);
 export const tanidiklarim = () => insanlar.tanidiklarim(durum, veri);
+
+// ------------------------------------------------------------------ Claude ile serbest sohbet (3.9)
+export const serbestSohbetVar = () => !!(durum?.sohbet && !durum.sohbet.bekleyen && yzHazirMi() && sohbet.oturumGecerli(durum, veri));
+export const serbestOneriler = () => durum?.sohbet?.oneriler ?? [];
+
+// Oyuncunun yazdığı söz → kişinin cevabı (yapay zekâ). Ağ beklenirken oyun durumu değişmez; cevap gelince
+// tek bir geri alınabilir hamleyle uygulanır. Döner: { tamam, sebep? }
+export async function serbestKonus(metin) {
+  metin = String(metin || '').trim().slice(0, 600);
+  if (!metin) return { tamam: false, sebep: 'Bir şey yaz.' };
+  if (!serbestSohbetVar()) return { tamam: false, sebep: 'Şu an serbest konuşamazsın.' };
+  const id = durum.sohbet.npc, oturum = durum.sohbet;
+  const istek = istekHazirla(durum, veri, id, metin);
+  const sozum = { tur: 'konusma', konusan: 'Sen', metin };
+  paragraflariKaydet([sozum]);
+  bildir([sozum]);
+  const { sohbetIstegi } = await import('./yz/istemci.js');
+  const s = await sohbetIstegi(istek);
+  if (durum.sohbet !== oturum) return { tamam: false, sebep: 'Sohbet bu arada bitti.' };
+  if (s.hata) {
+    const p = [{ tur: 'sistem', metin: `${s.mesaj} Hazır seçeneklerle devam edebilirsin.` }];
+    paragraflariKaydet(p); bildir(p);
+    return { tamam: false, sebep: s.mesaj, hata: s.hata };
+  }
+  return geriAlinabilir(durum, () => {
+    const onceDk = durum.zaman.dakika;
+    zamanGecir(durum, 3 + Math.min(6, Math.floor(metin.length / 80)), 'dinlenme', veri.sim);
+    const u = cevabiUygula(durum, veri, id, metin, s.cevap, { randevuKur: sohbet.randevuKur });
+    if (u.reddedilen.length) console.info('[yz] uygulanmayanlar:', u.reddedilen);
+    aksiyonKaydet(durum, 'sohbet:serbest', { npc: id, model: s.model });
+    dunyayiIlerlet();
+    const liste = [...u.paragraflar];
+    ayracEkle(liste, onceDk);
+    paragraflariKaydet(liste);
+    bildir(liste);
+    return { tamam: true, paragraflar: liste };
+  });
+}
 // Geliştirici paneli: bir kişinin flört açısından durumu
 export function kisiBilgisi(id) {
   const n = insanlar.kisi(veri, durum.seed, id, durum.npcler?.[id]?.sablon);

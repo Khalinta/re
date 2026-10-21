@@ -14,18 +14,19 @@ import { yeniHayatSec } from './yenihayat.js';
 // Hamle hata verirse: hata paneli açılır; "Devam et" menüyü yeniden kurar.
 const hataSecenekleri = () => ({ yenidenDene: () => menuyuGoster(), yenidenBaslat: () => location.reload() });
 
-let anlatim, secenekKap;
+let anlatim, secenekKap, serbestKap;
 
 export const simdiEkrani = {
   olustur(kap) {
     const anlatimKap = h('div', { class: 'anlatim' });
     secenekKap = h('div', { class: 'secenekler' });
+    serbestKap = h('div', { class: 'serbest' });
     const kisayollar = h('div', { class: 'kisayollar' },
       kisayol(IKON.uyu, 'Uyu', uyu),
       kisayol(IKON.is, 'İşe git', () => bilgiGoster('İşe git', 'Henüz bir işin yok. İş sistemi Faz 4\'te geliyor.'), true),
       kisayol(IKON.tekrar, 'Rutini tekrarla', () => bilgiGoster('Rutini tekrarla', 'Bir hafta boyunca günlük rutinini tekrarlar; bir olay çıkarsa durur. İş ve olay sistemleriyle birlikte gelecek.'), true),
     );
-    kap.append(anlatimKap, h('div', { class: 'alt-bolge' }, kisayollar, secenekKap));
+    kap.append(anlatimKap, h('div', { class: 'alt-bolge' }, kisayollar, serbestKap, secenekKap));
     anlatim = new Anlatim(anlatimKap);
   },
   tekrarDokunus() { anlatim?.enAlta(true); },
@@ -66,7 +67,38 @@ export function paragraflariGoster(paragraflar) {
   return anlatim.ekle(paragraflar);
 }
 
+// Serbest sohbet (3.9): biriyle konuşurken, yapay zekâ açıksa yazma kutusu + önerilen cevaplar
+function serbestCiz() {
+  if (!oyun.serbestSohbetVar()) { serbestKap.replaceChildren(); return; }
+  const girdi = h('textarea', { class: 'serbest-girdi', rows: '1', maxlength: '600', placeholder: 'Ne söylersin? (istediğini yaz)', enterkeyhint: 'send' });
+  const gonder = h('button', { class: 'dugme birincil serbest-gonder', 'aria-label': 'Söyle' }, 'Söyle');
+  const durumYazi = h('span', { class: 'serbest-durum soluk kucuk' });
+  const yolla = async metin => {
+    metin = (metin ?? girdi.value).trim();
+    if (!metin) return;
+    serbestKap.classList.add('bekliyor'); secenekKap.classList.add('kilitli');
+    girdi.disabled = true; gonder.disabled = true; durumYazi.textContent = 'karşılık bekleniyor…';
+    try {
+      const s = await oyun.serbestKonus(metin);
+      if (!s.tamam && s.hata === 'anahtar') bilgiGoster('Yapay zekâ', `${s.sebep}\n\nDaha Fazla → Yapay zekâ sohbeti bölümünden anahtarı kontrol et.`);
+    } catch (e) {
+      bilgiGoster('Yapay zekâ', 'Bir şey ters gitti: ' + (e?.message ?? e));
+    }
+    serbestKap.classList.remove('bekliyor'); secenekKap.classList.remove('kilitli');
+    await anlatim.sira;
+    menuyuGoster();
+  };
+  gonder.addEventListener('click', () => yolla());
+  girdi.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); yolla(); } });
+  girdi.addEventListener('input', () => { girdi.style.height = 'auto'; girdi.style.height = Math.min(120, girdi.scrollHeight) + 'px'; });
+  const oneriler = oyun.serbestOneriler();
+  serbestKap.replaceChildren(
+    oneriler.length ? h('div', { class: 'serbest-oneriler' }, oneriler.map(o => h('button', { class: 'serbest-oneri', onclick: () => yolla(o) }, o))) : null,
+    h('div', { class: 'serbest-satir' }, girdi, gonder), durumYazi);
+}
+
 export function menuyuGoster() {
+  serbestCiz();
   if (oyun.aktifOlayVar()) { olayMenusu(); return; }
   const liste = oyun.aksiyonListesi().filter(x => !x.a.kisayol);
   secenekleriGoster(secenekKap, liste.map(x => ({

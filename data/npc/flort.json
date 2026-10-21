@@ -12,7 +12,7 @@
       -14,
       20
     ],
-    "gunlukIltifat": 2
+    "gunlukIltifat": 4
   },
   "ilgi": {
     "cekicilik": 5,
@@ -21,7 +21,8 @@
     "disadonuk": 2,
     "cekim": 0.8,
     "yasFarki": -1.5,
-    "ruh": 0.1
+    "ruh": 0.1,
+    "arzu": 0.3
   },
   "esikler": {
     "iyi": 22,
@@ -497,5 +498,385 @@
     "Bir süre susuyor. 'Dün gece... Eve gidince uyuyamadım. Ne yapıyoruz biz?'",
     "'Bunu yapmamalıydık' diyor; ama gözleri başka bir şey söylüyor.",
     "'Sabah {s.esAd} kahvaltıyı hazırladı; yüzüne bakamadım' diyor. Sonra yine sana bakıyor."
-  ]
+  ],
+  "ask": {
+    "_aciklama": "Aşk ve arzu (3.14, ask.js). Havuzlar flört tarzına göre (utangac, acik, alayci, romantik, temkinli, oyunbaz; _ hepsi). Sahne betimlenmez; söz ve hareket açık, sansürsüz (K64).",
+    "konular": {
+      "goz": {
+        "baslik": "Göz göze gel",
+        "sure": 3
+      },
+      "dokun": {
+        "baslik": "Ona dokun",
+        "sure": 4
+      },
+      "acik": {
+        "baslik": "Açık konuş: istediğini söyle",
+        "sure": 6
+      },
+      "cik": {
+        "baslik": "\"Buradan çıkalım\"",
+        "sure": 4
+      },
+      "ayril": {
+        "baslik": "Bitir (ayrıl)",
+        "sure": 8
+      }
+    },
+    "esikler": {
+      "dokun": 6,
+      "acik": 25,
+      "cik": 40,
+      "gozIyi": 25,
+      "gozOrta": 8,
+      "kizdi": -5,
+      "atilim": 40
+    },
+    "goz": {
+      "sen": [
+        "Bakışını kaçırmıyorsun.",
+        "Konuşurken gözlerine bakıyorsun; biraz fazla uzun.",
+        "Bir an susup ona bakıyorsun; yalnızca bakıyorsun."
+      ],
+      "iyi": {
+        "utangac": [
+          "Gözlerini kaçırıyor, sonra yine sana bakıyor; yanakları kızarıyor. Gülümsemesini saklayamıyor.",
+          "Bir an bakışıyorsunuz; sonra o başını eğip bardağıyla oynuyor. Kulakları kızarmış."
+        ],
+        "acik": [
+          "Bakışını hiç kaçırmıyor. 'Bana böyle bakmaya devam edersen başın derde girer' diyor; ciddi.",
+          "Gözlerine bakıyor, dudağının kenarı kıvrılıyor: 'Ne düşündüğünü biliyorum. Ben de.'"
+        ],
+        "alayci": [
+          "'Bir şey mi var yüzümde?' diyor; ama bakışını çekmiyor, gözleri gülüyor.",
+          "Kaşını kaldırıyor: 'Bu bakışla kaç kişiyi tavladın?' Sesi alay ediyor, gözleri etmiyor."
+        ],
+        "romantik": [
+          "Bir süre ikiniz de konuşmuyorsunuz. Etraftaki gürültü uzaklaşıyor gibi.",
+          "Gülümsüyor; sanki bu anı bir yere kaydediyor."
+        ],
+        "temkinli": [
+          "Bir an bakıyor; sonra bakışını yavaşça çekiyor. Ama o bir an yeterince uzundu.",
+          "Gözlerinde bir şey yumuşuyor; ne olduğunu söylemiyor."
+        ],
+        "oyunbaz": [
+          "Göz kırpıyor, sonra hiçbir şey olmamış gibi başka yere bakıyor. Bir dakika sonra yine sana.",
+          "Bakışını tutuyor, tutuyor... sonra dilini çıkarıyor. Gülüyorsunuz; ama hava değişti."
+        ]
+      },
+      "orta": {
+        "_": [
+          "Bakışın fark ediliyor; o da kısa bir an bakıyor, sonra konuşmaya devam ediyor.",
+          "Bir an göz göze geliyorsunuz. Gülümsüyor; kibar, belirsiz.",
+          "Bakışını hissediyor; saçını düzeltiyor. Bilerek mi, bilmeden mi?"
+        ]
+      },
+      "kotu": {
+        "_": [
+          "Bakışını fark ediyor, kaşlarını çatıyor; telefonuna dönüyor.",
+          "'Bir şey mi istiyorsun?' diyor, yarı ciddi. Bakışını indiriyorsun.",
+          "Gözlerini kaçırıyor; rahatsız olduğu belli."
+        ]
+      }
+    },
+    "dokun": {
+      "sen": [
+        "Konuşurken elini hafifçe onun eline değdiriyorsun.",
+        "Gülerken eline dokunuyorsun; bir saniye fazla tutuyorsun.",
+        "Saçına takılan bir şeyi alıyorsun; parmakların yanağına değiyor."
+      ],
+      "ilk": {
+        "utangac": [
+          "Elini çekmiyor. Nefesi bir an duruyor; sonra parmakları yavaşça seninkilere kenetleniyor.",
+          "Kıpkırmızı oluyor ama elini çekmiyor. 'Herkes görüyor' diye fısıldıyor; elini daha sıkı tutuyor."
+        ],
+        "acik": [
+          "Elini çekmiyor; tersine çevirip avucuna alıyor. 'Bunu ne zamandır bekliyordum biliyor musun?'",
+          "Parmaklarını parmaklarının arasına geçiriyor: 'Nihayet.'"
+        ],
+        "alayci": [
+          "'Cesaretin varmış' diyor; ama elini bırakmıyor, başparmağıyla elinin üstünü okşuyor.",
+          "'Bu da ne şimdi?' diyor, gülerek; ama elini çekmiyor, hiç çekmiyor."
+        ],
+        "romantik": [
+          "Bir an durup ellerinize bakıyor. Sonra sana. Gözleri parlıyor.",
+          "Elini tutuşunda bir şey var; ilk kez değilmiş gibi, yıllardır böyleymiş gibi."
+        ],
+        "temkinli": [
+          "Bir an duraksıyor; sonra elini çekmiyor. 'Yavaş' diyor, fısıltıyla. 'Ama çekme.'",
+          "Eli önce kaskatı; sonra gevşiyor, parmakları seninkileri buluyor."
+        ],
+        "oyunbaz": [
+          "Elini çekiyor; sonra kendisi senin eline uzanıyor. 'Benim kuralımla' diyor, göz kırparak.",
+          "'Dokunmak yasak' diyor; bunu söylerken bacağını bacağına yaslıyor."
+        ]
+      },
+      "evet": {
+        "_": [
+          "Eli elinde; bu sefer tereddüt yok.",
+          "Dokunuşuna yaslanıyor; omzu omzuna değiyor ve öyle kalıyor.",
+          "Parmakların bileğinde dolaşırken gözlerini kapatıyor bir an."
+        ],
+        "oyunbaz": [
+          "Elini yakalayıp masanın altına çekiyor; yüzünde masum bir ifade."
+        ]
+      },
+      "hayir": {
+        "_": [
+          "Elini nazikçe çekiyor: 'Dur bakalım.' Gülümsüyor ama net.",
+          "Elini çekip bardağını alıyor; konuyu değiştiriyor.",
+          "Bir an donuyor; sonra elini kucağına koyuyor. Hava biraz soğuyor."
+        ]
+      }
+    },
+    "acik": {
+      "oyuncu": {
+        "ilk": [
+          "Açık konuşacağım: seni istiyorum.",
+          "Bütün akşam aklımda tek bir şey var, o da sensin.",
+          "Sana bakınca aklımdan geçenleri söylesem kızarırsın.",
+          "Seninle yalnız kalmak istiyorum. Çok."
+        ],
+        "yakin": [
+          "Seni özledim. Tenini özledim.",
+          "Bu gece seninle olmak istiyorum.",
+          "Dün geceyi düşünmeden duramıyorum.",
+          "Seni öpmek istiyorum. Şimdi, burada."
+        ]
+      },
+      "evet": {
+        "utangac": [
+          "Kıpkırmızı. Bir süre konuşamıyor. Sonra fısıldıyor: 'Ben de... ben de seni istiyorum.'",
+          "Yüzünü elleriyle kapatıyor, gülüyor. Parmaklarının arasından: 'Bunu söyleyemezsin burada!' Ama elini tutuyor."
+        ],
+        "acik": [
+          "Gözlerinin içine bakıyor: 'Biliyorum. Ben de seni istiyorum. Hem de nasıl.'",
+          "'Ne kadar istediğimi bir bilsen' diyor, sesini alçaltarak; 'bu masada konuşamayacağım kadar.'"
+        ],
+        "alayci": [
+          "'Vay, demek öyle' diyor, sesi kısılmış. 'Ben de öyle olmasın diye kendimi zor tutuyordum.'",
+          "Gülüyor ama sesi titriyor: 'Bunu söylediğine göre, sorumluluğu sen alıyorsun.'"
+        ],
+        "romantik": [
+          "Gözleri doluyor gibi. 'Bunu duymayı bekliyordum' diyor. 'Ben de seni istiyorum; sadece bu gece değil.'",
+          "Elini kalbinin üstüne koyuyor: 'Bak, nasıl atıyor. Senin yüzünden.'"
+        ],
+        "temkinli": [
+          "Uzun bir sessizlik. Sonra: 'Ben de. Ama korkuyorum.' Elini bırakmıyor.",
+          "'Bunu duymak... iyi geldi' diyor; söylemesi zor oluyor. 'Ben de.'"
+        ],
+        "oyunbaz": [
+          "Dudağını ısırıyor: 'Kanıtla.'",
+          "'Biliyorum' diyor, umursamaz gibi. Sonra kulağına eğiliyor ve senin yüzünü kızartacak bir şey fısıldıyor."
+        ]
+      },
+      "kacamak": {
+        "_": [
+          "Kızarıyor, gülüyor, konuyu değiştiriyor; ama elini masanın üstünde, sana yakın bırakıyor.",
+          "'Sen ne cüretkârsın' diyor; gülümsemesini saklayamıyor ama cevap vermiyor.",
+          "Bir süre bakıyor; 'Bunu sonra konuşalım' diyor. Sonra. Ne zaman?"
+        ]
+      },
+      "kizdi": {
+        "_": [
+          "'Bu biraz fazla oldu' diyor, soğuk. 'Beni tanımıyorsun bile.'",
+          "Yüzü değişiyor: 'Böyle konuşacaksan ben kalkayım.'",
+          "Rahatsız bir sessizlik; sandalyesini biraz geri çekiyor."
+        ]
+      }
+    },
+    "cik": {
+      "oyuncu": [
+        "Buradan çıkalım.",
+        "Hadi gidelim; sadece ikimiz.",
+        "Burası çok kalabalık. Benimle gel."
+      ],
+      "evet": [
+        "Bir an sana bakıyor; sonra çantasını alıyor. 'Hesabı ben ödüyorum. Sen kapıda bekle.'",
+        "Hiçbir şey söylemeden kalkıyor; kapıya doğru yürürken bir kez dönüp bakıyor. Gel diyor o bakış.",
+        "'Sonunda' diye fısıldıyor, ceketini alırken."
+      ],
+      "gizli": [
+        "Etrafına bakıyor; telefonuna bakıyor. Sonra: 'Önce ben çıkayım. Beş dakika sonra köşede.' Sesi titriyor.",
+        "'Delilik bu' diyor; ama zaten kalkıyor. 'Ayrı ayrı çıkalım.'"
+      ],
+      "hayir": [
+        "'Bu gece değil' diyor; gülümseyerek ama kesin. 'Ama yakında. Söz.'",
+        "Bir an tereddüt ediyor; sonra başını sallıyor: 'Biraz daha. Acele etme.'",
+        "'Çok isterdim' diyor, sesi pişman. 'Yarın erken kalkmam lazım. Bu da yalan değil.'"
+      ]
+    },
+    "ayril": {
+      "oyuncu": [
+        "Bunu bitirmemiz lazım.",
+        "Ben artık devam edemeyeceğim.",
+        "Bence burada bitirelim; ikimiz için de."
+      ],
+      "aglar": {
+        "_": [
+          "Gözleri doluyor. 'Neden?' diyor; cevabı duymak istemiyormuş gibi. Sonra kalkıp gidiyor.",
+          "Uzun süre bir şey demiyor. Sonra: 'Biliyordum aslında.' Gözyaşını eliyle siliyor."
+        ]
+      },
+      "kizar": {
+        "_": [
+          "'Sen beni ne sandın?' Sesi titriyor ama gözleri kuru. Sandalyeyi itip kalkıyor.",
+          "Yüzüne bir süre bakıyor; sonra sert bir sesle: 'Peki. Ama bir daha arama.'"
+        ]
+      },
+      "rahat": {
+        "_": [
+          "Omuzları düşüyor; neredeyse rahatlamış gibi. 'Belki de haklısın.'",
+          "'Ben de söyleyecektim' diyor, hafif bir gülümsemeyle. 'Arkadaş kalabiliriz belki.'"
+        ]
+      }
+    },
+    "kiskanclik": {
+      "dusuk": {
+        "_": [
+          "Yanına oturur oturmaz: 'Dün {s.rakipAd} ile konuşuyormuşsun. Hoşsohbet biri, değil mi?' Gülümsüyor ama gözleri gülmüyor.",
+          "'Duydum ki {s.rakipAd} ile aranız iyiymiş' diyor, sanki laf arasında."
+        ]
+      },
+      "orta": {
+        "_": [
+          "Selam vermeden başlıyor: '{s.rakipAd} kim?'",
+          "'Herkes {s.rakipAd} ile ne yaptığını konuşuyor. Bir ben bilmiyorum, öyle mi?'"
+        ]
+      },
+      "yuksek": {
+        "_": [
+          "Yüzü bembeyaz: '{s.rakipAd}. Bana açıkla. Şimdi.'",
+          "Telefonu masaya vuruyor: '{s.rakipAd} ile ne işin var senin? Beni aptal mı sandın?'"
+        ]
+      }
+    },
+    "kiskanclikCevap": {
+      "inkar": {
+        "ad": "İnkâr et",
+        "soz": [
+          "Ne alakası var? Bir şey yok.",
+          "Yanlış duymuşsun; öyle bir şey yok."
+        ],
+        "iyi": {
+          "_": [
+            "Bir süre yüzüne bakıyor; sonra omuzları gevşiyor. 'Tamam. İnanıyorum.'"
+          ]
+        },
+        "kotu": {
+          "_": [
+            "'Yalan söylüyorsun' diyor, sessizce. 'Ve kötü söylüyorsun.'"
+          ]
+        },
+        "etkiIyi": {
+          "gerginlik": -2
+        },
+        "etkiKotu": {
+          "gerginlik": 4,
+          "guven": -5
+        }
+      },
+      "ozur": {
+        "ad": "Özür dile",
+        "soz": [
+          "Haklısın; özür dilerim. Bir daha olmayacak.",
+          "Kırdıysam affet. Sadece sohbetti ama haklısın."
+        ],
+        "iyi": {
+          "_": [
+            "Derin bir nefes alıyor. 'Tamam' diyor. 'Ama bil ki gözüm üstünde.' Sonra elini tutuyor."
+          ]
+        },
+        "kotu": {
+          "_": [
+            "'Özür kolay' diyor, bakmadan. 'Bakalım.'"
+          ]
+        },
+        "etkiIyi": {
+          "gerginlik": -3,
+          "arzu": 2
+        },
+        "etkiKotu": {
+          "gerginlik": -1,
+          "guven": -1
+        }
+      },
+      "sahip": {
+        "ad": "\"Sen benim sahibim değilsin\"",
+        "soz": [
+          "Kimseye hesap vermek zorunda değilim; sana bile.",
+          "Bana sahip değilsin; istediğimle konuşurum."
+        ],
+        "iyi": {
+          "_": [
+            "Bir an bakıyor; sonra gülüyor: 'Haklısın. Bu yüzden hoşuma gidiyorsun zaten.'"
+          ]
+        },
+        "kotu": {
+          "_": [
+            "'Öyle mi?' diyor; sesi buz gibi. 'O zaman ben de kimseye hesap vermem.'"
+          ]
+        },
+        "etkiIyi": {
+          "arzu": 3
+        },
+        "etkiKotu": {
+          "gerginlik": 6,
+          "yakinlik": -4
+        }
+      },
+      "ciddi": {
+        "ad": "\"Gözüm senden başkasını görmüyor\"",
+        "soz": [
+          "Bak bana: başka kimse yok. Sen varsın.",
+          "O kim, umurumda değil. Ben seni istiyorum."
+        ],
+        "iyi": {
+          "_": [
+            "Gözleri yumuşuyor. 'Gerçekten mi?' Cevabı beklemeden sana sarılıyor."
+          ]
+        },
+        "kotu": {
+          "_": [
+            "'Söz kolay' diyor; ama biraz yumuşamış gibi."
+          ]
+        },
+        "etkiIyi": {
+          "gerginlik": -4,
+          "arzu": 4,
+          "guven": 2
+        },
+        "etkiKotu": {
+          "gerginlik": -1
+        }
+      }
+    },
+    "npcHamle": {
+      "utangac": [
+        "Konuşurken eli bir an senin eline değiyor; hemen çekiyor, kızarıyor. Sonra yine değiyor.",
+        "Sana bakıp bakıp gülümsüyor; yakaladığında başını çeviriyor."
+      ],
+      "acik": [
+        "Dizini dizine yaslıyor ve öyle bırakıyor.",
+        "'Bu akşam çok güzel görünüyorsun' diyor, lafın ortasında; sonra kaldığı yerden devam ediyor.",
+        "Kulağına eğilip bir şey söylüyor; ne dediğini değil, nefesini duyuyorsun."
+      ],
+      "alayci": [
+        "'Bana öyle bakmayı keser misin? Dikkatim dağılıyor' diyor; kendisi bakmayı kesmiyor.",
+        "Bardağını senin bardağına tokuşturuyor, gözünü gözünden ayırmadan."
+      ],
+      "romantik": [
+        "Saçını kulağının arkasına atarken parmakları yüzüne değiyor; bilerek mi bilmeden mi, belli değil.",
+        "Masada elini senin elinin yanına koyuyor; serçe parmakları birbirine değiyor."
+      ],
+      "temkinli": [
+        "Bir an elini koluna koyuyor; konuşurken orada unutuyor.",
+        "Sandalyesini sana biraz yaklaştırıyor; fark etmemişsin gibi yapıyorsun."
+      ],
+      "oyunbaz": [
+        "Masanın altında ayağı ayağına değiyor; yüzünde hiçbir şey yokmuş gibi bir ifade.",
+        "Bardağından bir yudum alıp sana uzatıyor: 'Tadına bak.' Dudakları bardakta iz bırakmış."
+      ]
+    }
+  }
 }

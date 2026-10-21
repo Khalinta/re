@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { yeniDurum } from '../js/core/durum.js';
 import { kisi, mekandakiler, tanisildiMi } from '../js/core/insanlar.js';
-import { tanis, yaninaOtur, sohbetKonulari, sohbetHamlesi, flortEngeli, kisiDedikodusu, randevuKur, ilgi } from '../js/core/sohbet.js';
+import { tanis, yaninaOtur, sohbetKonulari, sohbetHamlesi, flortHamleleri, flortEngeli, kisiDedikodusu, randevuKur, ilgi } from '../js/core/sohbet.js';
 import { acikligTaban, aciklik, sadakatTipi, partnerli, gizliIliskiGunu } from '../js/core/sadakat.js';
 import { derinlik } from '../js/core/kart.js';
 import { kisiGuncel, bilinenOlaylar } from '../js/core/npchayat.js';
@@ -79,7 +79,7 @@ test('kapı yok: evli/sevgilili flörtte hayatındaki kişiyi anar, flört seçe
     assert.ok(t.k.bilinen.partnerVar);
     t.k.iltifatGun = {};
     if (t.d.sohbet) { t.d.sohbet.kullanilan = {}; t.d.sohbet.bekleyen = null; }
-    if (t.d.sohbet) assert.ok(sohbetKonulari(t.d, veri).some(x => ['iltifat', 'takil', 'numara'].includes(x.konu)) || t.k.sinirSayisi >= 3, 'flört seçenekleri kapandı');
+    if (t.d.sohbet) assert.ok((sohbetKonulari(t.d, veri).some(x => x.konu === 'flort') && flortHamleleri(t.d, veri, t.n, t.k).length) || t.k.sinirSayisi >= 3, 'flört seçenekleri kapandı');
     if (tip === 'sadik' && sinir) { sadikGorulen++; if (t.k.sinirSayisi >= 3) assert.ok((t.k.iliski.gerginlik ?? 0) > once); }
     if (tip !== 'sadik') acikGorulen++;
   }

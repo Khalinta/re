@@ -1463,6 +1463,781 @@
      ]
     }
    }
+  },
+  {
+   "id": "ozledim",
+   "baslik": "Bir mesaj",
+   "etiketler": [
+    "tanidik",
+    "ask"
+   ],
+   "kisi": {
+    "tur": [
+     "flort",
+     "sevgili"
+    ],
+    "arzuMin": 25,
+    "numara": true
+   },
+   "agirlik": 12,
+   "tekrar": true,
+   "bekleme": {
+    "gun": 3
+   },
+   "sahneler": {
+    "giris": {
+     "metin": [
+      {
+       "kosullu": [
+        {
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 60
+           }
+          }
+         },
+         "metin": [
+          [
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Bütün gün aklımdasın. İşte, otobüste, duşta. Ne yaptın bana?"
+           }
+          ],
+          [
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Dün geceyi düşünüyorum. Yine. Durmadan."
+           }
+          ]
+         ]
+        }
+       ],
+       "varsayilan": [
+        [
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Seni düşündüm. Bir şey değil; sadece söylemek istedim."
+         }
+        ],
+        [
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Ne yapıyorsun? Ben seni düşünüyorum. Bu kadar."
+         }
+        ]
+       ]
+      }
+     ],
+     "secenekler": [
+      {
+       "metin": "\"Ben de\"",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 5,
+          "yakinlik": 2
+         }
+        },
+        {
+         "durum": {
+          "ruh": 4
+         }
+        }
+       ],
+       "sonuc": "Gönderiyorsun. Üç nokta beliriyor, kayboluyor, beliriyor. Sonra bir kalp."
+      },
+      {
+       "metin": "Ara, sesini duy",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 7,
+          "yakinlik": 4
+         }
+        },
+        {
+         "durum": {
+          "ruh": 6
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Arıyorsun. \"Mesaj yetmedi mi?\" diyor, gülerek; sesinde bir titreme. Yarım saat konuşuyorsunuz; hiçbir şey hakkında ve her şey hakkında."
+        ]
+       ]
+      },
+      {
+       "metin": "Görüldü bırak",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": -4,
+          "gerginlik": 2
+         }
+        }
+       ],
+       "sonuc": "Mesaj okundu. Saatler sonra bir mesaj daha: \"Tamam.\" Nokta dahil."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "gece_cagri",
+   "baslik": "Gece yarısı",
+   "etiketler": [
+    "tanidik",
+    "ask",
+    "gece"
+   ],
+   "kisi": {
+    "tur": [
+     "flort",
+     "sevgili"
+    ],
+    "arzuMin": 45,
+    "numara": true,
+    "medeni": [
+     "bekar",
+     "bosanmis",
+     "dul"
+    ]
+   },
+   "agirlik": 12,
+   "tekrar": true,
+   "kosul": {
+    "zamanDilimi": [
+     "gece"
+    ]
+   },
+   "bekleme": {
+    "gun": 4
+   },
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Uyuyor musun? Ben uyuyamıyorum. Gel."
+       },
+       "Bir mesaj daha: bir konum. Saat biri geçiyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Git",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "zamanla": {
+          "sure": {
+           "dakika": 1
+          },
+          "olay": "birlikte_gece",
+          "baglam": true
+         }
+        },
+        {
+         "zaman": 1
+        }
+       ],
+       "sonuc": "Ceketini kapıyorsun."
+      },
+      {
+       "metin": "\"Yarın\" de",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 3
+         }
+        },
+        {
+         "durum": {
+          "uyku": -2
+         }
+        }
+       ],
+       "sonuc": "\"Yarın\" yazıyorsun. \"Yarın çok uzak\" geliyor cevap. Sonra: \"Peki. Yarın.\""
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "gece_cagri_gizli",
+   "baslik": "Gece yarısı",
+   "etiketler": [
+    "tanidik",
+    "ask",
+    "gece",
+    "gizli"
+   ],
+   "kisi": {
+    "tur": [
+     "flort",
+     "sevgili"
+    ],
+    "arzuMin": 45,
+    "numara": true,
+    "medeni": [
+     "evli",
+     "sevgilili"
+    ]
+   },
+   "agirlik": 12,
+   "tekrar": true,
+   "kosul": {
+    "zamanDilimi": [
+     "gece"
+    ]
+   },
+   "bekleme": {
+    "gun": 5
+   },
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Evde değilim. Bir bahane uydurdum. Neredesin?"
+       },
+       "Bir konum: şehrin öbür ucu. Saat biri geçiyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Git",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "zamanla": {
+          "sure": {
+           "dakika": 1
+          },
+          "olay": "birlikte_gece_gizli",
+          "baglam": true
+         }
+        },
+        {
+         "zaman": 1
+        }
+       ],
+       "sonuc": "Telefonu cebine koyup çıkıyorsun; kalbin merdivenlerden önce iniyor."
+      },
+      {
+       "metin": "\"Bu gece olmaz\" de",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 2,
+          "gerginlik": 1
+         }
+        },
+        {
+         "durum": {
+          "uyku": -4
+         }
+        }
+       ],
+       "sonuc": "\"Anlıyorum\" yazıyor. Sonra: \"Ama bu gece sana ihtiyacım vardı.\" Uyuyamıyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "kiskanc_mesaj",
+   "baslik": "Kıskançlık",
+   "etiketler": [
+    "tanidik",
+    "ask",
+    "gerginlik"
+   ],
+   "kisi": {
+    "kiskanc": true,
+    "numara": true
+   },
+   "agirlik": 12,
+   "tekrar": true,
+   "bekleme": {
+    "gun": 3
+   },
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Dün kiminle konuşuyordun? Biri gördü seni. Bana yalan söyleme."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Ara, açıkla",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": -3,
+          "guven": 2,
+          "arzu": 2
+         }
+        },
+        {
+         "bayrak": {
+          "ad": "kiskanclik_konusuldu",
+          "npc": "kisi",
+          "sure": {
+           "gun": 7
+          }
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Arıyorsun. Önce susuyor; sonra her şeyi bir solukta söylüyor. Sen anlatıyorsun. Sonunda sesi yumuşuyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Tamam... Ama ben böyleyim işte. Seni kaybetmekten korkuyorum."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "\"Sana hesap vermem\" yaz",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": 5,
+          "arzu": -6
+         }
+        }
+       ],
+       "sonuc": "\"Peki\" geliyor. Sonra hiçbir şey. Bir gün, iki gün."
+      },
+      {
+       "metin": "Cevap verme",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": 4,
+          "guven": -4
+         }
+        }
+       ],
+       "sonuc": "Telefon üç kez çalıyor. Sonra bir mesaj: \"Anladım.\""
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "sevgili_kavga",
+   "baslik": "Kavga",
+   "etiketler": [
+    "tanidik",
+    "ask",
+    "gerginlik"
+   ],
+   "kisi": {
+    "tur": [
+     "sevgili"
+    ],
+    "gerginlikMin": 4
+   },
+   "agirlik": 12,
+   "tekrar": true,
+   "bekleme": {
+    "gun": 6
+   },
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Seninle konuşmamız lazım. Hep ben arıyorum, hep ben geliyorum. Sen bu ilişkide var mısın, yok musun?"
+       },
+       "Sesi titriyor; ağlamamak için kendini zor tutuyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Alttan al, dinle",
+       "maliyet": {
+        "dakika": 45
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": -4,
+          "yakinlik": 4,
+          "arzu": 3
+         }
+        },
+        {
+         "durum": {
+          "stres": 4
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Dinliyorsun. Bazısı haksız, çoğu haklı. Sonunda ağlıyor; sen de az kalsın.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Sadece beni gördüğünü bilmek istiyorum. O kadar."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Sen de söyle içindekini",
+       "maliyet": {
+        "dakika": 45
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": -2,
+          "arzu": 6
+         }
+        },
+        {
+         "durum": {
+          "stres": 6
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Sen de söylüyorsun; o da söylüyor. Sesler yükseliyor. Sonra bir an ikiniz de susuyorsunuz ve aynı anda gülüyorsunuz.",
+         "Barışmak, kavganın yarısı kadar sürüyor."
+        ]
+       ]
+      },
+      {
+       "metin": "Telefonu kapat",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": 4,
+          "yakinlik": -4,
+          "arzu": -5
+         }
+        }
+       ],
+       "sonuc": "\"Şu an konuşamam\" diyorsun ve kapatıyorsun. Telefon bir daha çalmıyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "senden_ayriliyor",
+   "baslik": "Bitti",
+   "etiketler": [
+    "tanidik",
+    "ask"
+   ],
+   "kisi": {
+    "tur": [
+     "flort",
+     "sevgili"
+    ],
+    "gerginlikMin": 7,
+    "arzuMax": 25
+   },
+   "agirlik": 12,
+   "tekrar": true,
+   "bekleme": {
+    "gun": 10
+   },
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Düşündüm, çok düşündüm. Bitirmek istiyorum. Seninle değil; bizimle ilgili bu. Olmuyor."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Bir şans daha iste",
+       "maliyet": {
+        "dakika": 30
+       },
+       "kontrol": {
+        "sans": 0.3
+       },
+       "basari": {
+        "sonuc": [
+         [
+          {
+           "tur": "konusma",
+           "konusan": "{kisi.ad}",
+           "metin": "...Bir şans. Son. Sonra kendime kızarım ama bir şans."
+          },
+          "Sesinde hem yorgunluk hem umut."
+         ]
+        ],
+        "etki": [
+         {
+          "iliski": {
+           "npc": "kisi",
+           "gerginlik": -5,
+           "arzu": 5
+          }
+         }
+        ]
+       },
+       "basarisiz": {
+        "sonuc": [
+         [
+          {
+           "tur": "konusma",
+           "konusan": "{kisi.ad}",
+           "metin": "Yapma. Zaten zor. Daha zor yapma."
+          },
+          "Telefon kapanıyor."
+         ]
+        ],
+        "etki": [
+         {
+          "iliski": {
+           "npc": "kisi",
+           "tur": "eski",
+           "yakinlik": -6
+          }
+         },
+         {
+          "ani": {
+           "npc": "kisi",
+           "metin": "seni bıraktı"
+          }
+         },
+         {
+          "durum": {
+           "ruh": -10,
+           "stres": 6
+          }
+         }
+        ]
+       }
+      },
+      {
+       "metin": "\"Peki\"",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "tur": "eski",
+          "yakinlik": -3
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "ayrıldınız"
+         }
+        },
+        {
+         "durum": {
+          "ruh": -6
+         }
+        }
+       ],
+       "sonuc": "Bir süre ikiniz de konuşmuyorsunuz. Sonra \"Kendine iyi bak\" diyor. Sen de."
+      },
+      {
+       "metin": "\"Ben de aynı şeyi düşünüyordum\"",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "tur": "eski",
+          "yakinlik": 2
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "ayrıldınız"
+         }
+        },
+        {
+         "durum": {
+          "ruh": -3,
+          "ozguven": 2
+         }
+        }
+       ],
+       "sonuc": "Bir an sessizlik. Sonra gülüyor, hüzünlü: \"Demek ikimiz de korkaktık.\""
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "eski_doner",
+   "baslik": "Eski bir mesaj",
+   "etiketler": [
+    "tanidik",
+    "ask"
+   ],
+   "kisi": {
+    "tur": [
+     "eski"
+    ],
+    "yakinlikMin": 3,
+    "arzuMin": 8
+   },
+   "agirlik": 12,
+   "tekrar": true,
+   "bekleme": {
+    "gun": 15
+   },
+   "sahneler": {
+    "giris": {
+     "metin": [
+      {
+       "kosullu": [
+        {
+         "kosul": {
+          "zamanDilimi": [
+           "gece"
+          ]
+         },
+         "metin": [
+          [
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Uyuyor musun? Biliyorum yazmamalıyım. Ama seni özledim."
+           }
+          ]
+         ]
+        }
+       ],
+       "varsayilan": [
+        [
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Merhaba. Nasılsın? ...Aslında bunu sormak için yazmadım. Seni özledim."
+         }
+        ]
+       ]
+      }
+     ],
+     "secenekler": [
+      {
+       "metin": "\"Ben de seni özledim\"",
+       "maliyet": {
+        "dakika": 40
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "tur": "flort",
+          "arzu": 10,
+          "yakinlik": 5,
+          "gerginlik": -4
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "yeniden bir araya geldiniz"
+         }
+        },
+        {
+         "durum": {
+          "ruh": 6
+         }
+        }
+       ],
+       "sonuc": "Saatlerce yazışıyorsunuz. Eskilerden, yenilerden. Sonunda: \"Görüşelim mi?\""
+      },
+      {
+       "metin": "Kibarca kapat",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": -3,
+          "yakinlik": 1
+         }
+        }
+       ],
+       "sonuc": "\"İyi olduğuna sevindim\" yazıyorsun. \"Ben de\" geliyor. Kapı aralık kalıyor."
+      },
+      {
+       "metin": "Cevap verme",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": -5
+         }
+        },
+        {
+         "durum": {
+          "ruh": -2
+         }
+        }
+       ],
+       "sonuc": "Mesaj öyle kalıyor. Gece birkaç kez açıp bakıyorsun."
+      }
+     ]
+    }
+   }
   }
  ]
 }

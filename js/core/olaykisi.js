@@ -2,7 +2,8 @@
 // yaşanır (seni arar, borç ister, eve davet eder...). Seçilen kişi bağlama girer: koşul ve etkilerde "kisi",
 // metinde {kisi.ad}, {kisi.hitap} (sana nasıl hitap ettiği), {kisi.dert}.
 // Seçici: { "yakinlikMin", "yakinlikMax", "gerginlikMin", "numara": true, "tur": ["flort","sevgili"], "turDegil": [...],
-//           "yasMin", "yasMax", "dertVar": true, "durum": [...], "medeni": [...] }
+//           "yasMin", "yasMax", "dertVar": true, "durum": [...], "medeni": [...],
+//           "arzuMin", "arzuMax", "kiskanc": true (başka biriyle flörtünü duydu, henüz konuşmadınız) }  (3.14)
 import { kisiGuncel } from './npchayat.js';
 import { hitapSec } from './sohbet.js';
 import { dertMetni } from './npc.js';
@@ -19,6 +20,9 @@ function tutar(durum, veri, id, k, s) {
   if (s.numara && !k.numara) return false;
   if (s.tur && !s.tur.includes(k.iliskiTuru)) return false;
   if (s.turDegil && s.turDegil.includes(k.iliskiTuru)) return false;
+  if (s.arzuMin !== undefined && (k.iliski?.arzu ?? 0) < s.arzuMin) return false;
+  if (s.arzuMax !== undefined && (k.iliski?.arzu ?? 0) > s.arzuMax) return false;
+  if (s.kiskanc && !(k.duydugu && !k.duydugu.konustu)) return false;
   const n = kisiGuncel(durum, veri, id);
   if (!n || n.yok) return false;
   if (s.yasMin !== undefined && n.yas < s.yasMin) return false;

@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { yeniDurum } from '../js/core/durum.js';
 import * as konum from '../js/core/konum.js';
 import { mekandakiler, kisi } from '../js/core/insanlar.js';
-import { tanis, yaninaOtur, sohbetKonulari, sohbetHamlesi, hitapSec, kusak, flortUygun, flortEngeli, ilgi, kisiDedikodusu, benim } from '../js/core/sohbet.js';
+import { tanis, yaninaOtur, sohbetKonulari, sohbetHamlesi, flortHamleleri, hitapSec, kusak, flortUygun, flortEngeli, ilgi, kisiDedikodusu, benim } from '../js/core/sohbet.js';
 import { olayBaslat, olaySecenekleri, olaySecenegiSec } from '../js/core/olay.js';
 import { mekanBul } from '../js/core/mekan.js';
 import { Rng } from '../js/core/rng.js';
@@ -158,7 +158,7 @@ test('flört: yaş uygunluğu; evli/sevgilili kapıyı kapatmaz (3.13): hayatın
   assert.notEqual(flortEngeli(t.d, veri, t.n), 'evli');
   if (!flortEngeli(t.d, veri, t.n)) {
     assert.ok(t.d.npcler[t.id].bilinen.partnerVar, 'hayatındaki kişiyi anmadı');
-    if (t.d.sohbet) assert.ok(sohbetKonulari(t.d, veri).some(x => ['takil', 'numara'].includes(x.konu)), 'flört seçenekleri kapandı');
+    if (t.d.sohbet) assert.ok(sohbetKonulari(t.d, veri).some(x => x.konu === 'flort') && flortHamleleri(t.d, veri, t.n, t.d.npcler[t.id]).length, 'flört seçenekleri kapandı');
   }
 });
 
@@ -178,7 +178,7 @@ test('flört: ilgi yüksekse iltifat karşılık bulur, numara verilir, buluşma
       d.zaman.dakika = t.an;
       if (!d.sohbet) break;
       if (d.sohbet.bekleyen) { const c = sohbetKonulari(d, veri)[0]; sohbetHamlesi(d, veri, r, c.konu); }
-      if (!sohbetKonulari(d, veri).some(x => x.konu === konu)) continue;
+      if (!flortHamleleri(d, veri, t.n, d.npcler[id]).some(x => x.konu === konu)) continue;
       const s = sohbetHamlesi(d, veri, r, konu);
       assert.ok(s.tamam, s.sebep);
       temiz(s.paragraflar);

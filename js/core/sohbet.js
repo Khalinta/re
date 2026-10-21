@@ -23,6 +23,7 @@ import { kisiGuncel, bilinmeyenOlaylar, haberSablonu } from './npchayat.js';
 import { gizliIliskiMi, derinlik, aileAgaci } from './kart.js';
 import { sirriBiliyorMu, ozetEkle } from './hafiza.js';
 import { partnerli, aciklik, sadakatTipi, partnerCezasi } from './sadakat.js';
+import { askKonulari, askHamlesi, askSecenekler, askCevapla, askKarsilama, npcAtilim, kiskanclikYay } from './ask.js';
 import { derinKonular, derinHamle, derinSecenekler, derinCevapla, derinSoruAdaylari, derinSoruSor } from './zevk.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
@@ -195,7 +196,7 @@ export function ilgi(durum, veri, n, k) {
   const uyum = Rng.akis(durum.seed, 'uyum|' + n.id).aralik(...f.kurallar.uyum);
   return uyum + (o.cekicilik - 5) * w.cekicilik + (o.karizma - 5) * w.karizma + (k?.iliski?.yakinlik ?? 0) * w.yakinlik
     + (n.eksenler.disadonuk - 3) * w.disadonuk + (k?.iliski?.cekim ?? 0) * w.cekim + Math.abs(n.yas - o.yas) * w.yasFarki
-    + ((durum.durumlar?.ruh ?? 50) - 50) * w.ruh - partnerCezasi(durum, veri, n, k);
+    + ((durum.durumlar?.ruh ?? 50) - 50) * w.ruh + (k?.iliski?.arzu ?? 0) * (w.arzu ?? 0) - partnerCezasi(durum, veri, n, k);
 }
 
 // Buluşma: ertesi akşam 20.00'de olay (data/olaylar/iliski.json → randevu)
@@ -385,6 +386,9 @@ export function yaninaOtur(durum, veri, rng, mekan, kalabalik, id) {
   const bugunGordu = k.ayrildi && gunNo(k.ayrildi.zaman) === gunNo(durum.zaman.dakika);
   p.push(...soyle(durum, veri, n, k, (k.iliski.gerginlik ?? 0) >= 4 ? sb.selam.soguk : bugunGordu ? sb.selam.bugun : yak >= 25 ? sb.selam.yakin : sb.selam.yeni, rng));
   oturumBaslat(durum, id, mekan, sabir(veri, n, k));
+  k.sonGorus = durum.zaman.dakika;
+  // Başka biriyle flörtünü duyduysa önce hesap sorar (3.14)
+  if (askKarsilama(durum, veri, rng, n, k, p, ARACLAR)) { aksiyonKaydet(durum, 'otur:' + id); return { tamam: true, paragraflar: p }; }
   // Gizli buluşmadan sonra kararsız olanın vicdanı (bir kez)
   if (k.gizli && k.sonGizliRandevu && !k.vicdanSoyledi && sadakatTipi(aciklik(durum, veri, n, k)) === 'kararsiz') {
     p.push(...soyle(durum, veri, n, k, veri.npc.flort.vicdan, rng, { esAd: (veri.npc.derinlik && aileAgaci(durum.seed, n, veri).es?.ad) || 'o' }));
@@ -525,6 +529,22 @@ function cevapla(durum, veri, rng, n, k, id, p) {
 
 // ------------------------------------------------------------------ konular
 
+// Şu an yapılabilecek flört hamleleri (iltifat, takılma, numara, buluşma + romantik hamleler)
+export function flortHamleleri(durum, veri, n, k) {
+  const sb = veri.npc.sohbet, o = durum.sohbet, gun = gunNo(durum.zaman.dakika);
+  if (!veri.npc.flort || !flortUygun(durum, veri, n) || k.bilinen?.flortEngel === 'yonelim') return [];
+  const l = [];
+  for (const [konu, t] of Object.entries(sb.konular)) {
+    if (!t.flort || o.kullanilan[konu]) continue;
+    if ((konu === 'iltifat' || konu === 'takil') && (k.iltifatGun?.[gun] ?? 0) >= veri.npc.flort.kurallar.gunlukIltifat) continue;
+    if (konu === 'numara' && (k.numara || k.numaraRet === gun)) continue;
+    if (konu === 'davet' && (!k.numara || k.randevu >= gun || k.davetRet === gun)) continue; // randevu: buluşma günü (geçtiyse yeniden teklif edilebilir)
+    l.push({ konu, ad: t.baslik, dakika: t.sure });
+  }
+  if (veri.npc.flort.ask) l.push(...askKonulari(durum, veri, n, k, ilgi(durum, veri, n, k)));
+  return l;
+}
+
 // Oturumdayken seçilebilecekler: bekleyen bir soru/seçim varsa yalnızca cevaplar; yoksa konular
 export function sohbetKonulari(durum, veri) {
   const o = durum.sohbet;
@@ -532,13 +552,14 @@ export function sohbetKonulari(durum, veri) {
   const sb = veri.npc.sohbet, k = durum.npcler?.[o.npc];
   if (!k) return [];
   const n = kisiGuncel(durum, veri, o.npc);
+  if (o.bekleyen?.tur === 'flortMenu') return [...flortHamleleri(durum, veri, n, k), { konu: 'flort:vazgec', ad: 'Vazgeç', dakika: 0 }];
   if (o.bekleyen?.tur === 'zevk') return derinSecenekler(durum, veri, n, k, o.bekleyen);
+  if (o.bekleyen?.tur === 'ask') return askSecenekler(durum, veri);
   if (o.bekleyen) {
     const def = soruTanimi(veri, o.bekleyen);
     return (def?.cevaplar || []).filter(c => !c.kosul || kosulTutar(durum, veri, n, k, c.kosul)).map(c => ({ konu: 'cevap:' + c.id, ad: c.ad, dakika: sb.sure.cevap }));
   }
   const yak = k.iliski?.yakinlik ?? 0, gun = gunNo(durum.zaman.dakika);
-  const flort = veri.npc.flort && flortUygun(durum, veri, n) && k.bilinen?.flortEngel !== 'yonelim';
   const liste = [];
   for (const [konu, t] of Object.entries(sb.konular)) {
     if (konu !== 'bitir' && o.kullanilan[konu]) continue;
@@ -546,12 +567,7 @@ export function sohbetKonulari(durum, veri) {
     if (t.gunde && k.konuGun?.[konu] === gun) continue;
     if (konu === 'hayal' && yak < sb.esikler.dert) continue;
     if ((konu === 'dedikodu' || konu === 'tanidik') && yak < sb.esikler.dedikodu) continue;
-    if (t.flort) {
-      if (!flort) continue;
-      if ((konu === 'iltifat' || konu === 'takil') && (k.iltifatGun?.[gun] ?? 0) >= veri.npc.flort.kurallar.gunlukIltifat) continue;
-      if (konu === 'numara' && (k.numara || k.numaraRet === gun)) continue;
-      if (konu === 'davet' && (!k.numara || k.randevu >= gun || k.davetRet === gun)) continue; // randevu: buluşma günü (geçtiyse yeniden teklif edilebilir)
-    }
+    if (t.flort) continue; // flört hamleleri "Flört et…" altında (3.14)
     liste.push({ konu, ad: t.baslik, dakika: t.sure });
   }
   // Kişi kartından derin konular (3.10): oturum başına birkaç tane, "bitir"den önce
@@ -559,6 +575,11 @@ export function sohbetKonulari(durum, veri) {
   for (const dus of ['tanidik', 'gundem', 'semt']) {
     const i = liste.findIndex(x => x.konu === dus);
     if (liste.length > 10 && i >= 0) liste.splice(i, 1);
+  }
+  // Flört (3.14): bütün hamleler tek bir "Flört et…" girişinin altında; menü kalabalıklaşmaz, hiçbir hamle gizlenmez
+  if (flortHamleleri(durum, veri, n, k).length) {
+    const bi = liste.findIndex(x => x.konu === 'bitir');
+    liste.splice(bi >= 0 ? bi : liste.length, 0, { konu: 'flort', ad: 'Flört et…', dakika: 0 });
   }
   const bitir = liste.findIndex(x => x.konu === 'bitir');
   const yer = Math.max(1, Math.min(veri.npc.zevk?.gosterim.oturumBasi ?? 0, 12 - liste.length));
@@ -573,20 +594,26 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
   const mekan = mekanBul(veri.dunya, o.mekan);
   const id = o.npc, k = durum.npcler[id], n = kisiGuncel(durum, veri, id);
   if (!oturumGecerli(durum, veri)) { oturumBitir(durum); return { tamam: false, sebep: `${n.hitapAdi} artık burada değil.` }; }
-  if (!sohbetKonulari(durum, veri).some(x => x.konu === konu)) return { tamam: false, sebep: 'Bunu şimdi açamazsın.' };
+  const fl = !o.bekleyen || o.bekleyen.tur === 'flortMenu' ? flortHamleleri(durum, veri, n, k) : [];
+  if (!sohbetKonulari(durum, veri).some(x => x.konu === konu) && !fl.some(x => x.konu === konu)) return { tamam: false, sebep: 'Bunu şimdi açamazsın.' };
+  if (konu === 'flort') { o.bekleyen = { tur: 'flortMenu' }; return { tamam: true, paragraflar: [] }; }
+  if (konu === 'flort:vazgec') { o.bekleyen = null; return { tamam: true, paragraflar: [] }; }
+  if (o.bekleyen?.tur === 'flortMenu') o.bekleyen = null;
   const gun = gunNo(durum.zaman.dakika);
   k.bilinen ??= {};
 
   if (konu.startsWith('cevap:')) {
     const p = [];
     zamanGecir(durum, sb.sure.cevap, 'dinlenme', veri.sim);
-    const s = o.bekleyen?.tur === 'zevk' ? derinCevapla(durum, veri, rng, n, k, konu.slice(8), p, ARACLAR) : cevapla(durum, veri, rng, n, k, konu.slice(6), p);
+    const s = o.bekleyen?.tur === 'zevk' ? derinCevapla(durum, veri, rng, n, k, konu.slice(8), p, ARACLAR)
+      : o.bekleyen?.tur === 'ask' ? askCevapla(durum, veri, rng, n, k, konu.slice(8), p, ARACLAR)
+        : cevapla(durum, veri, rng, n, k, konu.slice(6), p);
     if (!s.tamam) return s;
     aksiyonKaydet(durum, 'sohbet:' + konu, { npc: id });
     return { tamam: true, paragraflar: p };
   }
 
-  const t = konu.startsWith('derin:') ? veri.npc.zevk.konular[konu.slice(6)] : sb.konular[konu];
+  const t = konu.startsWith('derin:') ? veri.npc.zevk.konular[konu.slice(6)] : konu.startsWith('ask:') ? veri.npc.flort.ask.konular[konu.slice(4)] : sb.konular[konu];
   const p = [{ tur: 'secim', metin: t.baslik }];
   zamanGecir(durum, t.sure, 'dinlenme', veri.sim);
   const yak = k.iliski.yakinlik ?? 0;
@@ -605,8 +632,16 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
   }
 
   if (konu !== 'dert') p.push(...beden(durum, veri, n, k, rng, konu === 'dedikodu' ? 'gizli' : null));
+  k.sonGorus = durum.zaman.dakika;
   if (konu.startsWith('derin:')) {
     soruOlabilir = derinHamle(durum, veri, rng, n, k, konu.slice(6), p, ARACLAR);
+  } else if (konu.startsWith('ask:') && flortEngeli(durum, veri, n) && konu !== 'ask:ayril') {
+    p.push(...anlat(durum, veri, n, k, veri.npc.flort.uygunsuz.yonelim, rng));
+    k.bilinen.flortEngel = 'yonelim';
+    soruOlabilir = false;
+  } else if (konu.startsWith('ask:')) {
+    soruOlabilir = askHamlesi(durum, veri, rng, n, k, konu.slice(4), ilgi(durum, veri, n, k), p, ARACLAR);
+    if (!durum.sohbet) { aksiyonKaydet(durum, 'sohbet:' + konu, { npc: id }); return { tamam: true, paragraflar: p }; }
   } else if (konu === 'hal') {
     const hal = veri.npc.gorunus ? gununHali(durum.seed, n, gun, veri.npc.gorunus).tur : 'keyifli';
     p.push(...soyle(durum, veri, n, k, n.uslup === 'kibar' && rng.olasilik(0.3) ? sb.hal.kibar : sb.hal[hal], rng));
@@ -720,6 +755,7 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
     // Karşılıklılık: meraklı ve dışadönük olan daha çok sorar
     const p0 = sb.esikler.soruOlasiligi * (n.ozellikler.includes('merakli') ? 1.5 : 1) * (0.6 + n.eksenler.disadonuk * 0.15);
     if (rng.olasilik(Math.min(0.85, p0))) p.push(...soruSor(durum, veri, n, k, rng));
+    else if (flortUygun(durum, veri, n) && !flortEngeli(durum, veri, n)) npcAtilim(durum, veri, rng, n, k, p, ARACLAR);
   }
   aksiyonKaydet(durum, 'sohbet:' + konu, { npc: id });
   return { tamam: true, paragraflar: p };
@@ -761,12 +797,13 @@ function flortHamlesi(durum, veri, rng, n, k, konu, p) {
     iliskiEkle(k, F.etki[seviye], rng, seviye !== 'kotu');
     if (partner && seviye !== 'kotu') k.iliski.risk = (k.iliski.risk ?? 0) + 1; // herkesin içinde
     ozetEkle(durum, n.id, `Oyuncu ona ${konu === 'iltifat' ? 'iltifat etti' : 'tatlı tatlı takıldı'}; ${seviye === 'iyi' ? 'hoşuna gitti' : seviye === 'orta' ? 'belli etmedi' : 'hoşlanmadı'}.`);
-    if (seviye === 'iyi') { durum.sohbet.kalan += veri.npc.sohbet.sabir.flortEki; if (rng.olasilik(0.4)) k.anilar.push({ zaman: durum.zaman.dakika, metin: 'aranızda bir elektrik vardı' }); }
+    if (seviye === 'iyi') { kiskanclikYay(durum, veri, n.id, rng); k.iliski.arzu = Math.min(100, (k.iliski.arzu ?? 0) + 3); durum.sohbet.kalan += veri.npc.sohbet.sabir.flortEki; if (rng.olasilik(0.4)) k.anilar.push({ zaman: durum.zaman.dakika, metin: 'aranızda bir elektrik vardı' }); }
     return seviye !== 'kotu';
   }
   if (konu === 'numara') {
     if (ig >= F.esikler.numara) {
       p.push(...anlat(durum, veri, n, k, partner ? F.numaraGizli : F.numara.evet, rng));
+      kiskanclikYay(durum, veri, n.id, rng);
       k.numara = true;
       if (partner) k.gizli = true;
       k.iliski.cekim = (k.iliski.cekim ?? 0) + 3;

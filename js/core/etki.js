@@ -86,6 +86,12 @@ export const ETKILER = {
     n.anilar.push({ z: ctx.durum.zaman.dakika, metin: v.metin, ...(v.duygu !== undefined ? { duygu: v.duygu } : {}) });
     if (n.anilar.length > ANI_SINIRI) n.anilar.splice(0, n.anilar.length - ANI_SINIRI);
   },
+  // { "eveDon": true }  (3.14) olayın sonunda evindesin (birlikte geçen geceden sonra); açık sohbet kapanır
+  eveDon: (v, ctx) => {
+    const d = ctx.durum;
+    if (d.ev?.semt) d.konum = { semt: d.ev.semt, mekan: 'ev' };
+    delete d.sohbet;
+  },
   // { "partnerdenAyril": { "npc": "kisi" } }  (3.13) kişi senin için evliliğini/ilişkisini bitirir: boşanmış ya da bekâr olur,
   // gizli ilişki biter; Tanıdıklarım'da "Senin için ilişkisini bitirdi." (kisiGuncel uygular)
   partnerdenAyril: (v, ctx) => {

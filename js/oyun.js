@@ -22,6 +22,7 @@ import { hazirMi as yzHazirMi } from './yz/ayar.js';
 import { zevkOzeti } from './core/zevk.js';
 import { olayKisisi } from './core/olaykisi.js';
 import { gizliIliskiGunu, ortayaCiktiKur } from './core/sadakat.js';
+import { askGunu } from './core/ask.js';
 import { aileAgaci as kartAile } from './core/kart.js';
 import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
@@ -132,6 +133,7 @@ const dunyayiIlerlet = () => {
   if (durum.dunya) {
     for (let g = (durum.dunya.npcGun ?? bugun) + 1; g <= bugun; g++) {
       npcHayatGunu(durum, veri, g);
+      askGunu(durum, veri, g);
       // Gizli ilişkiler (3.13): risk birikmişse ortaya çıkabilir → ertesi gün olay
       for (const id of gizliIliskiGunu(durum, veri, g, rngAl(durum, 'gizli'))) {
         const n = insanlar.kisi(veri, durum.seed, id, durum.npcler[id]?.sablon);
@@ -222,7 +224,13 @@ export function aksiyonYap(id) {
 
 function aksiyonYapIc(id) {
   // Sohbet konusu dışındaki her hamle açık sohbeti bitirir
-  if (durum.sohbet && !id.startsWith('sohbet:')) sohbet.oturumBitir(durum);
+  if (durum.sohbet && !id.startsWith('sohbet:')) {
+    const k = durum.npcler?.[durum.sohbet.npc];
+    if (k) k.ayrildi = { zaman: durum.zaman.dakika, kim: 'sen' }; // başka bir şeye geçtin: sen kalktın sayılır (3.13)
+    sohbet.oturumBitir(durum);
+  }
+  // "Flört et…" menüsünü açıp kapamak hamle değil: zaman geçmez, olay çıkmaz
+  if (id === 'sohbet:flort' || id === 'sohbet:flort:vazgec') { const s = sohbet.sohbetHamlesi(durum, veri, rngAl(durum, 'aksiyon'), id.slice(7)); bildir([]); return s; }
   if (id.startsWith('sohbet:')) return konumHamlesi(() => sohbet.sohbetHamlesi(durum, veri, rngAl(durum, 'aksiyon'), id.slice(7)), 'sohbet');
   if (id.startsWith('gezi:') || id.startsWith('mekan:') || id.startsWith('npc:')) return konumHamlesi(() => {
     const rng = rngAl(durum, 'aksiyon');

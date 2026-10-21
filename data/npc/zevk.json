@@ -1,0 +1,1297 @@
+{
+ "_aciklama": "Kişi kartının yazılı sohbete taşınması (adım 3.10). Kişinin müziği, takımı, hobisi, günlük hayatı, ailesi (isimleriyle), geçmişi (hayat öyküsü) ve değerleri sohbet konusu olur; hepsi kişi kartından (js/core/kart.js) gelir, uydurulmaz. Oyuncunun zevkleri (müzik, takım, hobi) ilk söylediğinde kaydedilir (durum.karakter.zevk) ve sonra hep aynı kalır. Ortak nokta yakınlaştırır, zıtlık gerer. Kod: js/core/zevk.js. Şablonda {s.*}: kişinin, {s.o*}: oyuncunun değerleri.",
+ "konular": {
+  "muzik": {
+   "baslik": "Ne dinlediğini sor",
+   "sure": 8,
+   "esik": 0,
+   "birKez": true
+  },
+  "futbol": {
+   "baslik": "Futbol aç",
+   "sure": 8,
+   "esik": 0,
+   "haftada": 1
+  },
+  "hobi": {
+   "baslik": "Boş vaktinde ne yaptığını sor",
+   "sure": 8,
+   "esik": 2,
+   "birKez": true
+  },
+  "rutin": {
+   "baslik": "Günlerinin nasıl geçtiğini sor",
+   "sure": 8,
+   "esik": 4,
+   "birKez": true
+  },
+  "aile": {
+   "baslik": "Ailesini sor",
+   "sure": 12,
+   "esik": 8
+  },
+  "gecmis": {
+   "baslik": "Geçmişini sor",
+   "sure": 15,
+   "esik": 14
+  },
+  "deger": {
+   "baslik": "Hayat üzerine konuş",
+   "sure": 12,
+   "esik": 12
+  }
+ },
+ "gosterim": {
+  "oturumBasi": 3,
+  "_not": "Bir oturumda en çok bu kadar derin konu seçeneği görünür (önce konuşulmamışlar); menü kalabalıklaşmasın."
+ },
+ "esikler": {
+  "acilma": 25,
+  "soruOlasiligi": 0.35
+ },
+ "etki": {
+  "konu": [
+   1,
+   2
+  ],
+  "ortak": [
+   3,
+   5
+  ],
+  "ortakSiki": [
+   5,
+   7
+  ],
+  "farkli": [
+   0,
+   1
+  ],
+  "aileAcildi": [
+   2,
+   4
+  ],
+  "gecmis": [
+   2,
+   3
+  ],
+  "degerKatildi": [
+   2,
+   4
+  ],
+  "degerKatilmadiGerginlik": 2,
+  "rakipGerginlik": 2
+ },
+ "muzik": {
+  "tur": {
+   "rap": {
+    "ad": "Rap",
+    "dinler": "rap dinlerim",
+    "soz": {
+     "genc": [
+      "Rap. Sözü olan şeyler; ritmi bahane.",
+      "Rap dinlerim, en çok da buranın çocuklarını. Karaliman'dan çıkan iyi isimler var, kimse bilmiyor.",
+      "Kulaklık takıp rap açınca şehir başka görünüyor."
+     ],
+     "_": [
+      "Rap diyorlar ya, onu dinliyorum. Çocuklar sayesinde başladım."
+     ]
+    }
+   },
+   "Türkçe pop": {
+    "ad": "Türkçe pop",
+    "dinler": "Türkçe pop dinlerim",
+    "soz": {
+     "_": [
+      "Türkçe pop. Kim ne derse desin, bir şarkı tutturdu mu bir hafta dilimden düşmez.",
+      "Pop dinlerim. Yolda, evde, temizlik yaparken; hayat zaten yeterince ağır.",
+      "Ne çıkarsa dinlerim, pop işte. Bazen bir şarkı tam o günü anlatır."
+     ]
+    }
+   },
+   "indie": {
+    "ad": "Indie",
+    "dinler": "indie dinlerim",
+    "soz": {
+     "_": [
+      "Indie dinlerim; az bilinen gruplar. Biri keşfedince hevesim kaçıyor, kabul.",
+      "Kimsenin bilmediği gruplar. Konserleri yirmi kişilik olur, en güzeli o.",
+      "Indie. Gitar, biraz hüzün, biraz eski kayıt sesi."
+     ]
+    }
+   },
+   "elektronik": {
+    "ad": "Elektronik",
+    "dinler": "elektronik müzik dinlerim",
+    "soz": {
+     "_": [
+      "Elektronik. Sözü olmayan müzik kafayı boşaltıyor.",
+      "Elektronik dinlerim; bir de sahildeki gece partileri. Sabaha karşı denize karşı, o başka.",
+      "Çalışırken elektronik açarım, saatler nasıl geçti anlamam."
+     ]
+    }
+   },
+   "arabesk rap": {
+    "ad": "Arabesk rap",
+    "dinler": "arabesk rap dinlerim",
+    "soz": {
+     "_": [
+      "Arabesk rap. Hem dertli hem sert; tam bizim hayat.",
+      "Babamın arabeskiyle benim rap birleşmiş işte. Gece yürürken açarım.",
+      "Arabesk rap dinlerim. Gülme, adamlar gerçek şeyler anlatıyor."
+     ]
+    }
+   },
+   "rock": {
+    "ad": "Rock",
+    "dinler": "rock dinlerim",
+    "soz": {
+     "_": [
+      "Rock. Eski tişörtlerimin hepsi grup tişörtü, ondan belli.",
+      "Rock dinlerim, sesi sonuna kadar. Komşular sağ olsun.",
+      "Rock. Bir gitar sololu şarkı açtın mı, dertler bir süre susuyor."
+     ]
+    }
+   },
+   "eski şarkıların yeni yorumları": {
+    "ad": "Eski şarkıların yeni yorumları",
+    "dinler": "eski şarkıların yeni yorumlarını dinlerim",
+    "soz": {
+     "_": [
+      "Eski şarkıların yeni yorumları. Annemin dinlediklerini başka sesten dinlemek tuhaf ve güzel.",
+      "Eski şarkıları yeniden yorumlayanlar var ya, onları dinlerim. Nostalji ama bizim kuşağın nostaljisi."
+     ]
+    }
+   },
+   "doksanlar Türkçe pop": {
+    "ad": "Doksanlar pop",
+    "dinler": "doksanlar popu dinlerim",
+    "soz": {
+     "_": [
+      "Doksanlar pop! O şarkılar bir başkaydı; kaset doldurup arkadaşlara verirdik.",
+      "Doksanların poplarını dinlerim. Gençliğim o şarkılarda kaldı.",
+      "Doksanlar. Şimdiki şarkıların sözü bir hafta sonra unutuluyor; onlarınkini hâlâ ezbere biliyorum."
+     ]
+    }
+   },
+   "Türkçe rock": {
+    "ad": "Türkçe rock",
+    "dinler": "Türkçe rock dinlerim",
+    "soz": {
+     "_": [
+      "Türkçe rock. Gençken konserlerin önünde sabahlardık.",
+      "Türkçe rock dinlerim; sözü olan, derdi olan şarkılar.",
+      "Türkçe rock. Arabada açarım, çocuklar kısmamı ister."
+     ]
+    }
+   },
+   "arabesk": {
+    "ad": "Arabesk",
+    "dinler": "arabesk dinlerim",
+    "soz": {
+     "_": [
+      "Arabesk. Derdi olan anlar; olmayan zaten dinlemez.",
+      "Arabesk dinlerim. Bazı akşamlar başka hiçbir şey olmaz.",
+      "Arabesk. Gülersen gül, o şarkılar benim hayatımı benden iyi anlatıyor."
+     ],
+     "genc": [
+      "Arabesk dinlerim, evet. Arkadaşlar dalga geçiyor ama hepsi gizli gizli dinliyor."
+     ]
+    }
+   },
+   "türkü": {
+    "ad": "Türkü",
+    "dinler": "türkü dinlerim",
+    "soz": {
+     "_": [
+      "Türkü. Her türkünün bir hikâyesi var; dinledikçe memleket burnumda tütüyor.",
+      "Türkü dinlerim. Bağlama sesi gibisi yok.",
+      "Türkü. Hele bir uzun hava açılsın, ben yokum o akşam."
+     ],
+     "genc": [
+      "Türkü dinlerim, şaşırdın mı? Dedemden kaldı bana."
+     ]
+    }
+   },
+   "caz": {
+    "ad": "Caz",
+    "dinler": "caz dinlerim",
+    "soz": {
+     "_": [
+      "Caz. Akşam eve gelince bir plak, bir kadeh; dünyanın gürültüsü kesiliyor.",
+      "Caz dinlerim. Kordon'daki o küçük yerde cuma geceleri çalıyorlar, bilir misin?",
+      "Caz. Pek kimseyle konuşamıyorum bu konuyu, o yüzden sorman hoşuma gitti."
+     ]
+    }
+   },
+   "Karadeniz müziği": {
+    "ad": "Karadeniz müziği",
+    "dinler": "Karadeniz müziği dinlerim",
+    "soz": {
+     "_": [
+      "Kemençe, horon... Karadeniz müziği. Duyunca ayaklarım yerinde durmaz.",
+      "Karadeniz müziği dinlerim. Hem neşeli hem hüzünlü; denizin kendisi gibi."
+     ]
+    }
+   },
+   "Türk sanat müziği": {
+    "ad": "Türk sanat müziği",
+    "dinler": "Türk sanat müziği dinlerim",
+    "soz": {
+     "_": [
+      "Türk sanat müziği. Eski ustalar... Şimdi öyle sesler yok.",
+      "Sanat müziği dinlerim. Radyoda akşam programı vardır, kaçırmam.",
+      "Sanat müziği. Gençken bir koroya giderdim, bilir misin? Sesim vardı o zamanlar."
+     ]
+    }
+   },
+   "eski plaklar": {
+    "ad": "Eski plaklar",
+    "dinler": "eski plak dinlerim",
+    "soz": {
+     "_": [
+      "Plak dinlerim; evde koca bir dolap dolusu var. Cızırtısı bile güzel.",
+      "Eski plaklar. Rahmetli babamdan kaldı pikap; hâlâ çalışıyor."
+     ]
+    }
+   },
+   "fasıl": {
+    "ad": "Fasıl",
+    "dinler": "fasıl dinlerim",
+    "soz": {
+     "_": [
+      "Fasıl. Bir meyhane, bir masa, bir de iyi bir ses; başka ne lazım?",
+      "Fasıl dinlerim. Eskiden Bezhane'nin orada bir yer vardı, her cuma."
+     ]
+    }
+   },
+   "radyodaki ne çalarsa": {
+    "ad": "Radyoda ne çalarsa",
+    "dinler": "radyoda ne çalarsa onu dinlerim",
+    "soz": {
+     "_": [
+      "Radyoda ne çalarsa. Seçmem; şarkı şarkıdır.",
+      "Ben radyo dinlerim; ne çalarsa. Haberler arasında bir şarkı, yeter bana."
+     ]
+    }
+   }
+  },
+  "giris": {
+   "genc": [
+    "Ne mi dinliyorum? Dur, söyleyeyim:",
+    "Müzik mi? Kulaklık hep kulağımda zaten."
+   ],
+   "orta": [
+    "Müzik deyince...",
+    "Ne dinlerim? Valla..."
+   ],
+   "yasli": [
+    "Müzik mi? Ah, müzik...",
+    "Ben mi? Ne dinlerim..."
+   ]
+  },
+  "soru": {
+   "genc": [
+    "Sen ne dinlersin?",
+    "Senin kulaklıkta ne var?",
+    "Sen ne dinliyorsun bu aralar?"
+   ],
+   "orta": [
+    "Sen ne dinlersin {s.hitap}?",
+    "Senin müzik zevkin nedir?"
+   ],
+   "yasli": [
+    "Siz gençler ne dinliyorsunuz, söyle bakayım.",
+    "Sen ne dinlersin evladım?"
+   ]
+  },
+  "oyuncu": {
+   "benDe": [
+    "Hadi ya, ben de {s.oDinler}!",
+    "Ben de! Ben de {s.oDinler}.",
+    "Yok artık, ben de {s.oDinler}."
+   ],
+   "benim": [
+    "Ben daha çok {s.oDinler}.",
+    "Benimki biraz farklı; {s.oDinler}."
+   ],
+   "secim": [
+    "{s.oDinler|bas}."
+   ],
+   "dinlemem": [
+    "Pek müzik dinlemem açıkçası.",
+    "Müzikle aram yok pek."
+   ],
+   "gecistir": [
+    "Ne bulursam, karışık.",
+    "Ruh halime göre değişir."
+   ]
+  },
+  "tepki": {
+   "ortak": {
+    "genc": [
+     "Yok artık! Biri sonunda anlıyor beni.",
+     "Ciddi misin? Bana bir liste at, ben de sana atarım.",
+     "Ooo, işte bu. Bir gün birlikte konsere gidelim."
+    ],
+    "orta": [
+     "Bak sen! Aynı şeyleri dinliyoruz demek.",
+     "Güzel, güzel. Bizim kuşaktan pek kimse kalmadı bunu dinleyen."
+    ],
+    "yasli": [
+     "Aferin evladım, kulağın var demek.",
+     "Ne güzel; senin yaşında bunu dinleyen az."
+    ],
+    "_": [
+     "Bak bu güzel işte. Bir dahaki sefere sen bir şey aç, ben bir şey."
+    ]
+   },
+   "farkliAcik": {
+    "_": [
+     "Hiç bilmem ama merak ettim. Bir şey aç da dinleyeyim.",
+     "Benim tarzım değil ama neden sevdiğini anlatsana.",
+     "Hmm, ona hiç kulak vermedim. Belki veririm."
+    ],
+    "yasli": [
+     "Biz anlamayız sizin müziğinizden ama, dinlemek ayıp değil."
+    ]
+   },
+   "farkliKapali": {
+    "_": [
+     "Ondan anlamam. Herkesin zevki kendine.",
+     "Hmm. Pek bana göre değil.",
+     "Öyle mi? Neyse."
+    ],
+    "genc": [
+     "Cidden mi? Neyse, yargılamıyorum. Az."
+    ],
+    "yasli": [
+     "Ne dinlediğinizi bilmiyorum ki, gürültü gibi geliyor bana."
+    ]
+   },
+   "dinlemez": {
+    "_": [
+     "Müziksiz nasıl yaşıyorsun ya?",
+     "Hiç mi? Bir şarkı bile mi yok?",
+     "Herkes bir şey dinler. Belki daha bulmadın."
+    ],
+    "yasli": [
+     "Olur mu evladım, insan bir türkü bilir."
+    ]
+   }
+  }
+ },
+ "futbol": {
+  "_not": "Demirspor: şehrin takımı (2014'te Süper Lig'e çıktı, 2019'da şaibeli bir penaltı ve şike söylentisiyle düştü; şimdi 1. Lig'de). Haftanın maçı seed + haftadan belirlenimli: herkes aynı sonucu konuşur. Sezon ağustos–mayıs.",
+  "sezon": [
+   8,
+   9,
+   10,
+   11,
+   12,
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "rakipler": [
+   "Altınova Belediyespor",
+   "Kuzeydağ Spor",
+   "Sahilkent FK",
+   "Taşova Gençlik",
+   "Çaykent Spor",
+   "Karaburun İdmanyurdu",
+   "Yeşilköy Gücü",
+   "Bozok Ovaspor",
+   "Akçayır Spor",
+   "Kırlangıç FK"
+  ],
+  "kulupler": {
+   "Demirspor": {
+    "secim": "Demirspor'u tutarım",
+    "oyuncu": [
+     "Demirspor, tabii ki. Buranın takımı.",
+     "Demirspor. Başka takım mı var?"
+    ]
+   },
+   "Galatasaray": {
+    "secim": "Galatasaraylıyım",
+    "oyuncu": [
+     "Galatasaraylıyım.",
+     "Cimbom tabii."
+    ]
+   },
+   "Fenerbahçe": {
+    "secim": "Fenerbahçeliyim",
+    "oyuncu": [
+     "Fenerbahçeliyim.",
+     "Fener, ne olacak."
+    ]
+   },
+   "Beşiktaş": {
+    "secim": "Beşiktaşlıyım",
+    "oyuncu": [
+     "Beşiktaşlıyım.",
+     "Kara kartal, abi."
+    ]
+   },
+   "Trabzonspor": {
+    "secim": "Trabzonsporluyum",
+    "oyuncu": [
+     "Trabzonsporluyum.",
+     "Bordo mavi, tabii."
+    ]
+   }
+  },
+  "oyuncu": {
+   "ilgisiz": [
+    "Futbolla aram yok.",
+    "Ben futbol izlemem pek."
+   ],
+   "gecistir": [
+    "Takım tutmuyorum diyelim.",
+    "Futbolu konuşmayalım, kavga çıkar."
+   ]
+  },
+  "takim": {
+   "demirspor_siki": {
+    "genc": [
+     "Demirspor! Kuzey Tribünü'nde doğdum sayılır. Maç günü telefonu bile açmam.",
+     "Ben Demirsporluyum, öyle böyle değil. Deplasmana bile giderim, bilet parası nereden çıkarsa."
+    ],
+    "orta": [
+     "Demirspor benim için takım değil, hayat. 2014'teki o geceyi Kordon'da sabahladım.",
+     "Yıllardır kombinem var. 2019'daki o penaltıyı hâlâ unutamadım, unutmayacağım da."
+    ],
+    "yasli": [
+     "Demirspor'u daha babamın elinden tutup stada giderken sevdim. Ölene kadar da severim.",
+     "Ben bu takımın Amatör Lig'ini de gördüm, Süper Lig'ini de. Hepsini bir arada sevdim."
+    ]
+   },
+   "demirspor": {
+    "_": [
+     "Demirspor'u tutarım tabii, buranın takımı. Ama stada pek gitmem; televizyondan izlerim.",
+     "Demirspor. Eskisi gibi değil ama yine de bizim takım.",
+     "Şehrin takımını tutmamak olmaz; Demirspor. Gerçi son yıllarda üzmekten başka bir şey yapmadılar."
+    ]
+   },
+   "buyuk": {
+    "_": [
+     "Ben {s.kulup} tutarım. Biliyorum, burada Demirspor tutmak lazım ama çocukluktan kalma.",
+     "{s.kulup}! Burada az bulunuruz ama sesimiz çok çıkar.",
+     "Ben {s.kulupLiyim}. Demirspor'a da kötü niyetim yok, ikinci takımım sayılır."
+    ]
+   },
+   "ilgisiz": {
+    "_": [
+     "Futbol mu? Hiç anlamam. Herkes neden bu kadar sinirleniyor, onu da anlamam.",
+     "Ben futbol izlemem. Maç akşamları sokaklar boş kalıyor, o işime geliyor."
+    ]
+   },
+   "nefret": {
+    "_": [
+     "Futbol... Bu şehri ikiye bölen şey. Maç günleri evden çıkmam.",
+     "Hiç açma o konuyu. 2019'da stadın önündeki kavgada bir arkadaşım bıçaklandı; o günden beri adını duymak istemiyorum.",
+     "Futboldan nefret ederim. Yirmi iki kişi bir topun peşinde, şehir de birbirine giriyor."
+    ]
+   }
+  },
+  "mac": {
+   "demirspor_siki": {
+    "g": [
+     "Hafta sonu {s.rakip|e} karşı {s.skor} kazandık! Daha yükseliriz, görürsün.",
+     "{s.skor}! {s.rakip|i} paramparça ettik. Tribün inledi."
+    ],
+    "b": [
+     "{s.rakip|le} {s.skor} berabere kaldık. Hakem yine bize çaldı, yazıyorum buraya.",
+     "{s.skor}. Berabere. Bu takım beni erken öldürecek."
+    ],
+    "m": [
+     "{s.rakip|e} {s.skor} yenildik. Konuşmayalım, hâlâ sinirim geçmedi.",
+     "Yenildik, {s.skor}. Teknik direktör gitmeli, bugün değilse yarın."
+    ]
+   },
+   "demirspor": {
+    "g": [
+     "Demirspor hafta sonu {s.rakip|i} {s.skor} yendi, gördün mü?",
+     "Bu hafta kazandık, {s.skor}. Belki bu sene bir şey olur."
+    ],
+    "b": [
+     "Demirspor yine berabere kaldı, {s.skor}. Alıştık artık."
+    ],
+    "m": [
+     "Demirspor yine yenildi, {s.skor}. Neyse, hayat devam ediyor."
+    ]
+   },
+   "buyuk": {
+    "g": [
+     "{s.kulup} bu hafta kazandı, keyfim yerinde.",
+     "Bizimkiler kazandı, {s.skor}. Bu hafta bana dokunmayın."
+    ],
+    "b": [
+     "{s.kulup} berabere kaldı; ne sevinebildim ne üzülebildim."
+    ],
+    "m": [
+     "{s.kulup} yine yenildi. Moralim bozuk, sorma."
+    ]
+   },
+   "ligArasi": [
+    "Lig arası şimdi, maç yok. Ağustosa kadar ne yapacağımı bilmiyorum.",
+    "Sezon bitti; transfer söylentileriyle oyalanıyoruz."
+   ]
+  },
+  "soru": {
+   "genc": [
+    "Sen hangi takımı tutuyorsun?",
+    "Takımın ne senin?"
+   ],
+   "orta": [
+    "Sen hangi takımdansın {s.hitap}?",
+    "Takım tutar mısın sen?"
+   ],
+   "yasli": [
+    "Sen hangi takımı tutarsın evladım?"
+   ]
+  },
+  "tepki": {
+   "ortak": {
+    "_": [
+     "Aaa, bizdensin! Gel bir çay daha söyleyeyim.",
+     "İşte bu! Bir maça birlikte gidelim bir gün.",
+     "Bizden biri. Bak, şimdi sana daha bir ısındım."
+    ]
+   },
+   "ortakSiki": {
+    "_": [
+     "Kardeşim! Ver elini! Bir dahaki iç saha maçında Kuzey Tribünü'nde görüşüyoruz.",
+     "Sen de mi Demirsporlusun? Tamam, sen artık benim adamımsın."
+    ]
+   },
+   "yerliyeIstanbullu": {
+    "_": [
+     "Şehrin takımı dururken {s.oKulup} mı? Ayıp ettin şimdi.",
+     "{s.oKulup} ha... Neyse, burada yaşadıkça Demirspor'u da seversin, göreceksin.",
+     "Burada {s.oKulup} tutuyorum dersen dikkatli ol; Kuzey Tribünü'nün çocukları duymasın."
+    ]
+   },
+   "yerliyeIstanbulluYumusak": {
+    "_": [
+     "Olsun, ikinci takımın Demirspor olsun, yeter.",
+     "{s.oKulup} ha. Neyse, Demirspor'a da bir göz kulak ol."
+    ]
+   },
+   "istanbulluyaYerli": {
+    "_": [
+     "Demirspor ha? Burada herkes öyle zaten. Güzel, şehrine sahip çıkıyorsun.",
+     "Şehrin takımını tutman hoş. Ben {s.kulup} tutarım ama Demirspor'a da bir sempatim var."
+    ]
+   },
+   "rakip": {
+    "_": [
+     "{s.oKulup} mı? Eyvah, düşman çıktın!",
+     "Sen {s.oKulupLisin} ha... Peki, bunu da affederiz. Belki.",
+     "{s.oKulup}! Bu sezon size gününüzü göstereceğiz, yazıyorum."
+    ]
+   },
+   "rakipKizgin": {
+    "_": [
+     "{s.oKulup} mı? Hah. Oturduğumuz masaya bak.",
+     "Sizin takım... Neyse, bir şey demiyorum. Demeyeyim."
+    ]
+   },
+   "oyuncuIlgisiz": {
+    "_": [
+     "Futbolu sevmeyen adamla ne konuşacağız şimdi?",
+     "Hiç mi? Yazık. Bu şehirde maç günü yalnız kalırsın."
+    ],
+    "yasli": [
+     "Olsun evladım, herkesin merakı başka."
+    ]
+   },
+   "npcIlgisiz": {
+    "_": [
+     "Ben anlamam o işlerden; sen bilirsin.",
+     "Öyle mi? Ben zaten bilmem."
+    ]
+   }
+  }
+ },
+ "hobi": {
+  "tur": {
+   "oyun oynamak": {
+    "ad": "Oyun",
+    "sev": "oyun oynamayı",
+    "soz": [
+     "Oyun oynarım; gece yarısına kadar, sonra sabah pişman. Her gün aynı döngü.",
+     "Bilgisayarda oyun. Arkadaşlarla internetten takılıyoruz; yüz yüze görüşmekten kolay."
+    ]
+   },
+   "dizi izlemek": {
+    "ad": "Dizi",
+    "sev": "dizi izlemeyi",
+    "soz": [
+     "Dizi izlerim. Bir başladım mı sezonu bir gecede bitiririm.",
+     "Diziler. Gerçek hayattan daha mantıklı geliyor bazen."
+    ]
+   },
+   "spor salonu": {
+    "ad": "Spor salonu",
+    "sev": "spor salonuna gitmeyi",
+    "soz": [
+     "Salona giderim, haftada beş gün. Kafa boşaltmanın tek yolu.",
+     "Spor salonu. Ağırlık kaldırınca dertler hafifliyor; fizik kuralı."
+    ]
+   },
+   "gitar çalmak": {
+    "ad": "Gitar",
+    "sev": "gitar çalmayı",
+    "soz": [
+     "Gitar çalarım; iyi değilim ama kimse dinlemiyor zaten.",
+     "Gitar. Bir gün sahilde çalarken biri para attı, o günden beri kendimi müzisyen sayıyorum."
+    ]
+   },
+   "fotoğraf": {
+    "ad": "Fotoğraf",
+    "sev": "fotoğraf çekmeyi",
+    "soz": [
+     "Fotoğraf çekerim; insanları, sokakları. Bu şehrin yüzü her gün değişiyor, kayıt altına almak lazım.",
+     "Fotoğraf. Eski Çarşı'nın sabah ışığını görmen lazım."
+    ]
+   },
+   "sahilde koşmak": {
+    "ad": "Koşu",
+    "sev": "koşmayı",
+    "soz": [
+     "Sabahları sahilde koşarım, güneş doğarken. Kordon o saatte bomboş.",
+     "Koşarım. Kafamdaki sesleri ancak öyle susturabiliyorum."
+    ],
+    "davet": [
+     "Bir sabah gel, birlikte koşalım. Yavaş koşarım, merak etme."
+    ]
+   },
+   "çizim": {
+    "ad": "Çizim",
+    "sev": "çizim yapmayı",
+    "soz": [
+     "Çizerim. Defterim hep yanımda; kafede oturanları çiziyorum, haberleri olmuyor.",
+     "Çizim. Belki seni de çizmişimdir, bilemezsin."
+    ]
+   },
+   "kitap okumak": {
+    "ad": "Kitap",
+    "sev": "kitap okumayı",
+    "soz": [
+     "Kitap okurum. Telefon yerine kitap; eski kafalıyım biraz.",
+     "Okurum. Roman, en çok da kalın olanlar; bitmesin isterim."
+    ]
+   },
+   "basketbol": {
+    "ad": "Basketbol",
+    "sev": "basketbol oynamayı",
+    "soz": [
+     "Basketbol. Okulun sahasında akşamları maç yapıyoruz; ışıkları kapatana kadar.",
+     "Basket oynarım. Boyum kısa ama hızlıyım."
+    ],
+    "davet": [
+     "Akşamları okulun sahasında maç oluyor; gel, bir kişi eksik zaten."
+    ]
+   },
+   "balık tutmak": {
+    "ad": "Balık",
+    "sev": "balık tutmayı",
+    "soz": [
+     "Balık tutarım; sabah ezanıyla iskeleye. Balık olsun olmasın, oturmak yeter.",
+     "Olta. Saatlerce bekliyorsun, hiçbir şey düşünmüyorsun. Başka nerede bulacaksın bunu?"
+    ],
+    "davet": [
+     "Bir sabah gel, iskelede bir olta da sana atarız."
+    ]
+   },
+   "futbol izlemek": {
+    "ad": "Futbol izlemek",
+    "sev": "maç izlemeyi",
+    "soz": [
+     "Maç izlerim; hangi lig olursa. Kahvede, bağıra çağıra.",
+     "Futbol. Hafta sonu maçsız geçmez."
+    ]
+   },
+   "bahçe işleri": {
+    "ad": "Bahçe",
+    "sev": "bahçeyle uğraşmayı",
+    "soz": [
+     "Balkonda domates yetiştiriyorum, gülme. Bu yıl on iki tane oldu.",
+     "Bahçeyle uğraşırım. Toprağa elini sürünce insan sakinleşiyor."
+    ]
+   },
+   "yemek yapmak": {
+    "ad": "Yemek yapmak",
+    "sev": "yemek yapmayı",
+    "soz": [
+     "Yemek yaparım; hafta sonları mutfak benim. Misafir gelsin diye bahane ararım.",
+     "Yemek. Annemin tariflerini yeniden yapmaya çalışıyorum; hiçbiri onunki gibi olmuyor."
+    ]
+   },
+   "tavla": {
+    "ad": "Tavla",
+    "sev": "tavla oynamayı",
+    "soz": [
+     "Tavla. Kahvede beni yenen yok, sor istersen.",
+     "Tavla oynarım; zar kötü gelince küfrederim, o da oyunun parçası."
+    ],
+    "davet": [
+     "Gel bir el atalım bir gün; ama beni yenersen kimseye söyleme."
+    ]
+   },
+   "yürüyüş": {
+    "ad": "Yürüyüş",
+    "sev": "yürümeyi",
+    "soz": [
+     "Yürürüm; doktor dedi, ben de alıştım. Kordon'un bir ucundan öbür ucuna.",
+     "Yürüyüş. Akşamları yürürken bütün günü kafamda yeniden yaşıyorum."
+    ]
+   },
+   "araba tamiri": {
+    "ad": "Araba tamiri",
+    "sev": "araba kurcalamayı",
+    "soz": [
+     "Eski bir arabam var; çalışmaktan çok tamirde. Ama seviyorum işte.",
+     "Kaputun altına girmek benim terapim."
+    ]
+   },
+   "okey": {
+    "ad": "Okey",
+    "sev": "okey oynamayı",
+    "soz": [
+     "Okey. Dört kişi olunca dünyanın derdi biter.",
+     "Akşamları okey oynarız; kim kaybederse çaylar ondan."
+    ],
+    "davet": [
+     "Bir eksiğimiz var bazen; gelirsen dördüncü olursun."
+    ]
+   },
+   "bahçe": {
+    "ad": "Bahçe",
+    "sev": "bahçeyle uğraşmayı",
+    "soz": [
+     "Bahçem var, küçük ama benim. Domates, biber, bir de gül.",
+     "Sabah ilk iş bahçe. Bitkiler konuşur, bilir misin? Dinlemesini bilene."
+    ]
+   },
+   "radyo dinlemek": {
+    "ad": "Radyo",
+    "sev": "radyo dinlemeyi",
+    "soz": [
+     "Radyo. Sabahtan akşama açık; haber, şarkı, arada bir arkadaş sesi gibi.",
+     "Ben radyo dinlerim, televizyon yorar."
+    ]
+   },
+   "torunlarla vakit": {
+    "ad": "Torunlar",
+    "sev": "torunlarla vakit geçirmeyi",
+    "soz": [
+     "Torunlar... Benim hobim onlar. Hafta sonu gelirler, ev şenlenir.",
+     "Torunlarımla vakit geçiririm. Onlar gidince ev sessizliğe gömülür."
+    ]
+   },
+   "camiye gitmek": {
+    "ad": "Cami",
+    "sev": "camiye gitmeyi",
+    "soz": [
+     "Namaz vakitleri günümü düzene sokuyor. Camide arkadaşlar da var.",
+     "Camiye giderim; hem ibadet hem sohbet."
+    ]
+   },
+   "eski fotoğraflara bakmak": {
+    "ad": "Eski fotoğraflar",
+    "sev": "eski fotoğraflara bakmayı",
+    "soz": [
+     "Eski fotoğraflara bakarım. Albümleri açınca saat nasıl geçiyor anlamıyorum.",
+     "Fotoğraflar... İçindekilerin yarısı artık yok. Ama fotoğrafta hepsi gülüyor."
+    ]
+   }
+  },
+  "soru": {
+   "genc": [
+    "Sen boş vaktinde ne yaparsın?",
+    "Senin olayın ne, ne yaparsın boşken?"
+   ],
+   "orta": [
+    "Sen ne yaparsın boş vakitlerinde?",
+    "Senin bir uğraşın var mı?"
+   ],
+   "yasli": [
+    "Sen ne yaparsın evladım, boş zamanında?"
+   ]
+  },
+  "oyuncu": {
+   "benDe": [
+    "Ben de {s.oHobiSev} severim!",
+    "Hadi ya, ben de!"
+   ],
+   "denemedim": [
+    "Hiç denemedim. Nasıl bir şey?",
+    "Ben hiç yapmadım; anlatsana."
+   ],
+   "banaGoreDegil": [
+    "Bana göre değil galiba.",
+    "Ben pek yapamam öyle şeyleri."
+   ],
+   "benim": [
+    "Ben {s.oHobiSev} severim.",
+    "Benim olayım {s.oHobiAd|kucuk}."
+   ],
+   "vakitYok": [
+    "Pek vaktim olmuyor açıkçası.",
+    "Boş vaktim mi? Ne boş vakti..."
+   ]
+  },
+  "tepki": {
+   "ortak": {
+    "_": [
+     "Bak sen! Bir gün birlikte yapalım.",
+     "Biliyordum, sende bir şey vardı.",
+     "İşte bu. Kimse anlamıyor bu zevki."
+    ]
+   },
+   "denemedimAcik": {
+    "_": [
+     "Bir gel, göstereyim. Sevmezsen bir daha sormam.",
+     "Anlatılmaz, yaşanır. Bir gün denersin."
+    ]
+   },
+   "denemedimKapali": {
+    "_": [
+     "Herkese göre değil zaten.",
+     "Neyse, boş ver."
+    ]
+   },
+   "banaGoreDegil": {
+    "_": [
+     "Olsun, herkesin işi başka.",
+     "Peki. Senin ne var peki?"
+    ]
+   },
+   "farkli": {
+    "_": [
+     "Hiç denemedim onu. Belki denerim.",
+     "Hmm, ona hiç aklım ermez.",
+     "Güzelmiş. Herkes bir şeye tutunuyor işte."
+    ]
+   },
+   "vakitYok": {
+    "_": [
+     "Ayıp ama, insan kendine bir şey ayırmalı.",
+     "Herkes öyle diyor. Sonra bir bakıyorsun, yıllar geçmiş."
+    ]
+   }
+  }
+ },
+ "rutin": {
+  "giris": {
+   "genc": [
+    "Benim günlerim mi? Sıkıcı, uyarıyorum.",
+    "Bir günümü anlatayım, sen karar ver."
+   ],
+   "orta": [
+    "Benim günler birbirine benzer.",
+    "Nasıl geçsin, koşturmaca."
+   ],
+   "yasli": [
+    "Benim günler mi? Bizim yaşta günler belli olur.",
+    "Ah, ne olacak, her gün aynı."
+   ]
+  },
+  "anlati": [
+   "{s.ad} günlerini anlatıyor: {s.rutin}"
+  ],
+  "aliskanlik": {
+   "sigara": [
+    "Bir de sigara... Bırakacağım diyorum, yıllardır.",
+    "Sigarayı bırakamadım. Gülme, sen de bir şeyi bırakamıyorsundur."
+   ],
+   "icki": [
+    "Akşamları bir iki kadeh; günün yorgunluğu.",
+    "Akşam olunca bir kadeh. Fazlası değil, söz."
+   ],
+   "kumar": [
+    "Arada bir kumar... Neyse, onu konuşmayalım.",
+    "Bazen bir iddaa kuponu, bazen daha fazlası. Neyse."
+   ],
+   "telefon": [
+    "Telefondan başımı kaldıramıyorum, farkındayım.",
+    "Gece yatakta telefon, sabah gözümü açar açmaz telefon. Hastalık bu."
+   ],
+   "gec": [
+    "Her yere geç kalırım, bilmiş ol. Bekletirsem kusura bakma.",
+    "Bir de hep geç kalırım. İnsanlar alıştı artık."
+   ]
+  },
+  "yemek": {
+   "_": [
+    "En sevdiğim yemek mi? {s.yemek|bas}. Söyledim, şimdi canım çekti.",
+    "{s.yemek|bas} dedin mi, gerisini dinlemem."
+   ],
+   "et yemez": [
+    "Et yemiyorum, yıllar oldu. Herkes neden diye soruyor; kısa cevap yok."
+   ],
+   "annesinin dolması": [
+    "Annemin dolması. Başka hiçbir dolma onun yerini tutmaz, denedim.",
+    "Annemin dolması; o tarifi kimseye vermedi, bana bile."
+   ],
+   "her şeyi yer, seçici değildir": [
+    "Ben her şeyi yerim; önüme ne konursa. Annem hep övünürdü."
+   ]
+  }
+ },
+ "aile": {
+  "_not": "Bütün isimler, yaşlar, yıllar ve yerler kişi kartının aile ağacından gelir. Hassas konu (kartta) düşük yakınlıkta geçiştirilir; yakınlık eşiğini geçince kişi açılır.",
+  "acilis": {
+   "iyi": [
+    "Ailem mi? Benim her şeyim onlar.",
+    "Ailemle aram iyidir, şükür."
+   ],
+   "mesafeli": [
+    "Ailemle aram fena değil ama pek görüşmeyiz.",
+    "Aile işte; uzaktan daha iyi anlaşıyoruz."
+   ],
+   "kus": [
+    "Aile... uzun konu.",
+    "Ailemle aram karışık, söyleyeyim baştan."
+   ],
+   "kopuk": [
+    "Ailemle pek görüşmüyorum artık.",
+    "Aile mi? Kendi yolumu kendim çizdim diyelim."
+   ]
+  },
+  "es": {
+   "mutlu": [
+    "Eşim {s.esAd}; {s.esMeslek}. İyi ki onunla evlenmişim, her gün biraz daha.",
+    "{s.esAd} ile evliyim. Kavga da ederiz ama o olmasa yapamam."
+   ],
+   "alisilmis": [
+    "Eşim {s.esAd}, {s.esMeslek}. Yıllar geçti; artık birbirimizin alışkanlığıyız.",
+    "{s.esAd} ile evliyiz. Eh, evlilik işte; bazen güzel, bazen sadece evlilik."
+   ],
+   "gergin": [
+    "Eşim {s.esAd}... Son zamanlarda pek konuşmuyoruz. Neyse.",
+    "{s.esAd} ile evliyiz. Evdeki sessizliği bir bilsen."
+   ],
+   "sevgilili": [
+    "Hayatımda biri var; {s.esAd}. Daha yeni sayılır.",
+    "{s.esAd} diye biri var. Ciddi mi? Bilmiyorum, zaman gösterecek."
+   ],
+   "dul": [
+    "Eşim {s.esAd|i} {s.esVefatDe} kaybettim. Hâlâ masada iki tabak koyduğum oluyor.",
+    "{s.esVefatDe} {s.esAd} gitti. O günden beri ev çok büyük geliyor."
+   ],
+   "bosanmis": [
+    "{s.esAd} ile ayrıldık. Olmuyordu; ikimiz de biliyorduk.",
+    "Boşandım. {s.esAd} ile hâlâ selamlaşırız, o kadar."
+   ],
+   "bekarGenc": [
+    "Evli barklı değilim; daha kendimi idare edemiyorum.",
+    "Bekârım; şimdilik böyle iyi."
+   ],
+   "bekar": [
+    "Evlenmedim. Kısmet değilmiş, ya da ben istemedim; hangisi bilmiyorum.",
+    "Hiç evlenmedim. Kimseye hesap vermemek de bir şey."
+   ]
+  },
+  "cocuk": {
+   "yokEvli": [
+    "Çocuğumuz olmadı.",
+    "Çocuk yok; ikimiz birbirimize yetiyoruz."
+   ],
+   "bir": [
+    "Bir {s.cocukRol} var, {s.cocukAd}; {s.cocukYas} yaşında.",
+    "Bir tane {s.cocukRol}, {s.cocukAd}. {s.cocukYas} yaşında; dünyam o."
+   ],
+   "cok": [
+    "{s.cocukSayi|bas} çocuğum var: {s.cocukAdlari}.",
+    "{s.cocukAdlari}; {s.cocukSayi} çocuk. Ev hiç boş kalmadı."
+   ],
+   "buyukUzakta": [
+    "En büyükleri {s.buyukAd}, {s.buyukNerede}. Bayramdan bayrama görüyoruz.",
+    "{s.buyukAd} {s.buyukNerede}; telefonla idare ediyoruz."
+   ],
+   "buyukYaninda": [
+    "{s.buyukAd} hâlâ yanımda; gitsin istemiyorum ama gidecek elbet."
+   ]
+  },
+  "ebeveyn": {
+   "ikisiSag": [
+    "Annem {s.anneAd}, babam {s.babaAd}; ikisi de {s.ebeveynNerede}. Arıyorum ama yetmiyor.",
+    "Annemle babam {s.ebeveynNerede}; haftada bir ararım, bazen iki."
+   ],
+   "ikisiSagYasli": [
+    "Annemle babam {s.ebeveynNerede}. Yaşlandılar; her aramada biraz daha.",
+    "Annem {s.anneAd}, babam {s.babaAd}; ikisi de {s.ebeveynNerede}. Gözüm hep onlarda."
+   ],
+   "ikisiSagAyri": [
+    "Annem {s.anneNerede}, babam {s.babaNerede}. Ayrı yaşıyorlar, uzun hikâye."
+   ],
+   "biriOlu": [
+    "{s.olenEbeveyn|i} {s.olenYilDe} kaybettik. {s.sagEbeveyn} {s.sagNerede}.",
+    "{s.olenEbeveyn} {s.olenYilDe} öldü. {s.sagEbeveyn} yalnız kaldı."
+   ],
+   "ikisiOlu": [
+    "Annemle babam rahmetli oldu. Bir yaşta insan öksüz kalmaya alışıyor.",
+    "Annem de babam da yok artık. Bazen telefonu alıp aramak geliyor içimden."
+   ]
+  },
+  "kardes": {
+   "tek": [
+    "Tek çocuğum; kardeşim yok.",
+    "Kardeşim olmadı. Belki ondan bu kadar konuşkanım."
+   ],
+   "var": [
+    "{s.kardesSayi|bas} kardeşiz.",
+    "Biz {s.kardesSayi} kardeşiz; ben {s.siram}."
+   ],
+   "olen": [
+    "{s.olenKardesAd|i} {s.olenKardesYilDe} kaybettik."
+   ]
+  },
+  "hassasKacis": {
+   "es": [
+    "Boşanma meselesini konuşmayalım.",
+    "O konuyu... başka zaman."
+   ],
+   "cocuk": [
+    "Çocuk meselesini açmayalım, olur mu?",
+    "Çocuk... Yok. Konuyu değiştirelim."
+   ],
+   "anne": [
+    "Annemi konuşmayalım.",
+    "Annem... Başka bir şey konuşalım."
+   ],
+   "baba": [
+    "Babamı konuşmayalım.",
+    "Babam mı? Geç onu."
+   ],
+   "kardes": [
+    "Kardeşlerimle aram... Neyse, bırak.",
+    "Kardeş meselesine girmeyelim."
+   ]
+  },
+  "hassasDerin": {
+   "giris": [
+    "Kimseye anlatmam bunu ama...",
+    "Sana söyleyeyim, nasılsa...",
+    "Bunu pek açmam ama sana açayım."
+   ],
+   "es": [
+    "Boşanmak... Hâlâ sabahları onu yanımda sanıp uyandığım oluyor.",
+    "Ayrılık benim suçumdu galiba. Kimseye söylemedim bunu."
+   ],
+   "cocuk": [
+    "Çocuğumuz olmadı. Yıllarca denedik; bir yerden sonra konuşmaz olduk.",
+    "Çocuğum olmadı. Herkes soruyor; her soruşta bir yerim sızlıyor."
+   ],
+   "anne_sag": [
+    "Annemle aramız hiç iyi olmadı. Hâlâ arayınca kalbim sıkışıyor.",
+    "Annem beni hiç anlamadı. Anlamayacak da; artık beklemiyorum."
+   ],
+   "anne_olu": [
+    "Annemle barışamadan gitti. En büyük pişmanlığım bu.",
+    "Annem... Onu son gördüğümde kavga etmiştik."
+   ],
+   "baba_sag": [
+    "Babam sert adamdır. Hâlâ sesini duyunca çocuk gibi oluyorum.",
+    "Babamla konuşmuyoruz sayılır. Ne söylesem yanlış."
+   ],
+   "baba_olu": [
+    "Babamla hiç anlaşamadık. Gitti, ben hâlâ onunla tartışıyorum kafamda.",
+    "Babam öldüğünde ağlayamadım. Kimseye söylemedim bunu."
+   ],
+   "kardes_kus": [
+    "{s.kusAd|le} yıllardır konuşmuyoruz. Bir laf yüzünden başladı, sonra büyüdü.",
+    "{s.kusAd}... Kardeşim. Barışmak istiyorum ama ilk adımı kim atacak?"
+   ],
+   "kardes": [
+    "Kardeşlerimle aramız soğuk. Kimse kimseyi aramıyor."
+   ],
+   "anne_sag_iyi": [
+    "Annemle aram iyi, herkes öyle bilir. Ama bana bir kere olsun \"aferin\" demedi; hâlâ bekliyorum.",
+    "Annemi çok severim ama yanında hâlâ on yaşında gibi hissediyorum. Her lafını tartarım."
+   ],
+   "anne_olu_iyi": [
+    "Annemi kaybetmek... Üstünden yıllar geçti, hâlâ telefonda adını görsem arayacağım sanıyorum.",
+    "Annem gittiğinden beri bayramlar bayram değil. Kimseye söylemem bunu."
+   ],
+   "baba_sag_iyi": [
+    "Babamla aramız iyi ama hiç konuşmayız aslında; maç, hava, o kadar. Bir kere \"seni seviyorum\" dediğini duymadım.",
+    "Babam yaşlandı. Onu öyle görmeye dayanamıyorum; o yüzden az giderim."
+   ],
+   "baba_olu_iyi": [
+    "Babam öldüğünde yanında değildim. Yolda haber aldım. Bunu hâlâ kendime affettiremedim.",
+    "Babamı kaybettiğimden beri onun yaşına yaklaştıkça korkuyorum."
+   ],
+   "kardes_iyi": [
+    "Kardeşlerimle iyiyiz ama... Hep en çok ben verdim, onlar aldı. Söylemedim hiç."
+   ]
+  },
+  "bitti": {
+   "_": [
+    "Ailemi anlattım işte; daha ne anlatayım?",
+    "Bildiğin gibi; aynı aile, aynı hikâye."
+   ]
+  },
+  "soz": {
+   "_": [
+    "Sen de ailenle görüşüyor musun?",
+    "Aile işte; ne yaparsın."
+   ]
+  }
+ },
+ "gecmis": {
+  "giris": {
+   "genc": [
+    "Geçmiş mi? Daha pek bir geçmişim yok ama...",
+    "Anlatayım bari, sıkılırsan söyle."
+   ],
+   "orta": [
+    "Uzun hikâye; nereden başlasam?",
+    "Geçmişimi mi? Otur bakalım."
+   ],
+   "yasli": [
+    "Ah evladım, ömür dediğin anlatmakla bitmez.",
+    "Neler gördü bu gözler... Dinle bakalım."
+   ]
+  },
+  "anlati": [
+   "{s.ad} anlatıyor.",
+   "{s.ad} bir süre denize bakıyor, sonra anlatmaya başlıyor.",
+   "Laf döndü dolaştı, {s.ad} kendi hayatına geldi."
+  ],
+  "kapanis": {
+   "genc": [
+    "İşte böyle. Daha yolun başındayım.",
+    "Neyse, sıkıldın mı? Sıra sende.",
+    "Kısa bir hikâye; devamını yazıyoruz."
+   ],
+   "orta": [
+    "Hayat işte; plan yaparsın, o başka yöne gider.",
+    "Neyse, geçti gitti. Pişman mıyım? Bazen."
+   ],
+   "yasli": [
+    "Ne günlerdi... Hepsi bir rüya gibi şimdi.",
+    "Ömür dediğin bir nefes, evladım."
+   ]
+  },
+  "bitti": {
+   "_": [
+    "Anlatacak bir şey kalmadı; gerisini zaten biliyorsun.",
+    "Hepsini anlattım sana, daha ne kaldı ki?"
+   ]
+  }
+ },
+ "deger": {
+  "soz": {
+   "aile": [
+    "Bana sorarsan ailen dışında hiçbir şeyin yok. Gerisi gelir geçer.",
+    "Aile her şeyden önce gelir. Ne olursa olsun."
+   ],
+   "para": [
+    "Parasız insan hiçtir, acı ama gerçek. Herkes sevgiden bahseder, sonra kira günü gelir.",
+    "Para her şey değil diyenlerin hepsinin parası var."
+   ],
+   "ozgurluk": [
+    "Kimse bana ne yapacağımı söyleyemez. Patron da, devlet de, aile de.",
+    "Özgür olmayan insan nefes alan bir eşyadır."
+   ],
+   "adalet": [
+    "Haksızlığa dayanamam. Biri yanlış yapıyorsa susan da suç ortağıdır.",
+    "Bu dünyada en çok adalete susadık. Ben gördüğüm haksızlığa susmam."
+   ],
+   "sadakat": [
+    "Verilen söz tutulur. Dönek adamı affetmem.",
+    "Bir insanın değeri sözünün arkasında durmasıdır."
+   ],
+   "basari": [
+    "Bir yere gelmek istiyorum; adım anılsın. Sıradan bir hayat bana göre değil.",
+    "Başarısız olmaktan değil, hiç denemeden ölmekten korkarım."
+   ],
+   "gelenek": [
+    "Eskilerin yolu doğrudur. Biz unuttukça her şey bozuldu.",
+    "Büyüklerimizin bir bildiği vardı; şimdi herkes kendini akıllı sanıyor."
+   ],
+   "dostluk": [
+    "Dost kara günde belli olur. İyi günde herkes dosttur.",
+    "Benim için dostluk her şeyden önce gelir. Sırtını dönebileceğin üç kişi varsa zenginsin."
+   ],
+   "huzur": [
+    "Başımı ağrıtmayan bir hayat istiyorum, o kadar. Büyük hayallerin büyük dertleri olur.",
+    "Huzur her şeyden kıymetli. Gerisi gürültü."
+   ],
+   "saygi": [
+    "Kimse beni küçümsememeli. Fakir olurum, aç olurum ama küçük düşmem.",
+    "Saygı görmek ekmek gibi; olmadan yaşanmıyor."
+   ],
+   "macera": [
+    "Sıkıcı bir hayattan korkarım. Her gün aynı olacaksa ne anlamı var?",
+    "İnsan bir kere yaşıyor; ben bir yerde çakılıp kalmak istemem."
+   ],
+   "inanc": [
+    "İnancım yolumu çizer. O olmasa çoktan kaybolmuştum.",
+    "Ben inanırım; başıma ne geldiyse bir hikmeti vardır."
+   ]
+  },
+  "oyuncu": {
+   "katil": [
+    "Haklısın.",
+    "Aynen öyle düşünüyorum.",
+    "Katılıyorum."
+   ],
+   "katilma": [
+    "Bence öyle değil.",
+    "Pek katılmıyorum.",
+    "Ben farklı düşünüyorum."
+   ]
+  },
+  "tepki": {
+   "katildi": {
+    "_": [
+     "Değil mi? Bunu anlayan az.",
+     "Bak, seninle anlaşırız.",
+     "Sevindim. Bu devirde aynı şeye inanan iki kişi az."
+    ]
+   },
+   "saygili": {
+    "_": [
+     "Herkesin doğrusu kendine. Ama düşün bir.",
+     "Peki, sen de haklı olabilirsin. Kim bilir.",
+     "Tartışalım o zaman; ama bir çay daha söyle."
+    ]
+   },
+   "kizdi": {
+    "_": [
+     "Sen daha hayatı bilmiyorsun.",
+     "Öyle düşünüyorsan sana diyecek bir şeyim yok.",
+     "Hıh. Göreceksin."
+    ]
+   }
+  },
+  "bitti": {
+   "_": [
+    "Hayat üzerine çok konuştuk; biraz da yaşayalım.",
+    "Benim felsefem bu kadar, gerisi sende."
+   ]
+  }
+ },
+ "genel": {
+  "gecistir": {
+   "_": [
+    "Peki, sen bilirsin.",
+    "Tamam, sormadım say.",
+    "Gizemli takılıyorsun ha."
+   ]
+  },
+  "ortakIlgisiz": {
+   "_": [
+    "Oh, sonunda futbol konuşmayan biri!",
+    "Ben de! Maç akşamları sokaklar bize kalıyor."
+   ]
+  }
+ }
+}

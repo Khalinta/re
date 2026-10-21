@@ -137,3 +137,15 @@ test('kişi kartı: eksiksiz ve okunur; yapay zekâ metni çözülmüş', () => 
     assert.ok(m.length > 500 && m.length < 9000, String(m.length));
   }
 });
+
+test('derinlik tutarlılığı (3.10): torunu olmayanın hobisi torun değil; âşık olmak hastalık değil; rutin metni temiz', () => {
+  for (const n of insanlar.slice(0, 1200)) {
+    const d = derinlik(SEED, n, veri);
+    if (d.hobi.startsWith('torun')) assert.ok((n.aile?.cocuk ?? 0) > 0 && n.yas >= 50, `${n.yas} yaş, ${n.aile?.cocuk} çocuk: ${d.hobi}`);
+    if (n.dert === 'kalp') assert.notEqual(d.saglik, 'sağlık sorunları var');
+    assert.ok(!/arkadaşlarıyla ya da arkadaşlarla|kahvede uğrar/.test(d.rutin), d.rutin);
+    if (d.takimId === 'buyuk') assert.ok(npc.derinlik.kulupler.includes(d.kulup));
+    if (d.takimId.startsWith('demirspor')) assert.equal(d.kulup, 'Demirspor');
+    if (['ilgisiz', 'nefret'].includes(d.takimId)) assert.equal(d.kulup, undefined);
+  }
+});

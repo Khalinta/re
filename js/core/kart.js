@@ -179,27 +179,35 @@ export function derinlik(seed, n, veri) {
   const r = Rng.akis(seed, 'derin|' + n.id);
   const ku = kusakOf(n);
   const dindarlik = agirlikliSec(r, D.dindarlik.kusak[ku].map((a, i) => [i, a]));
-  const mekanTuru = r.sec(ku === 'yasli' ? ['kahvede', 'parkta', 'camide'] : ku === 'genc' ? ['kafelerde', 'sahilde', 'barlarda', 'arkadaşlarıyla'] : ['kahvede', 'meyhanede', 'sahilde', 'evde']);
+  const mekanTuru = r.sec(ku === 'yasli' ? (n.cinsiyet === 'k' ? ['komşularda', 'parkta', 'çarşıda'] : ['kahvede', 'parkta', 'camide']) : ku === 'genc' ? ['kafelerde', 'sahilde', 'barlarda', 'arkadaşlarıyla'] : ['kahvede', 'meyhanede', 'sahilde', 'çarşıda']);
   const rutinler = D.rutin[n.durum] ?? D.rutin.calisiyor;
   const gelir = n.gelir ?? 3;
   let paraI = Math.max(0, Math.min(5, gelir - 1 + r.aralik(-1, 1) + (n.durum === 'issiz' ? -1 : 0) + (n.gizli?.includes('borclu') ? -2 : 0)));
   if (['borc', 'kira', 'maas', 'issizlik'].includes(n.dert)) paraI = Math.min(paraI, 1);
+  // Not: çekiliş sırası değişmemeli (aynı seed → aynı kişi); kimlikler (…Id) sohbette kullanılır (3.10)
+  const degerler = sec(r, D.degerler, n, 2), gundem = sec(r, D.gundemBakisi, n), takim = sec(r, D.takim, n);
+  const muzik = r.sec(D.muzik[ku]), yemek = r.sec(D.yemek);
+  let ka;
+  // Torunu olmayanın hobisi torunlar olmaz
+  const hobi = r.sec(D.hobi[ku].filter(x => !(x.startsWith('torun') && !((n.aile?.cocuk ?? 0) > 0 && n.yas >= 50))));
   return {
-    degerler: sec(r, D.degerler, n, 2).map(x => x.ad),
-    dindarlik: D.dindarlik.adlar[dindarlik],
-    gundem: sec(r, D.gundemBakisi, n).ad,
-    takim: sec(r, D.takim, n).ad,
-    muzik: r.sec(D.muzik[ku]),
-    yemek: r.sec(D.yemek),
-    hobi: r.sec(D.hobi[ku]),
+    degerler: degerler.map(x => x.ad), degerIdler: degerler.map(x => x.id),
+    dindarlik: D.dindarlik.adlar[dindarlik], dindarlikI: dindarlik,
+    gundem: gundem.ad, gundemId: gundem.id,
+    takim: takim.ad, takimId: takim.id,
+    // Büyük takım tutanın kulübü: ayrı akıştan (yukarıdaki çekilişleri değiştirmesin)
+    ...(takim.id === 'buyuk' ? { kulup: Rng.akis(seed, 'kulup|' + n.id).sec(D.kulupler) } : takim.id.startsWith('demirspor') ? { kulup: 'Demirspor' } : {}),
+    muzik,
+    yemek,
+    hobi,
     korku: r.sec(D.korkular),
-    hassas: r.sec([...D.hassasKonular._, ...(D.hassasKonular[ku] || [])].filter(x => !(x === 'boşanması' && n.medeni !== 'bosanmis') && !(x === 'çocuğu olmaması' && (n.aile?.cocuk ?? 0) > 0))),
+    hassas: r.sec([...D.hassasKonular._, ...(D.hassasKonular[ku] || [])].filter(x => !(x === 'boşanması' && n.medeni !== 'bosanmis') && !(x === 'çocuğu olmaması' && ((n.aile?.cocuk ?? 0) > 0 || n.yas < 32)))),
     mizah: sec(r, D.mizah, n).ad,
     flort: sec(r, D.flortTarzi, n).ad,
     guven: sec(r, D.guvenTarzi, n).ad,
     kiskanclik: Math.max(1, Math.min(5, 3 + (n.ozellikler.includes('kiskanc') ? 2 : 0) - (n.eksenler.dengeli >= 4 ? 1 : 0) + r.aralik(-1, 1))),
-    kotuAliskanlik: sec(r, D.kotuAliskanlik, n).ad,
-    saglik: n.dert === 'saglik' || n.dert === 'kalp' ? 'sağlık sorunları var' : agirlikliSec(r, D.saglik[ku]),
+    kotuAliskanlik: (ka = sec(r, D.kotuAliskanlik, n)).ad, kotuAliskanlikId: ka.id,
+    saglik: n.dert === 'saglik' ? 'sağlık sorunları var' : agirlikliSec(r, D.saglik[ku]),
     para: D.para[paraI],
     rutin: r.sec(rutinler).replace('{mekanTuru}', mekanTuru),
   };

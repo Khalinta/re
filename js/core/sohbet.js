@@ -22,6 +22,7 @@ import { kisi, mekandakiler, gorunus, tanisildiMi, tanidiklari, kisiOrada, sablo
 import { kisiGuncel, bilinmeyenOlaylar, haberSablonu } from './npchayat.js';
 import { gizliIliskiMi } from './kart.js';
 import { sirriBiliyorMu, ozetEkle } from './hafiza.js';
+import { derinKonular, derinHamle, derinSecenekler, derinCevapla, derinSoruAdaylari, derinSoruSor } from './zevk.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
 const kucukBas = s => s ? s[0].toLocaleLowerCase('tr') + s.slice(1) : s;
@@ -97,7 +98,7 @@ function agizla(cumle, n, veri, rng) {
   const sb = veri.npc.sohbet, a = veri.npc.memleket.agizlar[n.agiz];
   const ku = kusak(n, sb);
   const p = ku === 'genc' ? (n.gocmus ? sb.agiz.gencGocmus : sb.agiz.genc) : sb.agiz[ku];
-  if (!a?.sonlar?.length || !rng.olasilik(p) || !/[.!]$/.test(cumle)) return cumle;
+  if (!a?.sonlar?.length || !rng.olasilik(p) || !/[^.][.!]$/.test(cumle)) return cumle; // "..." ile bitene ek yapışmaz
   return cumle.replace(/([.!])$/, `, ${rng.sec(a.sonlar)}$1`);
 }
 
@@ -134,12 +135,15 @@ function soyle(durum, veri, n, k, grup, rng, ctxEk = {}, tur = 'konusma') {
 const anlat = (durum, veri, n, k, grup, rng, ctxEk = {}) => soyle(durum, veri, n, k, grup, rng, ctxEk, 'anlati');
 
 // Oyuncunun kendi sözü
-function sen(durum, veri, n, k, liste, rng) {
+function sen(durum, veri, n, k, liste, rng, ctxEk = {}) {
   const t = sozSec(durum, null, liste, rng, veri.npc.sohbet.hafiza);
   if (!t) return [];
-  const ctx = { durum, veri, baglam: { degisken: degiskenler(durum, veri, n, rng) } };
+  const ctx = { durum, veri, baglam: { degisken: degiskenler(durum, veri, n, rng, ctxEk) } };
   return metinCoz(t, rng, ctx).map(p => ({ tur: 'konusma', konusan: 'Sen', metin: p.metin }));
 }
+
+// Kişi kartı konuşmaları (zevk.js) için konuşma araçları
+const ARACLAR = { soyle, anlat, sen };
 
 // Ara ara beden dili: kuşağa göre ("telefonunu ters çeviriyor" / "tespihini çekiyor")
 function beden(durum, veri, n, k, rng, tur = null) {
@@ -376,8 +380,11 @@ function soruSor(durum, veri, n, k, rng) {
     if (ig >= f.esikler.iyi && !k.bilinen?.oyuncu_medeni && k.sorulan.yalniz_mi === undefined) adaylar.push({ id: 'yalniz_mi', agirlik: 4 });
     if (ig >= f.esikler.davet + 10 && k.numara && !(k.randevu >= gun) && (k.sorulan.bulusalim === undefined || gun - k.sorulan.bulusalim >= 4)) adaylar.push({ id: 'bulusalim', agirlik: 5 });
   }
+  // Kişi kartından: müziğin, takımın, hobin (3.10)
+  adaylar.push(...derinSoruAdaylari(durum, veri, n, k));
   if (!adaylar.length) return [];
   const id = rng.agirlikliSec(adaylar).id;
+  if (id.startsWith('zevk:')) return derinSoruSor(durum, veri, rng, n, k, id, ARACLAR);
   const s = sb.sorular[id] ?? f.sorular[id];
   k.sorulan[id] = gun;
   durum.sohbet.bekleyen = { tur: 'soru', id };
@@ -452,6 +459,7 @@ export function sohbetKonulari(durum, veri) {
   const sb = veri.npc.sohbet, k = durum.npcler?.[o.npc];
   if (!k) return [];
   const n = kisiGuncel(durum, veri, o.npc);
+  if (o.bekleyen?.tur === 'zevk') return derinSecenekler(durum, veri, n, k, o.bekleyen);
   if (o.bekleyen) {
     const def = soruTanimi(veri, o.bekleyen);
     return (def?.cevaplar || []).filter(c => !c.kosul || kosulTutar(durum, veri, n, k, c.kosul)).map(c => ({ konu: 'cevap:' + c.id, ad: c.ad, dakika: sb.sure.cevap }));
@@ -473,11 +481,15 @@ export function sohbetKonulari(durum, veri) {
     }
     liste.push({ konu, ad: t.baslik, dakika: t.sure });
   }
-  // Seçenekler kalabalıklaşmasın: 10'u aşarsa önce tanıdıklar, gündem, mahalle düşer
+  // Kişi kartından derin konular (3.10): oturum başına birkaç tane, "bitir"den önce
+  // Seçenekler kalabalıklaşmasın (telefonda en çok ≈12): önce tanıdıklar, gündem, mahalle düşer; derin konulara 1–3 yer
   for (const dus of ['tanidik', 'gundem', 'semt']) {
     const i = liste.findIndex(x => x.konu === dus);
     if (liste.length > 10 && i >= 0) liste.splice(i, 1);
   }
+  const bitir = liste.findIndex(x => x.konu === 'bitir');
+  const yer = Math.max(1, Math.min(veri.npc.zevk?.gosterim.oturumBasi ?? 0, 12 - liste.length));
+  liste.splice(bitir >= 0 ? bitir : liste.length, 0, ...derinKonular(durum, veri, n, k, yer));
   return liste;
 }
 
@@ -495,13 +507,13 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
   if (konu.startsWith('cevap:')) {
     const p = [];
     zamanGecir(durum, sb.sure.cevap, 'dinlenme', veri.sim);
-    const s = cevapla(durum, veri, rng, n, k, konu.slice(6), p);
+    const s = o.bekleyen?.tur === 'zevk' ? derinCevapla(durum, veri, rng, n, k, konu.slice(8), p, ARACLAR) : cevapla(durum, veri, rng, n, k, konu.slice(6), p);
     if (!s.tamam) return s;
     aksiyonKaydet(durum, 'sohbet:' + konu, { npc: id });
     return { tamam: true, paragraflar: p };
   }
 
-  const t = sb.konular[konu];
+  const t = konu.startsWith('derin:') ? veri.npc.zevk.konular[konu.slice(6)] : sb.konular[konu];
   const p = [{ tur: 'secim', metin: t.baslik }];
   zamanGecir(durum, t.sure, 'dinlenme', veri.sim);
   const yak = k.iliski.yakinlik ?? 0;
@@ -519,7 +531,9 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
   }
 
   if (konu !== 'dert') p.push(...beden(durum, veri, n, k, rng, konu === 'dedikodu' ? 'gizli' : null));
-  if (konu === 'hal') {
+  if (konu.startsWith('derin:')) {
+    soruOlabilir = derinHamle(durum, veri, rng, n, k, konu.slice(6), p, ARACLAR);
+  } else if (konu === 'hal') {
     const hal = veri.npc.gorunus ? gununHali(durum.seed, n, gun, veri.npc.gorunus).tur : 'keyifli';
     p.push(...soyle(durum, veri, n, k, n.uslup === 'kibar' && rng.olasilik(0.3) ? sb.hal.kibar : sb.hal[hal], rng));
     yakinlikEkle(ar(0, 2));

@@ -55,6 +55,7 @@ function kisiPaneli(t) {
     t.yok ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Şimdi'), h('span', { class: 'soluk' }, t.yok === 'vefat' ? 'vefat etti' : 'şehirden taşındı')) : null,
     t.haberler?.length ? h('h3', { class: 'bolum-baslik' }, 'Hayatında') : null,
     ...(t.haberler || []).slice().reverse().map(x => h('p', { class: 'panel-metin' }, x.metin)),
+    ...(t.ogrendiklerim || []).map(([ad, deger]) => h('div', { class: 'ozet-satir' }, h('span', {}, ad), h('span', { class: 'soluk' }, deger))),
     t.dert ? h('p', { class: 'panel-metin' }, h('b', {}, 'Derdi: '), t.dert) : null,
     t.hayal ? h('p', { class: 'panel-metin' }, h('b', {}, 'Hayali: '), t.hayal) : null,
     t.tuhaflik ? h('p', { class: 'panel-metin soluk' }, t.tuhaflik) : null,
@@ -75,6 +76,7 @@ function karakterPaneli() {
   const icerik = [
     metin(`${b.yas} yaşındasın, ${nereli}. ${EGITIM[c.egitim] ? EGITIM[c.egitim][0].toLocaleUpperCase('tr') + EGITIM[c.egitim].slice(1) : ''}${c.eskiMeslek ? `; eskiden ${c.eskiMeslek}.` : '.'}`),
     b.ozellikler.length ? metin(`İnsanlar seni ${b.ozellikler.join(', ')} biri olarak bilir.`, 'panel-metin soluk') : null,
+    ...(b.zevk?.length ? bolum('Zevklerin (insanlara söylediklerin)', b.zevk.map(([ad, deger]) => h('div', { class: 'ozet-satir' }, h('span', {}, ad), h('span', { class: 'soluk' }, deger)))) : []),
   ];
   if (!hk) {
     icerik.push(metin('Bu oyun hikâye motorundan önce başladı; geçmişin yazılmadı. Yeni bir oyunda kim olduğun ve buraya nasıl geldiğin baştan belli olur.', 'soluk kucuk'));

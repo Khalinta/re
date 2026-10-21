@@ -7,6 +7,7 @@ import { npcUret, sabitNpcSablonlari, npcTanimi, dertMetni, hayalMetni, fizikTar
 import { dilim, gunNo } from './zaman.js';
 import { semtBul } from './dunya.js';
 import { mekanBul } from './mekan.js';
+import { ogrendiklerim } from './zevk.js';
 import { kisiGuncel, bilinenOlaylar } from './npchayat.js';
 
 const sabitlerOnbellek = new WeakMap();
@@ -174,6 +175,7 @@ export function tanidiklarim(durum, veri) {
         tuhaflik: (k.sohbet ?? 0) >= 3 ? n.tuhaflik : null, anilar: k.anilar, sohbet: k.sohbet ?? 0,
         numara: !!k.numara, iliskiTuru: k.iliskiTuru ?? null, flortEngel: k.bilinen?.flortEngel ?? null, randevu: k.randevu ?? null,
         haberler: bilinenOlaylar(durum, veri, id), yok: (k.hayat || []).some(x => x.bilinen && ['tasindi', 'vefat'].includes(x.id)) ? k.degisim?.yok : null,
+        ogrendiklerim: ogrendiklerim(durum, veri, id, n),
         gorunus: n.fizik && g ? fizikTarifi(n, g) : null, cekicilik: n.fizik && g ? cekicilikAdi(n, g) : null, karizma: n.fizik && g ? karizmaAdi(n, g) : null };
     })
     .sort((a, b) => b.yakinlik - a.yakinlik);

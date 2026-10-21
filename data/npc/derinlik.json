@@ -871,7 +871,7 @@
     "calisiyor": [
       "Sabah erken işe çıkar, akşam yorgun döner; hafta sonları {mekanTuru} görülür.",
       "Vardiyalı çalışır; boş günlerinde {mekanTuru} takılır.",
-      "İşten sonra eve gitmeden {mekanTuru} uğrar."
+      "İşten sonra eve gitmeden bir süre {mekanTuru} oyalanır."
     ],
     "kendi": [
       "Sabah dükkânını açar, akşam kapatana kadar oradadır.",
@@ -886,7 +886,7 @@
       "Günü belli: kahvaltı, yürüyüş, {mekanTuru} birkaç saat."
     ],
     "ogrenci": [
-      "Derslere yarım yamalak gider; akşamları {mekanTuru} ya da arkadaşlarla.",
+      "Derslere yarım yamalak gider; akşamları çoğunlukla {mekanTuru}.",
       "Gündüz okul, akşam yarı zamanlı iş; kalan vakti {mekanTuru}."
     ],
     "ev": [
@@ -1073,5 +1073,11 @@
         ]
       }
     }
-  }
+  },
+  "kulupler": [
+    "Galatasaray",
+    "Fenerbahçe",
+    "Beşiktaş",
+    "Trabzonspor"
+  ]
 }

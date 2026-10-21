@@ -19,6 +19,7 @@ import { npcVeriDogrula } from './core/npc.js';
 import { npcHayatGunu } from './core/npchayat.js';
 import { istekHazirla, cevabiUygula } from './core/yz.js';
 import { hazirMi as yzHazirMi } from './yz/ayar.js';
+import { zevkOzeti } from './core/zevk.js';
 import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
 import { karakterUret, hikayeyiUygula, hikayeVeriDogrula } from './core/hikaye.js';
@@ -35,7 +36,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbetVeri, gorunusVeri, arketipler, bilesenler, flort, dedikodu, hayatOlaylari, derinlik] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbetVeri, gorunusVeri, arketipler, bilesenler, flort, dedikodu, hayatOlaylari, derinlik, zevk] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -66,8 +67,9 @@ export async function veriYukle() {
     jsonAl('./data/npc/dedikodu.json'),
     jsonAl('./data/npc/hayat_olaylari.json'),
     jsonAl('./data/npc/derinlik.json'),
+    jsonAl('./data/npc/zevk.json'),
   ]);
-  veri.npc = { isimler, memleket, kisilik, hayat, sohbet: sohbetVeri, gorunus: gorunusVeri, flort, dedikodu, hayatOlaylari, derinlik };
+  veri.npc = { isimler, memleket, kisilik, hayat, sohbet: sohbetVeri, gorunus: gorunusVeri, flort, dedikodu, hayatOlaylari, derinlik, zevk };
   veri.gezi = gezi;
   veri.ekonomi = ekonomi;
   const ekoSorunlari = ekonomiDogrula(ekonomi, { isTurleri: sirketler.isTurleri, hizmetler: mekanlar.hizmetler, ulasim });
@@ -341,6 +343,7 @@ export function karakterBilgisi() {
     gorunus: n ? fizikTarifi(n, g) : null, cekicilik: n ? cekicilikAdi(n, g) : null, karizma: n ? karizmaAdi(n, g) : null,
     ozellikler: (c.ozellikler || []).map(o => veri.npc.kisilik.ozellikler.find(x => x.id === o)?.ad).filter(Boolean),
     egitim: veri.npc.hayat.egitimAdlari?.[c.egitim] ?? c.egitim,
+    zevk: zevkOzeti(durum, veri),
   };
 }
 export const mekandakiler = mekan => insanlar.mekandakiler(durum, veri, mekan, konum.mekanKalabaligi(durum, mekan)).map(id => ({ id, ad: insanlar.gorunenAd(durum, veri, id), tanidik: insanlar.tanisildiMi(durum, id) }));

@@ -6,7 +6,7 @@ import { SECENEKLER, al, degistir } from '../../ayarlar.js';
 import { OYUN_SURUMU } from '../../surum.js';
 import { hataPaneli } from '../../hata.js';
 import { yediDokunusKur } from '../../dev/panel.js';
-import { ayarlar as yzAyar, ayarDegistir as yzDegistir, etkin as yzEtkin, harcama } from '../../yz/ayar.js';
+import { ayarlar as yzAyar, ayarDegistir as yzDegistir, etkin as yzEtkin, harcama, YZ_ETKIN } from '../../yz/ayar.js';
 import { MODELLER, SAGLAYICILAR } from '../../core/yz.js';
 
 function segment(anahtar, etiket) {
@@ -79,8 +79,8 @@ export const dahaFazlaEkrani = {
         segment('metinHizi', 'Metin hızı'),
         segment('hareket', 'Animasyonlar')),
       h('p', { class: 'ornek-metin' }, 'Örnek: Çınaraltı Kahvesi\'nde çay 15 ₺. Sabahın köründe bile kalabalık.'),
-      h('h2', { class: 'bolum-baslik' }, 'Yapay zekâ sohbeti'),
-      yzBolumu(),
+      YZ_ETKIN ? h('h2', { class: 'bolum-baslik' }, 'Yapay zekâ sohbeti') : null,
+      YZ_ETKIN ? yzBolumu() : null,
       h('h2', { class: 'bolum-baslik' }, 'Kayıtlar'),
       h('div', { class: 'kart-liste' },
         h('button', { class: 'satir', onclick: () => kayitlariGoster() },

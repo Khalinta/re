@@ -22,8 +22,13 @@ export function etkin() {
   return { saglayici, anahtar: g ? a.gAnahtar : a.anahtar, model, taban: a.taban, acik: a.acik };
 }
 
+// Yapay zekâ sohbeti oyunda var mı? Kullanıcı isteğiyle şimdilik kapalı (K65, 2026-10-21): yazma kutusu ve
+// Ayarlar bölümü görünmez, oyun yazılı sohbetle oynanır. Kod ve testler duruyor; geri açmak için true yapmak yeter.
+export const YZ_ETKIN = false;
+
 // Serbest sohbet şu an kullanılabilir mi?
 export function hazirMi() {
+  if (!YZ_ETKIN) return false;
   const a = etkin();
   return !!(a.acik && a.anahtar && (typeof navigator === 'undefined' || navigator.onLine !== false));
 }

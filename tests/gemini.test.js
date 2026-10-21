@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 
 const depo = new Map();
 globalThis.localStorage = { getItem: k => depo.get(k) ?? null, setItem: (k, v) => depo.set(k, String(v)), removeItem: k => depo.delete(k) };
-const { ayarDegistir, etkin, hazirMi, harcama } = await import('../js/yz/ayar.js');
+const { ayarDegistir, etkin, hazirMi, harcama, YZ_ETKIN } = await import('../js/yz/ayar.js');
 const { sohbetIstegi, baglantiDene } = await import('../js/yz/istemci.js');
 const { CEVAP_SEMASI } = await import('../js/core/yz.js');
 
@@ -26,6 +26,7 @@ test('ayar: iki sağlayıcının anahtarı ayrı tutulur; etkin olan seçilene g
   ayarDegistir({ anahtar: 'sk-ant-1', gAnahtar: '', saglayici: 'gemini' });
   assert.equal(hazirMi(), false, 'gemini anahtarı yokken hazır değil');
   ayarDegistir({ gAnahtar: 'AIza-test' });
+  assert.equal(hazirMi(), YZ_ETKIN, 'yapay zekâ kapalıyken anahtar olsa da sohbet açılmaz');
   assert.deepEqual([etkin().saglayici, etkin().anahtar, etkin().model], ['gemini', 'AIza-test', 'gemini-flash-latest']);
   ayarDegistir({ gModel: 'claude-opus-5-5' });
   assert.equal(etkin().model, 'gemini-flash-latest', 'başka sağlayıcının modeli seçilemez');

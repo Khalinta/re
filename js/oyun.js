@@ -146,6 +146,15 @@ const dunyayiIlerlet = () => {
 };
 
 function paragraflariKaydet(liste) {
+  // Konuştuğun kişi bu arada gittiyse (saat geçti, mekan kapandı) sohbet açık kalmasın (3.18, otomatik deneme)
+  if (durum.sohbet && !durum.aktifOlay && !sohbet.oturumGecerli(durum, veri)) {
+    const id = durum.sohbet.npc, k = durum.npcler?.[id];
+    if (k && durum.konum?.mekan === durum.sohbet.mekan) {
+      k.ayrildi = { zaman: durum.zaman.dakika, kim: 'o' };
+      liste.push({ tur: 'sistem', metin: `${insanlar.gorunenAd(durum, veri, id)} kalkıp gitti` });
+    }
+    sohbet.oturumBitir(durum);
+  }
   for (const p of liste) anlatimKaydet(durum, p);
   return liste;
 }

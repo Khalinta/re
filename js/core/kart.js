@@ -274,6 +274,7 @@ export function kisiKarti(durum, veri, id) {
     derinlik: derinlik(durum.seed, n, veri),
     aile, oyku: hayatOykusu(durum.seed, n, aile, veri), ag: iliskiAgi(veri, durum.seed, id),
     hayatOlaylari: bilinenOlaylar(durum, veri, id),
+    olgular: (k?.hafiza?.olgular || []).map(x => x.metin), // konuşmalarda kesinleşmiş, değişmez olgular (3.8)
     oyuncuyla: k ? { iliski: k.iliski, tur: k.iliskiTuru ?? null, numara: !!k.numara, bildikleri: Object.keys(k.bilinen || {}).filter(x => x.startsWith('oyuncu_')).map(x => x.slice(7)), anilar: (k.anilar || []).map(a => a.metin) } : null,
   };
 }
@@ -305,5 +306,6 @@ export function kartMetni(kart) {
     kart.tuhaflik ? `Tuhaflığı: ${kart.tuhaflik}` : null,
     kart.ag.length ? `Tanıdıkları: ${kart.ag.map(x => `${x.ad} (${x.turAd}; ona hissi ${x.onunHissi}) — ${x.gecmis}`).join(' ')}` : null,
     kart.hayatOlaylari.length ? `Son zamanlarda: ${kart.hayatOlaylari.map(x => x.metin).join(' ')}` : null,
+    kart.olgular.length ? `Konuşmalarda ortaya çıkmış, değişmez olgular: ${kart.olgular.join('; ')}.` : null,
   ].filter(Boolean).join('\n');
 }

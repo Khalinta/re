@@ -21,6 +21,7 @@ import { bayrakKoy } from './bayrak.js';
 import { kisi, mekandakiler, gorunus, tanisildiMi, tanidiklari, kisiOrada, sablonBul, anlatacagiDedikodu } from './insanlar.js';
 import { kisiGuncel, bilinmeyenOlaylar, haberSablonu } from './npchayat.js';
 import { gizliIliskiMi } from './kart.js';
+import { sirriBiliyorMu, ozetEkle } from './hafiza.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
 const kucukBas = s => s ? s[0].toLocaleLowerCase('tr') + s.slice(1) : s;
@@ -229,7 +230,7 @@ export function kisiDedikodusu(durum, veri, n, mekan, rng) {
     const orgutu = x => x.figur ? veri.dunya.figurler.figurler.find(f => f.id === x.figur)?.orgut : null;
     if (orgutu(n) && orgutu(n) === orgutu(t)) continue;
     const turler = [];
-    if (t.sir) turler.push({ tur: 'sir', a: 3 });
+    if (t.sir && sirriBiliyorMu(veri, durum.seed, n.id, tid)) turler.push({ tur: 'sir', a: 3 }); // sırrı ancak bilen anlatır (3.8)
     if (t.dert) turler.push({ tur: 'dert', a: 2 });
     if (['bosanmis', 'dul'].includes(t.medeni)) turler.push({ tur: t.medeni, a: 1.5 });
     for (const g of t.gizli || []) if (D.turler[g]) turler.push({ tur: g, a: 2 });
@@ -434,6 +435,8 @@ function cevapla(durum, veri, rng, n, k, id, p) {
   k.bilinen ??= {};
   if (c.ogren) k.bilinen['oyuncu_' + c.ogren] = true;
   if (c.ani) k.anilar.push({ zaman: durum.zaman.dakika, metin: c.ani });
+  // Önemli cevaplar kişinin hafızasına (yapay zekâ sohbeti bunları bilir)
+  if (['hikaye', 'is', 'memleket', 'semt', 'medeni', 'yalan'].includes(c.ogren)) ozetEkle(durum, n.id, `Oyuncu ona şunu söyledi: "${p.filter(x => x.konusan === 'Sen').map(x => x.metin).at(-1)}"`);
   if (c.bayrak) bayrakKoy(durum, c.bayrak, n.id);
   if (c.randevu && !(k.randevu >= gunNo(durum.zaman.dakika))) { randevuKur(durum, veri, n.id, n, k); p.push({ tur: 'sistem', metin: `Yarın akşam ${n.hitapAdi} ile buluşacaksın` }); }
   o.bekleyen = null;
@@ -558,6 +561,7 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
       k.bilinen.dert = true; yakinlikEkle(ar(...sb.yakinlik.dertDinlemek));
       k.iliski.guven = (k.iliski.guven ?? 0) + 2;
       k.anilar.push({ zaman: durum.zaman.dakika, metin: 'derdini dinledin' });
+      ozetEkle(durum, id, `Oyuncuya derdini anlattı: ${d.metin}`);
       o.bekleyen = { tur: 'secim', id: 'dert_tepki' };
       soruOlabilir = false;
     }
@@ -571,6 +575,7 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
       p.push(figurHayali ? { tur: 'anlati', metin: `Laf arasında ağzından kaçıyor: ${figurHayali}` } : { tur: 'konusma', konusan: n.hitapAdi, metin: agizla(rng.sec(hz.soz ?? [hz.metin]), n, veri, rng) });
       k.bilinen.hayal = true; yakinlikEkle(ar(...sb.yakinlik.hayal));
       k.anilar.push({ zaman: durum.zaman.dakika, metin: 'hayalini anlattı' });
+      ozetEkle(durum, id, 'Oyuncuya hayalini anlattı.');
     }
   } else if (konu === 'dedikodu') {
     const anlatir = n.ozellikler.some(x => ['geveze', 'merakli', 'yalanci'].includes(x)) || (!n.ozellikler.some(x => ['ketum', 'sadik'].includes(x)) && rng.olasilik(0.65));
@@ -640,6 +645,7 @@ function flortHamlesi(durum, veri, rng, n, k, konu, p) {
   if (engel) {
     p.push(...anlat(durum, veri, n, k, F.uygunsuz[engel], rng));
     k.bilinen.flortEngel = engel;
+    ozetEkle(durum, n.id, `Oyuncu onunla flört etmeye çalıştı; o ${engel === 'evli' ? 'hayatında biri olduğunu' : 'ilgilenmediğini'} söyledi.`);
     k.bilinen.oyuncu_flort = true;
     return false;
   }
@@ -648,6 +654,7 @@ function flortHamlesi(durum, veri, rng, n, k, konu, p) {
   if (konu === 'iltifat' || konu === 'takil') {
     p.push(...anlat(durum, veri, n, k, F[konu][seviye], rng));
     iliskiEkle(k, F.etki[seviye], rng, seviye !== 'kotu');
+    ozetEkle(durum, n.id, `Oyuncu ona ${konu === 'iltifat' ? 'iltifat etti' : 'tatlı tatlı takıldı'}; ${seviye === 'iyi' ? 'hoşuna gitti' : seviye === 'orta' ? 'belli etmedi' : 'hoşlanmadı'}.`);
     if (seviye === 'iyi') { durum.sohbet.kalan += veri.npc.sohbet.sabir.flortEki; if (rng.olasilik(0.4)) k.anilar.push({ zaman: durum.zaman.dakika, metin: 'aranızda bir elektrik vardı' }); }
     return seviye !== 'kotu';
   }

@@ -4,7 +4,7 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-e1db5db74292';
+const ONBELLEK_SURUMU = 'yeniden-d3ccd21b3f10';
 const DOSYALAR = [
   './',
   './css/temel.css',
@@ -69,6 +69,7 @@ const DOSYALAR = [
   './js/core/ekonomi.js',
   './js/core/etki.js',
   './js/core/format.js',
+  './js/core/hafiza.js',
   './js/core/hava.js',
   './js/core/hikaye.js',
   './js/core/ilerleme.js',

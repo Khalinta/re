@@ -9,9 +9,11 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 
 ## 🧭 NEREDE KALDIK
 
-- **Şu anki faz:** Faz 3'ün bütün adımları bitti (3.1–3.6); kullanıcının telefon testi bekleniyor. Test temizse Faz 3 kapanır, Faz 4'e (iş, para, borç, barınma, ilişkiler, telefon ekranı) geçilir.
+- **Şu anki faz:** Faz 3, ek adımlar 3.7–3.10 (derin karakterler, hafıza, Claude ile serbest sohbet). Kullanıcı 2026-10-21'de istedi ve "uygulayalım" dedi.
 - **Son tamamlanan adım:** 3.6 Tanıdıkların kendi hayatı (0.1.20): sen görmezken iş bulur/kaybeder, terfi alır, sevgili bulur, ayrılır, evlenir, boşanır, çocuk sahibi olur, derdi çözülür, hastalanır, şehirden taşınır, yaşlılar vefat edebilir (`data/npc/hayat_olaylari.json`, `js/core/npchayat.js`). Bunu ya yanına oturunca kendisinden ya da ortak tanıdıklardan dedikodu olarak öğrenirsin; Tanıdıklarım'da 'Hayatında' altında görünür. Taşınan/vefat eden mekanda görülmez. Geliştirici panelinde NPC bölümü baştan: şu an mekanda kim var (yaş, medeni hal, ilgi, yönelim, engel), tanıdıkların bütün bilgisi, yakınlık/çekim artırma, hayat olayı yaşatma. Önceki adım 3.5 (0.1.19): sohbet ve flört baştan.
-- **Sıradaki adım:** Kullanıcının Faz 3 telefon testi; ardından Faz 4'ün adım listesi çıkarılacak (ilk adım muhtemelen **büyük**).
+- **Sıradaki adım:** 3.7 Karakter derinliği — **büyük** (başlandı).
+- **Kullanıcının soruları (2026-10-21) ve cevaplar:** maliyet hem token hem para (token = modelin okuduğu/yazdığı metin birimi; ücret token başına; ayrıca dakikalık hız sınırları ve konsolda kendi koyacağın aylık harcama tavanı var). Claude API anahtarı olur (platform.claude.com, Claude.ai aboneliğinden ayrı, önceden kredi yüklenir). Model seçimi 3.9'da Ayarlar'dan yapılacak; fiyatlar ve tahminler aşağıdaki 'Claude ile sohbet: maliyet' notunda.
+- **Claude ile sohbet: maliyet (kaba tahmin, 2026-10 fiyatları, 1M token başına girdi/çıktı):** Opus 5.5 4 $ / 20 $; Sonnet 5.5 2 $ / 10 $; Haiku 5.5 0,10 $ / 0,50 $. Bir mesaj ≈ 4.000 token girdi (kişi kartı + hafıza + son konuşma) + ≈ 300 token çıktı. Mesaj başına ≈ Opus 0,02 $, Sonnet 0,01 $, Haiku 0,0005 $ (önbellekle daha az). Günde 100 mesajla ayda ≈ Opus 30–60 $, Sonnet 15–30 $, Haiku 1–2 $. Gerçek rakam 3.9'da ölçülüp yazılacak.
 - **Kullanıcıdan beklenen (Faz 3 testi, 0.1.20):**
   1. Daha Fazla'da sürüm 0.1.20 mi?
   2. Kayıtlar → Yeni oyun → "Yeni bir hayat" ekranında seç → "Bu hayatı yaşa" → ilk sabahı oyna.
@@ -79,6 +81,10 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | ~~3.5~~ | ~~NPC'lerin kendi hayatı (iş, taşınma, evlilik, dert), geliştirici panelinde NPC bölümü, Faz 3 kapanışı~~ → 3.6'ya kaydı: kullanıcının 3.4 testi (2026-10-21) sohbetin yeniden yazılmasını gerektirdi | orta | — |
 | 3.5 | Kullanıcı testi sonrası sohbet ve flört baştan: yaşa (kuşağa) göre konuşma, hitap ve ağız; karşılıklı diyalog (kişi sana soru sorar, senin cevabın seçenek olur, hikâyeni sorar ve hatırlar); flört (iltifat, takılma, numara, buluşma; ret de var); insanlar üzerine dedikodu (sırlar, dertler, kim kiminle; doğru ya da yanlış); tekrarın kesilmesi; genç nüfusun artması — **telefonda denenecek** | büyük | ✅ |
 | 3.6 | NPC'lerin kendi hayatı (iş, taşınma, evlilik, dert), geliştirici panelinde NPC bölümü, Faz 3 kapanışı | orta | ✅ |
+| 3.7 | **Karakter derinliği** (kullanıcı isteği, 2026-10-21: "her karakterin kendi kişiliği, davranış tarzı, hikâyesi, hayatı; aşırı tutarlı; ayrı parametreler, ilişki ağaçları"): isimli ve yaşlı aile ağacı (eş, çocuklar, anne-baba, kardeşler), insanlar arası ilişki ağı (arkadaş, küs, eski sevgili, gizli ilişki, iş, komşu, borç; iki yönlü his ve geçmiş), yıl yıl hayat öyküsü, değerler, inanç, beğeniler, korkular, hassas konular, mizah ve flört tarzı, para ve sağlık durumu, günlük rutin; hepsi seed'den, tutarlılık testleriyle; `kisiKarti` | büyük | ⏳ |
+| 3.8 | **Hafıza ve olgu kilidi:** her kişiyle konuşmaların özeti; konuşmada ortaya çıkan yeni olgular (kişinin kendisi ya da başkaları hakkında) kayda geçer ve bir daha değişmez; kim kimin hangi sırrını biliyor; çelişki denetimi | büyük | ⬜ |
+| 3.9 | **Claude ile serbest sohbet:** Ayarlar'da API anahtarı ve model seçimi; sohbette yazma kutusu + öneri cevaplar; kişi kartı + hafıza + kurallar modele verilir; model konuşmayı yazar ve sabit bir sonuç listesinden (yakınlık, çekim, numara, buluşma, sır anlatma, kırılma...) önerir, oyun kendi kurallarıyla uygular; internet ya da anahtar yoksa yazılı sohbete düşer; harcama göstergesi — **telefonda denenecek** | büyük | ⬜ |
+| 3.10 | Telefon testi sonrası ince ayar, Faz 3 kapanışı | orta | ⬜ |
 
 ### Fazlar
 
@@ -86,7 +92,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 |---|---|---|
 | 1 | Altyapı (+ suç dünyası için koşul/etki türleri: 1.8–1.9) | ✅ kapandı (2026-10-20) |
 | 2 | Dünya kitabı + ekonomi dosyası (+ örgütler, bölgeler, emniyet/adliye/cezaevi kurumları, suç ekonomisi) | ✅ kapandı (2026-10-20) |
-| 3 | Başlangıç hikayesi motoru, açılış sahneleri, NPC üretimi (+ örgüt hiyerarşisi/lider NPC'leri, suçla bağlantılı geçmiş bileşenleri) | ✅ adımlar bitti (2026-10-21, 0.1.20); kullanıcının telefon testi bekleniyor — test temizse kapanır |
+| 3 | Başlangıç hikayesi motoru, açılış sahneleri, NPC üretimi (+ örgüt hiyerarşisi/lider NPC'leri, suçla bağlantılı geçmiş bileşenleri) | ⏳ ~~adımlar bitti (0.1.20), telefon testi bekleniyor~~ → kullanıcı testi (2026-10-21): serbest, uzatılabilir sohbet ve derin, tutarlı karakterler istendi; 3.7–3.10 eklendi |
 | 4 | İş, para, borç, barınma, eşya; ilişkiler, telefon ekranı (+ örgüt, aranma, adalet, hapishane, kara para sistemleri) | ⬜ |
 | 5 | Olay içeriği (150+ derin olay, hikaye yayları) — sadece veri (+ suç dünyası olayları, giriş ve çıkış yayları, hapishane dönemi) | ⬜ |
 | 6 | Eğlence, hedefler, son ekranı, günlük (+ suçla ilgili sonlar ve hayat özeti) | ⬜ |
@@ -107,7 +113,7 @@ Türkçe, metin tabanlı, derin bir hayat simülasyonu. iPhone'da "Ana Ekrana Ek
 | K7 | **Kayıt şemasında `kayitSurumu` alanı + sıralı migration fonksiyonları** (`1→2`, `2→3` ...). | Eski kayıtlar güncellemede otomatik dönüştürülür; her migration testlenir. |
 | K8 | **Dışa aktarma kodu: JSON → deflate (CompressionStream) → base64url, başında `YND1.` öneki ve sağlama.** CompressionStream yoksa sıkıştırmasız yedek biçim. | Kopyala-yapıştır kodu kısa olur; yanlış/eksik kopyalanırsa sağlama sayesinde fark edilir. |
 | K9 | **Testler Node'un yerleşik test koşucusuyla** (`node --test tests/*.test.js`). Sadece saf mantık modülleri test edilir (ek motoru, koşul dili, RNG, migration). | Ek bağımlılık yok; geliştirme aracı, oyunun çalışmasına gerekmiyor. |
-| K10 | **Service worker "önce önbellek, sonra ağ" + sürümlü önbellek adı.** Yeni sürümde eski önbellek silinir, kullanıcıya "güncelleme hazır" denir. | Tam çevrimdışı çalışma; güncellemeler kontrollü. |
+| K10 | **Service worker "önce önbellek, sonra ağ" + sürümlü önbellek adı.** Yeni sürümde eski önbellek silinir, kullanıcıya "güncelleme hazır" denir. | ~~Tam çevrimdışı çalışma~~ → Oyun çevrimdışı çalışmaya devam eder; ama 3.9'dan itibaren serbest sohbet internet ister (kullanıcı 2026-10-21: "internetli olabilir"). İnternet ya da anahtar yoksa sohbet yazılı sisteme düşer. Güncellemeler kontrollü. |
 | K11 | **NPC'ler tembel üretim:** dünyada yalnızca NPC kimliği + seed'i durur; ayrıntılar ilk karşılaşmada seed'den üretilir, kayda sadece *değişen* şeyler (ilişki, anılar, hayat olayları) yazılır. | Binlerce NPC'de bile kayıt küçük ve tutarlı kalır. |
 | K13 | **Ek motoru kalıp gösterimi:** ekler kısa adla (`'in'`, `'e'`, `'de'`) ya da kalıpla (`'(y)lA'`, `'DAn'`) verilir. A=a/e, I=ı/i/u/ü, D=d/t, C=c/ç; `(y)(n)(s)` yalnız ünlüden sonra, `(I)` yalnız ünsüzden sonra. Sayılar okunuşlarına göre (2026 → "altı" → 2026'da), kısaltmalar harf okunuşuna göre (THY → "ye" → THY'ye) ya da okunabiliyorsa sözcük gibi (NATO'ya). | Tek fonksiyon bütün eklerde doğru sonuç verir; yeni ek eklemek bir satır. |
 | K14 | **Service worker önbellek listesi otomatik:** `node tools/sw-liste.mjs` tüm dosyaları tarar, listeyi ve içerik özetinden türeyen önbellek sürümünü `sw.js`'e yazar. `tests/sw.test.js` liste güncel değilse başarısız olur. | Dosya eklemeyi unutmak = çevrimdışında bozuk oyun. Elle liste tutmak yerine araç + test. Herhangi bir dosya değişince sürüm kendiliğinden değişir. |
@@ -470,6 +476,7 @@ Kurgusal, derin bir yeraltı dünyası. Ayrı bir mod değil; hayatın içine ö
 
 ### İçerik kuralları (bağlayıcı)
 - Faaliyetler (uyuşturucu satıcılığı, haraç, kaçakçılık, kumarhane, tefecilik, çalıntı mal) **yalnızca anlatı ve seçim** olarak yer alır. Gerçek dünyada uygulanabilir yöntem, tarif, teknik ya da prosedür ayrıntısı **asla** yazılmaz. Anlatı insanlara, gerilime, ikilemlere ve sonuçlara odaklanır; "nasıl yapılır"a değil.
+- **Güncelleme (2026-10-21, kullanıcı: "suç içerikliye sınır olmasını istemiyorum"):** ~~yalnızca anlatı ve seçim~~ → Suç dünyası tema olarak sınırsız: karanlık karakterler, şiddet, örgüt içi ilişkiler, sohbette suç planları ve itiraflar, ahlaken kötü seçimler serbest. Tek sınır değişmedi ve değişmeyecek: gerçek dünyada uygulanabilir tarif ya da yöntem (madde üretimi, silah yapımı, sistemlere sızma adımları vb.) yazılmaz — ne yazılı içerikte ne de yapay zekâ sohbetinde. Sebep: bu oyun dışına taşan gerçek bir zarar riski; ayrıca Claude'un kullanım kuralları da buna izin vermez. Oyunun buna ihtiyacı da yok: anlatı insanlara ve sonuçlara odaklanır.
 - Örgütler, kişiler, olaylar tamamen kurgusaldır; gerçek örgüt, kişi ya da olaya gönderme yapılmaz.
 - Ton: vaaz vermez, özendirmez. Cazibesi gerçek, bedeli de gerçek. Bölüm 10'daki bağımlılık tonu gibi dengeli.
 

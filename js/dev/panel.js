@@ -18,6 +18,7 @@ import { panoyaKopyala } from '../ui/ekranlar/aktarim.js';
 import { kisiGuncel, hayatOlayiTetikle } from '../core/npchayat.js';
 import { flortDurumu, hitapSec, kusak } from '../core/sohbet.js';
 import { npcTanimi } from '../core/npc.js';
+import { kisiKarti, kartMetni } from '../core/kart.js';
 
 const BOLUMLER = [['genel', 'Genel'], ['durum', 'Durum'], ['olaylar', 'Olaylar'], ['bayraklar', 'Bayrak'], ['npc', 'NPC'], ['hatalar', 'Hata']];
 let aktifBolum = 'genel';
@@ -237,6 +238,10 @@ function npcBolumu() {
       h('div', { class: 'kucuk soluk' }, `bildiği: ${Object.keys(k.bilinen || {}).join(', ') || '—'}`),
       ...(k.hayat || []).map(x => h('div', { class: 'kucuk' }, `${x.gun + 1}. gün: ${x.id}${x.meslek ? ' (' + x.meslek + ')' : ''}${x.bilinen ? '' : ' — henüz bilmiyorsun'}`)),
       ...(k.anilar || []).slice(-4).map(a => h('div', { class: 'soluk kucuk' }, `${zamanYaz(a.zaman ?? a.z ?? 0)}: ${a.metin}`)),
+      (() => {
+        const kutu = h('pre', { class: 'kucuk dev-kart-metin', style: { whiteSpace: 'pre-wrap', display: 'none' } });
+        return h('div', {}, dugme('Kişi kartı', e => { if (!kutu.textContent) kutu.textContent = kartMetni(kisiKarti(durum, veri, id)); kutu.style.display = kutu.style.display === 'none' ? 'block' : 'none'; e.target.textContent = kutu.style.display === 'none' ? 'Kişi kartı' : 'Kartı gizle'; }), kutu);
+      })(),
       satir(dugme('Yakınlık +20', () => degistir(id, 'yakinlik', 20)), dugme('Çekim +20', () => degistir(id, 'cekim', 20)), dugme('Gerginlik 0', () => degistir(id, 'gerginlik', -(k.iliski.gerginlik ?? 0)))),
       olaySec(id));
   };

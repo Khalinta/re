@@ -35,7 +35,7 @@ function kosulTutar(k, b) {
 }
 const uygunlar = (liste, b) => liste.filter(x => kosulTutar(x, b));
 
-function donemBul(isimler, dogumYili) {
+export function donemBul(isimler, dogumYili) {
   const d = isimler.donemler;
   return d.find(x => dogumYili >= x.bas && dogumYili <= x.bit) ?? (dogumYili < d[0].bas ? d[0] : d[d.length - 1]);
 }

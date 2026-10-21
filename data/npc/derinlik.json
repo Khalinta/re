@@ -1,0 +1,1077 @@
+{
+  "_aciklama": "Karakter derinliği (adım 3.7, kullanıcı isteği: 'her karakterin kendi kişiliği, davranış tarzı, hikâyesi, hayatı; aşırı tutarlı'). Hepsi seed + kişi kimliğinden belirlenimli üretilir (js/core/kart.js) ve kişinin geri kalanıyla tutarlı olacak şekilde koşullanır. Ağırlıklar: 'agirlik' taban; 'kusak' (genc/orta/yasli) ya da 'eksen' ({ eksen: [en, ust] }) koşulu tutmazsa seçilmez; 'carpan' koşul tutunca ağırlığı çarpar; 'kosul' kesin şarttır ({ eksen: {...}, kusak: [...] }), tutmazsa öğe hiç seçilmez. Bu veri hem oyun içi metinlerde hem de 3.9'da yapay zekâya verilen kişi kartında kullanılır.",
+  "degerler": [
+    {
+      "id": "aile",
+      "ad": "ailesi her şeyden önce gelir",
+      "agirlik": 4,
+      "carpan": [
+        {
+          "eksen": {
+            "uyumlu": [
+              4,
+              5
+            ]
+          },
+          "x": 1.5
+        },
+        {
+          "kusak": "yasli",
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "para",
+      "ad": "para güvencedir; parasız insan hiçtir",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "dengeli": [
+              1,
+              2
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "ozgurluk",
+      "ad": "kimse ona ne yapacağını söyleyemez",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "acik": [
+              4,
+              5
+            ]
+          },
+          "x": 2
+        },
+        {
+          "kusak": "genc",
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "adalet",
+      "ad": "haksızlığa dayanamaz",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "uyumlu": [
+              1,
+              2
+            ]
+          },
+          "x": 1.3
+        }
+      ]
+    },
+    {
+      "id": "sadakat",
+      "ad": "verilen söz tutulur; dönek affedilmez",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "sorumlu": [
+              4,
+              5
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "basari",
+      "ad": "bir yere gelmek, adının anılması",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "sorumlu": [
+              4,
+              5
+            ]
+          },
+          "x": 1.5
+        },
+        {
+          "kusak": "genc",
+          "x": 1.3
+        }
+      ]
+    },
+    {
+      "id": "gelenek",
+      "ad": "eskilerin yolu doğrudur",
+      "agirlik": 1.5,
+      "carpan": [
+        {
+          "kusak": "yasli",
+          "x": 2.5
+        },
+        {
+          "eksen": {
+            "acik": [
+              1,
+              2
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "dostluk",
+      "ad": "dost kara günde belli olur",
+      "agirlik": 3,
+      "carpan": [
+        {
+          "eksen": {
+            "disadonuk": [
+              4,
+              5
+            ]
+          },
+          "x": 1.4
+        }
+      ]
+    },
+    {
+      "id": "huzur",
+      "ad": "başını ağrıtmayan bir hayat",
+      "agirlik": 2.5,
+      "carpan": [
+        {
+          "eksen": {
+            "dengeli": [
+              4,
+              5
+            ]
+          },
+          "x": 1.3
+        },
+        {
+          "kusak": "yasli",
+          "x": 1.3
+        }
+      ]
+    },
+    {
+      "id": "saygi",
+      "ad": "saygı görmek; kimse onu küçümsememeli",
+      "agirlik": 2
+    },
+    {
+      "id": "macera",
+      "ad": "sıkıcı bir hayattan korkar",
+      "agirlik": 1,
+      "carpan": [
+        {
+          "eksen": {
+            "acik": [
+              4,
+              5
+            ]
+          },
+          "x": 2
+        },
+        {
+          "kusak": "genc",
+          "x": 2
+        }
+      ],
+      "kosul": {
+        "kusak": [
+          "genc",
+          "orta"
+        ]
+      }
+    },
+    {
+      "id": "inanc",
+      "ad": "inancı yolunu çizer",
+      "agirlik": 1,
+      "carpan": [
+        {
+          "kusak": "yasli",
+          "x": 2
+        }
+      ]
+    }
+  ],
+  "dindarlik": {
+    "adlar": [
+      "inançsız",
+      "pek ilgisi yok",
+      "kendince inançlı",
+      "ibadetini yapan",
+      "çok dindar"
+    ],
+    "kusak": {
+      "genc": [
+        2,
+        4,
+        3,
+        1.5,
+        0.6
+      ],
+      "orta": [
+        1,
+        3,
+        4,
+        2,
+        0.8
+      ],
+      "yasli": [
+        0.4,
+        1.5,
+        3,
+        4,
+        1.5
+      ]
+    }
+  },
+  "gundemBakisi": [
+    {
+      "id": "umursamaz",
+      "ad": "gündemle ilgilenmez",
+      "agirlik": 3,
+      "carpan": [
+        {
+          "kusak": "genc",
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "duzen",
+      "ad": "düzen yanlısı; 'devlet bilir' der",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "kusak": "yasli",
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "ofkeli",
+      "ad": "her şeye öfkeli; kimseye güvenmez",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "dengeli": [
+              1,
+              2
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "temkinli",
+      "ad": "fikrini kendine saklar",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "disadonuk": [
+              1,
+              2
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "umutlu",
+      "ad": "bir şeylerin değişeceğine inanır",
+      "agirlik": 1.5,
+      "carpan": [
+        {
+          "eksen": {
+            "acik": [
+              4,
+              5
+            ]
+          },
+          "x": 1.5
+        },
+        {
+          "kusak": "genc",
+          "x": 1.3
+        }
+      ]
+    }
+  ],
+  "takim": [
+    {
+      "id": "demirspor_siki",
+      "ad": "sıkı Demirspor taraftarı; maç günü başkadır",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "yerli": true,
+          "x": 2
+        }
+      ]
+    },
+    {
+      "id": "demirspor",
+      "ad": "Demirspor'u tutar ama maça pek gitmez",
+      "agirlik": 3
+    },
+    {
+      "id": "buyuk",
+      "ad": "İstanbul'un büyük takımlarından birini tutar",
+      "agirlik": 2.5,
+      "carpan": [
+        {
+          "yerli": false,
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "ilgisiz",
+      "ad": "futbolla ilgilenmez",
+      "agirlik": 3
+    },
+    {
+      "id": "nefret",
+      "ad": "futboldan nefret eder; maç günleri evden çıkmaz",
+      "agirlik": 0.6
+    }
+  ],
+  "muzik": {
+    "genc": [
+      "rap",
+      "Türkçe pop",
+      "indie",
+      "elektronik",
+      "arabesk rap",
+      "rock",
+      "eski şarkıların yeni yorumları"
+    ],
+    "orta": [
+      "doksanlar Türkçe pop",
+      "Türkçe rock",
+      "arabesk",
+      "türkü",
+      "caz",
+      "Karadeniz müziği"
+    ],
+    "yasli": [
+      "Türk sanat müziği",
+      "türkü",
+      "arabesk",
+      "eski plaklar",
+      "fasıl",
+      "radyodaki ne çalarsa"
+    ]
+  },
+  "yemek": [
+    "mantı",
+    "balık",
+    "kuru fasulye pilav",
+    "lahmacun",
+    "annesinin dolması",
+    "kokoreç",
+    "menemen",
+    "karnıyarık",
+    "hamsi",
+    "iskender",
+    "çiğ köfte",
+    "her şeyi yer, seçici değildir",
+    "et yemez"
+  ],
+  "hobi": {
+    "genc": [
+      "oyun oynamak",
+      "dizi izlemek",
+      "spor salonu",
+      "gitar çalmak",
+      "fotoğraf",
+      "sahilde koşmak",
+      "çizim",
+      "kitap okumak",
+      "basketbol"
+    ],
+    "orta": [
+      "balık tutmak",
+      "futbol izlemek",
+      "bahçe işleri",
+      "yemek yapmak",
+      "tavla",
+      "yürüyüş",
+      "kitap okumak",
+      "araba tamiri"
+    ],
+    "yasli": [
+      "tavla",
+      "okey",
+      "bahçe",
+      "radyo dinlemek",
+      "torunlarla vakit",
+      "camiye gitmek",
+      "eski fotoğraflara bakmak",
+      "yürüyüş"
+    ]
+  },
+  "korkular": [
+    "yalnız ölmek",
+    "parasız kalmak",
+    "hastalanmak",
+    "ailesinin onu terk etmesi",
+    "deniz",
+    "yükseklik",
+    "karanlık",
+    "unutulmak",
+    "polis",
+    "geçmişinin ortaya çıkması",
+    "çocuklarının onun hatalarını tekrarlaması",
+    "işini kaybetmek",
+    "köpekler",
+    "hastaneler"
+  ],
+  "hassasKonular": {
+    "_": [
+      "babası",
+      "annesi",
+      "parasızlık",
+      "eski sevgilisi",
+      "kilosu",
+      "okulu bırakması",
+      "memleketi",
+      "yaşı",
+      "kardeşiyle arası",
+      "geçmişte yaptığı bir hata",
+      "boşanması",
+      "çocuğu olmaması"
+    ],
+    "genc": [
+      "sınav sonuçları",
+      "ailesinin ondan beklentileri",
+      "geleceği"
+    ],
+    "yasli": [
+      "ölüm",
+      "unutkanlığı",
+      "çocuklarının onu aramaması"
+    ]
+  },
+  "mizah": [
+    {
+      "id": "kuru",
+      "ad": "kuru, alaycı bir mizahı var",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "acik": [
+              4,
+              5
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "gurultulu",
+      "ad": "gürültülü şakacı; herkesi güldürür",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "disadonuk": [
+              4,
+              5
+            ]
+          },
+          "x": 2
+        }
+      ],
+      "kosul": {
+        "eksen": {
+          "disadonuk": [
+            3,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "id": "kara",
+      "ad": "kara mizahı sever",
+      "agirlik": 1.2,
+      "carpan": [
+        {
+          "eksen": {
+            "dengeli": [
+              1,
+              2
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "ince",
+      "ad": "incelikli, laf sokan bir mizahı var",
+      "agirlik": 1.5
+    },
+    {
+      "id": "zayif",
+      "ad": "şakadan pek anlamaz",
+      "agirlik": 1.2,
+      "carpan": [
+        {
+          "eksen": {
+            "acik": [
+              1,
+              2
+            ]
+          },
+          "x": 1.8
+        }
+      ],
+      "kosul": {
+        "eksen": {
+          "acik": [
+            1,
+            3
+          ]
+        }
+      }
+    }
+  ],
+  "flortTarzi": [
+    {
+      "id": "utangac",
+      "ad": "utangaç; ilgisini belli etmez, kızarır",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "disadonuk": [
+              1,
+              2
+            ]
+          },
+          "x": 2.5
+        }
+      ],
+      "kosul": {
+        "eksen": {
+          "disadonuk": [
+            1,
+            3
+          ]
+        }
+      }
+    },
+    {
+      "id": "acik",
+      "ad": "açık sözlü; beğendiyse söyler",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "disadonuk": [
+              4,
+              5
+            ]
+          },
+          "x": 2
+        }
+      ],
+      "kosul": {
+        "eksen": {
+          "disadonuk": [
+            3,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "id": "alayci",
+      "ad": "takılarak flört eder; iltifatı şakayla karşılar",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "acik": [
+              4,
+              5
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "romantik",
+      "ad": "romantik; küçük jestlere bayılır",
+      "agirlik": 1.5,
+      "carpan": [
+        {
+          "eksen": {
+            "uyumlu": [
+              4,
+              5
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "temkinli",
+      "ad": "temkinli; güvenmeden açılmaz",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "dengeli": [
+              1,
+              2
+            ]
+          },
+          "x": 1.5
+        }
+      ]
+    },
+    {
+      "id": "oyunbaz",
+      "ad": "oyunbaz; ilgisini bir verir bir geri alır",
+      "agirlik": 1,
+      "carpan": [
+        {
+          "eksen": {
+            "uyumlu": [
+              1,
+              2
+            ]
+          },
+          "x": 2
+        }
+      ],
+      "kosul": {
+        "eksen": {
+          "uyumlu": [
+            1,
+            3
+          ]
+        }
+      }
+    }
+  ],
+  "guvenTarzi": [
+    {
+      "id": "kolay",
+      "ad": "insanlara kolay güvenir",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "eksen": {
+            "uyumlu": [
+              4,
+              5
+            ]
+          },
+          "x": 2
+        }
+      ],
+      "kosul": {
+        "eksen": {
+          "uyumlu": [
+            3,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "id": "zaman",
+      "ad": "güvenmesi zaman alır",
+      "agirlik": 4
+    },
+    {
+      "id": "kimse",
+      "ad": "kimseye tam güvenmez",
+      "agirlik": 1.5,
+      "carpan": [
+        {
+          "eksen": {
+            "uyumlu": [
+              1,
+              2
+            ]
+          },
+          "x": 2
+        }
+      ],
+      "kosul": {
+        "eksen": {
+          "uyumlu": [
+            1,
+            3
+          ]
+        }
+      }
+    }
+  ],
+  "kotuAliskanlik": [
+    {
+      "id": "sigara",
+      "ad": "sigara içer",
+      "agirlik": 4
+    },
+    {
+      "id": "icki",
+      "ad": "akşamları içer",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "kusak": "orta",
+          "x": 1.3
+        }
+      ]
+    },
+    {
+      "id": "kumar",
+      "ad": "arada kumar oynar",
+      "agirlik": 0.6
+    },
+    {
+      "id": "telefon",
+      "ad": "telefondan başını kaldırmaz",
+      "agirlik": 2,
+      "carpan": [
+        {
+          "kusak": "genc",
+          "x": 2.5
+        }
+      ]
+    },
+    {
+      "id": "gec",
+      "ad": "her yere geç kalır",
+      "agirlik": 1.5,
+      "carpan": [
+        {
+          "eksen": {
+            "sorumlu": [
+              1,
+              2
+            ]
+          },
+          "x": 2
+        }
+      ]
+    },
+    {
+      "id": "yok",
+      "ad": "pek bir kötü alışkanlığı yok",
+      "agirlik": 3
+    }
+  ],
+  "saglik": {
+    "genc": [
+      [
+        "sağlıklı",
+        8
+      ],
+      [
+        "astım",
+        0.6
+      ],
+      [
+        "migren",
+        1
+      ],
+      [
+        "uykusuzluk",
+        1
+      ]
+    ],
+    "orta": [
+      [
+        "sağlıklı",
+        5
+      ],
+      [
+        "bel fıtığı",
+        1.5
+      ],
+      [
+        "tansiyon",
+        1
+      ],
+      [
+        "migren",
+        1
+      ],
+      [
+        "mide",
+        1
+      ]
+    ],
+    "yasli": [
+      [
+        "yaşına göre iyi",
+        3
+      ],
+      [
+        "tansiyon",
+        3
+      ],
+      [
+        "şeker",
+        2
+      ],
+      [
+        "kalp",
+        1.5
+      ],
+      [
+        "dizler",
+        2
+      ],
+      [
+        "unutkanlık",
+        0.8
+      ]
+    ]
+  },
+  "para": [
+    "borç içinde",
+    "ayı ayına zor getiriyor",
+    "idare ediyor",
+    "biraz birikimi var",
+    "rahat",
+    "varlıklı"
+  ],
+  "rutin": {
+    "calisiyor": [
+      "Sabah erken işe çıkar, akşam yorgun döner; hafta sonları {mekanTuru} görülür.",
+      "Vardiyalı çalışır; boş günlerinde {mekanTuru} takılır.",
+      "İşten sonra eve gitmeden {mekanTuru} uğrar."
+    ],
+    "kendi": [
+      "Sabah dükkânını açar, akşam kapatana kadar oradadır.",
+      "Kendi işinin başında; gün boyu müşteriyle, akşam yorgun."
+    ],
+    "issiz": [
+      "Sabahları iş ilanlarına bakar, öğleden sonra {mekanTuru} oyalanır.",
+      "Günleri birbirine benzer; çoğunu {mekanTuru} geçirir."
+    ],
+    "emekli": [
+      "Sabah pazara ya da camiye, öğlen {mekanTuru}, akşam haberler.",
+      "Günü belli: kahvaltı, yürüyüş, {mekanTuru} birkaç saat."
+    ],
+    "ogrenci": [
+      "Derslere yarım yamalak gider; akşamları {mekanTuru} ya da arkadaşlarla.",
+      "Gündüz okul, akşam yarı zamanlı iş; kalan vakti {mekanTuru}."
+    ],
+    "ev": [
+      "Gün boyu ev işleri; öğleden sonra komşularla ya da {mekanTuru}.",
+      "Sabah çocukları gönderir, gün evde geçer."
+    ]
+  },
+  "esMeslek": [
+    "işçi",
+    "memur",
+    "esnaf",
+    "öğretmen",
+    "şoför",
+    "hemşire",
+    "ev hanımı",
+    "garson",
+    "muhasebeci",
+    "emekli",
+    "tezgâhtar",
+    "inşaat işçisi",
+    "kuaför",
+    "mühendis"
+  ],
+  "nerede": [
+    [
+      "Karaliman'da",
+      6
+    ],
+    [
+      "İstanbul'da",
+      2
+    ],
+    [
+      "memlekette",
+      1.5
+    ],
+    [
+      "Ankara'da",
+      0.6
+    ],
+    [
+      "İzmir'de",
+      0.6
+    ],
+    [
+      "yurt dışında",
+      0.8
+    ]
+  ],
+  "universiteYeri": [
+    [
+      "Karaliman Üniversitesi'nde",
+      5
+    ],
+    [
+      "İstanbul'da",
+      2
+    ],
+    [
+      "Ankara'da",
+      1
+    ],
+    [
+      "İzmir'de",
+      1
+    ],
+    [
+      "Eskişehir'de",
+      0.6
+    ]
+  ],
+  "baglar": {
+    "_aciklama": "İnsanlar arası ilişki türleri. Çift için seed'den belirlenimli (iki taraf aynı türü görür). his: iki yönlü sevgi/yakınlık [-100..100] taban aralığı; her tarafa ayrıca kişisel sapma eklenir. gecmis: ilişkinin kısa geçmişi ({a}, {b}, {yer}). gizli_iliski dedikodu motoruyla aynı hesaptır: dedikoduda 'aralarında bir şey var' denen herkes burada da gizli ilişkidedir.",
+    "turler": {
+      "kanka": {
+        "ad": "çok yakın arkadaşı",
+        "his": [
+          55,
+          90
+        ],
+        "gecmis": [
+          "{a} ile {b} yıllardır kardeş gibidir; birbirlerinin her şeyini bilirler.",
+          "{a} ile {b} {yer} tanıştılar; o gün bugündür ayrılmazlar."
+        ]
+      },
+      "arkadas": {
+        "ad": "arkadaşı",
+        "his": [
+          20,
+          55
+        ],
+        "gecmis": [
+          "{a} ile {b} {yer} sık sık karşılaşır, laflarlar.",
+          "{a} ile {b} eski arkadaştır; arada bir buluşurlar."
+        ]
+      },
+      "komsu": {
+        "ad": "komşusu",
+        "his": [
+          0,
+          35
+        ],
+        "gecmis": [
+          "{a} ile {b} aynı mahallede oturur; selamlaşır, bayramlaşırlar.",
+          "{a} ile {b} komşudur; bazen çay içerler, bazen birbirlerinin dedikodusunu yaparlar."
+        ]
+      },
+      "is": {
+        "ad": "iş tanıdığı",
+        "his": [
+          5,
+          40
+        ],
+        "gecmis": [
+          "{a} ile {b} {yer} iş yüzünden tanışır.",
+          "{a} ile {b} aynı yerin müdavimi; birbirlerini iş üzerinden bilirler."
+        ]
+      },
+      "kus": {
+        "ad": "küs olduğu biri",
+        "his": [
+          -60,
+          -15
+        ],
+        "gecmis": [
+          "{a} ile {b} bir zamanlar yakındı; bir para meselesi yüzünden küstüler.",
+          "{a} ile {b} arasında eski bir kavga var; aynı masaya oturmazlar.",
+          "{a}, {b} hakkında bir şey söyledi; {b} bunu hiç unutmadı."
+        ]
+      },
+      "rakip": {
+        "ad": "rakibi",
+        "his": [
+          -35,
+          5
+        ],
+        "gecmis": [
+          "{a} ile {b} aynı işi yapar; birbirlerinin müşterisine göz dikerler.",
+          "{a} ile {b} gençlikten beri yarışır; kim kazanırsa diğeri bozulur."
+        ]
+      },
+      "eski_sevgili": {
+        "ad": "eski sevgilisi",
+        "his": [
+          -30,
+          40
+        ],
+        "gecmis": [
+          "{a} ile {b} yıllar önce birlikteydi; ayrılık kötü oldu, kimse sebebini tam bilmez.",
+          "{a} ile {b} bir dönem çıktılar; şimdi karşılaşınca ikisi de gözünü kaçırır."
+        ]
+      },
+      "gizli_iliski": {
+        "ad": "gizli ilişkisi",
+        "his": [
+          45,
+          90
+        ],
+        "gecmis": [
+          "{a} ile {b} gizli gizli görüşüyor; bunu çok az kişi biliyor.",
+          "{a} ile {b} arasında herkesten sakladıkları bir şey var."
+        ]
+      },
+      "borclu": {
+        "ad": "borçlu olduğu biri",
+        "his": [
+          -25,
+          20
+        ],
+        "gecmis": [
+          "{a}, {b|den} borç aldı; hâlâ ödeyemedi.",
+          "{a} zor gününde {b|den} para istedi; {b} verdi ama unutmadı."
+        ]
+      },
+      "alacakli": {
+        "ad": "borç verdiği biri",
+        "his": [
+          -25,
+          20
+        ],
+        "gecmis": [
+          "{b}, {a|den} borç aldı; hâlâ ödeyemedi.",
+          "{b} zor gününde {a|den} para istedi; {a} verdi ama unutmadı."
+        ]
+      }
+    }
+  }
+}

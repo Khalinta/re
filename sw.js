@@ -4,7 +4,7 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-88a0b1fd991a';
+const ONBELLEK_SURUMU = 'yeniden-e1db5db74292';
 const DOSYALAR = [
   './',
   './css/temel.css',
@@ -24,6 +24,7 @@ const DOSYALAR = [
   './data/hikaye/arketipler.json',
   './data/hikaye/bilesenler.json',
   './data/npc/dedikodu.json',
+  './data/npc/derinlik.json',
   './data/npc/flort.json',
   './data/npc/gorunus.json',
   './data/npc/hayat.json',
@@ -72,6 +73,7 @@ const DOSYALAR = [
   './js/core/hikaye.js',
   './js/core/ilerleme.js',
   './js/core/insanlar.js',
+  './js/core/kart.js',
   './js/core/kayitbicim.js',
   './js/core/kayitdeposu.js',
   './js/core/konum.js',

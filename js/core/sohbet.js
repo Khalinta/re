@@ -20,6 +20,7 @@ import { aksiyonKaydet } from './durum.js';
 import { bayrakKoy } from './bayrak.js';
 import { kisi, mekandakiler, gorunus, tanisildiMi, tanidiklari, kisiOrada, sablonBul, anlatacagiDedikodu } from './insanlar.js';
 import { kisiGuncel, bilinmeyenOlaylar, haberSablonu } from './npchayat.js';
+import { gizliIliskiMi } from './kart.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
 const kucukBas = s => s ? s[0].toLocaleLowerCase('tr') + s.slice(1) : s;
@@ -201,7 +202,6 @@ function randevuKur(durum, veri, id, n, k) {
 
 // ------------------------------------------------------------------ insanlar üzerine dedikodu
 
-const ciftSayi = (seed, a, b) => Rng.akis(seed, 'ask|' + [a, b].sort().join('|')).sayi();
 
 // n'nin anlatabileceği, oyuncunun duymadığı bir dedikodu: { id, metin, kisi, dogru } ya da null
 export function kisiDedikodusu(durum, veri, n, mekan, rng) {
@@ -233,10 +233,7 @@ export function kisiDedikodusu(durum, veri, n, mekan, rng) {
     if (t.dert) turler.push({ tur: 'dert', a: 2 });
     if (['bosanmis', 'dul'].includes(t.medeni)) turler.push({ tur: t.medeni, a: 1.5 });
     for (const g of t.gizli || []) if (D.turler[g]) turler.push({ tur: g, a: 2 });
-    const es = tanidik.find(u => u !== tid && ciftSayi(durum.seed, tid, u) < D.askOlasiligi && (() => {
-      const nu = kisi(veri, durum.seed, u);
-      return nu && nu.yas >= 18 && t.yas >= 18 && Math.abs(nu.yas - t.yas) <= 15 && nu.cinsiyet !== t.cinsiyet;
-    })());
+    const es = tanidik.find(u => u !== tid && gizliIliskiMi(veri, durum.seed, t, kisi(veri, durum.seed, u)));
     if (es) turler.push({ tur: ['evli', 'sevgilili'].includes(t.medeni) ? 'askEvli' : 'ask', a: 4, u: es });
     const yalan = rng.olasilik(D.oran.yalan);
     const sec = yalan || !turler.length ? { tur: 'yalan' } : rng.agirlikliSec(turler.map(x => ({ ...x, agirlik: x.a })));

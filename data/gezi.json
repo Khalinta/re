@@ -1,5 +1,5 @@
 {
-  "_aciklama": "Gezinme ve mekan aksiyonları (adım 2.8). evAdaylari: yeni oyunda evin olabileceği semtler (seed seçer). sureler: dakika. mekanAksiyonlari: mekanın her hizmeti için bir aksiyon (ad, süre, etki, metin); fiyat ekonomi.json'dan (mekanın fiyat seviyesi). urunSecimi: hizmetin mekan türüne göre hangi ürünle ücretlendirileceği. kulakVer: kalabalığa göre bir şey duyma olasılığı; havuz = mekanın henüz duyulmamış dedikoduları + son 'haberGun' günün gündemi; ikisi de varsa 'dedikoduOnceligi' olasılıkla dedikodu. Duyulacak bir şey kalmayınca seçenek kapanır. Metinlerde {mekan.ad}, {semt.ad} kullanılabilir.",
+  "_aciklama": "Gezinme ve mekan aksiyonları (adım 2.8). evAdaylari: yeni oyunda evin olabileceği semtler (seed seçer). sureler: dakika. mekanAksiyonlari: mekanın her hizmeti için bir aksiyon (ad, süre, etki, metin); fiyat ekonomi.json'dan (mekanın fiyat seviyesi). urunSecimi: hizmetin mekan türüne göre hangi ürünle ücretlendirileceği. kulakVer: kalabalığa göre bir şey duyma olasılığı; havuz = mekanın henüz duyulmamış dedikoduları + son 'haberGun' günün gündemi; ikisi de varsa 'dedikoduOnceligi' olasılıkla dedikodu. Duyulacak bir şey kalmayınca seçenek kapanır. 3.5: kulak verince çoğu zaman (kisiOnceligi) mekandaki birinin bir başkası hakkında konuştuğunu duyarsın (data/npc/dedikodu.json); aynı mekanda günde en çok kisiGunluk kez. Metinlerde {mekan.ad}, {semt.ad} kullanılabilir.",
 
   "evAdaylari": ["tabakhane", "kayalitepe", "bezhane", "asagi_liman", "istasyon", "tersaneonu"],
   "ev": { "tip": "oda", "ad": "küçük bir oda" },
@@ -63,5 +63,5 @@
       "metin": ["Raflara, vitrinlere bakıyorsun; almasan da bakmak bir şey.", "Fiyat etiketlerine bakıp iç çekiyorsun."] }
   },
 
-  "kulakVer": { "ad": "Etrafa kulak ver", "sure": 30, "olasilik": [0, 0.4, 0.7, 0.85], "dedikoduOnceligi": 0.7, "haberGun": 7 }
+  "kulakVer": { "ad": "Etrafa kulak ver", "sure": 30, "olasilik": [0, 0.4, 0.7, 0.85], "dedikoduOnceligi": 0.7, "haberGun": 7, "kisiOnceligi": 0.6, "kisiGunluk": 3 }
 }

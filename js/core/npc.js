@@ -63,7 +63,9 @@ export function npcUret(seed, id, sablon, veri) {
   b.sakinTuru = sablon.sakinTuru ?? (semtKaydi ? rng.agirlikliSec(semtKaydi.sakinler).tur : '_varsayilan');
   b.cinsiyet = sablon.cinsiyet ?? (rng.olasilik(0.5) ? 'e' : 'k');
   const [yMin, yMax] = h.yasAraligi[b.sakinTuru] ?? h.yasAraligi._varsayilan;
-  b.dogumYili = sablon.dogumYili ?? (sablon.yas !== undefined ? SIMDIKI_YIL - sablon.yas : SIMDIKI_YIL - Math.round(yMin + (rng.sayi() + rng.sayi()) / 2 * (yMax - yMin)));
+  // Yaş: aralığın genç yarısına yatkın (3.5: kullanıcı 'herkes çok yaşlı' dedi; eskiden iki zarın ortalamasıydı, ortaya yığılıyordu)
+  const [z1, z2] = [rng.sayi(), rng.sayi()];
+  b.dogumYili = sablon.dogumYili ?? (sablon.yas !== undefined ? SIMDIKI_YIL - sablon.yas : SIMDIKI_YIL - Math.round(yMin + (0.75 * Math.min(z1, z2) + 0.25 * (z1 + z2) / 2) * (yMax - yMin)));
   b.yas = SIMDIKI_YIL - b.dogumYili;
 
   // Memleket, köken, ağız

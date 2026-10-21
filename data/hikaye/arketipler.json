@@ -1,5 +1,5 @@
 {
-  "_aciklama": "Başlangıç hikayesi arketipleri (adım 3.3). Bir arketip hikâyenin iskeletidir; motor (core/hikaye.js) her parçayı seed'den seçip birleştirir. tip: zirveden (her şeyini kaybetmiş) / dipten (hiç olmamış). agirlik: seçilme ağırlığı; nadir: uç hikâyeler. yas: bugünkü yaş aralığı. sakinTuru: karakterin geldiği çevre (görünüş, giyim, ağız buna göre). egitim: izin verilen eğitimler (yoksa kuşağa göre). cinsiyet: yalnızca bu cinsiyete uyan hikâyeler için. kancalar: dünya kitabının zaman çizelgesindeki olaylara bağ [{kanca, olaydaYas}] — olay anında en az o yaşta olmalı; yaş aralığı buna göre daraltılır. zincir: çöküşün (ya da hiç kalkamayışın) adımları, eskiden yeniye. Adımın yılı: yilOnce [a,b] (bugünden kaç yıl önce) ya da yas [a,b] (o zamanki yaşın) ya da yil (sabit, dünya olayı). yasMin: o adımda en az bu yaşta olmalı (değilse yıl ileri kayar). Yıllar hep artan sırada ve ≤ 2026. metin: çeşitlerden biri; { hata: [...], talih: [...] } ise 'hata' oranına göre biri seçilir. Şablon: {h.x} hikâye değişkenleri (havuz'dan seçilen ve bağlantıların adları: {h.ortak}), {y} adımın yılı, {yasO} o zamanki yaşın, {yas} bugünkü yaşın. havuz: hikâyeye özgü seçim listeleri (dize ya da {ad, olen: 'anne'|'baba'}). para: elde kalan nakit (AÜ). borclar: kime, ad, miktar (AÜ), olasılık; npc: alacaklı NPC; orgut; aylik: aylık ödeme. alacaklar: senin alacakların. baglantilar: geçmişten gelen kişiler, k:<rol> kimliğiyle gerçek NPC olurlar (figur verilirse dünya kitabındaki figürün kendisi). nerede: karaliman ya da disarida (dışarıdakiler telefonla, Faz 4). aile: soyadın ve memleketin aynı; yasFarki: senin yaşına eklenir; cinsiyet: ayni/karsi/e/k; esMi: eski eş; cocukMu: çocuğun; kancalar: o kişinin şehirdeki izleri. kalanlar: [id, ad, değer (AÜ)]. sirlar ve anilar ikinci tekil şahısla (iç ses). aile: {bilinmiyor: true} ailesini tanımayanlar için. bayraklar: başlangıçta kalıcı bayraklar. ev: şehirde nerede kalıyor (tip oda/pansiyon, semtler).",
+  "_aciklama": "Başlangıç hikayesi arketipleri (adım 3.3). Bir arketip hikâyenin iskeletidir; motor (core/hikaye.js) her parçayı seed'den seçip birleştirir. tip: zirveden (her şeyini kaybetmiş) / dipten (hiç olmamış). agirlik: seçilme ağırlığı; nadir: uç hikâyeler. yas: bugünkü yaş aralığı. sakinTuru: karakterin geldiği çevre (görünüş, giyim, ağız buna göre). egitim: izin verilen eğitimler (yoksa kuşağa göre). cinsiyet: yalnızca bu cinsiyete uyan hikâyeler için. kancalar: dünya kitabının zaman çizelgesindeki olaylara bağ [{kanca, olaydaYas}] — olay anında en az o yaşta olmalı; yaş aralığı buna göre daraltılır. zincir: çöküşün (ya da hiç kalkamayışın) adımları, eskiden yeniye. Adımın yılı: yilOnce [a,b] (bugünden kaç yıl önce) ya da yas [a,b] (o zamanki yaşın) ya da yil (sabit, dünya olayı). yasMin: o adımda en az bu yaşta olmalı (değilse yıl ileri kayar). Yıllar hep artan sırada ve ≤ 2026. metin: çeşitlerden biri; { hata: [...], talih: [...] } ise 'hata' oranına göre biri seçilir. Şablon: {h.x} hikâye değişkenleri (havuz'dan seçilen ve bağlantıların adları: {h.ortak}), {y} adımın yılı, {yasO} o zamanki yaşın, {yas} bugünkü yaşın. havuz: hikâyeye özgü seçim listeleri (dize ya da {ad, olen: 'anne'|'baba'}). para: elde kalan nakit (AÜ). borclar: kime, ad, miktar (AÜ), olasılık; npc: alacaklı NPC; orgut; aylik: aylık ödeme. alacaklar: senin alacakların. baglantilar: geçmişten gelen kişiler, k:<rol> kimliğiyle gerçek NPC olurlar (figur verilirse dünya kitabındaki figürün kendisi). nerede: karaliman ya da disarida (dışarıdakiler telefonla, Faz 4). aile: soyadın ve memleketin aynı; yasFarki: senin yaşına eklenir; cinsiyet: ayni/karsi/e/k; esMi: eski eş; cocukMu: çocuğun; kancalar: o kişinin şehirdeki izleri. kalanlar: [id, ad, değer (AÜ)]. sirlar ve anilar ikinci tekil şahısla (iç ses). aile: {bilinmiyor: true} ailesini tanımayanlar için. bayraklar: başlangıçta kalıcı bayraklar. ozet: karakterin kendi ağzından, sohbette 'geçmişini anlat' deyince söylediği (3.5). ev: şehirde nerede kalıyor (tip oda/pansiyon, semtler).",
   "arketipler": [
     {
       "id": "aile_isletmesi",
@@ -189,7 +189,11 @@
           "Sahilyolu'nda bir balık lokantası",
           "dedenden kalma bir matbaa"
         ]
-      }
+      },
+      "ozet": [
+        "Babamdan kalan dükkânı batırdım. Haciz geldi, tabelayı başkası indirdi; ben de buradayım işte.",
+        "Aile işini ben devraldım, ben kapattım. Borçlar bende kaldı, utancı da."
+      ]
     },
     {
       "id": "ortak_dolandirdi",
@@ -365,6 +369,10 @@
       "sakinTuru": [
         "genc_girisimci",
         "beyaz_yaka"
+      ],
+      "ozet": [
+        "Bir şirket kurmuştuk; ortağım bir gece hesabı boşaltıp kaçtı. Borçlar benim adıma kaldı.",
+        "Güvendiğim biri her şeyimi aldı. Davalar sürüyor; ben sıfırdan başlıyorum."
       ]
     },
     {
@@ -551,7 +559,11 @@
       "sakinTuru": [
         "beyaz_yaka"
       ],
-      "cinsiyet": "e"
+      "cinsiyet": "e",
+      "ozet": [
+        "Demirspor'da oynuyordum. Dizim gitti, sözleşmem yenilenmedi; şimdi ne yapacağımı bilmiyorum.",
+        "Futbolcuydum. Bir sakatlık, hepsi bu kadar sürdü."
+      ]
     },
     {
       "id": "unutulan_unlu",
@@ -730,6 +742,10 @@
       },
       "sakinTuru": [
         "sanatci"
+      ],
+      "ozet": [
+        "Bir zamanlar ekrandaydım; bir skandal, sonra herkes beni unuttu.",
+        "Eskiden sokakta imza isterlerdi. Şimdi tanıyan bile çıkmıyor; belki iyi ki."
       ]
     },
     {
@@ -925,6 +941,10 @@
       "sakinTuru": [
         "beyaz_yaka",
         "kucuk_memur"
+      ],
+      "ozet": [
+        "KoinPazar çöktüğünde her şeyim oradaydı. Birikimim, kredim, annemin altınları.",
+        "Kriptoya her şeyimi yatırdım; bir gecede sıfırlandım."
       ]
     },
     {
@@ -1104,6 +1124,10 @@
         "esnaf",
         "gece_calisani",
         "beyaz_yaka"
+      ],
+      "ozet": [
+        "Kumar. Önce işimi, sonra evimi, sonra ailemi kaybettim. Hâlâ borcum var; yanlış insanlara.",
+        "Masada her şeyimi kaybettim. Kaçacak yer de kalmadı."
       ]
     },
     {
@@ -1260,6 +1284,10 @@
         "beyaz_yaka",
         "fabrika_iscisi",
         "kucuk_memur"
+      ],
+      "ozet": [
+        "Yıllarımı verdiğim yerden bir gecede kapı dışarı edildim. Dava sürüyor; ben sıfırdayım.",
+        "Haksız yere işten atıldım. Bu yaşta kimse iş vermiyor."
       ]
     },
     {
@@ -1412,6 +1440,10 @@
       "egitim": [
         "ortaokul",
         "lise"
+      ],
+      "ozet": [
+        "Evden atıldım. Bir çanta ve birkaç kıyafetle çıktım; şimdi kendi başımayım.",
+        "Ailemle aram bozuldu; kapı bir gün yüzüme kapandı."
       ]
     },
     {
@@ -1569,6 +1601,10 @@
         "beyaz_yaka",
         "kucuk_memur",
         "esnaf"
+      ],
+      "ozet": [
+        "Boşandım. Ev ona kaldı, borçlar bana; yeni bir odadan başlıyorum.",
+        "Evliliğim bitti. Her şeyi yeniden kurmam lazım."
       ]
     },
     {
@@ -1730,6 +1766,10 @@
       "sakinTuru": [
         "beyaz_yaka",
         "serbest_meslek"
+      ],
+      "ozet": [
+        "Yurt dışına gitmiştim, olmadı; eli boş döndüm. Herkes 'nasıldı' diye soruyor, cevabı yok.",
+        "Yıllarca dışarıdaydım. Döndüm; şehir değişmiş, ben de."
       ]
     },
     {
@@ -1866,6 +1906,10 @@
       "egitim": [
         "lise",
         "meslek_lisesi"
+      ],
+      "ozet": [
+        "Yurtta büyüdüm. On sekiz olunca kapıdan çıkardılar; şehir benim için şimdi başlıyor.",
+        "Ailem yok; yurttan yeni çıktım. Her şey ilk defa."
       ]
     },
     {
@@ -2014,7 +2058,11 @@
           "bir sel gecesinde",
           "evinin bulunduğu binanın çökmesiyle"
         ]
-      }
+      },
+      "ozet": [
+        "Bir gecede her şeyimi kaybettim; evim yıkıldı. Buraya bir akrabanın yanına geldim.",
+        "Bir felaket... Öncesi ve sonrası var artık hayatımın."
+      ]
     },
     {
       "id": "hasta_bakan",
@@ -2165,7 +2213,11 @@
             "olen": "baba"
           }
         ]
-      }
+      },
+      "ozet": [
+        "Yıllarca hasta bir ebeveyne baktım. Geçen kış kaybettim; şimdi ilk defa kendi hayatıma bakıyorum.",
+        "Hayatımın on yılını bir hastane odasında geçirdim. Şimdi ne yapacağımı bilmiyorum."
+      ]
     },
     {
       "id": "tersane_cocugu",
@@ -2338,6 +2390,10 @@
         "ortaokul",
         "lise",
         "meslek_lisesi"
+      ],
+      "ozet": [
+        "Babam tersanedeydi; tersane kapanınca biz de dağıldık. Elimde yarım bir meslek var.",
+        "Tersaneönü'nde büyüdüm. Tersane kapandı, şansımız da onunla gitti."
       ]
     },
     {
@@ -2502,6 +2558,10 @@
         "ortaokul",
         "lise",
         "meslek_lisesi"
+      ],
+      "ozet": [
+        "İçerideydim. Geçen ay çıktım. Herkes ikinci şans der; kimse vermiyor.",
+        "Birkaç yıl yattım. Şimdi dışarıdayım ve her şey çok hızlı."
       ]
     },
     {
@@ -2657,6 +2717,10 @@
         "ilkokul",
         "ortaokul",
         "lise"
+      ],
+      "ozet": [
+        "Hiç şansım olmadı ki kaybedeyim. Okulu erken bıraktım; ne iş bulduysam yaptım.",
+        "Yoksulluk işte. Ama hâlâ ayaktayım."
       ]
     },
     {
@@ -2811,7 +2875,11 @@
           "bir yangında yedi kişiyi kurtardığın videon bütün ülkede izlenmişti",
           "uluslararası bir şampiyonada madalya almıştın; şehir seni otobüsün üstünde karşılamıştı"
         ]
-      }
+      },
+      "ozet": [
+        "Bir zamanlar bütün ülke beni konuşuyordu. Şöhret geldi, para geldi; hepsi gitti.",
+        "Belki hatırlarsın beni, belki değil. Bir dönem herkes adımı biliyordu."
+      ]
     },
     {
       "id": "piyango",
@@ -2952,6 +3020,10 @@
       "sakinTuru": [
         "fabrika_iscisi",
         "kucuk_memur"
+      ],
+      "ozet": [
+        "Piyango çıktı bana; inanmayacaksın. Hepsini kaybettim.",
+        "Bir gecede zengin oldum, birkaç yılda sıfırlandım."
       ]
     },
     {
@@ -3077,6 +3149,10 @@
       "sakinTuru": [
         "liman_iscisi",
         "kucuk_memur"
+      ],
+      "ozet": [
+        "Görmemem gereken bir şey gördüm. O günden beri hayatım tersine döndü; fazlasını sorma.",
+        "Bir gece yanlış yerdeydim. Gerisi... anlatması zor."
       ]
     }
   ]

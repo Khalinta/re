@@ -30,11 +30,11 @@ function duyduklarimPaneli() {
   panelAc({
     baslik: 'Duyduklarım',
     icerik: h('div', {},
-      h('p', { class: 'soluk kucuk' }, 'Mekanlarda kulak verdiğinde duyduklarını burada biriktirirsin. Hepsi doğru değil; hangisinin doğru olduğunu zamanla anlarsın.'),
+      h('p', { class: 'soluk kucuk' }, 'Kulak verdiğinde ve insanların ağzını aradığında duyduklarını burada biriktirirsin. Hepsi doğru değil; hangisinin doğru olduğunu zamanla anlarsın.'),
       liste.length
         ? liste.map(d => h('div', { class: 'duyulan' },
           h('p', { class: 'panel-metin' }, '“' + d.metin + '”'),
-          h('p', { class: 'soluk kucuk' }, `${mekanBul(oyun.veri.dunya, d.mekan)?.ad ?? ''} · ${onceYaz(d.gun)}`)))
+          h('p', { class: 'soluk kucuk' }, `${d.kaynakAd ? d.kaynakAd + ' anlattı · ' : ''}${mekanBul(oyun.veri.dunya, d.mekan)?.ad ?? ''} · ${onceYaz(d.gun)}`)))
         : h('p', {}, 'Henüz bir şey duymadın. Bir kahveye otur, etrafa kulak ver.')),
   });
 }
@@ -47,6 +47,8 @@ function kisiPaneli(t) {
     h('p', { class: 'panel-metin' }, t.tanim),
     t.gorunus ? h('p', { class: 'panel-metin soluk' }, t.gorunus) : null,
     h('div', { class: 'ozet-satir' }, h('span', {}, 'Aranız'), h('span', { class: 'soluk' }, t.gerginlik >= 4 ? 'gergin' : `${yakinlikAdi(t.yakinlik)} · ${KATMAN_ADI[t.katman] ?? ''}`)),
+    t.iliskiTuru || t.numara ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Aranızda'), h('span', { class: 'soluk' }, t.iliskiTuru === 'sevgili' ? 'sevgilin' : t.iliskiTuru === 'flort' ? 'flörtleşiyorsunuz' : 'numarası sende')) : null,
+    t.flortEngel ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Bildiğin'), h('span', { class: 'soluk' }, t.flortEngel === 'evli' ? 'hayatında biri var' : 'sana o gözle bakmıyor')) : null,
     t.gecmis ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Geçmişinden'), h('span', { class: 'soluk' }, t.gecmis)) : null,
     t.disarida ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Nerede'), h('span', { class: 'soluk' }, 'şehir dışında')) : null,
     t.nerede ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Tanıştığınız yer'), h('span', { class: 'soluk' }, mekanBul(oyun.veri.dunya, t.nerede)?.ad ?? '')) : null,
@@ -98,7 +100,7 @@ function tanidiklarimPaneli() {
   panelAc({
     baslik: 'Tanıdıklarım',
     icerik: h('div', {},
-      h('p', { class: 'soluk kucuk' }, 'Mekanlarda tanıştığın insanlar. Sohbet ettikçe dertlerini, hayallerini öğrenirsin; onlar da seni hatırlar.'),
+      h('p', { class: 'soluk kucuk' }, 'Tanıştığın insanlar. Sohbet ettikçe dertlerini, hayallerini öğrenirsin; onlar da sana anlattıklarını ve senin onlara anlattıklarını hatırlar.'),
       liste.length
         ? h('div', { class: 'kart-liste' }, liste.map(t => satir(t.ad, `${t.tanim.split(';')[0]} · ${yakinlikAdi(t.yakinlik)}`, () => kisiPaneli(t))))
         : h('p', {}, 'Henüz kimseyle tanışmadın. Bir mekana gir; orada kimler varsa seçeneklerde görünür.')),

@@ -14,7 +14,8 @@ import { ek } from './tr.js';
 import { para as paraYaz, sure as sureYaz } from './format.js';
 import { aksiyonKaydet } from './durum.js';
 import { Rng } from './rng.js';
-import { mekandakiler, tanisildiMi, gorunus, kisi, tanis, yaninaOtur, sohbetKonulari, oturumGecerli } from './insanlar.js';
+import { mekandakiler, tanisildiMi, gorunus, kisi } from './insanlar.js';
+import { tanis, yaninaOtur, sohbetKonulari, oturumGecerli, kisiDedikodusu, dedikoduKaydet } from './sohbet.js';
 
 export const EVDE = 'ev';
 
@@ -259,7 +260,10 @@ const haberAnahtari = g => `${g.gun}|${g.id ?? g.tur}`;
 export function konusulacaklar(durum, veri, m) {
   const duyulan = durum.bilgi?.dedikodular || {}, haberler = durum.bilgi?.haberler || {};
   const bugun = gunNo(durum.zaman.dakika);
+  const kisiHakkinda = veri.npc?.dedikodu && mekanKalabaligi(durum, m) >= 1 && (durum.bilgi?.kulakKisi?.[m.id + '|' + bugun] ?? 0) < veri.gezi.kulakVer.kisiGunluk
+    ? [{ tur: 'kisi' }] : [];
   return [
+    ...kisiHakkinda,
     ...(m.dedikodular || []).filter(d => !duyulan[d.id]).map(d => ({ tur: 'dedikodu', d })),
     ...(durum.dunya?.gundem || []).filter(g => bugun - g.gun <= veri.gezi.kulakVer.haberGun && !(haberAnahtari(g) in haberler)).map(g => ({ tur: 'haber', g })),
   ];
@@ -287,8 +291,26 @@ function kulakVer(durum, veri, rng, m, ctx) {
   durum.bilgi.haberler ??= {};
   const havuz = konusulacaklar(durum, veri, m);
   const dedikodu = havuz.filter(x => x.tur === 'dedikodu');
-  if (havuz.length && rng.olasilik(olasilik)) {
-    const x = dedikodu.length && (dedikodu.length === havuz.length || rng.olasilik(kv.dedikoduOnceligi)) ? rng.sec(dedikodu) : rng.sec(havuz.filter(y => y.tur === 'haber'));
+  // Kulak misafiri olunan konuşmaların çoğu insanlar hakkında (3.5): mekandaki birinin ağzından
+  const kisiVar = havuz.some(x => x.tur === 'kisi');
+  const duydu = havuz.length > 0 && rng.olasilik(olasilik);
+  const digerVar = havuz.some(x => x.tur !== 'kisi');
+  let kd = null, konusanKisi = null;
+  if (duydu && kisiVar && (!digerVar || rng.olasilik(kv.kisiOnceligi))) {
+    const konusan = mekandakiler(durum, veri, m, mekanKalabaligi(durum, m)).map(id => kisi(veri, durum.seed, id)).filter(Boolean);
+    konusanKisi = konusan.length ? rng.sec(konusan) : null;
+    if (konusanKisi) kd = kisiDedikodusu(durum, veri, konusanKisi, m, rng);
+  }
+  if (kd) {
+    dedikoduKaydet(durum, kd, m, null);
+    const anahtar = m.id + '|' + gunNo(durum.zaman.dakika);
+    durum.bilgi.kulakKisi = { [anahtar]: (durum.bilgi.kulakKisi?.[anahtar] ?? 0) + 1 };
+    paragraflar.push(...yaz(mt.kulakVerGiris, rng, ctx));
+    const kim = gorunus(konusanKisi, veri);
+    paragraflar.push({ tur: 'konusma', konusan: kim[0].toLocaleUpperCase('tr') + kim.slice(1), metin: kd.metin });
+    paragraflar.push({ tur: 'sistem', metin: 'Duyduklarına eklendi' });
+  } else if (duydu && digerVar) {
+    const x = dedikodu.length && (dedikodu.length === havuz.filter(y => y.tur !== 'kisi').length || rng.olasilik(kv.dedikoduOnceligi)) ? rng.sec(dedikodu) : rng.sec(havuz.filter(y => y.tur === 'haber'));
     if (x.tur === 'dedikodu') {
       durum.bilgi.dedikodular[x.d.id] = { gun: gunNo(durum.zaman.dakika), mekan: m.id };
       paragraflar.push(...yaz(mt.kulakVerGiris, rng, ctx));
@@ -309,7 +331,7 @@ function kulakVer(durum, veri, rng, m, ctx) {
 export function duyulanlar(durum, veri) {
   const hepsi = new Map((veri.dunya.mekanlar?.mekanlar || []).flatMap(m => (m.dedikodular || []).map(d => [d.id, d])));
   return Object.entries(durum.bilgi?.dedikodular || {})
-    .map(([id, b]) => ({ id, metin: hepsi.get(id)?.metin, mekan: b.mekan, gun: b.gun }))
+    .map(([id, b]) => ({ id, metin: b.metin ?? hepsi.get(id)?.metin, mekan: b.mekan, gun: b.gun, kaynak: b.kaynak, kaynakAd: b.kaynak ? kisi(veri, durum.seed, b.kaynak)?.hitapAdi : null, kisi: b.kisi }))
     .filter(x => x.metin)
     .sort((a, b) => b.gun - a.gun);
 }

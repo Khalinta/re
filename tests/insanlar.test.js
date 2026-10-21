@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { yeniDurum } from '../js/core/durum.js';
 import * as konum from '../js/core/konum.js';
-import { mekandakiler, kisi, gorunus, tanis, yaninaOtur, sohbetKonulari, sohbetHamlesi, tanisiyorMu, tanidiklari, tanidiklarim } from '../js/core/insanlar.js';
+import { mekandakiler, kisi, gorunus, tanisiyorMu, tanidiklari } from '../js/core/insanlar.js';
+import { tanis, yaninaOtur, sohbetKonulari, sohbetHamlesi } from '../js/core/sohbet.js';
 import { mekanBul } from '../js/core/mekan.js';
 import { Rng } from '../js/core/rng.js';
 
@@ -11,7 +12,7 @@ const oku = y => JSON.parse(readFileSync(new URL('../' + y, import.meta.url)));
 const dunya = {};
 for (const f of ['sehir', 'semtler', 'ulasim', 'kurumlar', 'sirketler', 'figurler', 'orgutler', 'mekanlar']) dunya[f] = oku(`data/dunya/${f}.json`);
 const npc = {};
-for (const f of ['isimler', 'memleket', 'kisilik', 'hayat', 'sohbet', 'gorunus']) npc[f] = oku(`data/npc/${f}.json`);
+for (const f of ['isimler', 'memleket', 'kisilik', 'hayat', 'sohbet', 'gorunus', 'flort', 'dedikodu']) npc[f] = oku(`data/npc/${f}.json`);
 const veri = { sim: oku('data/simulasyon.json'), takvim: oku('data/takvim.json'), dunya, npc, hava: oku('data/hava.json'), ekonomi: oku('data/ekonomi.json'), gezi: oku('data/gezi.json') };
 const yeni = (saat = 9) => yeniDurum(veri.sim, { seed: 'INSAN', baslangic: '2026-10-20', saat, para: 2000, ev: { semt: 'eski_carsi', tip: 'oda', ad: 'oda' } });
 const cinar = mekanBul(dunya, 'cinaralti_kahvesi');
@@ -94,6 +95,7 @@ test('tanışma: kişi kendini kendi ağzından tanıtır, görünüşü anlatı
   const son = d.anlatim.length ? d.anlatim : [];
   void son;
   assert.ok(d.sohbet && d.sohbet.npc === id && d.sohbet.kalan >= 1);
+  if (d.sohbet.bekleyen) { const c = sohbetKonulari(d, veri); assert.ok(c.length && c.every(x => x.konu.startsWith('cevap:'))); sohbetHamlesi(d, veri, t.r, c[0].konu); }
   const konular = sohbetKonulari(d, veri).map(x => x.konu);
   for (const k of ['hal', 'is', 'memleket', 'kendin', 'bitir']) assert.ok(konular.includes(k), k);
   assert.ok(!konular.includes('hayal')); // yakınlık düşük
@@ -103,16 +105,16 @@ test('sohbet: cevaplar konuşanın ağzından, şablonlar çözülü; bir kez so
   const { d, id, an, r } = tanisilmis('SOHBET');
   const ad = kisi(veri, d.seed, id).hitapAdi;
   let bitti = false, n = 0;
-  while (d.sohbet && n < 20) {
+  while (d.sohbet && n < 60) {
     d.zaman.dakika = an;
     const secenek = sohbetKonulari(d, veri).filter(x => x.konu !== 'bitir');
     if (!secenek.length) break;
     const s = sohbetHamlesi(d, veri, r, secenek[0].konu);
     assert.ok(s.tamam, s.sebep);
     temiz(s.paragraflar);
-    if (['hal', 'is', 'memleket', 'semt'].includes(secenek[0].konu)) assert.ok(s.paragraflar.some(p => p.tur === 'konusma' && p.konusan === ad), secenek[0].konu);
+    if (['hal', 'is', 'memleket', 'semt', 'gundem'].includes(secenek[0].konu)) assert.ok(s.paragraflar.some(p => p.tur === 'konusma' && p.konusan === ad), secenek[0].konu);
     if (!d.sohbet) bitti = true;
-    else assert.ok(!sohbetKonulari(d, veri).some(x => x.konu === secenek[0].konu));
+    else if (!secenek[0].konu.startsWith('cevap:')) assert.ok(!sohbetKonulari(d, veri).some(x => x.konu === secenek[0].konu));
     n++;
   }
   assert.ok(bitti, 'kişinin sabrı hiç bitmedi');
@@ -124,8 +126,9 @@ test('çeşitlilik: aynı kişiyle günlerce konuşunca cümleler tekrar etmiyor
   for (let gun = 0; gun < 8; gun++) {
     d.zaman.dakika = an;
     d.sohbet = { npc: id, mekan: d.konum.mekan, kalan: 9, kullanilan: {} };
-    for (const konu of ['hal', 'semt', 'gundem', 'kendin', 'saka']) {
+    for (const konu of ['hal', 'semt', 'gundem', 'saka', 'is']) {
       if (!d.sohbet) break;
+      d.sohbet.bekleyen = null;
       d.zaman.dakika = an;
       const s = sohbetHamlesi(d, veri, r, konu);
       if (s.tamam) duyulan.push(...metinler(s.paragraflar.filter(p => p.tur !== 'secim' && p.tur !== 'sistem')));
@@ -178,6 +181,11 @@ test('kimse kendisi, örgütü ya da mekanı hakkındaki dedikoduyu anlatmaz', (
     sohbetHamlesi(d, veri, r, 'dedikodu');
   }
   for (const [did, b] of Object.entries(d.bilgi.dedikodular || {})) if (b.kaynak === id) {
+    if (did.startsWith('p:')) { // insanlar hakkında: kendisi ya da örgütünün insanları değil
+      assert.notEqual(b.kisi, id);
+      assert.ok(!['f:hasan_karakas'].includes(b.kisi), did);
+      continue;
+    }
     assert.ok(!gizliler.has(did), did);
     const dd = dunya.mekanlar.mekanlar.flatMap(m => m.dedikodular).find(x => x.id === did);
     assert.ok(!['orgut:karakaslar', 'figur:selda_karakas', 'figur:hasan_karakas'].includes(dd.konu), did);
@@ -185,9 +193,16 @@ test('kimse kendisi, örgütü ya da mekanı hakkındaki dedikoduyu anlatmaz', (
 });
 
 test('ağızsı ağzı olmayan veri: bütün sohbet cümleleri tanınan yer tutucularla yazılmış', () => {
-  const izinli = new Set(['ad', 'ilkAd', 'hitapAdi', 'hitap', 'meslek', 'meslekEski', 'memleketAd', 'memleketDen', 'memleketLi', 'kokenAd', 'semtAd', 'gerilimAd', 'gerilimOzet', 'haber', 'dert', 'hayal', 'dedikodu', 'tanidikAd', 'tanidikYer', 'tanidikYorum', 'mekanAd']);
-  const gez = x => { if (typeof x === 'string') { for (const [, v] of x.matchAll(/\{s\.([a-zA-Z]+)/g)) assert.ok(izinli.has(v), `${v}: ${x}`); } else if (Array.isArray(x)) x.forEach(gez); else if (x && typeof x === 'object') Object.values(x).forEach(gez); };
-  gez(veri.npc.sohbet);
+  const izinli = new Set(['ad', 'ilkAd', 'hitapAdi', 'hitap', 'meslek', 'meslekEski', 'memleketAd', 'memleketDen', 'memleketLi', 'memleketLiyim', 'kokenAd', 'semtAd', 'gerilimAd', 'haber', 'dedikodu', 'tanidikAd', 'tanidikYer', 'tanidikYorum', 'mekanAd', 'adamim']);
+  const oyuncuIzinli = new Set(['ad', 'eskiMeslek', 'semt', 'ozet', 'memleket', 'memleketCumle']);
+  const gez = x => {
+    if (typeof x === 'string') {
+      for (const [, v] of x.matchAll(/\{s\.([a-zA-Z]+)/g)) assert.ok(izinli.has(v), `${v}: ${x}`);
+      for (const [, v] of x.matchAll(/\{o\.([a-zA-Z]+)/g)) assert.ok(oyuncuIzinli.has(v), `o.${v}: ${x}`);
+      for (const [, v] of x.matchAll(/\{([a-z]+)\./g)) assert.ok(['s', 'o', 't', 'u'].includes(v), `${v}: ${x}`);
+    } else if (Array.isArray(x)) x.forEach(gez); else if (x && typeof x === 'object') Object.values(x).forEach(gez);
+  };
+  gez(veri.npc.sohbet); gez(veri.npc.flort); gez(veri.npc.dedikodu);
 });
 
 test('konum: mekanda insan seçenekleri; sohbet açıkken yalnızca konular', () => {

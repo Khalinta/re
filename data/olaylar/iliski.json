@@ -1,0 +1,49 @@
+{
+  "_aciklama": "Flört ve ilişki olayları (adım 3.5). 'randevu': sohbette buluşma teklifi kabul edilince ertesi akşam 20.00'ye kurulan zamanlayıcıyla gelir; bağlamda npc.kisi (o kişi) ve {kisi.ad}. Gidersen birlikte bir akşam: dinlemek, açılmak, şakalaşmak; sonunda elini tutmak ya da öpmek denenebilir (çekime göre şans). İlişki türü: flort → sevgili. Gitmezsen kırılır.",
+  "olaylar": [
+    {
+      "id": "randevu",
+      "tetik": "zamanlayici",
+      "tekrar": true,
+      "baslik": "Buluşma",
+      "etiketler": ["iliski", "flort"],
+      "sahneler": {
+        "giris": {
+          "metin": [["Saat sekize geliyor. Telefonunda bir mesaj: {kisi.ad}.", { "tur": "konusma", "konusan": "{kisi.ad}", "metin": "Ben çıktım. İskelede misin? Geç kalırsan ilk çayı sen ısmarlarsın." }], ["Akşam oldu; Kordon'da {kisi.ad} ile buluşacaktın.", "Aynaya bir kez daha bakıyorsun. Kalbin, itiraf etmek istemediğin kadar hızlı."]],
+          "secenekler": [
+            { "metin": "Git", "alt": "Kordon'da bir akşam.", "maliyet": { "dakika": 40, "para": 300 }, "etki": [{ "durum": { "ruh": 4 } }], "sonuc": [["Kordon'da rüzgâr var; martılar ışıkların etrafında dönüyor.", "{kisi.ad} seni görünce gülümsüyor; önce el sallıyor, sonra sallamaya utanıyor."]], "git": "bulusma" },
+            { "metin": "Gitme", "alt": "Bir bahane uydur.", "maliyet": { "dakika": 5 }, "etki": [{ "iliski": { "npc": "kisi", "cekim": -10, "yakinlik": -6, "gerginlik": 4 } }, { "ani": { "npc": "kisi", "metin": "buluşmaya gelmedin" } }, { "durum": { "ruh": -3 } }], "sonuc": ["'Kusura bakma, bir iş çıktı' yazıyorsun. Cevap uzun süre gelmiyor; sonra tek kelime: 'Peki.'"] }
+          ]
+        },
+        "bulusma": {
+          "metin": {
+            "kosullu": [
+              { "kosul": { "iliski": { "npc": "kisi", "cekim": { "min": 45 } } }, "metin": [["İki çay, bir tabak çekirdek. Konuşmak için zorlamaya gerek yok; söz kendiliğinden akıyor.", "Bir ara susuyorsunuz; susmak da rahat."]] }
+            ],
+            "varsayilan": [["İlk dakikalar biraz tuhaf: ne diyeceğinizi bilmiyorsunuz, iki kez aynı anda konuşmaya başlıyorsunuz.", "Sonra gülüyorsunuz; buz kırılıyor."], ["Bir masa buluyorsunuz; denize karşı. {kisi.ad} ellerini nereye koyacağını bilemiyor; sen de."]]
+          },
+          "secenekler": [
+            { "metin": "Onu dinle, sorular sor", "maliyet": { "dakika": 40 }, "etki": [{ "iliski": { "npc": "kisi", "yakinlik": 5, "cekim": 3 } }], "sonuc": [["Soruyorsun; anlatıyor. Çocukluğunu, bu şehri, kimseye anlatmadığı küçük bir şeyi.", "Bir ara duruyor: 'Ben hep anlattım, sen hiç anlatmadın' diyor; ama gözleri teşekkür ediyor."]], "git": "yuruyus" },
+            { "metin": "Kendini aç", "alt": "Geçmişini anlat.", "maliyet": { "dakika": 40 }, "etki": [{ "iliski": { "npc": "kisi", "guven": 5, "cekim": 2, "yakinlik": 3 } }, { "durum": { "stres": -4 } }], "sonuc": [["Başkasına anlatmadığın şeyleri anlatıyorsun; kendini bile şaşırtıyorsun.", "{kisi.ad} sözünü kesmeden dinliyor. Sonunda elini masanın üstünde senin eline doğru biraz uzatıyor, sonra vazgeçiyor."]], "git": "yuruyus" },
+            { "metin": "Şakalarla havayı yumuşat", "maliyet": { "dakika": 40 }, "kontrol": { "sans": 0.6, "bonus": [{ "kosul": { "iliski": { "npc": "kisi", "cekim": { "min": 35 } } }, "deger": 20 }] },
+              "basari": { "sonuc": [["Bir şey anlatıyorsun; {kisi.ad} gülmekten çayını döküyor. Yan masa bile gülüyor.", "Akşamın geri kalanı o kahkahanın üstüne kuruluyor."]], "etki": [{ "iliski": { "npc": "kisi", "cekim": 6, "yakinlik": 3 } }, { "durum": { "ruh": 5 } }], "git": "yuruyus" },
+              "basarisiz": { "sonuc": "Şaka havada asılı kalıyor. {kisi.ad} kibarca gülümsüyor; sen bir daha denemiyorsun.", "etki": [{ "iliski": { "npc": "kisi", "cekim": -2 } }], "git": "yuruyus" } }
+          ]
+        },
+        "yuruyus": {
+          "metin": [["Hesabı ödeyip Kordon boyunca yürüyorsunuz. Vapur iskelesinin ışıkları suya düşüyor.", "Kollarınız ara ara birbirine değiyor; ikiniz de bir şey demiyorsunuz."]],
+          "secenekler": [
+            { "metin": "Elini tut", "kosul": { "degil": { "iliski": { "npc": "kisi", "tur": "sevgili" } } }, "gizle": true, "maliyet": { "dakika": 20 }, "kontrol": { "sans": 0.45, "bonus": [{ "kosul": { "iliski": { "npc": "kisi", "cekim": { "min": 40 } } }, "deger": 30 }] },
+              "basari": { "sonuc": [["Elini tutuyorsun. Bir an duruyor; sonra parmakları seninkilerin arasına kayıyor.", "Kordon'un sonuna kadar öyle yürüyorsunuz."]], "etki": [{ "iliski": { "npc": "kisi", "cekim": 8, "yakinlik": 4, "tur": "flort" } }, { "ani": { "npc": "kisi", "metin": "Kordon'da el ele yürüdünüz" } }, { "durum": { "ruh": 8, "ozguven": 3 } }, { "gunluk": "Bu akşam {kisi.ad} ile Kordon'da el ele yürüdük." }] },
+              "basarisiz": { "sonuc": "Elini nazikçe çekiyor; 'Biraz yavaş' diyor, gülümseyerek ama net.", "etki": [{ "iliski": { "npc": "kisi", "cekim": -3 } }, { "durum": { "ozguven": -2 } }] } },
+            { "metin": "Öpmeyi dene", "kosul": { "iliski": { "npc": "kisi", "tur": { "biri": ["flort", "sevgili"] } } }, "gizle": true, "maliyet": { "dakika": 15 }, "kontrol": { "sans": 0.4, "bonus": [{ "kosul": { "iliski": { "npc": "kisi", "cekim": { "min": 60 } } }, "deger": 35 }] },
+              "basari": { "sonuc": [["İskelenin ucunda duruyorsunuz. Kimin önce eğildiğini ikiniz de hatırlamayacaksınız.", "Bir martı çığlık atıyor; gülüyorsunuz, alın alına."]], "etki": [{ "iliski": { "npc": "kisi", "cekim": 10, "yakinlik": 6, "tur": "sevgili" } }, { "ani": { "npc": "kisi", "metin": "iskelede öpüştünüz" } }, { "durum": { "ruh": 12, "stres": -8 } }, { "gunluk": "{kisi.ad}. Söyleyecek başka bir şey yok." }] },
+              "basarisiz": { "sonuc": "Yüzünü hafifçe çeviriyor; yanağına denk geliyor. 'Daha değil' diyor, ama elini bırakmıyor.", "etki": [{ "iliski": { "npc": "kisi", "cekim": -1 } }] } },
+            { "metin": "Bir dahaki sefere söz al", "maliyet": { "dakika": 10 }, "etki": [{ "iliski": { "npc": "kisi", "cekim": 3, "yakinlik": 2 } }], "sonuc": "'Bir dahaki sefere ben ısmarlıyorum' diyor {kisi.ad}. Bu bir söz." },
+            { "metin": "Vedalaş", "maliyet": { "dakika": 5 }, "etki": [{ "iliski": { "npc": "kisi", "yakinlik": 1 } }], "sonuc": "Durakta vedalaşıyorsunuz; otobüs gelene kadar ikiniz de gitmiyorsunuz." }
+          ]
+        }
+      }
+    }
+  ]
+}

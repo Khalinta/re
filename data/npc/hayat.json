@@ -762,15 +762,15 @@
         "yasMax": 24,
         "agirlik": {
           "bekar": 9,
-          "sevgilili": 4,
+          "sevgilili": 2.5,
           "evli": 1
         }
       },
       {
         "yasMax": 34,
         "agirlik": {
-          "bekar": 4,
-          "sevgilili": 3,
+          "bekar": 5,
+          "sevgilili": 2,
           "evli": 6,
           "bosanmis": 0.6
         }

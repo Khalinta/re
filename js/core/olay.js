@@ -5,6 +5,8 @@
 //   "id", "baslik", "etiketler": [...],
 //   "tetik": "otomatik" | "aksiyon:<aksiyonId>" | "zamanlayici" | "zincir" | "acilis" (yeni oyunun ilk sahneleri)   (varsayılan otomatik)
 //   "kosul": koşul dili, "agirlik": 10 | { "temel": 10, "carpanlar": [{ "kosul": ..., "carpan": 2 }] },
+//   "kisi": { "yakinlikMin": 10, "numara": true, ... }   (3.12) tanıdıklarından şartı tutan biri olaya katılır (olaykisi.js);
+//          kimse tutmazsa olay çıkmaz. Bağlamda "kisi": koşul/etkide { "npc": "kisi" }, metinde {kisi.ad}, {kisi.hitap}
 //   "bekleme": { "gun": 30 }, "tekrar": false | true | 3 (en çok kaç kez; varsayılan false = bir kez),
 //   "baslangic": "giris",
 //   "sahneler": {
@@ -32,6 +34,7 @@ import { etkileriUygula, sureDk } from './etki.js';
 import { zamanGecir, sinirla } from './simulasyon.js';
 import { para as paraYaz } from './format.js';
 import { metinCoz } from './metin.js';
+import { olayKisisi } from './olaykisi.js';
 
 export const VARSAYILAN_BASLANGIC = 'giris';
 
@@ -83,13 +86,22 @@ export function olayUygunluk(durum, olay, veri, { tetik = 'otomatik', baglam } =
   return { uygun: nedenler.length === 0, nedenler, agirlik };
 }
 
+// Döner: olay (kişili olaylarda seçilen kişiyle birlikte: { ...olay, baglam }) ya da null
 export function olaySec(durum, veri, rng, { tetik = 'otomatik', baglam } = {}) {
   const adaylar = [];
   for (const o of Object.values(veri.olaylar || {})) {
-    const u = olayUygunluk(durum, o, veri, { tetik, baglam });
-    if (u.uygun) adaylar.push({ o, agirlik: u.agirlik });
+    let b = baglam;
+    if (o.kisi) {
+      if ((o.tetik || 'otomatik') !== tetik && tetik !== '*') continue;
+      const kb = olayKisisi(durum, veri, o.kisi, rng);
+      if (!kb) continue;
+      b = { ...(baglam || {}), ...kb };
+    }
+    const u = olayUygunluk(durum, o, veri, { tetik, baglam: b });
+    if (u.uygun) adaylar.push({ o, agirlik: u.agirlik, b: o.kisi ? b : undefined });
   }
-  return rng.agirlikliSec(adaylar, x => x.agirlik)?.o ?? null;
+  const x = rng.agirlikliSec(adaylar, y => y.agirlik);
+  return !x ? null : x.b ? { ...x.o, baglam: x.b } : x.o;
 }
 
 // ------------------------------------------------------------- kontroller (beceri / şans)

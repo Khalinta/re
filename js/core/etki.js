@@ -86,13 +86,17 @@ export const ETKILER = {
     n.anilar.push({ z: ctx.durum.zaman.dakika, metin: v.metin, ...(v.duygu !== undefined ? { duygu: v.duygu } : {}) });
     if (n.anilar.length > ANI_SINIRI) n.anilar.splice(0, n.anilar.length - ANI_SINIRI);
   },
-  // { "itibar": { "genel": 2, "semt": { "eski_carsi": 3 }, "sektor": { "hizmet": 1 } } }
+  // { "itibar": { "genel": 2, "semt": { "eski_carsi": 3, "_ev": 1 }, "sektor": { "hizmet": 1 } } }
   itibar: (v, ctx) => {
     const d = ctx.durum;
     d.itibar ??= { genel: 0, semt: {}, sektor: {} };
     const ekle = (o, k, x) => { o[k] = Math.max(-100, Math.min(100, (o[k] ?? 0) + x)); };
     if (v.genel) ekle(d.itibar, 'genel', v.genel);
-    for (const [k, x] of Object.entries(v.semt || {})) ekle(d.itibar.semt, k, x);
+    // '_ev': evinin semti, '_konum': şu an bulunduğun semt (3.12)
+    for (const [k, x] of Object.entries(v.semt || {})) {
+      const semt = k === '_ev' ? d.ev?.semt : k === '_konum' ? d.konum?.semt : k;
+      if (semt) ekle(d.itibar.semt, semt, x);
+    }
     for (const [k, x] of Object.entries(v.sektor || {})) ekle(d.itibar.sektor, k, x);
   },
   // { "zamanla": { "sure": { "hafta": 3 }, "olay": "patronun_teklifi", "baglam": true,

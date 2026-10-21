@@ -1,0 +1,2115 @@
+{
+ "_aciklama": "Gündelik olaylar (adım 3.12): evde ve sokakta; seçimli ve sonuçlu. Para, sağlık, ruh hali, itibar, bayraklar ve günlük. '_ev' / '_konum' semt itibarı: evinin / bulunduğun semt (etki.js). Tanıdıklarla olanlar tanidik.json'da.",
+ "olaylar": [
+  {
+   "id": "yanlis_kargo",
+   "baslik": "Yanlış kargo",
+   "etiketler": [
+    "ev",
+    "para",
+    "ahlak"
+   ],
+   "yer": "ev",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 60
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Kapı çalıyor. Kargocu elinde bir kutuyla; adı seninkine benzeyen biri adına, ama adres senin.",
+       "Kutunun üstünde bir telefon markasının logosu var. Kargocu çoktan gitmiş."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Kutuyu kargo şubesine götür",
+       "maliyet": {
+        "dakika": 40
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 4
+         }
+        },
+        {
+         "itibar": {
+          "genel": 1
+         }
+        },
+        {
+         "gunluk": "Bugün yanlış gelen bir kargoyu geri götürdüm. Kimse bilmeyecek; ben bileceğim."
+        }
+       ],
+       "sonuc": "Şubedeki kız şaşırıyor: \"Kimse getirmez bunu genelde.\" Bir teşekkür, bir de çay."
+      },
+      {
+       "metin": "Komşulara sor, belki onundur",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 5,
+          "aclik": -10
+         }
+        },
+        {
+         "itibar": {
+          "genel": 1
+         }
+        },
+        {
+         "itibar": {
+          "semt": {
+           "_ev": 2
+          }
+         }
+        }
+       ],
+       "sonuc": "Üçüncü kattaki teyzenin torunuymuş. Teyze kapıda seni yarım saat tutuyor; elinde bir tabak kurabiyeyle dönüyorsun."
+      },
+      {
+       "metin": "Kutuyu sakla, belki kimse aramaz",
+       "kontrol": {
+        "sans": 0.6
+       },
+       "basari": {
+        "sonuc": "Kimse aramıyor. Kutuyu bir hafta sonra açıyorsun: yeni bir telefon. Satınca cebine para giriyor; içinde de bir ağırlık.",
+        "etki": [
+         {
+          "para": 2500
+         },
+         {
+          "durum": {
+           "stres": 6
+          }
+         },
+         {
+          "bayrak": "yanlis_kargo_tuttu"
+         },
+         {
+          "gunluk": "O kutuyu açtım. Pişman mıyım? Henüz değil."
+         }
+        ]
+       },
+       "basarisiz": {
+        "sonuc": "İki gün sonra kargocu kapıda, yanında bir polis memuru. \"Bir yanlışlık oldu galiba?\" Kutuyu veriyorsun; utancından kulakların yanıyor.",
+        "etki": [
+         {
+          "durum": {
+           "stres": 10,
+           "ozguven": -4
+          }
+         },
+         {
+          "itibar": {
+           "genel": -3
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "su_kesintisi",
+   "baslik": "Su yok",
+   "etiketler": [
+    "ev"
+   ],
+   "yer": "ev",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 25
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Musluğu açıyorsun; bir hırıltı, sonra hiçbir şey. Bütün mahallede su kesik; ne zaman geleceği belli değil."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Çeşmeden bidonla su taşı",
+       "maliyet": {
+        "dakika": 60
+       },
+       "etki": [
+        {
+         "durum": {
+          "enerji": -10,
+          "ruh": 2
+         }
+        },
+        {
+         "itibar": {
+          "semt": {
+           "_ev": 1
+          }
+         }
+        }
+       ],
+       "sonuc": "Mahalle çeşmesinde kuyruk; herkes kovasıyla, bidonuyla. Birkaç komşuyla tanışıyorsun; bir teyze sana yer veriyor."
+      },
+      {
+       "metin": "Marketten damacana al",
+       "maliyet": {
+        "para": 120,
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "durum": {
+          "hijyen": 5
+         }
+        }
+       ],
+       "sonuc": "Markette son iki damacana kalmış; biri senin. Fiyatı da bu sabah artmış, tabii."
+      },
+      {
+       "metin": "Bekle, gelir elbet",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "durum": {
+          "hijyen": -12,
+          "stres": 5
+         }
+        }
+       ],
+       "sonuc": "Akşama kadar gelmiyor. Bulaşıklar birikiyor, sen de."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tavandan_su",
+   "baslik": "Tavandan su damlıyor",
+   "etiketler": [
+    "ev",
+    "komsuluk"
+   ],
+   "yer": "ev",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 45
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Tavanda kahverengi bir leke; ortasından ritmik bir damla: tık, tık, tık.",
+       "Üst kattan geliyor; orası belli."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Yukarı çık, kapıyı çal",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 2
+         }
+        },
+        {
+         "itibar": {
+          "semt": {
+           "_ev": 1
+          }
+         }
+        },
+        {
+         "bayrak": {
+          "ad": "ust_kat_soz",
+          "sure": {
+           "gun": 30
+          }
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Kapıyı yaşlı bir adam açıyor; banyoda bir boru çatlamış, haberi bile yok.",
+         {
+          "tur": "konusma",
+          "konusan": "Üst kattaki",
+          "metin": "Vallahi bilmiyordum evladım. Ustayı ben çağırırım, tavanı da boyatırım. Söz."
+         },
+         "Söz tutulur mu bilmiyorsun ama adam çay ısmarlıyor."
+        ]
+       ]
+      },
+      {
+       "metin": "Yöneticiyi ara",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": 4
+         }
+        }
+       ],
+       "sonuc": "Yönetici \"Bakarız\" diyor. Bu apartmanda \"bakarız\" bir yönetim felsefesi."
+      },
+      {
+       "metin": "Altına bir kova koy, unut",
+       "maliyet": {
+        "dakika": 2
+       },
+       "etki": [
+        {
+         "durum": {
+          "uyku": -8,
+          "stres": 4
+         }
+        }
+       ],
+       "sonuc": "Gece boyunca tık, tık. Uyku dediğin de ritim işi zaten."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "gece_kavga_sesi",
+   "baslik": "Duvarın öbür yanı",
+   "etiketler": [
+    "ev",
+    "komsuluk",
+    "ahlak"
+   ],
+   "yer": "ev",
+   "kosul": {
+    "zamanDilimi": [
+     "gece"
+    ]
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 90
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Gece yarısı. Yan daireden bağırışlar geliyor; bir erkek sesi, bir kadın sesi. Bir şey kırılıyor.",
+       "Sonra sessizlik. Sessizlik daha kötü."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Kapılarını çal",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": 6,
+          "ozguven": 2
+         }
+        },
+        {
+         "bayrak": "komsu_kavga_kapi"
+        }
+       ],
+       "sonuc": [
+        [
+         "Kapıyı çalıyorsun. Uzun bir sessizlik; sonra kadın aralıyor, yüzünün yarısı karanlıkta.",
+         {
+          "tur": "konusma",
+          "konusan": "Komşu",
+          "metin": "Bir şey yok. Televizyondu. İyi geceler."
+         },
+         "Kapı kapanıyor. Ama ertesi sabah merdivende sana bir an fazla bakıyor."
+        ]
+       ]
+      },
+      {
+       "metin": "Polisi ara",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": 8
+         }
+        },
+        {
+         "bayrak": "komsu_kavga_polis"
+        }
+       ],
+       "sonuc": "Yarım saat sonra merdivenlerde ayak sesleri, telsiz cızırtısı. Sabah adam seni merdivende görünce başını çeviriyor; kadın görmezden geliyor. Doğru olanı mı yaptın? Bilmiyorsun."
+      },
+      {
+       "metin": "Yastığı başına çek",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "durum": {
+          "uyku": -6,
+          "ruh": -4
+         }
+        }
+       ],
+       "sonuc": "Uyumaya çalışıyorsun. Bir süre sonra uyuyorsun da. Rüyanda bir şey kırılıyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "komsu_tabak",
+   "baslik": "Kapıdaki tabak",
+   "etiketler": [
+    "ev",
+    "komsuluk"
+   ],
+   "yer": "ev",
+   "kosul": {
+    "oyunGunu": {
+     "max": 30
+    }
+   },
+   "agirlik": 10,
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Kapıda bir tabak: sıcak börek, üstünde bir peçete. Peçetede \"Hoş geldin komşu\" yazıyor; imza yok."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Ye, tabağı doldurup geri götür",
+       "maliyet": {
+        "dakika": 30,
+        "para": 80
+       },
+       "etki": [
+        {
+         "durum": {
+          "aclik": -20,
+          "ruh": 6
+         }
+        },
+        {
+         "itibar": {
+          "semt": {
+           "_ev": 2
+          }
+         }
+        },
+        {
+         "bayrak": "komsu_borek"
+        }
+       ],
+       "sonuc": "Börek efsane. Ertesi gün tabağı lokumla doldurup kapı kapı soruyorsun; sahibi alt kattaki genç kadınmış. Gülerek alıyor."
+      },
+      {
+       "metin": "Ye, teşekkür et yeter",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "durum": {
+          "aclik": -20,
+          "ruh": 3
+         }
+        }
+       ],
+       "sonuc": "Börek efsane. Teşekkür etmek için kimi bulacağını bilemiyorsun; içinde bir borç kalıyor."
+      },
+      {
+       "metin": "Dokunma; tanımadığın birinin yemeği",
+       "etki": [
+        {
+         "durum": {
+          "stres": 2
+         }
+        }
+       ],
+       "sonuc": "Tabak bütün gün kapıda bekliyor; akşam kayboluyor. Merdivende biri sana küs küs bakıyor; belki de sana öyle geliyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "fatura_soku",
+   "baslik": "Fatura",
+   "etiketler": [
+    "ev",
+    "para"
+   ],
+   "yer": "ev",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 30
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Kapının altından bir zarf: elektrik faturası. Rakama iki kere bakıyorsun. Üçüncüde de değişmiyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Öde, uzatma",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "para": -450
+        }
+       ],
+       "sonuc": "Ödüyorsun. Cüzdan hafifliyor, vicdan rahat."
+      },
+      {
+       "metin": "İtiraz et, sayaç okumasına bak",
+       "maliyet": {
+        "dakika": 60
+       },
+       "kontrol": {
+        "sans": 0.5
+       },
+       "basari": {
+        "sonuc": "Sayaçtaki rakam faturadakinden düşük. Şirketin çağrı merkezinde kırk dakika müzik dinledikten sonra fatura düzeltiliyor.",
+        "etki": [
+         {
+          "para": -200
+         },
+         {
+          "durum": {
+           "ozguven": 3
+          }
+         }
+        ]
+       },
+       "basarisiz": {
+        "sonuc": "Sayaç doğru. Çağrı merkezindeki ses \"Yapacak bir şey yok efendim\" diyor; sen de ödüyorsun.",
+        "etki": [
+         {
+          "para": -450
+         },
+         {
+          "durum": {
+           "stres": 4
+          }
+         }
+        ]
+       }
+      },
+      {
+       "metin": "Sonraya bırak",
+       "etki": [
+        {
+         "bayrak": {
+          "ad": "fatura_gecikti",
+          "sure": {
+           "gun": 20
+          }
+         }
+        },
+        {
+         "durum": {
+          "stres": 3
+         }
+        }
+       ],
+       "sonuc": "Zarfı buzdolabının üstüne koyuyorsun. Zarflar orada büyür."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "fare",
+   "baslik": "Misafir",
+   "etiketler": [
+    "ev"
+   ],
+   "yer": "ev",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 60
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Mutfakta bir hışırtı. Işığı yakınca bir kuyruğun dolabın arkasına kaydığını görüyorsun.",
+       "Evde bir fare var. Ya da fareler."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Hırdavatçıdan kapan al",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "para": -60
+        },
+        {
+         "durum": {
+          "stres": -2
+         }
+        }
+       ],
+       "sonuc": "İki gün sonra kapanda bir fare. Onu sokağın sonuna bırakırken bakışıyorsunuz; affetmedi."
+      },
+      {
+       "metin": "Delikleri kapat, mutfağı temizle",
+       "maliyet": {
+        "dakika": 90
+       },
+       "etki": [
+        {
+         "durum": {
+          "enerji": -12,
+          "hijyen": 8,
+          "ruh": 2
+         }
+        }
+       ],
+       "sonuc": "Bütün akşam temizlik. Fare gitti mi bilmiyorsun ama mutfak hiç bu kadar temiz olmamıştı."
+      },
+      {
+       "metin": "Görmezden gel",
+       "etki": [
+        {
+         "durum": {
+          "stres": 5,
+          "uyku": -4
+         }
+        }
+       ],
+       "sonuc": "Gece yine hışırtı. Artık ev arkadaşın sayılır."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "kirik_ekran",
+   "baslik": "Çatlak",
+   "etiketler": [
+    "ev",
+    "para"
+   ],
+   "yer": "ev",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 120
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Telefon elinden kayıyor. Yavaş çekimde düşüyor, ekran üstü. Kaldırıyorsun: örümcek ağı."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Çarşıdaki tamirciye götür",
+       "maliyet": {
+        "dakika": 60
+       },
+       "etki": [
+        {
+         "para": -700
+        }
+       ],
+       "sonuc": "Eski Çarşı'daki tamirci \"Orijinal mi yan sanayi mi?\" diye soruyor. Yan sanayi. Yine de para."
+      },
+      {
+       "metin": "Bant çek, idare et",
+       "etki": [
+        {
+         "durum": {
+          "stres": 3
+         }
+        }
+       ],
+       "sonuc": "Ekranın yarısı bantlı. Mesajları yan yatarak okuyorsun. İdare ediyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "uykusuz_gece",
+   "baslik": "Uyku tutmuyor",
+   "etiketler": [
+    "ev"
+   ],
+   "yer": "ev",
+   "kosul": {
+    "zamanDilimi": [
+     "gece"
+    ]
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 10
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Saat üç. Tavanda sokak lambasının gölgesi. Uyku gelmiyor; kafanda geçmiş, gelecek, borçlar, insanlar."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Kalk, balkonda bir çay demle",
+       "maliyet": {
+        "dakika": 40
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": -6,
+          "uyku": -4,
+          "ruh": 2
+         }
+        }
+       ],
+       "sonuc": "Balkonda şehir uyuyor. Karşı apartmanda bir pencere yanıyor; biri daha uyuyamıyor. Ona bakarken biraz hafifliyorsun."
+      },
+      {
+       "metin": "Telefona dal",
+       "maliyet": {
+        "dakika": 90
+       },
+       "etki": [
+        {
+         "durum": {
+          "uyku": -10,
+          "ruh": -2
+         }
+        }
+       ],
+       "sonuc": "Bir saat video. Sonra bir saat daha. Sabah dördü geçiyor ve hiçbir şey hatırlamıyorsun."
+      },
+      {
+       "metin": "Bir şeyler yaz",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": -8,
+          "ozguven": 2
+         }
+        },
+        {
+         "gunluk": "Gece uyuyamadım; yazdım. Yazınca hafifliyor."
+        }
+       ],
+       "sonuc": "Bir kâğıda yazıyorsun: neden buradasın, ne istiyorsun. Yazdıkça kafan boşalıyor; uyuyakalıyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cuzdan",
+   "baslik": "Kaldırımdaki cüzdan",
+   "etiketler": [
+    "sokak",
+    "para",
+    "ahlak"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 120
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Kaldırımda kahverengi bir cüzdan. Açıyorsun: kimlik, iki fotoğraf, bir de bir tomar para.",
+       "Kimlikteki adres iki sokak ötede."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Adrese götür",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 8,
+          "ozguven": 3
+         }
+        },
+        {
+         "itibar": {
+          "genel": 3
+         }
+        },
+        {
+         "bayrak": "cuzdan_geri"
+        },
+        {
+         "gunluk": "Bir cüzdan buldum, sahibine verdim. Adam ağladı. Ben de az kalsın."
+        },
+        {
+         "zamanla": {
+          "sure": {
+           "gun": 5
+          },
+          "olay": "cuzdan_tesekkur",
+          "kosul": {
+           "degil": {
+            "mekan": "ev"
+           }
+          },
+          "kosulTutmazsa": "bekle"
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Kapıyı yaşlıca bir adam açıyor; cüzdanı görünce elleri titriyor.",
+         {
+          "tur": "konusma",
+          "konusan": "Cüzdanın sahibi",
+          "metin": "Emekli maaşım içindeydi evladım. Bütün ay... Allah senden razı olsun."
+         },
+         "İçinden para çıkarıp uzatıyor; almıyorsun. Kapıdan çıkarken adını soruyor."
+        ]
+       ]
+      },
+      {
+       "metin": "Polise teslim et",
+       "maliyet": {
+        "dakika": 45
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 3
+         }
+        },
+        {
+         "itibar": {
+          "genel": 1
+         }
+        }
+       ],
+       "sonuc": "Karakolda bir tutanak, bir imza. Memur cüzdanı bir torbaya koyuyor. Sahibine ulaşır mı? Umarsın."
+      },
+      {
+       "metin": "Parayı al, cüzdanı posta kutusuna at",
+       "etki": [
+        {
+         "para": 1800
+        },
+        {
+         "durum": {
+          "stres": 8,
+          "ruh": -4
+         }
+        },
+        {
+         "bayrak": "cuzdan_para"
+        }
+       ],
+       "sonuc": "Para cebinde, cüzdan postada. Kimlik sahibine döner. Para dönmez. Bir süre kimsenin gözüne bakamıyorsun."
+      },
+      {
+       "metin": "Hepsini al",
+       "etki": [
+        {
+         "para": 1800
+        },
+        {
+         "durum": {
+          "stres": 12,
+          "ruh": -8
+         }
+        },
+        {
+         "bayrak": "cuzdan_hepsi"
+        },
+        {
+         "itibar": {
+          "genel": -1
+         }
+        }
+       ],
+       "sonuc": "Cüzdan cebinde. Akşam fotoğraflara bakıyorsun: bir kadın, bir çocuk. Fotoğrafları atamıyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "cuzdan_tesekkur",
+   "baslik": "Bir teşekkür",
+   "etiketler": [
+    "sokak"
+   ],
+   "tetik": "zamanlayici",
+   "agirlik": 10,
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Mahallede biri seni durduruyor: cüzdanını geri getirdiğin adam. Yanında bir kadın; kızıymış.",
+       {
+        "tur": "konusma",
+        "konusan": "Cüzdanın sahibi",
+        "metin": "Seni herkese anlattım evladım. Bir işin olursa, bir sıkıntın olursa, bizim kapı açık."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Teşekkür et",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 6
+         }
+        },
+        {
+         "itibar": {
+          "genel": 2
+         }
+        },
+        {
+         "bayrak": "avukat_tanidik"
+        }
+       ],
+       "sonuc": "Kızı bir kartvizit uzatıyor: bir avukatlık bürosu. \"Lazım olmaz inşallah\" diyor; ama olursa diye cebine koyuyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "yasli_poset",
+   "baslik": "Yokuştaki poşetler",
+   "etiketler": [
+    "sokak",
+    "iyilik"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 14
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Yokuşta yaşlı bir kadın; iki elinde pazar poşetleri, her adımda duruyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Poşetleri taşı",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "durum": {
+          "enerji": -8,
+          "ruh": 7
+         }
+        },
+        {
+         "itibar": {
+          "genel": 1
+         }
+        },
+        {
+         "itibar": {
+          "semt": {
+           "_konum": 1
+          }
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Poşetleri alıyorsun; kadın önce itiraz ediyor, sonra bırakıyor. Yol boyunca bütün hayatını anlatıyor.",
+         {
+          "tur": "konusma",
+          "konusan": "Yaşlı kadın",
+          "metin": "Oğlum İstanbul'da. Arar ama gelmez. Sen sağ ol evladım."
+         },
+         "Kapısında sana bir avuç leblebi tutuşturuyor."
+        ]
+       ]
+      },
+      {
+       "metin": "Selam ver, geç",
+       "maliyet": {
+        "dakika": 2
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": -2
+         }
+        }
+       ],
+       "sonuc": "Selam veriyorsun; selamını alıyor. Yokuşun başında dönüp bakıyorsun; hâlâ duruyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "sokak_kopegi",
+   "baslik": "Takip eden",
+   "etiketler": [
+    "sokak",
+    "hayvan"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 20
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Bir sokak köpeği peşine takılıyor; kulağında belediyenin küpesi, gözlerinde bir umut."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Bakkaldan bir şey al, ver",
+       "maliyet": {
+        "dakika": 15
+       },
+       "etki": [
+        {
+         "para": -60
+        },
+        {
+         "durum": {
+          "ruh": 6
+         }
+        },
+        {
+         "bayrak": "kopek_pamuk"
+        }
+       ],
+       "sonuc": "Bir paket mama. Köpek yerken kuyruğunu sallıyor; sonra senin kapına kadar geliyor. Adını koyuyorsun: Pamuk."
+      },
+      {
+       "metin": "Başını okşa",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 4,
+          "stres": -2
+         }
+        }
+       ],
+       "sonuc": "Yere çöküyor, karnını dönüyor. Bir dakika her şey basit."
+      },
+      {
+       "metin": "Kovala",
+       "etki": [
+        {
+         "durum": {
+          "ruh": -2
+         }
+        }
+       ],
+       "sonuc": "Bir adım geri atıyor, bekliyor, sonra gidiyor. Arkasından bakıyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "pamuk_yine",
+   "baslik": "Pamuk",
+   "etiketler": [
+    "sokak",
+    "hayvan"
+   ],
+   "yer": "sokak",
+   "kosul": {
+    "bayrak": "kopek_pamuk"
+   },
+   "agirlik": 8,
+   "bekleme": {
+    "gun": 4
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Sokağın başında Pamuk; seni görünce koşarak geliyor. Seni bekliyormuş."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Mama ver, sev",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "para": -40
+        },
+        {
+         "durum": {
+          "ruh": 6,
+          "stres": -3
+         }
+        }
+       ],
+       "sonuc": "Pamuk yerken bacağına yaslanıyor. Bu şehirde seni bekleyen biri var."
+      },
+      {
+       "metin": "Sev, ama acele et",
+       "maliyet": {
+        "dakika": 3
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 3
+         }
+        }
+       ],
+       "sonuc": "Başını okşuyorsun; işe yetişmen lazım. Pamuk bir süre arkandan geliyor, sonra köşede duruyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "ani_yagmur",
+   "baslik": "Sağanak",
+   "etiketler": [
+    "sokak",
+    "hava"
+   ],
+   "yer": "sokak",
+   "kosul": {
+    "mevsim": [
+     "sonbahar",
+     "kis",
+     "ilkbahar"
+    ]
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 6
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Gök gürlüyor; iki dakika sonra sanki gökyüzü boşaltılıyor. Sokak birden dere."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "En yakın kafeye dal",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "para": -60
+        },
+        {
+         "durum": {
+          "ruh": 3
+         }
+        }
+       ],
+       "sonuc": "Kafede herkes ıslak; yabancılar arasında bir ortaklık. Bir çay, cama vuran yağmur."
+      },
+      {
+       "metin": "Seyyardan şemsiye al",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "para": -120
+        },
+        {
+         "durum": {
+          "hijyen": -2
+         }
+        }
+       ],
+       "sonuc": "Yağmur başlayınca her köşede biten seyyar şemsiyeciler. İki rüzgârda ters dönüyor; yine de bir şey."
+      },
+      {
+       "metin": "Islan, yürümeye devam et",
+       "etki": [
+        {
+         "durum": {
+          "hijyen": -8,
+          "saglik": -4,
+          "ruh": 2
+         }
+        }
+       ],
+       "sonuc": "Sırılsıklam. Bir noktadan sonra umursamıyorsun; hatta biraz güzel. Akşam hapşırıyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "trafik_kazasi",
+   "baslik": "Kavşakta",
+   "etiketler": [
+    "sokak",
+    "iyilik"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 60
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Kavşakta bir fren sesi, bir çarpma. Bir motosiklet yerde; sürücü kalkmaya çalışıyor, kalkamıyor.",
+       "Çevrede insanlar toplanıyor; çoğu telefonla çekiyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Yanına koş, ambulansı ara",
+       "maliyet": {
+        "dakika": 40
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": 8,
+          "ruh": 5,
+          "ozguven": 3
+         }
+        },
+        {
+         "itibar": {
+          "genel": 2
+         }
+        },
+        {
+         "gunluk": "Bugün kavşakta bir adamın elini tuttum; ambulans gelene kadar."
+        }
+       ],
+       "sonuc": [
+        [
+         "Sürücünün yanına diz çöküyorsun; \"Kıpırdama\" diyorsun, televizyonda öyle diyorlar. Ambulans on iki dakikada geliyor.",
+         "Sürücü sedyede elini sıkıyor. Adını bile sormadın."
+        ]
+       ]
+      },
+      {
+       "metin": "Kalabalığa karış",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": 3
+         }
+        }
+       ],
+       "sonuc": "Biri ambulansı çoktan aramış. Kalabalık dağılırken sen de dağılıyorsun."
+      },
+      {
+       "metin": "Yürü, senin işin değil",
+       "etki": [
+        {
+         "durum": {
+          "ruh": -3,
+          "stres": 2
+         }
+        }
+       ],
+       "sonuc": "Arkandan siren sesleri. Kafanda bütün gün o fren sesi."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "mendil_cocuk",
+   "baslik": "Mendil",
+   "etiketler": [
+    "sokak",
+    "ahlak"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 10
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Kırmızı ışıkta bir çocuk camdan cama mendil satıyor. Sekiz yaşında var yok. Sana da uzatıyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Bir paket al",
+       "etki": [
+        {
+         "para": -20
+        },
+        {
+         "durum": {
+          "ruh": 1
+         }
+        }
+       ],
+       "sonuc": "Mendili alıyorsun, parasını veriyorsun. Çocuk bir sonraki cama koşuyor; arkasından bakıyorsun."
+      },
+      {
+       "metin": "Para ver, mendil alma",
+       "etki": [
+        {
+         "para": -50
+        },
+        {
+         "durum": {
+          "ruh": -1,
+          "stres": 2
+         }
+        }
+       ],
+       "sonuc": "Parayı alıp hızla cebine sokuyor; bir köşede bekleyen bir adama bakıyor. Para kime gidecek, biliyorsun aslında."
+      },
+      {
+       "metin": "Simit al, ona ver",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "para": -25
+        },
+        {
+         "durum": {
+          "ruh": 4
+         }
+        }
+       ],
+       "sonuc": "Seyyardan bir simit alıp uzatıyorsun. Bir an duraksıyor; sonra kocaman ısırıyor. İlk kez çocuk gibi görünüyor."
+      },
+      {
+       "metin": "Başını çevir",
+       "etki": [
+        {
+         "durum": {
+          "ruh": -2
+         }
+        }
+       ],
+       "sonuc": "Işık yeşile dönüyor. Çocuk kaldırıma çekiliyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "sokak_muzisyeni",
+   "baslik": "Kordon'da bir ses",
+   "etiketler": [
+    "sokak",
+    "eglence"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 7
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Bir köşede genç bir adam gitarla eski bir şarkı söylüyor. Sesi çatlak ama gerçek. Önündeki şapkada üç beş bozukluk."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Dur, bir şarkı dinle",
+       "maliyet": {
+        "dakika": 15
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 6,
+          "stres": -4
+         }
+        }
+       ],
+       "sonuc": "Bir şarkı, sonra bir tane daha. Bitince göz göze geliyorsunuz; başıyla selam veriyor."
+      },
+      {
+       "metin": "Şapkaya para at",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "para": -100
+        },
+        {
+         "durum": {
+          "ruh": 8,
+          "stres": -4
+         }
+        }
+       ],
+       "sonuc": "Şapkaya bir kâğıt para bırakıyorsun. Bir sonraki şarkıyı \"Bu, ona\" diye sana söylüyor. Utanıyorsun ama hoşuna gidiyor."
+      },
+      {
+       "metin": "Yürü",
+       "etki": [
+        {
+         "durum": {
+          "ruh": 1
+         }
+        }
+       ],
+       "sonuc": "Şarkı arkanda kalıyor; nakaratı bütün gün kafanda."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "park_kavgasi",
+   "baslik": "Park yeri kavgası",
+   "etiketler": [
+    "sokak",
+    "risk"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 30
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "İki adam bir park yeri için birbirine giriyor. Biri arabanın kapısını tekmeliyor; öbürü bagajdan bir şey arıyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Araya gir",
+       "alt": "Riskli.",
+       "maliyet": {
+        "dakika": 10
+       },
+       "kontrol": {
+        "sans": 0.55
+       },
+       "basari": {
+        "sonuc": "Araya giriyorsun; ikisi de bir an sana bakıyor, sonra kendilerine. \"Bir park yeri için mi?\" diyorsun. Utanıp dağılıyorlar.",
+        "etki": [
+         {
+          "durum": {
+           "ozguven": 6,
+           "ruh": 3
+          }
+         },
+         {
+          "itibar": {
+           "genel": 2
+          }
+         }
+        ]
+       },
+       "basarisiz": {
+        "sonuc": "Bir omuz darbesi, bir küfür. Kimse kimseye vurmadan dağılıyorlar ama senin dudağın patlak.",
+        "etki": [
+         {
+          "durum": {
+           "saglik": -6,
+           "stres": 8,
+           "ozguven": -2
+          }
+         }
+        ]
+       }
+      },
+      {
+       "metin": "Polisi ara",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": 2
+         }
+        }
+       ],
+       "sonuc": "Ekip geldiğinde ikisi de çoktan gitmiş. Memur sana tuhaf tuhaf bakıyor."
+      },
+      {
+       "metin": "Uzaklaş",
+       "sonuc": "Arkandan bağırışlar. Köşeyi dönünce kesiliyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "kayip_cocuk",
+   "baslik": "Ağlayan çocuk",
+   "etiketler": [
+    "sokak",
+    "iyilik"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 90
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Pazarın kalabalığında beş yaşlarında bir kız çocuğu ağlıyor; annesini kaybetmiş."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Elinden tut, anonsa götür",
+       "maliyet": {
+        "dakika": 25
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 8
+         }
+        },
+        {
+         "itibar": {
+          "genel": 2
+         }
+        },
+        {
+         "gunluk": "Pazarda kaybolan bir çocuğu annesine kavuşturdum."
+        }
+       ],
+       "sonuc": [
+        [
+         "Pazar yöneticisinin hoparlöründen anons. On dakika sonra bir kadın koşarak geliyor; çocuğu kucaklayıp ağlıyor.",
+         {
+          "tur": "konusma",
+          "konusan": "Anne",
+          "metin": "Bir saniye döndüm, bir saniye! Allah razı olsun."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Bir polis bul",
+       "maliyet": {
+        "dakika": 15
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 3
+         }
+        },
+        {
+         "itibar": {
+          "genel": 1
+         }
+        }
+       ],
+       "sonuc": "Pazarın girişindeki polise götürüyorsun. Polis çocuğa bir şeker veriyor; sen de gidiyorsun. Kavuştular mı? Kavuşmuşlardır."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "kapkac",
+   "baslik": "Kapkaç",
+   "etiketler": [
+    "sokak",
+    "risk"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 120
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Önünde bir motosiklet yavaşlıyor; arkadaki adam yaşlı bir kadının çantasını çekip alıyor. Kadın yere düşüyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Peşinden koş",
+       "alt": "Hızlı olmalısın.",
+       "maliyet": {
+        "dakika": 15
+       },
+       "kontrol": {
+        "sans": 0.3
+       },
+       "basari": {
+        "sonuc": "Motosiklet trafikte sıkışıyor; çantayı arkadakinin elinden çekip alıyorsun. Kaçıyorlar. Kadın çantasına sarılıp ağlıyor.",
+        "etki": [
+         {
+          "durum": {
+           "ozguven": 8,
+           "enerji": -12,
+           "ruh": 8
+          }
+         },
+         {
+          "itibar": {
+           "genel": 4
+          }
+         },
+         {
+          "gunluk": "Bugün bir kapkaççının elinden çanta aldım. Hâlâ ellerim titriyor."
+         }
+        ]
+       },
+       "basarisiz": {
+        "sonuc": "İki sokak koşuyorsun; motor kayboluyor. Nefes nefese geri dönüyorsun. Kadın en azından yalnız değil.",
+        "etki": [
+         {
+          "durum": {
+           "enerji": -15,
+           "ozguven": -2
+          }
+         }
+        ]
+       }
+      },
+      {
+       "metin": "Kadına yardım et",
+       "maliyet": {
+        "dakika": 60
+       },
+       "etki": [
+        {
+         "durum": {
+          "ruh": 4,
+          "stres": 6
+         }
+        },
+        {
+         "itibar": {
+          "genel": 2
+         }
+        }
+       ],
+       "sonuc": "Kadını kaldırıyorsun; dizi kanıyor. Eczaneye götürüyorsun; ifade vermek için karakola da."
+      },
+      {
+       "metin": "Donup kal",
+       "etki": [
+        {
+         "durum": {
+          "stres": 6,
+          "ozguven": -3
+         }
+        }
+       ],
+       "sonuc": "Her şey üç saniye sürüyor. Sonra herkes konuşmaya başlıyor; sen hâlâ duruyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "yerde_para",
+   "baslik": "Yerdeki kâğıt",
+   "etiketler": [
+    "sokak",
+    "para"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 30
+   },
+   "tekrar": 2,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Rüzgâr ayağının dibine bir şey sürüklüyor: katlanmış bir kâğıt para. Etrafta kimse yok."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Al",
+       "etki": [
+        {
+         "para": 100
+        },
+        {
+         "durum": {
+          "ruh": 2
+         }
+        }
+       ],
+       "sonuc": "Cebine koyuyorsun. Bugün şanslı günün."
+      },
+      {
+       "metin": "Bırak; belki sahibi döner",
+       "etki": [
+        {
+         "durum": {
+          "ruh": 3
+         }
+        }
+       ],
+       "sonuc": "Bırakıyorsun. Biraz ötede bir çocuk eğilip alıyor; sevinçten zıplıyor. Sen de seviniyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "yuzuk_oyunu",
+   "baslik": "Altın yüzük",
+   "etiketler": [
+    "sokak",
+    "para",
+    "dolandiricilik"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 180
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Bir adam yerden bir şey alıyor, sana uzatıyor: \"Bu sizin mi düştü?\" Altın bir yüzük.",
+       "Senin değil. Adam \"Ben ne yapayım bunu, sen al, bana bir çay parası ver\" diyor."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Hayır, de, yürü",
+       "etki": [
+        {
+         "durum": {
+          "ozguven": 2
+         }
+        }
+       ],
+       "sonuc": "Adam arkandan bir şey söylüyor; duymuyorsun. Sonra aynı yüzüğü başka birine uzattığını görüyorsun."
+      },
+      {
+       "metin": "Pazarlık et",
+       "alt": "Yüzük gerçek olabilir mi?",
+       "kontrol": {
+        "sans": 0.1
+       },
+       "basari": {
+        "sonuc": "Yüzüğü kuyumcuya gösteriyorsun: gerçekten altın. Bu şehirde mucizeler de oluyormuş.",
+        "etki": [
+         {
+          "para": 1200
+         },
+         {
+          "durum": {
+           "ruh": 6
+          }
+         }
+        ]
+       },
+       "basarisiz": {
+        "sonuc": "Kuyumcu yüzüğü eline bile almıyor: \"Pirinç bu. Yüzük oyunu; bu ay beşinci.\" Cebinden giden para geri gelmiyor.",
+        "etki": [
+         {
+          "para": -400
+         },
+         {
+          "durum": {
+           "ozguven": -4,
+           "stres": 4
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "gundelik_is",
+   "baslik": "Bugünlük iş",
+   "etiketler": [
+    "sokak",
+    "para",
+    "is"
+   ],
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 12
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Bir nakliye kamyonunun önünde adam bağırıyor: \"Bir kişi lazım! Dört saat, nakit!\" Kamyonda koltuklar, dolaplar."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Gir işe",
+       "maliyet": {
+        "dakika": 240,
+        "enerji": 25
+       },
+       "etki": [
+        {
+         "para": 800
+        },
+        {
+         "durum": {
+          "enerji": -30,
+          "aclik": 15,
+          "ozguven": 3
+         }
+        },
+        {
+         "bayrak": "nakliyeci_numara"
+        }
+       ],
+       "sonuc": [
+        [
+         "Dört saat merdiven, dolap, koltuk. Belin ağrıyor; ama akşamüstü avucuna sayılan para gerçek.",
+         {
+          "tur": "konusma",
+          "konusan": "Nakliyeci",
+          "metin": "Sağlam adammışsın. Numaranı bırak, iş olunca ararım."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Geç",
+       "sonuc": "Arkandan başka biri koşuyor; işi o alıyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "bit_pazari",
+   "baslik": "Bit pazarı",
+   "etiketler": [
+    "sokak",
+    "eglence"
+   ],
+   "yer": "sokak",
+   "kosul": {
+    "haftaSonu": true
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 14
+   },
+   "tekrar": false,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Çarşının arka sokağında bit pazarı kurulmuş: eski plaklar, paslı anahtarlar, birinin bütün hayatı yere serilmiş.",
+       "Bir tezgâhta deri kaplı eski bir defter dikkatini çekiyor; içi el yazısıyla dolu."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Defter için pazarlık et",
+       "maliyet": {
+        "dakika": 30
+       },
+       "kontrol": {
+        "sans": 0.6
+       },
+       "basari": {
+        "sonuc": "Satıcı \"Elli, olmaz\" diyor; otuza alıyorsun. Akşam okuyorsun: 1970'lerde bu şehirde yaşamış birinin günlüğü. Bir sayfada bildiğin bir kahvenin adı geçiyor.",
+        "etki": [
+         {
+          "para": -30
+         },
+         {
+          "durum": {
+           "ruh": 6
+          }
+         },
+         {
+          "bayrak": "eski_gunluk"
+         }
+        ]
+       },
+       "basarisiz": {
+        "sonuc": "Satıcı inat; elliye alıyorsun. Akşam okuyorsun: 1970'lerde yaşamış birinin günlüğü. Pahalı ama değer.",
+        "etki": [
+         {
+          "para": -50
+         },
+         {
+          "durum": {
+           "ruh": 5
+          }
+         },
+         {
+          "bayrak": "eski_gunluk"
+         }
+        ]
+       }
+      },
+      {
+       "metin": "Sadece gez",
+       "maliyet": {
+        "dakika": 60
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": -4
+         }
+        }
+       ],
+       "sonuc": "Tezgâhları geziyorsun. Bir saat geçiyor, hiçbir şey almıyorsun; ama kafan dinleniyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "bayram_cocuklari",
+   "baslik": "Bayram şekeri",
+   "etiketler": [
+    "ev",
+    "bayram"
+   ],
+   "yer": "ev",
+   "kosul": {
+    "tatil": [
+     "Ramazan Bayramı",
+     "Kurban Bayramı"
+    ]
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 20
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Kapı çalıyor: üç çocuk, ellerinde poşetler. \"İyi bayramlar!\" Gözleri senin elinde."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Şeker ve harçlık ver",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "para": -60
+        },
+        {
+         "durum": {
+          "ruh": 6
+         }
+        },
+        {
+         "itibar": {
+          "semt": {
+           "_ev": 1
+          }
+         }
+        }
+       ],
+       "sonuc": "Şekerler, birer de bozukluk. Çocuklar \"Allah razı olsun\" diye bağırarak merdivenlerden iniyor; bir sonraki kata."
+      },
+      {
+       "metin": "Evde şeker yok; özür dile",
+       "etki": [
+        {
+         "durum": {
+          "ruh": -1
+         }
+        }
+       ],
+       "sonuc": "Çocuklar omuz silkip gidiyor. Ertesi yıl için not alıyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "soguk_alginligi",
+   "baslik": "Burnun akıyor",
+   "etiketler": [
+    "saglik"
+   ],
+   "kosul": {
+    "mevsim": [
+     "sonbahar",
+     "kis"
+    ]
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 30
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Sabah boğazında bir yanma, burnunda bir akıntı. Kafan ağır. Klasik."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Eczaneye uğra",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "para": -150
+        },
+        {
+         "durum": {
+          "saglik": 6
+         }
+        }
+       ],
+       "sonuc": "Eczacı sana üç şey satıyor, bir de bitki çayı öneriyor. İkisi işe yarıyor."
+      },
+      {
+       "metin": "Bir gün dinlen",
+       "maliyet": {
+        "dakika": 300
+       },
+       "etki": [
+        {
+         "durum": {
+          "saglik": 8,
+          "enerji": 10,
+          "stres": -4
+         }
+        }
+       ],
+       "sonuc": "Bütün gün yorgan, çay, dizi. Akşama doğru biraz insan gibisin."
+      },
+      {
+       "metin": "Aldırma",
+       "etki": [
+        {
+         "durum": {
+          "saglik": -6,
+          "enerji": -8
+         }
+        }
+       ],
+       "sonuc": "Aldırmıyorsun; o da sana aldırmıyor. Üç gün sürüyor."
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

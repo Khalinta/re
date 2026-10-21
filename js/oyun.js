@@ -20,6 +20,7 @@ import { npcHayatGunu } from './core/npchayat.js';
 import { istekHazirla, cevabiUygula } from './core/yz.js';
 import { hazirMi as yzHazirMi } from './yz/ayar.js';
 import { zevkOzeti } from './core/zevk.js';
+import { olayKisisi } from './core/olaykisi.js';
 import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
 import { karakterUret, hikayeyiUygula, hikayeVeriDogrula } from './core/hikaye.js';
@@ -367,7 +368,7 @@ function olayDene(aksiyonId) {
   if (!olay && durum.zaman.dakika - sonOlay >= (ayar.enAzAralikDk ?? 180) && rng.olasilik(ayar.aksiyonSonrasiOlasilik ?? 0.3)) {
     olay = olaySec(durum, veri, rng, { tetik: 'otomatik' });
   }
-  return olay ? olayuBaslat(olay.id) : [];
+  return olay ? olayuBaslat(olay.id, olay.baglam ?? {}) : [];
 }
 
 function olayuBaslat(id, baglam = {}) {
@@ -415,6 +416,9 @@ function olaySeceneginiYapIc(sira) {
 export function olayiZorla(id, baglam = {}) {
   return geriAlinabilir(durum, () => {
     if (durum.aktifOlay) durum.aktifOlay = null;
+    // Kişili olay (3.12): bağlamda kişi yoksa tanıdıklardan biri seçilir (seçiciye uyan yoksa herhangi bir tanıdık)
+    const o = veri.olaylar[id];
+    if (o?.kisi && !baglam.npc?.kisi) baglam = { ...baglam, ...(olayKisisi(durum, veri, o.kisi, rngAl(durum, 'olay')) ?? olayKisisi(durum, veri, {}, rngAl(durum, 'olay')) ?? {}) };
     const liste = olayuBaslat(id, baglam);
     paragraflariKaydet(liste);
     bildir(liste);

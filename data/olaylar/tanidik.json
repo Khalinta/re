@@ -1,0 +1,1156 @@
+{
+ "_aciklama": "Tanıdıklarla gündelik olaylar (adım 3.12): olayın 'kisi' seçicisi tanıdıklarından uygun birini seçer (olaykisi.js); metinde {kisi.ad}, {kisi.hitap}, {kisi.dert}. İlişkiye etki eder, anı bırakır; borç gibi bazılarının devamı zamanlayıcıyla gelir.",
+ "olaylar": [
+  {
+   "id": "tanidik_gece_arar",
+   "baslik": "Gece yarısı arayan",
+   "etiketler": [
+    "tanidik",
+    "telefon"
+   ],
+   "kisi": {
+    "numara": true,
+    "yakinlikMin": 12,
+    "dertVar": true
+   },
+   "kosul": {
+    "zamanDilimi": [
+     "gece"
+    ]
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 10
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Saat bire geliyor. Telefon titriyor: {kisi.ad}.",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Uyuyor muydun? Kusura bakma... Biraz konuşabilir miyiz?"
+       },
+       "Sesi tuhaf; ağlamış gibi."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Aç, dinle",
+       "maliyet": {
+        "dakika": 60
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 8,
+          "guven": 5
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "gece yarısı aradığında açtın, dinledin"
+         }
+        },
+        {
+         "durum": {
+          "uyku": -10,
+          "enerji": -6,
+          "ruh": 2
+         }
+        },
+        {
+         "gunluk": "{kisi.ad} gece aradı. Konuştuk. Bazen insanın tek ihtiyacı dinlenmek."
+        }
+       ],
+       "sonuc": [
+        [
+         "Bir saat konuşuyorsunuz. Daha çok o konuşuyor. Derdi belli: {kisi.dert} Sen dinliyorsun.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "İyi ki açtın. Kimseyi arayamadım, bir tek seni."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Aç, ama kısa tut",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 1,
+          "cekim": -1
+         }
+        },
+        {
+         "durum": {
+          "uyku": -3
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Tamam, tamam, yarın konuşuruz. Kusura bakma, uyandırdım."
+         },
+         "Telefonu kapatırken sesinde bir şey var; kırgınlık mı, utanç mı?"
+        ]
+       ]
+      },
+      {
+       "metin": "Açma",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": -4,
+          "gerginlik": 1
+         }
+        },
+        {
+         "durum": {
+          "uyku": -4,
+          "stres": 3
+         }
+        }
+       ],
+       "sonuc": "Telefon susuyor. Sonra bir mesaj: \"Önemli değil, unut.\" Uyuyamıyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_borc",
+   "baslik": "Bir ricam var",
+   "etiketler": [
+    "tanidik",
+    "para"
+   ],
+   "kisi": {
+    "numara": true,
+    "yakinlikMin": 8
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 30
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Bir mesaj: {kisi.ad}. \"Müsaitsen arayabilir miyim?\" Arıyor.",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Ya {kisi.hitap}, utanarak soruyorum... Ay sonuna kadar biraz para lazım. Bin lira. Ay başında veririm, söz."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Ver",
+       "maliyet": {
+        "para": 1000
+       },
+       "etki": [
+        {
+         "para": -1000
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 6,
+          "guven": 4
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "zor gününde ona borç verdin"
+         }
+        },
+        {
+         "sayac": {
+          "ad": "borc_verdin",
+          "miktar": 1000,
+          "npc": "kisi"
+         }
+        },
+        {
+         "zamanla": {
+          "sure": {
+           "gun": 12
+          },
+          "olay": "tanidik_borc_doner",
+          "baglam": true
+         }
+        }
+       ],
+       "sonuc": "Parayı gönderiyorsun. \"Hayatımı kurtardın\" diyor. Ay başında göreceğiz."
+      },
+      {
+       "metin": "Yarısını ver",
+       "maliyet": {
+        "para": 500
+       },
+       "etki": [
+        {
+         "para": -500
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 2,
+          "guven": 2
+         }
+        },
+        {
+         "zamanla": {
+          "sure": {
+           "gun": 12
+          },
+          "olay": "tanidik_borc_doner",
+          "baglam": true
+         }
+        }
+       ],
+       "sonuc": "Beş yüz gönderiyorsun; \"Bu kadar olur\" diyorsun. \"Yeter, sağ ol\" diyor; ama ses tonu biraz düşük."
+      },
+      {
+       "metin": "Kibarca reddet",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": -2
+         }
+        }
+       ],
+       "sonuc": "\"Şu an benim de durumum yok\" diyorsun. Doğru ya da değil. \"Anlıyorum\" diyor; anlıyor mu, bilmiyorsun."
+      },
+      {
+       "metin": "Bahane uydur",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": -4,
+          "guven": -3,
+          "gerginlik": 2
+         }
+        }
+       ],
+       "sonuc": "Uydurduğun bahaneyi kendin bile inandırıcı bulmuyorsun. O da bulmuyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_borc_doner",
+   "baslik": "Borç",
+   "etiketler": [
+    "tanidik",
+    "para"
+   ],
+   "tetik": "zamanlayici",
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": {
+      "kosullu": [
+       {
+        "kosul": {
+         "iliski": {
+          "npc": "kisi",
+          "guven": {
+           "min": 6
+          }
+         }
+        },
+        "metin": [
+         [
+          "Telefonuna bir bildirim: {kisi.ad} para göndermiş. Altında bir not: \"Teşekkür ederim. Unutmayacağım.\""
+         ]
+        ]
+       }
+      ],
+      "varsayilan": [
+       [
+        "Ay başı geldi geçti. {kisi.ad|den} ses yok. Mesajlarına geç cevap veriyor; parayı hiç anmıyor."
+       ]
+      ]
+     },
+     "secenekler": [
+      {
+       "metin": "Tamam",
+       "sonuc": [
+        [
+         "Bazı borçlar dönüyor, bazıları dönmüyor. İnsanları biraz daha tanıyorsun."
+        ]
+       ],
+       "kosul": {
+        "iliski": {
+         "npc": "kisi",
+         "guven": {
+          "min": 6
+         }
+        }
+       },
+       "gizle": true
+      },
+      {
+       "metin": "Parayı sor",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": 2
+         }
+        },
+        {
+         "durum": {
+          "stres": 3
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Ay biliyorum, biliyorum! Haftaya kesin."
+         },
+         "Haftaya. Haftaya bir şey olur mu? Bakacağız."
+        ]
+       ],
+       "kosul": {
+        "degil": {
+         "iliski": {
+          "npc": "kisi",
+          "guven": {
+           "min": 6
+          }
+         }
+        }
+       },
+       "gizle": true
+      },
+      {
+       "metin": "Hiç sorma; unut",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 2
+         }
+        },
+        {
+         "durum": {
+          "stres": 2
+         }
+        }
+       ],
+       "sonuc": "Para gitti; insan kaldı. Belki bu da bir şeydir.",
+       "kosul": {
+        "degil": {
+         "iliski": {
+          "npc": "kisi",
+          "guven": {
+           "min": 6
+          }
+         }
+        }
+       },
+       "gizle": true
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_davet",
+   "baslik": "Akşam yemeği",
+   "etiketler": [
+    "tanidik",
+    "davet"
+   ],
+   "kisi": {
+    "yakinlikMin": 15,
+    "numara": true,
+    "yasMin": 25
+   },
+   "kosul": {
+    "zamanDilimi": [
+     "ogle",
+     "aksam"
+    ]
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 21
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "{kisi.ad} yazmış: \"Bu akşam bize gel, yemek yapıyorum. Hayır cevabı kabul edilmiyor.\""
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Git; eli boş gitme",
+       "maliyet": {
+        "dakika": 180,
+        "para": 200
+       },
+       "etki": [
+        {
+         "para": -200
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 8,
+          "guven": 4
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "evine yemeğe geldin"
+         }
+        },
+        {
+         "durum": {
+          "aclik": -40,
+          "ruh": 10,
+          "stres": -6
+         }
+        },
+        {
+         "gunluk": "{kisi.ad|in} evinde yemek. Uzun zamandır bu kadar gülmemiştim."
+        }
+       ],
+       "sonuc": [
+        [
+         "Bir kutu baklavayla kapıdasın. Ev kalabalık; yemek bitmiyor, sohbet de.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Gördün mü, bizim ev böyle. Sen de artık bizdensin."
+         },
+         "Gece yarısı kapıdan çıkarken elinde bir de yemek kabı var."
+        ]
+       ]
+      },
+      {
+       "metin": "Bu akşam olmaz; başka zaman",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": -1
+         }
+        },
+        {
+         "bayrak": {
+          "ad": "davet_ertelendi",
+          "sure": {
+           "gun": 14
+          }
+         }
+        }
+       ],
+       "sonuc": "\"Söz mü?\" diye yazıyor. \"Söz\" diyorsun."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_tasima",
+   "baslik": "Bir el lazım",
+   "etiketler": [
+    "tanidik",
+    "iyilik"
+   ],
+   "kisi": {
+    "yakinlikMin": 6,
+    "numara": true,
+    "yasMax": 70
+   },
+   "kosul": {
+    "haftaSonu": false
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 40
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Telefon: {kisi.ad}.",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "{kisi.hitap|bas}, cumartesi işin var mı? Taşınıyorum da... Kamyon tuttum ama adam yok."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Gel, yardım et",
+       "maliyet": {
+        "dakika": 300,
+        "enerji": 25
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 8,
+          "guven": 3
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "taşınırken yardım ettin"
+         }
+        },
+        {
+         "durum": {
+          "enerji": -30,
+          "aclik": -20,
+          "ruh": 6
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Beş saat koli, dolap, merdiven. Akşam yeni evin boş salonunda yere oturup döner yiyorsunuz.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Sen olmasan yapamazdım. Gerçekten."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Mazeret bildir",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": -3
+         }
+        }
+       ],
+       "sonuc": "\"Cumartesi işim var\" diyorsun. \"Tamam, olsun\" diyor. Olur mu, olmaz mı; bir sonraki iyiliğinde anlaşılır."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_gece_mesaj",
+   "baslik": "Gece mesajı",
+   "etiketler": [
+    "tanidik",
+    "flort"
+   ],
+   "kisi": {
+    "tur": [
+     "flort",
+     "sevgili"
+    ]
+   },
+   "kosul": {
+    "zamanDilimi": [
+     "gece"
+    ]
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 6
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Gece yarısı bir mesaj: {kisi.ad}.",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Uyuyamadım. Aklımda sen varsın. Bunu yazdığıma pişman olacağım sabah."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Tatlı bir şey yaz",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "cekim": 6,
+          "yakinlik": 3
+         }
+        },
+        {
+         "durum": {
+          "ruh": 6,
+          "uyku": -3
+         }
+        }
+       ],
+       "sonuc": "Yazıyorsun, siliyorsun, yazıyorsun. Sonunda gönderiyorsun. Cevap bir kalp. Sonra bir kalp daha."
+      },
+      {
+       "metin": "Ara",
+       "maliyet": {
+        "dakika": 150
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "cekim": 8,
+          "yakinlik": 6
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "sabaha kadar telefonda konuştunuz"
+         }
+        },
+        {
+         "durum": {
+          "ruh": 8,
+          "uyku": -15,
+          "enerji": -8
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Telefonu açınca ikiniz de bir an susuyorsunuz. Sonra saatlerce konuşuyorsunuz; konuşulmadık şey kalmıyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Sabah olmuş. Sabah olmuş ve ben hiç uyumadım."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Görüldü bırak",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "cekim": -6,
+          "gerginlik": 2
+         }
+        },
+        {
+         "durum": {
+          "stres": 2
+         }
+        }
+       ],
+       "sonuc": "Mesaj okundu. Cevap yok. Sabah yeni bir mesaj: \"Unut bunu.\" Unutmak zor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_kirgin",
+   "baslik": "Kırgınlık",
+   "etiketler": [
+    "tanidik",
+    "gerginlik"
+   ],
+   "kisi": {
+    "gerginlikMin": 4,
+    "yakinlikMin": 3
+   },
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 20
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Mahallede {kisi.ad} ile karşılaşıyorsun. Selam veriyorsun; yarım bir selam alıyorsun.",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Seninle bir konuşalım mı? Geçen... Neyse. Bir şey içimde kaldı."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Özür dile",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": -4,
+          "yakinlik": 3
+         }
+        },
+        {
+         "durum": {
+          "ozguven": -1
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "\"Kırdıysam özür dilerim\" diyorsun; neyi kırdığını tam bilmeden. Yine de yumuşuyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Tamam. Ben de abarttım belki. Bir çay içelim, unutalım."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Ne demek istediğini sor",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": -2,
+          "guven": 3
+         }
+        },
+        {
+         "durum": {
+          "stres": -2
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Soruyorsun; anlatıyor. Bazısı haklı, bazısı değil. Sonunda ikiniz de biraz hafifliyorsunuz."
+        ]
+       ]
+      },
+      {
+       "metin": "Sen de kırgın olduğunu söyle",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gerginlik": 4,
+          "yakinlik": -5
+         }
+        },
+        {
+         "durum": {
+          "stres": 6
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Ses yükseliyor; yoldan geçenler bakıyor. {kisi.ad} başını sallayıp gidiyor."
+        ]
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_dogum_gunu",
+   "baslik": "Doğum günü",
+   "etiketler": [
+    "tanidik"
+   ],
+   "kisi": {
+    "yakinlikMin": 18,
+    "numara": true
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 365
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Telefonun bir şey hatırlatıyor: bugün {kisi.ad|in} doğum günü. Ya da sosyal medya hatırlatıyor; kim bilir."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Küçük bir hediye al, uğra",
+       "maliyet": {
+        "dakika": 60,
+        "para": 250
+       },
+       "etki": [
+        {
+         "para": -250
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 10,
+          "guven": 3
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "doğum gününü hatırladın, hediye getirdin"
+         }
+        },
+        {
+         "durum": {
+          "ruh": 6
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Çarşıdan küçük bir şey alıyorsun. Kapıda seni görünce gözleri doluyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Hatırladın mı? Kimse hatırlamadı, inanır mısın?"
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Ara, kutla",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 4
+         }
+        },
+        {
+         "durum": {
+          "ruh": 2
+         }
+        }
+       ],
+       "sonuc": "Arıyorsun; \"Ooo, hatırladın!\" diyor. Beş dakikalık bir telefon; ama akşama kadar aklında kalıyor."
+      },
+      {
+       "metin": "Mesaj at, geç",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 1
+         }
+        }
+       ],
+       "sonuc": "\"İyi ki doğdun\" yazıyorsun. \"Teşekkürler\" geliyor. Herkese aynı cevabı yazıyordur."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_is_haberi",
+   "baslik": "Bir iş haberi",
+   "etiketler": [
+    "tanidik",
+    "is"
+   ],
+   "kisi": {
+    "yakinlikMin": 10,
+    "numara": true,
+    "durum": [
+     "calisiyor",
+     "kendi"
+    ]
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 45
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "{kisi.ad} arıyor.",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Bizim oraya eleman alınacakmış; aklıma sen geldin. Söyleyeyim mi senin adını?"
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Söylesin; teşekkür et",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 3,
+          "guven": 2
+         }
+        },
+        {
+         "bayrak": {
+          "ad": "is_referansi",
+          "sure": {
+           "gun": 30
+          }
+         }
+        },
+        {
+         "durum": {
+          "ruh": 4
+         }
+        }
+       ],
+       "sonuc": "Adını veriyor. \"Bir şey çıkarsa ararlar\" diyor. Bu şehirde iş, tanıdıkla bulunur."
+      },
+      {
+       "metin": "Şimdilik gerek yok",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": -1
+         }
+        }
+       ],
+       "sonuc": "\"Sen bilirsin\" diyor. Bir daha sorar mı? Belki."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_sokakta",
+   "baslik": "Tesadüf",
+   "etiketler": [
+    "tanidik",
+    "sokak"
+   ],
+   "kisi": {
+    "yakinlikMin": 4
+   },
+   "yer": "sokak",
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 5
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Kalabalığın içinden bir ses: \"{kisi.hitap|bas}!\" {kisi.ad}; elinde poşetler, yüzünde gerçek bir sevinç."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Bir çay içelim",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "para": -30
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 5
+         }
+        },
+        {
+         "durum": {
+          "ruh": 5
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Köşedeki çay ocağında iki çay. Sohbet havadan sudan başlıyor, hayattan devam ediyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "İyi ki karşılaştık. Bugün bir insan yüzüne ihtiyacım vardı."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Ayaküstü selamlaş",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 1
+         }
+        },
+        {
+         "durum": {
+          "ruh": 2
+         }
+        }
+       ],
+       "sonuc": "İki cümle, bir gülüş, \"görüşürüz\". Şehir küçülüyor."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "tanidik_dert_haberi",
+   "baslik": "Kötü haber",
+   "etiketler": [
+    "tanidik"
+   ],
+   "kisi": {
+    "yakinlikMin": 14,
+    "numara": true,
+    "dertVar": true
+   },
+   "agirlik": 10,
+   "bekleme": {
+    "gun": 25
+   },
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "{kisi.ad} yazmış: \"Bugün çok kötüyüm. Bir yerde oturabilir miyiz?\""
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Hemen yanına git",
+       "maliyet": {
+        "dakika": 90
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 8,
+          "guven": 6
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "en kötü gününde yanına geldin"
+         }
+        },
+        {
+         "durum": {
+          "ruh": -2,
+          "stres": 3
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Sahilde bir bankta buluyorsun onu. Uzun süre bir şey demiyor; sonra her şeyi anlatıyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Bir şey yapmana gerek yok. Burada olman yeter."
+         }
+        ]
+       ]
+      },
+      {
+       "metin": "Telefonla konuş",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 3,
+          "guven": 2
+         }
+        }
+       ],
+       "sonuc": "Yarım saat telefon. \"Sağ ol\" diyor; sesinde bir şey düzeliyor gibi."
+      },
+      {
+       "metin": "\"Geçer\" yaz",
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": -2
+         }
+        }
+       ],
+       "sonuc": "\"Geçer, üzülme\" yazıyorsun. \"Tamam\" geliyor. Konuşma orada bitiyor."
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

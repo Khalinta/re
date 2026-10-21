@@ -297,8 +297,8 @@
   "orta": [
    "{s.ad} çayından bir yudum alıyor.",
    "{s.ad} ellerini ovuşturuyor.",
-   "{s.ad} gözlüğünü düzeltiyor.",
-   "{s.ad} sigarasını söndürüyor.",
+   "{s.ad} bardağını avucunda çeviriyor.",
+   "{s.ad} parmaklarıyla masada ritim tutuyor.",
    "{s.ad} saatine bakıyor, sonra vazgeçiyor.",
    "{s.ad} yorgun bir nefes veriyor."
   ],
@@ -1206,9 +1206,9 @@
    "Ondan bir şey alırken iki kere düşün."
   ],
   "_": [
-   "İyi insandır.",
-   "Kendi halinde biridir.",
-   "Tanırım ama yakın değilizdir.",
+   "İyi insandır; kimsenin kötülüğüne bakmaz. Bu devirde az bulunur.",
+   "Kendi halinde biridir; ne kimseye karışır ne kimse ona.",
+   "Tanırım; ama bir çay içip kalkarız, o kadar. İçini bilmem.",
    "Eskiden daha neşeliydi."
   ]
  },
@@ -1359,14 +1359,14 @@
    "orta": [
     "Bak saat kaç olmuş; ben gideyim.",
     "Bugünlük bu kadar, işler bekliyor.",
-    "Hadi bana müsaade; çocuklar bekler.",
+    "Hadi bana müsaade; evde yapılacak bir ton iş var, kaçarsa kaçar.",
     "Ben kalkayım; yarın erken kalkacağım.",
     "İşe dönmem lazım, kusura bakma.",
     "Bir randevum var; gitmem gerek."
    ],
    "yasli": [
     "Ben kalkayım evladım, ilaç saati geldi.",
-    "Hanım bekler; ben gideyim.",
+    "Ocağın altını kapattım mı, hatırlamıyorum; ben bir koşu gideyim.",
     "Yoruldum biraz; yarın yine buradayım.",
     "Ben gideyim, hava kararmadan evde olayım.",
     "Dizlerim tutulmadan kalkayım.",
@@ -1560,7 +1560,7 @@
       "kotu": {
        "_": [
         "Ciddi sordum ama.",
-        "Peki... komik."
+        "Çok komik. Gerçekten. Bak, gülüyorum: ha ha."
        ]
       }
      }
@@ -1684,7 +1684,7 @@
         "Proje mi? Beni de alın içine!"
        ],
        "orta": [
-        "Hayırlı olsun.",
+        "Hayırlı olsun. Gizli proje, ha? Ben de bir gün öyle bir şey diyebilmek isterdim.",
         "Güzel. Şehri gez, beğenirsin."
        ],
        "yasli": [
@@ -1758,7 +1758,7 @@
       "iyi": {
        "_": [
         "Peki peki, adresini almayacağım.",
-        "Anladım."
+        "Anladım; evini söylemeyen biri. Gizem seviyorsun demek."
        ]
       }
      }
@@ -1850,7 +1850,7 @@
      "tepki": {
       "iyi": {
        "_": [
-        "Peki.",
+        "Peki; ama bir dahakine hayır yok, haberin olsun.",
         "Sen bilirsin."
        ]
       }
@@ -1971,7 +1971,7 @@
       "kotu": {
        "_": [
         "Ciddi sordum ama...",
-        "Hmm. Peki."
+        "Ciddi bir soruydu ama... Neyse, belki haklısın; yazı tura da bir yöntem."
        ]
       }
      }
@@ -2222,8 +2222,8 @@
       },
       "kotu": {
        "_": [
-        "Hı hı.",
-        "İlginç."
+        "Hı hı... Sonu var mı bunun, yoksa bu kadar mı?",
+        "Bu mu yani? Tamam, biraz güldüm. Azıcık."
        ]
       }
      }

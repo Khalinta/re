@@ -92,6 +92,17 @@ export const ETKILER = {
     if (d.ev?.semt) d.konum = { semt: d.ev.semt, mekan: 'ev' };
     delete d.sohbet;
   },
+  // { "numaraVer": { "npc": "kisi" } }  (3.16) numarası artık sende (peçeteni bulup yazdı)
+  numaraVer: (v, ctx) => {
+    const n = npcKaydi(ctx.durum, npcId(ctx, v.npc));
+    n.numara = true;
+    if (n.sahteNumara) n.sahteNumara.ogrendi = true;
+  },
+  // { "sahteOgrendi": { "npc": "kisi" } }  (3.16) verdiği numaranın yanlış olduğunu anladın
+  sahteOgrendi: (v, ctx) => {
+    const n = npcKaydi(ctx.durum, npcId(ctx, v.npc));
+    if (n.sahteNumara) n.sahteNumara.ogrendi = true;
+  },
   // { "partnerdenAyril": { "npc": "kisi" } }  (3.13) kişi senin için evliliğini/ilişkisini bitirir: boşanmış ya da bekâr olur,
   // gizli ilişki biter; Tanıdıklarım'da "Senin için ilişkisini bitirdi." (kisiGuncel uygular)
   partnerdenAyril: (v, ctx) => {

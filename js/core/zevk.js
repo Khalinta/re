@@ -14,7 +14,7 @@ import { gunNo, tarihAl } from './zaman.js';
 import { ek } from './tr.js';
 import { derinlik, aileAgaci, hayatOykusu, iliskiHali } from './kart.js';
 import { ozetEkle } from './hafiza.js';
-import { benim, kusak, oyuncu } from './sohbet.js';
+import { benim, kusak, oyuncu, ilgi, flortUygun, flortEngeli } from './sohbet.js';
 
 const SAYI = ['sıfır', 'bir', 'iki', 'üç', 'dört', 'beş', 'altı', 'yedi', 'sekiz', 'dokuz', 'on', 'on bir', 'on iki'];
 const sayiYaz = x => SAYI[x] ?? String(x);
@@ -382,6 +382,31 @@ function aileSatiri(A, parca, aile, n, durum, v, ku) {
   return null;
 }
 
+
+// Farklı bir zevk söylediğinde (3.16): ortak olmasa da bir şey olur. Kişiye göre ağırlıklı ve şaşırtıcı:
+// etkilenir (sana ilgisi varsa çok daha olası), merak eder, takılır (şakacı/alaycı), ilgilenmez ama yine canlı
+function farkTepkisi(durum, veri, rng, n, k, d) {
+  const oz = n.ozellikler || [], F = veri.npc.flort;
+  const ig = F && flortUygun(durum, veri, n) && !flortEngeli(durum, veri, n) ? ilgi(durum, veri, n, k) : -99;
+  const ag = {
+    etkilendi: ig === -99 ? 0 : ig >= F.esikler.iyi ? 4 : ig >= F.esikler.orta ? 1.5 : 0.3, // flört uygun değilse (yaş, yönelim) asla
+    merak: n.eksenler.acik >= 4 || oz.includes('merakli') ? 3 : 1.5,
+    alay: oz.includes('sakaci') || ['alayci', 'oyunbaz'].includes(d.flortId) || oz.includes('gosterisci') ? 2.5 : 0.7,
+    ilgisiz: n.eksenler.acik <= 2 || oz.includes('umursamaz') ? 2.5 : 0.8,
+  };
+  return rng.agirlikliSec(Object.entries(ag).map(([id, agirlik]) => ({ id, agirlik }))).id;
+}
+function farkEtkisi(durum, k, tepki, rng, Z, metin) {
+  if (tepki === 'etkilendi') {
+    k.iliski.cekim = (k.iliski.cekim ?? 0) + 3;
+    k.iliski.arzu = Math.min(100, (k.iliski.arzu ?? 0) + 2);
+    etkiEkle(k, 'yakinlik', [1, 2], rng);
+    ani(durum, k, metin);
+  } else if (tepki === 'merak') etkiEkle(k, 'yakinlik', [1, 3], rng);
+  else if (tepki === 'alay') etkiEkle(k, 'yakinlik', [0, 2], rng);
+  else etkiEkle(k, 'yakinlik', Z.etki.farkli, rng);
+}
+
 // ------------------------------------------------------------------ oyuncunun cevabı
 
 // secId: 'm:rap' | 'f:Galatasaray' | 'h:ayni' | 'd:katil' ...
@@ -414,9 +439,10 @@ export function derinCevapla(durum, veri, rng, n, k, secId, p, ar) {
         ani(durum, k, `müzik zevkiniz aynı (${T[deger]?.ad ?? deger})`);
         ozetEkle(durum, n.id, `Oyuncu da onun sevdiği müziği seviyor (${T[deger]?.ad ?? deger}).`);
       } else {
-        const acik = n.eksenler.acik >= 4 || oz2.includes('merakli');
-        soyle(acik ? Z.muzik.tepki.farkliAcik : Z.muzik.tepki.farkliKapali);
-        if (acik) etkiEkle(k, 'yakinlik', Z.etki.farkli, rng);
+        const tepki = farkTepkisi(durum, veri, rng, n, k, d);
+        const M = Z.muzik.tepki;
+        soyle({ etkilendi: M.etkilendi, merak: M.farkliAcik, alay: M.alay, ilgisiz: M.farkliKapali }[tepki], { oMuzikAd: T[deger]?.ad ?? deger });
+        farkEtkisi(durum, k, tepki, rng, Z, `müzik zevkin ilgisini çekti (${T[deger]?.ad ?? deger})`);
         if (b.soran === 'npc') { soyle(Z.muzik.tur[d.muzik]?.soz); k.bilinen.muzik = true; }
       }
       k.bilinen.oyuncu_muzik = true;
@@ -473,8 +499,11 @@ export function derinCevapla(durum, veri, rng, n, k, secId, p, ar) {
         etkiEkle(k, 'yakinlik', Z.etki.ortak, rng);
         ani(durum, k, `ikiniz de ${hobiAd(deger)} seviyorsunuz`);
       } else {
-        soyle(H.tepki.farkli);
-        etkiEkle(k, 'yakinlik', Z.etki.farkli, rng);
+        const tepki = farkTepkisi(durum, veri, rng, n, k, d);
+        const ozel = H.tur[deger]?.tepki?.[tepki];
+        const genel = tepki === 'merak' ? [...(H.tepki.merak._ || []), ...(H.tepki.farkli._ || [])] : H.tepki[tepki];
+        soyle(ozel && rng.olasilik(0.75) ? ozel : genel, { oHobiAd: H.tur[deger]?.ad ?? deger });
+        farkEtkisi(durum, k, tepki, rng, Z, `${hobiAd(deger)} sevmen ilgisini çekti`);
         if (b.soran === 'npc' && !k.bilinen.hobi) { soyle(H.tur[d.hobi]?.soz); k.bilinen.hobi = true; }
       }
     }

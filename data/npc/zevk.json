@@ -357,15 +357,15 @@
    },
    "farkliKapali": {
     "_": [
-     "Ondan anlamam. Herkesin zevki kendine.",
-     "Hmm. Pek bana göre değil.",
-     "Öyle mi? Neyse."
+     "Benim kulağım ona alışık değil. Ama sen nasıl dinliyorsun, onu merak ettim.",
+     "Bana hiç hitap etmez; senin ağzından duyunca bile.",
+     "Ne diyeyim... Zevkler ve renkler. Ama bir gün beni ikna etmeye çalışabilirsin."
     ],
     "genc": [
      "Cidden mi? Neyse, yargılamıyorum. Az."
     ],
     "yasli": [
-     "Ne dinlediğinizi bilmiyorum ki, gürültü gibi geliyor bana."
+     "Ne dinlediğinizi bilmiyorum ki; gürültü gibi geliyor bana. Ama sen anlat."
     ]
    },
    "dinlemez": {
@@ -376,6 +376,19 @@
     ],
     "yasli": [
      "Olur mu evladım, insan bir türkü bilir."
+    ]
+   },
+   "etkilendi": {
+    "_": [
+     "{s.oMuzikAd} mı? Bunu beklemiyordum. İyi bir sürpriz.",
+     "Bir gün bana en sevdiğin şarkıyı aç. Bakalım seni anlayabilecek miyim.",
+     "Ne dinlediğinden insan belli olur derler. Şimdi seni biraz daha merak ettim."
+    ]
+   },
+   "alay": {
+    "_": [
+     "{s.oMuzikAd} ha... Bu her şeyi açıklıyor aslında.",
+     "Dur tahmin edeyim: kulaklığı takıp kendini klipte sanıyorsun."
     ]
    }
   }
@@ -610,8 +623,8 @@
    },
    "npcIlgisiz": {
     "_": [
-     "Ben anlamam o işlerden; sen bilirsin.",
-     "Öyle mi? Ben zaten bilmem."
+     "Futboldan bir şey anlamam; ama böyle heyecanla anlatana da laf etmem.",
+     "Bana maç anlatma; ama sevdiğin bir şeyden konuşurken yüzünün hali hoşuma gitti."
     ]
    }
   }
@@ -624,7 +637,21 @@
     "soz": [
      "Oyun oynarım; gece yarısına kadar, sonra sabah pişman. Her gün aynı döngü.",
      "Bilgisayarda oyun. Arkadaşlarla internetten takılıyoruz; yüz yüze görüşmekten kolay."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Oyuncu musun? Bir gün kapışalım; ama kaybedince küsmek yok.",
+      "Gece yarısı kulaklıkla bağıran tiplerden misin? Neden bilmiyorum, bu sevimli geldi."
+     ],
+     "merak": [
+      "Ne oynuyorsun? Ben en son çocukken bir şey oynamıştım; o sayılır mı?",
+      "Saatlerce ekrana bakınca gözlerin yanmıyor mu? Ben yarım saatte bayılırım."
+     ],
+     "alay": [
+      "Yani gece üçte 'bir el daha' diyenlerdensin. Gözlerinin altından belliydi zaten.",
+      "Oyun ha... Annen hâlâ 'kalk şunun başından' diye bağırıyor mu?"
+     ]
+    }
    },
    "dizi izlemek": {
     "ad": "Dizi",
@@ -632,7 +659,21 @@
     "soz": [
      "Dizi izlerim. Bir başladım mı sezonu bir gecede bitiririm.",
      "Diziler. Gerçek hayattan daha mantıklı geliyor bazen."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Dizi önerisi olan insan benim için altın değerinde. Listeni istiyorum, şimdi.",
+      "Bir gün bir sezonu birlikte bitirelim; atıştırmalıklar benden."
+     ],
+     "merak": [
+      "Ne izliyorsun şu ara? Bir tane söyle, bu akşam başlarım.",
+      "Sonu kötü biten dizilerden sonra ne yapıyorsun? Ben iki gün kendime gelemiyorum."
+     ],
+     "alay": [
+      "Yani hobin kanepe. Tamam, saygı duyuyorum.",
+      "Dizi izlemek hobiyse benim hobim de uyumak."
+     ]
+    }
    },
    "spor salonu": {
     "ad": "Spor salonu",
@@ -640,7 +681,21 @@
     "soz": [
      "Salona giderim, haftada beş gün. Kafa boşaltmanın tek yolu.",
      "Spor salonu. Ağırlık kaldırınca dertler hafifliyor; fizik kuralı."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Belli oluyor zaten. Pardon, baktım; bakmamak elde değil.",
+      "Disiplinli insanları severim. Ben üç günden fazla dayanamadım."
+     ],
+     "merak": [
+      "Sabah mı gidiyorsun, akşam mı? Ben sabah kalkamam ki.",
+      "Ne kadar zamandır gidiyorsun? İnsan nasıl bırakmıyor?"
+     ],
+     "alay": [
+      "Aynanın karşısında fotoğraf çekenlerden misin? Çekiyorsun, değil mi?",
+      "Protein tozundan bahsetmeye başlarsan kalkarım, şimdiden söyleyeyim."
+     ]
+    }
    },
    "gitar çalmak": {
     "ad": "Gitar",
@@ -648,7 +703,22 @@
     "soz": [
      "Gitar çalarım; iyi değilim ama kimse dinlemiyor zaten.",
      "Gitar. Bir gün sahilde çalarken biri para attı, o günden beri kendimi müzisyen sayıyorum."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Gitar mı? Tamam, bu biraz tehlikeli. Bir gün bana çalacaksın, söz ver.",
+      "Parmaklarından belliymiş aslında. Ellerine bakmıştım az önce.",
+      "Gitar çalan biri... Lisedeki aşkım da gitar çalardı. Kötü bitti ama sen başka olabilirsin."
+     ],
+     "merak": [
+      "Ne çalıyorsun? Türkü mü, rock mı? Mırıldan en azından, bir şey duyayım.",
+      "Kendin mi öğrendin? Ben bir ara denedim, parmaklarım kan oldu, bıraktım."
+     ],
+     "alay": [
+      "Her ortamda gitarı kapıp 'bir şey çalayım mı' diyen sen misin yoksa?",
+      "Kampta ateşin başında aynı üç şarkıyı çalanlardan mısın? Gülme, biliyorum."
+     ]
+    }
    },
    "fotoğraf": {
     "ad": "Fotoğraf",
@@ -656,7 +726,21 @@
     "soz": [
      "Fotoğraf çekerim; insanları, sokakları. Bu şehrin yüzü her gün değişiyor, kayıt altına almak lazım.",
      "Fotoğraf. Eski Çarşı'nın sabah ışığını görmen lazım."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Fotoğrafçı... O zaman bir gün beni de çekersin. Kötü açıdan değil ama.",
+      "Dünyaya başka gözle bakan insanları severim. Sen öyle misin?"
+     ],
+     "merak": [
+      "Telefonla mı, gerçek makineyle mi? Göster bakayım bir tane.",
+      "En sevdiğin fotoğraf hangisi? Neden o?"
+     ],
+     "alay": [
+      "Yemekten önce tabağın fotoğrafını çekiyor musun? Çekiyorsun, belli.",
+      "Her gün batımında durup çekenlerden misin? Güneş her gün batıyor, haberin olsun."
+     ]
+    }
    },
    "sahilde koşmak": {
     "ad": "Koşu",
@@ -667,7 +751,21 @@
     ],
     "davet": [
      "Bir sabah gel, birlikte koşalım. Yavaş koşarım, merak etme."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Sabah koşan insan... Ben o saatte daha rüya görüyorum. Hayran oldum.",
+      "Bacakların bu yüzden mi böyle? Tamam, bunu sesli söylememeliydim."
+     ],
+     "merak": [
+      "Ne kadar koşuyorsun? Ben otobüse koşunca nefesim kesiliyor.",
+      "Koşarken ne dinliyorsun? Yoksa sessiz mi?"
+     ],
+     "alay": [
+      "Koşanları görünce hep merak ederim: kimden kaçıyorlar?",
+      "Sabah altıda mutlu olabilen insanlara güvenmem, bilesin."
+     ]
+    }
    },
    "çizim": {
     "ad": "Çizim",
@@ -675,7 +773,21 @@
     "soz": [
      "Çizerim. Defterim hep yanımda; kafede oturanları çiziyorum, haberleri olmuyor.",
      "Çizim. Belki seni de çizmişimdir, bilemezsin."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Bir gün beni çiz. Ama güzel çiz.",
+      "Elleriyle bir şey yapabilen insanlar bende zaaf; söylemiş olayım."
+     ],
+     "merak": [
+      "Ne çiziyorsun? İnsan mı, manzara mı? Defterin yanında mı şimdi?",
+      "Çizmeye nasıl başladın? Çocukken mi?"
+     ],
+     "alay": [
+      "Toplantıda kâğıda karalama yapmak çizim sayılmaz ama.",
+      "Beni çizersen burnumu küçük yap, anlaştık mı?"
+     ]
+    }
    },
    "kitap okumak": {
     "ad": "Kitap",
@@ -683,7 +795,21 @@
     "soz": [
      "Kitap okurum. Telefon yerine kitap; eski kafalıyım biraz.",
      "Okurum. Roman, en çok da kalın olanlar; bitmesin isterim."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Okuyan insan... Söyle bakalım, en son ne okudun? Cevabın önemli.",
+      "Kitap okuyan biriyle konuşmak başka; hissediliyor."
+     ],
+     "merak": [
+      "Ne okuyorsun şu ara? Bana bir tane öner, gerçekten okurum.",
+      "Roman mı, başka şey mi? Ben bir türlü bitiremiyorum, yarıda bırakıyorum hep."
+     ],
+     "alay": [
+      "Kafede kitap açıp etrafa 'ben okuyorum' bakışı atanlardan mısın?",
+      "Hmm, entelektüel takılıyorsun yani. Gözlüğün nerede?"
+     ]
+    }
    },
    "basketbol": {
     "ad": "Basketbol",
@@ -694,7 +820,21 @@
     ],
     "davet": [
      "Akşamları okulun sahasında maç oluyor; gel, bir kişi eksik zaten."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Basketbol oynayan biri... Bir gün izlemeye gelirim, haberin olsun.",
+      "Takım sporu yapanlar başka olur; kaybetmeyi de bilir."
+     ],
+     "merak": [
+      "Mahallede mi oynuyorsunuz, bir takımda mı?",
+      "Hangi pozisyon? Hiç anlamam ama sayı atınca bağırırım, söz."
+     ],
+     "alay": [
+      "Smaç basabiliyor musun? Basamıyorsan sayılmaz.",
+      "Her maçtan sonra dizlerin ağrıyor mu? Ağrıyor, biliyorum."
+     ]
+    }
    },
    "balık tutmak": {
     "ad": "Balık",
@@ -705,7 +845,21 @@
     ],
     "davet": [
      "Bir sabah gel, iskelede bir olta da sana atarız."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Sabırlı biri yani. Sabırlı insanlar iyidir; acele etmezler.",
+      "Bir sabah beni de götür; tutamazsak da çay içeriz."
+     ],
+     "merak": [
+      "Ne tutuyorsun? Ben levrekten başka balık adı bilmem.",
+      "Saatlerce oturmak sıkmıyor mu? O kadar vakit ne düşünüyorsun?"
+     ],
+     "alay": [
+      "Hiçbir şey tutamayıp balıkçıdan alıp eve götürenlerden misin?",
+      "Yani sen sabahları iskelede oturan amcalardan birisin."
+     ]
+    }
    },
    "futbol izlemek": {
     "ad": "Futbol izlemek",
@@ -713,7 +867,21 @@
     "soz": [
      "Maç izlerim; hangi lig olursa. Kahvede, bağıra çağıra.",
      "Futbol. Hafta sonu maçsız geçmez."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Maçta bağıran biri gibi görünmüyorsun; şimdi merak ettim.",
+      "Bir maç günü seni izlemek isterim; maçı değil, seni."
+     ],
+     "merak": [
+      "Stada mı gidiyorsun, kahvede mi izliyorsun?",
+      "En son hangi maçta sesin kısıldı?"
+     ],
+     "alay": [
+      "Maç kaybedince üç gün kimseyle konuşmuyor musun?",
+      "Maç günü telefonuna bakılmıyor demek. Not ettim."
+     ]
+    }
    },
    "bahçe işleri": {
     "ad": "Bahçe",
@@ -721,7 +889,21 @@
     "soz": [
      "Balkonda domates yetiştiriyorum, gülme. Bu yıl on iki tane oldu.",
      "Bahçeyle uğraşırım. Toprağa elini sürünce insan sakinleşiyor."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Toprakla uğraşan insanın elleri başka olur.",
+      "Bir gün bahçene gelip domates çalarım, haberin olsun."
+     ],
+     "merak": [
+      "Ne yetiştiriyorsun? Bende fesleğen bile ölüyor.",
+      "Sabah mı sularsın akşam mı? Hep yanlış yapıyorum ben."
+     ],
+     "alay": [
+      "Bitkilerle konuşuyor musun? Konuşuyorsun, yüzünden belli.",
+      "Domateslerine isim koydun mu? Koymuşsundur."
+     ]
+    }
    },
    "yemek yapmak": {
     "ad": "Yemek yapmak",
@@ -729,7 +911,21 @@
     "soz": [
      "Yemek yaparım; hafta sonları mutfak benim. Misafir gelsin diye bahane ararım.",
      "Yemek. Annemin tariflerini yeniden yapmaya çalışıyorum; hiçbiri onunki gibi olmuyor."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Yemek yapan biri mi? Tamam, bu çok çekici.",
+      "Bir akşam bana yaparsın; ben de şarabı getiririm. Anlaştık mı?"
+     ],
+     "merak": [
+      "En iyi yaptığın yemek ne? Abartmadan söyle.",
+      "Tarifle mi yaparsın, gözünle mi?"
+     ],
+     "alay": [
+      "Makarna haşlamak yemek yapmak sayılmaz, biliyorsun değil mi?",
+      "Mutfakta her şeyi yakan tiplerden olmayasın?"
+     ]
+    }
    },
    "tavla": {
     "ad": "Tavla",
@@ -740,7 +936,21 @@
     ],
     "davet": [
      "Gel bir el atalım bir gün; ama beni yenersen kimseye söyleme."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Tavla oynayan biri. Hadi bir el; kaybeden bir şey ısmarlar.",
+      "Zarı atışından bilirim insanı. Bir gün göster bakalım."
+     ],
+     "merak": [
+      "Kimle oynuyorsun? Kahvede mi?",
+      "Hiç mars ettin mi birini? Anlat."
+     ],
+     "alay": [
+      "Zar tutmayınca suçu zara atanlardan mısın?",
+      "Kahvedeki amcalarla kavga ediyorsun yani; güzel."
+     ]
+    }
    },
    "yürüyüş": {
     "ad": "Yürüyüş",
@@ -748,7 +958,21 @@
     "soz": [
      "Yürürüm; doktor dedi, ben de alıştım. Kordon'un bir ucundan öbür ucuna.",
      "Yürüyüş. Akşamları yürürken bütün günü kafamda yeniden yaşıyorum."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Yürürken düşünen insanları severim; ben de öyleyim.",
+      "Bir akşam birlikte yürüyelim mi? Sen rotayı seç."
+     ],
+     "merak": [
+      "Nereden nereye yürüyorsun? Bir rotan var mı?",
+      "Yalnız mı yürürsün, biriyle mi?"
+     ],
+     "alay": [
+      "Yürüyüş hobiyse ben her sabah otobüse yürüyorum; ben de sporcuyum o zaman.",
+      "Adım sayan uygulamalardan var mı telefonunda? Var, değil mi?"
+     ]
+    }
    },
    "araba tamiri": {
     "ad": "Araba tamiri",
@@ -756,7 +980,21 @@
     "soz": [
      "Eski bir arabam var; çalışmaktan çok tamirde. Ama seviyorum işte.",
      "Kaputun altına girmek benim terapim."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Eli yağlı insanlar... Bilmiyorum, hoşuma gidiyor.",
+      "Bir arkadaşımın arabasından bir ses geliyor; bir gün bakarsın. Bahane bu."
+     ],
+     "merak": [
+      "Ne arabası? Eski mi?",
+      "Kendin mi öğrendin, biri mi öğretti?"
+     ],
+     "alay": [
+      "Tamirden sonra kaç parça artıyor?",
+      "Kaputun altından çıkınca yüzün hep kara mı oluyor?"
+     ]
+    }
    },
    "okey": {
     "ad": "Okey",
@@ -767,7 +1005,21 @@
     ],
     "davet": [
      "Bir eksiğimiz var bazen; gelirsen dördüncü olursun."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Okey masasında ciddi olan insanlar bir başka olur.",
+      "Bir gün dördüncü olurum; ama ben taş saklarım, baştan söyleyeyim."
+     ],
+     "merak": [
+      "Hep aynı ekiple mi oynuyorsunuz?",
+      "Hiç çifte gittin mi? Gidenler hep anlatır."
+     ],
+     "alay": [
+      "Taş dizerken ağzının kenarı oynuyor mu? Oynuyordur.",
+      "Okey hobi değil; kahvede oturmanın bahanesi."
+     ]
+    }
    },
    "bahçe": {
     "ad": "Bahçe",
@@ -775,7 +1027,21 @@
     "soz": [
      "Bahçem var, küçük ama benim. Domates, biber, bir de gül.",
      "Sabah ilk iş bahçe. Bitkiler konuşur, bilir misin? Dinlemesini bilene."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Toprakla uğraşan insanın elleri başka olur.",
+      "Bir gün bahçene gelip domates çalarım, haberin olsun."
+     ],
+     "merak": [
+      "Ne yetiştiriyorsun? Bende fesleğen bile ölüyor.",
+      "Sabah mı sularsın akşam mı? Hep yanlış yapıyorum ben."
+     ],
+     "alay": [
+      "Bitkilerle konuşuyor musun? Konuşuyorsun, yüzünden belli.",
+      "Domateslerine isim koydun mu? Koymuşsundur."
+     ]
+    }
    },
    "radyo dinlemek": {
     "ad": "Radyo",
@@ -783,7 +1049,21 @@
     "soz": [
      "Radyo. Sabahtan akşama açık; haber, şarkı, arada bir arkadaş sesi gibi.",
      "Ben radyo dinlerim, televizyon yorar."
-    ]
+    ],
+    "tepki": {
+     "etkilendi": [
+      "Bu çağda radyo dinleyen biri... Romantik bir yanı var bunun.",
+      "Gece radyosu dinler misin? Ben bayılırım, insanın içi açılıyor."
+     ],
+     "merak": [
+      "Hangi kanal? Ben arabada açarım sadece.",
+      "Radyoda en son ne duydun da hoşuna gitti?"
+     ],
+     "alay": [
+      "Radyo mu? Sen kaç yaşındasın?",
+      "İstek parçası yazdıranlardan mısın? Kime yazdırdın en son?"
+     ]
+    }
    },
    "torunlarla vakit": {
     "ad": "Torunlar",
@@ -861,27 +1141,56 @@
    },
    "denemedimKapali": {
     "_": [
-     "Herkese göre değil zaten.",
-     "Neyse, boş ver."
+     "Herkese göre değil zaten; zorlamam.",
+     "Peki, ısrar etmeyeyim. Ama kaçırıyorsun."
     ]
    },
    "banaGoreDegil": {
     "_": [
      "Olsun, herkesin işi başka.",
-     "Peki. Senin ne var peki?"
+     "Olsun. Peki senin neyin var? Herkesin bir kaçış yolu vardır."
     ]
    },
    "farkli": {
     "_": [
-     "Hiç denemedim onu. Belki denerim.",
-     "Hmm, ona hiç aklım ermez.",
-     "Güzelmiş. Herkes bir şeye tutunuyor işte."
+     "Hiç denemedim onu. Belki bir gün sen gösterirsin.",
+     "Güzelmiş. Herkes bir şeye tutunuyor işte; seninki bu."
     ]
    },
    "vakitYok": {
     "_": [
      "Ayıp ama, insan kendine bir şey ayırmalı.",
      "Herkes öyle diyor. Sonra bir bakıyorsun, yıllar geçmiş."
+    ]
+   },
+   "etkilendi": {
+    "_": [
+     "{s.oHobiAd} mı? Sende bir şey var, ilk gördüğümde anlamıştım.",
+     "Anlatırken gözlerin parladı; bunu izlemek hoşuma gitti.",
+     "Bir gün göster bana. Sırf seni öyle görmek için."
+    ]
+   },
+   "merak": {
+    "_": [
+     "Nasıl başladın buna? Anlat, şimdi merak ettim.",
+     "Hiç bilmem ama anlatışın güzel. Devam et.",
+     "Ne zamandır yapıyorsun? Seni en çok ne çekiyor?"
+    ]
+   },
+   "alay": {
+    "_": [
+     "Sana hiç yakıştıramadım, biliyor musun? Belki de yanılıyorum.",
+     "Bunu herkese anlatıyor musun, yoksa ben mi şanslıyım?"
+    ]
+   },
+   "ilgisiz": {
+    "_": [
+     "Dürüst olayım: hiç ilgimi çekmez. Ama sen anlatınca kötü durmuyor.",
+     "Bana göre değil; ama bir şeye bu kadar bağlanabilmeni kıskandım.",
+     "Hıı. Benim hiç ilgimi çekmez; ama anlat, seni dinlemek hoşuma gidiyor."
+    ],
+    "yasli": [
+     "Biz o işlerden anlamayız evladım; ama seni mutlu ediyorsa iyi."
     ]
    }
   }
@@ -1239,14 +1548,14 @@
   },
   "oyuncu": {
    "katil": [
-    "Haklısın.",
+    "Haklısın; ben de hep böyle düşündüm ama hiç söyleyememiştim.",
     "Aynen öyle düşünüyorum.",
-    "Katılıyorum."
+    "Katılıyorum. Bunu bu kadar net söyleyen az."
    ],
    "katilma": [
     "Bence öyle değil.",
-    "Pek katılmıyorum.",
-    "Ben farklı düşünüyorum."
+    "Pek katılmıyorum; bence hayat o kadar düz değil.",
+    "Ben farklı düşünüyorum. Ama anlatışını sevdim."
    ]
   },
   "tepki": {
@@ -1268,7 +1577,7 @@
     "_": [
      "Sen daha hayatı bilmiyorsun.",
      "Öyle düşünüyorsan sana diyecek bir şeyim yok.",
-     "Hıh. Göreceksin."
+     "Hıh. Göreceksin; hayat bir gün sana da öğretir."
     ]
    }
   },

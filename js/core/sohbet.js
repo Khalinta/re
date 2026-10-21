@@ -23,7 +23,7 @@ import { kisiGuncel, bilinmeyenOlaylar, haberSablonu } from './npchayat.js';
 import { gizliIliskiMi, derinlik, aileAgaci } from './kart.js';
 import { sirriBiliyorMu, ozetEkle } from './hafiza.js';
 import { partnerli, aciklik, sadakatTipi, partnerCezasi } from './sadakat.js';
-import { askKonulari, askHamlesi, askSecenekler, askCevapla, askKarsilama, npcAtilim, kiskanclikYay } from './ask.js';
+import { askKonulari, askHamlesi, askSecenekler, askCevapla, askKarsilama, npcAtilim, kiskanclikYay, sonucSec, ozelUygula, sahteSurer } from './ask.js';
 import { derinKonular, derinHamle, derinSecenekler, derinCevapla, derinSoruAdaylari, derinSoruSor } from './zevk.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
@@ -154,7 +154,7 @@ function sen(durum, veri, n, k, liste, rng, ctxEk = {}) {
 }
 
 // Kişi kartı konuşmaları (zevk.js) için konuşma araçları
-const ARACLAR = { soyle, anlat, sen };
+const ARACLAR = { soyle, anlat, sen, randevu: (durum, veri, n, k) => randevuKur(durum, veri, n.id, n, k) };
 
 // Ara ara beden dili: kuşağa göre ("telefonunu ters çeviriyor" / "tespihini çekiyor")
 function beden(durum, veri, n, k, rng, tur = null) {
@@ -541,12 +541,23 @@ export function flortHamleleri(durum, veri, n, k) {
   const sb = veri.npc.sohbet, o = durum.sohbet, gun = gunNo(durum.zaman.dakika);
   if (!veri.npc.flort || !flortUygun(durum, veri, n) || k.bilinen?.flortEngel === 'yonelim') return [];
   const l = [];
+  // 3.16: hiçbiri tek seferlik değil. İltifat/takılma oturumda iki kez (günlük sınırla); reddedilen numara ve buluşma
+  // yeniden istenebilir (ısrar) — ne olacağı belli olmaz
+  const tavan = { iltifat: 2, takil: 2, numara: 3, davet: 2 };
   for (const [konu, t] of Object.entries(sb.konular)) {
-    if (!t.flort || o.kullanilan[konu]) continue;
+    if (!t.flort || (o.kullanilan[konu] ?? 0) >= (tavan[konu] ?? 1)) continue;
+    let ad = t.baslik;
     if ((konu === 'iltifat' || konu === 'takil') && (k.iltifatGun?.[gun] ?? 0) >= veri.npc.flort.kurallar.gunlukIltifat) continue;
-    if (konu === 'numara' && (k.numara || k.numaraRet === gun)) continue;
-    if (konu === 'davet' && (!k.numara || k.randevu >= gun || k.davetRet === gun)) continue; // randevu: buluşma günü (geçtiyse yeniden teklif edilebilir)
-    l.push({ konu, ad: t.baslik, dakika: t.sure });
+    if (konu === 'numara') {
+      if (k.numara || sahteSurer(k) || k.seninNumaran >= gun - 1 || (k.numaraIsrar?.[gun] ?? 0) >= 2) continue;
+      if (k.sahteNumara?.ogrendi === true) ad = 'Numarasını yine iste (öncekisi yanlış çıktı)';
+      else if (k.numaraRet === gun) ad = 'Numarasını yine iste (ısrar et)';
+    }
+    if (konu === 'davet') {
+      if (!k.numara || k.randevu >= gun || (k.davetRet === gun && k.davetIsrar === gun)) continue; // randevu: buluşma günü (geçtiyse yeniden teklif edilebilir)
+      if (k.davetRet === gun) ad = 'Buluşma için ısrar et';
+    }
+    l.push({ konu, ad, dakika: t.sure });
   }
   if (veri.npc.flort.ask) l.push(...askKonulari(durum, veri, n, k, ilgi(durum, veri, n, k)));
   return l;
@@ -620,13 +631,13 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
     return { tamam: true, paragraflar: p };
   }
 
-  const t = konu.startsWith('derin:') ? veri.npc.zevk.konular[konu.slice(6)] : konu.startsWith('ask:') ? veri.npc.flort.ask.konular[konu.slice(4)] : sb.konular[konu];
+  const t = konu.startsWith('derin:') ? veri.npc.zevk.konular[konu.slice(6)] : konu.startsWith('ask:') ? veri.npc.flort.ask.konular[konu.slice(4)] ?? veri.npc.flort.ask.serbest[konu.slice(4)] : sb.konular[konu];
   const p = [{ tur: 'secim', metin: t.baslik }];
   zamanGecir(durum, t.sure, 'dinlenme', veri.sim);
   const yak = k.iliski.yakinlik ?? 0;
   const ar = (a, b) => rng.aralik(a, b);
   const yakinlikEkle = x => { k.iliski.yakinlik = (k.iliski.yakinlik ?? 0) + x; };
-  o.kullanilan[konu] = true;
+  o.kullanilan[konu] = (o.kullanilan[konu] || 0) + 1;
   let soruOlabilir = true;
 
   if (konu === 'bitir') {
@@ -773,7 +784,10 @@ function flortHamlesi(durum, veri, rng, n, k, konu, p) {
   const F = veri.npc.flort, gun = gunNo(durum.zaman.dakika);
   const engel = flortEngeli(durum, veri, n);
   if (konu === 'iltifat' || konu === 'takil') (k.iltifatGun ??= {})[gun] = (k.iltifatGun[gun] ?? 0) + 1;
-  p.push(...sen(durum, veri, n, k, F[konu].oyuncu, rng));
+  const soz = konu === 'numara' && k.sahteNumara?.ogrendi === true && !k.numara ? F.numara.yanlisOyuncu
+    : konu === 'numara' && k.numaraRet === gun ? F.numara.israrOyuncu
+      : konu === 'davet' && k.davetRet === gun ? F.davet.israrOyuncu : F[konu].oyuncu;
+  p.push(...sen(durum, veri, n, k, soz, rng));
   if (engel) {
     p.push(...anlat(durum, veri, n, k, F.uygunsuz[engel], rng));
     k.bilinen.flortEngel = engel;
@@ -808,6 +822,19 @@ function flortHamlesi(durum, veri, rng, n, k, konu, p) {
     return seviye !== 'kotu';
   }
   if (konu === 'numara') {
+    if (k.sahteNumara?.ogrendi === true && !k.numara) {
+      // Yanlış numarayı yüzüne vurdun: çoğu zaman utanıp gerçeğini verir
+      if (rng.olasilik(sinirla(0.55 + ig / 80, 0.3, 0.95))) {
+        p.push(...anlat(durum, veri, n, k, F.numara.gercek._, rng));
+        ozelUygula(durum, veri, rng, n, k, ['numara'], p, ARACLAR);
+        k.iliski.cekim = (k.iliski.cekim ?? 0) + 2;
+        return true;
+      }
+      p.push(...anlat(durum, veri, n, k, F.numara.israr.kizdi.metin._, rng));
+      k.sahteNumara.ogrendi = 'kapandi'; k.numaraRet = gun; (k.numaraIsrar ??= {})[gun] = 2;
+      return false;
+    }
+    if (k.numaraRet === gun && ig < F.esikler.numara) return numaraIsrar(durum, veri, rng, n, k, ig, p);
     if (ig >= F.esikler.numara) {
       p.push(...anlat(durum, veri, n, k, partner ? F.numaraGizli : F.numara.evet, rng));
       kiskanclikYay(durum, veri, n.id, rng);
@@ -824,6 +851,15 @@ function flortHamlesi(durum, veri, rng, n, k, konu, p) {
     return false;
   }
   if (konu === 'davet') {
+    if (k.davetRet === gun && ig < F.esikler.davet) {
+      // Israr: kabul edebilir, "bakarız" diyebilir, kızabilir
+      k.davetIsrar = gun;
+      const id = sonucSec(durum, k, n, F.davet.israr, ig, rng, null);
+      p.push(...anlat(durum, veri, n, k, F.davet.israr[id].metin._, rng));
+      if (id === 'kabul') { if (partner) k.gizli = true; randevuKur(durum, veri, n.id, n, k); p.push({ tur: 'sistem', metin: `Yarın akşam ${n.hitapAdi} ile buluşacaksın` }); }
+      if (id === 'kizdi') { k.iliski.gerginlik = (k.iliski.gerginlik ?? 0) + 2; k.iliski.cekim = (k.iliski.cekim ?? 0) - 2; }
+      return false;
+    }
     if (ig >= F.esikler.davet) {
       p.push(...anlat(durum, veri, n, k, partner ? F.davetGizli : F.davet.evet, rng));
       if (partner) k.gizli = true;
@@ -837,6 +873,42 @@ function flortHamlesi(durum, veri, rng, n, k, konu, p) {
     return false;
   }
   return true;
+}
+
+const sinirla = (x, a, b) => Math.max(a, Math.min(b, x));
+
+// Reddettikten sonra numarasını yine istemek (3.16): verir, yanlış numara verir, seninkini ister, telefonunu kapıp
+// kendini arar, kızar ya da kalkıp gider. Ne kadar ısrar edersen kızma/gitme o kadar olası
+function numaraIsrar(durum, veri, rng, n, k, ig, p) {
+  const F = veri.npc.flort, gun = gunNo(durum.zaman.dakika);
+  const israr = ((k.numaraIsrar ??= {})[gun] = (k.numaraIsrar[gun] ?? 0) + 1);
+  const sonuclar = { ...F.numara.israr };
+  if (k.sahteNumara) delete sonuclar.sahte;
+  const id = sonucSec(durum, k, n, sonuclar, ig - F.esikler.numara + 20, rng, null, { israr: israr - 1 });
+  p.push(...anlat(durum, veri, n, k, F.numara.israr[id].metin._, rng));
+  if (id === 'verdi' || id === 'kapti') { ozelUygula(durum, veri, rng, n, k, ['numara'], p, ARACLAR); return true; }
+  if (id === 'sahte') {
+    // Sen bilmiyorsun: ertesi gün yazınca anlaşılır
+    k.sahteNumara = { gun };
+    p.push({ tur: 'sistem', metin: `${n.hitapAdi} numarasını verdi` });
+    const zaman = durum.zaman.dakika - gunDakikasi(durum.zaman.dakika) + 1440 + rng.aralik(11 * 60, 19 * 60);
+    durum.zamanlayicilar.push({ zaman, olay: 'sahte_numara', baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+    durum.zamanlayicilar.sort((a, b) => a.zaman - b.zaman);
+    return false;
+  }
+  if (id === 'seninki') {
+    k.seninNumaran = gun;
+    if (rng.olasilik(sinirla((ig + 20) / 60, 0.15, 0.85))) {
+      const zaman = durum.zaman.dakika + rng.aralik(4 * 60, 40 * 60);
+      durum.zamanlayicilar.push({ zaman, olay: 'pecete_mesaj', baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+      durum.zamanlayicilar.sort((a, b) => a.zaman - b.zaman);
+    }
+    return false;
+  }
+  k.iliski.gerginlik = (k.iliski.gerginlik ?? 0) + 2;
+  k.iliski.cekim = (k.iliski.cekim ?? 0) - 3;
+  if (id === 'kalkti') { k.ayrildi = { zaman: durum.zaman.dakika, kim: 'o' }; oturumBitir(durum); }
+  return false;
 }
 
 // Geliştirici/test: bu kişinin sana ilgisi ve engeli

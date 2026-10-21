@@ -2238,6 +2238,184 @@
      ]
     }
    }
+  },
+  {
+   "id": "sahte_numara",
+   "tetik": "zamanlayici",
+   "tekrar": true,
+   "baslik": "Yanlış numara",
+   "etiketler": [
+    "tanidik",
+    "ask"
+   ],
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "{kisi.ad|e} yazmak için telefonu açıyorsun. Mesaj gidiyor; cevap birkaç dakika sonra geliyor: \"Abi biz döner salonuyuz, sipariş mi vereceksin?\""
+      ],
+      [
+       "{kisi.ad|i} arıyorsun. Bir teyze açıyor: \"Kimi aradın evladım? Burada öyle biri yok.\" Arkadan bir televizyon sesi."
+      ],
+      [
+       "{kisi.ad|e} bir mesaj atıyorsun. İletilmiyor. Arıyorsun: \"Aradığınız numara kullanılmamaktadır.\""
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Gül geç",
+       "etki": [
+        {
+         "sahteOgrendi": {
+          "npc": "kisi"
+         }
+        },
+        {
+         "durum": {
+          "ruh": 1
+         }
+        }
+       ],
+       "sonuc": "Gülüyorsun; kendine. İyi oynadı. Bir dahaki sefere yüzüne söylersin."
+      },
+      {
+       "metin": "Bozul",
+       "etki": [
+        {
+         "sahteOgrendi": {
+          "npc": "kisi"
+         }
+        },
+        {
+         "durum": {
+          "ruh": -3
+         }
+        }
+       ],
+       "sonuc": "Telefonu masaya bırakıyorsun. Biraz canın sıkıldı; kabul et."
+      },
+      {
+       "metin": "Siparişi ver (dönerciyse)",
+       "etki": [
+        {
+         "sahteOgrendi": {
+          "npc": "kisi"
+         }
+        },
+        {
+         "para": -180
+        },
+        {
+         "durum": {
+          "aclik": -30,
+          "ruh": 3
+         }
+        }
+       ],
+       "sonuc": "Bir dürüm söylüyorsun. Gecenin tek doğru numarası buymuş."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "pecete_mesaj",
+   "tetik": "zamanlayici",
+   "tekrar": true,
+   "baslik": "Bilinmeyen numara",
+   "etiketler": [
+    "tanidik",
+    "ask"
+   ],
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Bilinmeyen bir numaradan mesaj:",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Bu ne cesaret? Neyse. Ben {kisi.ad}. Kaydet."
+       }
+      ],
+      [
+       "Gece yarısına doğru telefon titriyor. Bilinmeyen numara:",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Uyuyor musun? Ben {kisi.ad}. Aklımdan çıkmadın, sinir oldum."
+       }
+      ],
+      [
+       "Bilinmeyen numara:",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Bunu kimseye yapmam ama… Selam. {kisi.ad}."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Flörtöz bir cevap yaz",
+       "etki": [
+        {
+         "numaraVer": {
+          "npc": "kisi"
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 6,
+          "cekim": 3
+         }
+        }
+       ],
+       "sonuc": "Yazıyorsun, siliyorsun, yeniden yazıyorsun. Gönderdiğin şeye bir dakika içinde cevap geliyor: bir gülen surat ve \"devam et\"."
+      },
+      {
+       "metin": "Ara, sesini duy",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "numaraVer": {
+          "npc": "kisi"
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 4,
+          "arzu": 4
+         }
+        }
+       ],
+       "sonuc": "Arıyorsun. \"Mesaj atsaydın ya\" diyor; ama kapatmıyor. Yirmi dakika sonra ikiniz de neden gülüyor olduğunuzu bilmiyorsunuz."
+      },
+      {
+       "metin": "Kaydet, cevap verme",
+       "etki": [
+        {
+         "numaraVer": {
+          "npc": "kisi"
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 2,
+          "gerginlik": 1
+         }
+        }
+       ],
+       "sonuc": "Kaydediyorsun. Ekranda \"görüldü\" yazıyor. Bırak biraz merak etsin."
+      }
+     ]
+    }
+   }
   }
  ]
 }

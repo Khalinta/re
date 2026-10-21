@@ -27,13 +27,106 @@ export function askKonulari(durum, veri, n, k, ig) {
   if (!X) return [];
   const o = durum.sohbet, gun = gunNo(durum.zaman.dakika), saat = gunDakikasi(durum.zaman.dakika) / 60;
   const ar = arzu(k), l = [];
-  const ekle = (id, kosul) => { if (kosul && !o.kullanilan['ask:' + id]) l.push({ konu: 'ask:' + id, ad: X.konular[id].baslik, dakika: X.konular[id].sure }); };
+  const tekrar = { goz: 2, dokun: 2 }; // aynı oturumda iki kez olabilir
+  const ekle = (id, kosul) => { if (kosul && (o.kullanilan['ask:' + id] ?? 0) < (tekrar[id] ?? 1)) l.push({ konu: 'ask:' + id, ad: X.konular[id].baslik, dakika: X.konular[id].sure }); };
   ekle('goz', true);
   ekle('dokun', ig >= X.esikler.dokun || ar >= 15 || sevgiliMi(k));
   ekle('acik', ar >= X.esikler.acik || sevgiliMi(k));
   ekle('cik', ar >= X.esikler.cik && (k.numara || sevgiliMi(k)) && (saat >= 18 || saat < 4) && k.cikRet !== gun);
   ekle('ayril', sevgiliMi(k));
+  // 3.16: tahmin edilemeyen hamleler (öp, fısılda, iddia, dans, telefon, peçete, içini dök)
+  const m = mekanBul(veri.dunya, o.mekan);
+  for (const [id, h] of Object.entries(X.serbest || {})) {
+    if (id.startsWith('_') || o.kullanilan['ask:' + id]) continue;
+    const c = h.kosul || {};
+    if (c.numaraYok && (k.numara || sahteSurer(k))) continue;
+    if (c.mekan && !c.mekan.includes(m?.tur)) continue;
+    const acik = sevgiliMi(k) || (c.ilgi !== undefined && ig >= c.ilgi) || (c.arzu !== undefined && ar >= c.arzu) || (c.yakinlik !== undefined && (k.iliski.yakinlik ?? 0) >= c.yakinlik);
+    if (acik) l.push({ konu: 'ask:' + id, ad: h.baslik, dakika: h.sure });
+  }
   return l;
+}
+
+// Yanlış numara verdi ve sen henüz fark etmedin (3.16)
+export const sahteSurer = k => !!k.sahteNumara && !k.sahteNumara.ogrendi;
+const aksamMi = durum => { const sa = gunDakikasi(durum.zaman.dakika) / 60; return sa >= 18 || sa < 4; };
+
+// Süzgeçleri tutan sonuçlardan ağırlıklı seçim: a + b·(skor/10) + tarz + partner (+ ısrar)
+export function sonucSec(durum, k, n, sonuclar, s, rng, tarz, ek = {}) {
+  const partner = partnerli(n);
+  const adaylar = [];
+  for (const [id, x] of Object.entries(sonuclar)) {
+    if (x.aksam && !aksamMi(durum)) continue;
+    if (x.numaraYok && (k.numara || sahteSurer(k))) continue;
+    if (x.sadecePartner && !partner) continue;
+    if (x.partnerYok && partner) continue;
+    if (x.ilkOpucuk && k.ilkOpucuk !== undefined) continue;
+    if (x.randevuYok && k.randevu >= gunNo(durum.zaman.dakika)) continue;
+    const w = (x.a ?? 1) + (x.b ?? 0) * s / 10 + (x.tarz?.[tarz] ?? 0) + (partner ? x.partner ?? 0 : 0) + (x.israrEk ?? 0) * (ek.israr ?? 0);
+    if (w > 0) adaylar.push({ id, agirlik: w });
+  }
+  return adaylar.length ? rng.agirlikliSec(adaylar).id : null;
+}
+
+// Bir sonucun özel işleri. Döner: oturum sürüyor mu
+export function ozelUygula(durum, veri, rng, n, k, ozel = [], p, ar, s = 0) {
+  const gun = gunNo(durum.zaman.dakika), partner = partnerli(n);
+  for (const o of ozel) {
+    if (o === 'opucuk') {
+      if (k.ilkOpucuk === undefined) { k.ilkOpucuk = gun; k.anilar.push({ zaman: durum.zaman.dakika, metin: 'ilk kez öpüştünüz' }); }
+      if (!k.iliskiTuru) k.iliskiTuru = 'flort';
+      if (partner) k.iliski.risk = (k.iliski.risk ?? 0) + 2;
+    } else if (o === 'flort') { if (!k.iliskiTuru) k.iliskiTuru = 'flort'; }
+    else if (o === 'risk') k.iliski.risk = (k.iliski.risk ?? 0) + 1;
+    else if (o === 'kiskanclik') kiskanclikYay(durum, veri, n.id, rng);
+    else if (o === 'numara' && !k.numara) {
+      k.numara = true;
+      if (k.sahteNumara) k.sahteNumara.ogrendi = true;
+      if (partner) k.gizli = true;
+      k.anilar.push({ zaman: durum.zaman.dakika, metin: 'numarasını verdi' });
+      p.push({ tur: 'sistem', metin: `${n.hitapAdi} numarasını verdi` });
+    } else if (o === 'randevu' && ar.randevu && !(k.randevu >= gun)) {
+      if (partner) k.gizli = true;
+      ar.randevu(durum, veri, n, k);
+      p.push({ tur: 'sistem', metin: `Yarın akşam ${n.hitapAdi} ile buluşacaksın` });
+    } else if (o === 'cik') {
+      const olay = partner ? 'birlikte_gece_gizli' : 'birlikte_gece';
+      durum.zamanlayicilar.unshift({ zaman: durum.zaman.dakika, olay, baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+      if (partner) { k.iliski.risk = (k.iliski.risk ?? 0) + 2; k.gizli = true; }
+      delete durum.sohbet;
+    } else if (o === 'kalkar' || o === 'senKalk') {
+      k.ayrildi = { zaman: durum.zaman.dakika, kim: o === 'kalkar' ? 'o' : 'sen' };
+      delete durum.sohbet;
+    } else if (o === 'pecete') {
+      // Arar mı? Kimse bilmez: ilgisi yüksekse çoğunlukla, düşükse ara sıra
+      if (rng.olasilik(sinir((s + 10) / 50, 0.12, 0.9))) {
+        const zaman = durum.zaman.dakika + rng.aralik(3 * 60, 30 * 60);
+        durum.zamanlayicilar.push({ zaman, olay: 'pecete_mesaj', baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+        durum.zamanlayicilar.sort((a, b) => a.zaman - b.zaman);
+      }
+      k.peceteGun = gun;
+    }
+  }
+  return !!durum.sohbet;
+}
+
+function etkiUygula(k, etki = {}, partner) {
+  for (const [ad, x] of Object.entries(etki)) {
+    if (ad === 'arzu') arzuEkle(k, x); else k.iliski[ad] = (k.iliski[ad] ?? 0) + x;
+  }
+  if (partner && (etki.arzu ?? 0) > 0) k.iliski.risk = (k.iliski.risk ?? 0) + 1; // herkesin gözü önünde
+}
+
+function serbestHamle(durum, veri, rng, n, k, h, s, tarz, p, ar) {
+  p.push(...ar.anlat(durum, veri, n, k, h.oyuncu, rng));
+  const id = sonucSec(durum, k, n, h.sonuclar, s, rng, tarz);
+  if (!id) return true;
+  const x = h.sonuclar[id];
+  p.push(...ar.anlat(durum, veri, n, k, havuz(x.metin, tarz), rng));
+  etkiUygula(k, x.etki, partnerli(n));
+  const surer = ozelUygula(durum, veri, rng, n, k, x.ozel, p, ar, s);
+  ozetEkle(durum, n.id, `Oyuncu: "${h.baslik}". Sonuç: ${id}.`);
+  return surer && (x.etki?.arzu ?? 0) > 0;
 }
 
 // Başarı puanı: ilgi + arzu
@@ -47,6 +140,7 @@ export function askHamlesi(durum, veri, rng, n, k, konu, ig, p, ar) {
   const sen = liste => p.push(...ar.sen(durum, veri, n, k, liste, rng));
   const partner = partnerli(n);
   k.bilinen ??= {};
+  if (X.serbest?.[konu]) return serbestHamle(durum, veri, rng, n, k, X.serbest[konu], s, tarz, p, ar);
   if (konu === 'goz') {
     const sev = s >= X.esikler.gozIyi ? 'iyi' : s >= X.esikler.gozOrta ? 'orta' : 'kotu';
     anlat(X.goz.sen);
@@ -163,11 +257,23 @@ export function askKarsilama(durum, veri, rng, n, k, p, ar) {
 
 export function askSecenekler(durum, veri) {
   const X = A(veri), dk = veri.npc.sohbet.sure.cevap;
+  if (durum.sohbet?.bekleyen?.alan === 'teklif') return Object.entries(X.teklif).map(([id, c]) => ({ konu: 'cevap:a:' + id, ad: c.ad, dakika: dk }));
   return Object.entries(X.kiskanclikCevap).map(([id, c]) => ({ konu: 'cevap:a:' + id, ad: c.ad, dakika: dk }));
 }
 
 export function askCevapla(durum, veri, rng, n, k, id, p, ar) {
-  const X = A(veri), c = X.kiskanclikCevap[id];
+  const X = A(veri);
+  if (durum.sohbet?.bekleyen?.alan === 'teklif') {
+    const t = X.teklif[id];
+    if (!t) return { tamam: false, sebep: 'Bunu şimdi söyleyemezsin.' };
+    p.push(...ar.sen(durum, veri, n, k, t.soz, rng));
+    if (t.cevap) p.push(...ar.anlat(durum, veri, n, k, havuz(t.cevap, tarzi(durum, veri, n)), rng));
+    etkiUygula(k, t.etki, false);
+    durum.sohbet.bekleyen = null;
+    ozelUygula(durum, veri, rng, n, k, t.ozel, p, ar);
+    return { tamam: true };
+  }
+  const c = X.kiskanclikCevap[id];
   if (!c) return { tamam: false, sebep: 'Bunu şimdi söyleyemezsin.' };
   const ks = veri.npc.derinlik ? derinlik(durum.seed, n, veri).kiskanclik : 3;
   const tarz = tarzi(durum, veri, n), guven = k.iliski.guven ?? 0, ar0 = arzu(k);
@@ -195,10 +301,28 @@ export function askCevapla(durum, veri, rng, n, k, id, p, ar) {
 // Arzusu yüksekse kişi kendisi yaklaşır (oturumda bir kez)
 export function npcAtilim(durum, veri, rng, n, k, p, ar) {
   const X = A(veri), o = durum.sohbet;
+  if (X?.surpriz && o && !o.surpriz && arzu(k) >= 25 && rng.olasilik(0.12 + arzu(k) / 400)) return npcSurpriz(durum, veri, rng, n, k, p, ar);
   if (!X || !o || o.atilim || arzu(k) < X.esikler.atilim || !rng.olasilik(0.35)) return false;
   p.push(...ar.anlat(durum, veri, n, k, havuz(X.npcHamle, tarzi(durum, veri, n)), rng));
   arzuEkle(k, 2);
   o.atilim = true;
+  return true;
+}
+
+// Kişinin kendiliğinden, beklenmedik hamlesi (oturumda bir kez): numarasını telefonuna yazar, seni öper, yarın için
+// sözünü alır, "evim on dakika" der (sen karar verirsin), masanın altında bacağını dayar
+function npcSurpriz(durum, veri, rng, n, k, p, ar) {
+  const X = A(veri), o = durum.sohbet, tarz = tarzi(durum, veri, n);
+  const adaylar = Object.entries(X.surpriz).filter(([, x]) => !(x.arzu > arzu(k))).map(([id, x]) => ({ id, ...x, a: 1, b: 0 }));
+  const id = sonucSec(durum, k, n, Object.fromEntries(adaylar.map(x => [x.id, x])), 0, rng, tarz);
+  if (!id) return false;
+  const x = X.surpriz[id];
+  o.surpriz = true;
+  p.push(...ar.anlat(durum, veri, n, k, havuz(x.metin, tarz), rng));
+  etkiUygula(k, x.etki, partnerli(n));
+  if (x.teklif) { o.bekleyen = { tur: 'ask', alan: 'teklif' }; return true; }
+  ozelUygula(durum, veri, rng, n, k, x.ozel, p, ar);
+  arzuEkle(k, 3);
   return true;
 }
 

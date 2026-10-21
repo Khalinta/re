@@ -126,7 +126,7 @@
   ]
  },
  "agiz": {
-  "genc": 0.0,
+  "genc": 0,
   "gencGocmus": 0.08,
   "orta": 0.18,
   "yasli": 0.3
@@ -416,55 +416,80 @@
    "genc": [
     "Aa, selam! Otur.",
     "Sen misin? Gel gel.",
-    "Ooo, kimler gelmiş. Otur bakalım."
+    "Ooo, kimler gelmiş. Otur bakalım.",
+    "Selaam! Gel otur, ne var ne yok?",
+    "Aa, n'aber? Otursana.",
+    "Hey! Otur, ben de yalnızdım."
    ],
    "orta": [
     "Ooo, sen misin? Gel otur.",
     "Bak kim gelmiş. Otur bakalım.",
-    "Hoş geldin {s.hitap}."
+    "Hoş geldin {s.hitap}.",
+    "Merhaba, otur lütfen.",
+    "Ooo, buyur otur. Nasılsın?",
+    "Gel, şöyle geç; yer var."
    ],
    "yasli": [
     "Gel {s.hitap}, otur şöyle.",
     "Hoş geldin. Çay içer misin?",
-    "Ooo, geldin mi? Otur bakalım."
+    "Ooo, geldin mi? Otur bakalım.",
+    "Buyur evladım, buyur otur.",
+    "Hoş geldin, sefa geldin.",
+    "Gel gel, ayakta kalma."
    ]
   },
   "yakin": {
    "genc": [
     "Neredesin ya sen? Kayboldun!",
     "{o.ad}! Tam da seni düşünüyordum, otur.",
-    "Geldin mi? Süper, sıkılıyordum zaten."
+    "Geldin mi? Süper, sıkılıyordum zaten.",
+    "Sonunda! Neredeydin?",
+    "Geldin mi? İyi, anlatacak çok şey var.",
+    "Seni görmek iyi geldi ya, otur."
    ],
    "orta": [
     "Nerelerdesin sen? Gel gel, otur.",
     "Ben de seni düşünüyordum! Otur.",
-    "Gel {s.hitap}, gel; yerin hazır."
+    "Gel {s.hitap}, gel; yerin hazır.",
+    "Hah, geldin! Otur, anlatacaklarım var.",
+    "Ooo, bizimki! Gel buraya.",
+    "Nihayet! Ben de bugün gelmez dedim."
    ],
    "yasli": [
     "Gel {s.hitap}, gel; gözümüz yollarda kaldı.",
     "Hah, geldi bizimki. Otur, çayını söyledim.",
-    "Nerelerdesin {s.hitap}? Unuttun bizi."
+    "Nerelerdesin {s.hitap}? Unuttun bizi.",
+    "Gel bakayım buraya, özledik seni.",
+    "Hah, bizim {s.hitap} geldi; otur hele.",
+    "Gel, gel; çayın tazesi senin."
    ]
   },
   "soguk": {
    "_": [
     "Hı. Otur, istiyorsan.",
     "Sen mi? Neyse, otur.",
-    "Otur. Ama çok kalmam."
+    "Otur. Ama çok kalmam.",
+    "Hmm. Sen.",
+    "Buyur. Ne vardı?",
+    "Otur bakalım. Kısa olsun ama."
    ]
   },
   "bugun": {
    "_": [
     "Yine sen! Bugün beni bırakmadın.",
     "Bir günde iki kere; artık tesadüf diyemeyiz.",
-    "Geldin mi yine? İyi ettin; sıkılıyordum."
+    "Geldin mi yine? İyi ettin; sıkılıyordum.",
+    "Bugün bayağı görüşüyoruz.",
+    "Ne o, özledin mi?"
    ],
    "genc": [
     "Ooo, ikinci raund!",
-    "Yine mi sen? Şaka şaka, gel."
+    "Yine mi sen? Şaka şaka, gel.",
+    "Bugün peşimi bırakmıyorsun, haberin olsun."
    ],
    "yasli": [
-    "Gel evladım; sabahki sohbet yarım kalmıştı."
+    "Gel evladım; sabahki sohbet yarım kalmıştı.",
+    "Yine geldin mi? İyi ettin; sabahtan beri tek başımaydım."
    ]
   }
  },
@@ -1200,7 +1225,17 @@
    "Sabah aynaya bakınca gördüğün 'yabancıyı' anlatıyorsun.",
    "Çayı üflerken bir anda ciddileşip 'bu çay benim hayatımı anlıyor' diyorsun.",
    "Bir zamanlar çok iyi dans ettiğini iddia ediyorsun; kanıt yok.",
-   "Kendi hayatını bir dizi fragmanı gibi anlatıyorsun."
+   "Kendi hayatını bir dizi fragmanı gibi anlatıyorsun.",
+   "Sıradan bir pazar alışverişini destansı bir savaş gibi anlatıyorsun.",
+   "Dünkü rüyanı, sonu gelmeyen bir film gibi abartarak anlatıyorsun.",
+   "Masadaki şekerliğe bir kişilik uydurup onun ağzından konuşuyorsun.",
+   "Hayatında yaptığın en saçma alışverişi itiraf ediyorsun.",
+   "Yan masadaki konuşmaya uydurma altyazılar ekliyorsun; fısıltıyla.",
+   "Çocukken yaptığın en büyük haylazlığı anlatıyorsun.",
+   "Kendi el yazının ancak eczacılar tarafından okunabildiğini kanıtlıyorsun.",
+   "Sabah alarmla aranda geçen pazarlığı anlatıyorsun.",
+   "Ciddi bir yüzle bu mekanın gizli menüsünü bildiğini iddia ediyorsun.",
+   "Geçen hafta kendi kendine yolda kaybolduğun hikâyeyi anlatıyorsun."
   ],
   "guldu": {
    "genc": [
@@ -1208,49 +1243,71 @@
     "Gülmekten çayını döküyor.",
     "'Sen tam benlik birisin' diyor, hâlâ gülerek.",
     "Kahkaha atıyor, telefonunu açıp 'bunu yazmam lazım' diyor.",
-    "'Hayır yaa!' diyor, gülerek yüzünü kapatıyor."
+    "'Hayır yaa!' diyor, gülerek yüzünü kapatıyor.",
+    "Gülmekten başını masaya koyuyor.",
+    "'Dur dur, nefes alamıyorum' diyor.",
+    "'Sen yoksun ya!' diyor, kahkahayla.",
+    "Kahkahası yan masadakileri de gülümsetiyor."
    ],
    "orta": [
     "Gülmekten gözleri yaşarıyor: 'Bunu ilk kez duydum, valla!'",
     "Bir kahkaha atıyor, masaya vuruyor.",
     "'Hah! İyiymiş' diyor, gülüyor.",
     "'Valla sen bir stand-up yap' diyor, hâlâ gülüyor.",
-    "Gülmekten öksürüyor; yan masa da merak edip bakıyor."
+    "Gülmekten öksürüyor; yan masa da merak edip bakıyor.",
+    "Elini ağzına kapatıp gülüyor: 'Ayıp ama çok komik.'",
+    "Kahkaha atıyor: 'Sen bunları nereden buluyorsun?'",
+    "Gülmekten gözünün yaşını siliyor."
    ],
    "yasli": [
     "Bıyık altından gülüyor: 'Seni gidi seni!'",
     "Kahkahası öksürüğe dönüyor; yine de gülüyor.",
     "'Bizim gençliğimizde de böyle şakacılar vardı' diyor, gülerek.",
-    "'Ah ah, gençlik!' diyor, gözlerinin kenarı kırışarak."
+    "'Ah ah, gençlik!' diyor, gözlerinin kenarı kırışarak.",
+    "Dizine vura vura gülüyor.",
+    "'Vay anam vay!' diye gülüyor.",
+    "Gülerken çay bardağı titriyor elinde."
    ]
   },
   "gulumsedi": {
    "genc": [
     "Gülümsüyor; espriyi beğendi ama belli etmiyor.",
     "'Fena değil' der gibi başını sallıyor.",
-    "Gülmemeye çalışıyor; başaramıyor."
+    "Gülmemeye çalışıyor; başaramıyor.",
+    "'Hıh' diyor; ama gülümsüyor.",
+    "Dudağının kenarı kıpırdıyor; belli etmemeye çalışıyor."
    ],
    "orta": [
     "Kibarca gülümsüyor.",
     "Gülmüyor ama gözleri gülüyor.",
-    "Bıyık altından gülüyor; belli etmek istemiyor."
+    "Bıyık altından gülüyor; belli etmek istemiyor.",
+    "Başını sallayarak gülümsüyor: 'Fena değil.'",
+    "'Sen de az değilsin' diyor, hafifçe gülerek."
    ],
    "yasli": [
     "'Gençler...' diyor, gülümseyerek.",
-    "Başını iki yana sallıyor; ama yüzünde bir gülümseme var."
+    "Başını iki yana sallıyor; ama yüzünde bir gülümseme var.",
+    "'Haylaz' diyor, gülümseyerek.",
+    "Gözleri kısılıyor; içinden güldüğü belli."
    ]
   },
   "kizdi": {
    "genc": [
     "'Komik değil ya' diyor; yüzü düştü.",
-    "Gözlerini deviriyor; bu sefer gülerek değil."
+    "Gözlerini deviriyor; bu sefer gülerek değil.",
+    "'Bu biraz kaba oldu' diyor.",
+    "Sessizce telefonuna dönüyor."
    ],
    "orta": [
     "Yüzü asılıyor. 'Bunda gülünecek ne var?'",
-    "Şaka hiç hoşuna gitmedi; sesi soğudu."
+    "Şaka hiç hoşuna gitmedi; sesi soğudu.",
+    "'Bu konuda şaka yapılmaz' diyor, kısaca.",
+    "Gülmüyor; konuyu değiştiriyor."
    ],
    "yasli": [
-    "'Büyüğünle böyle konuşulmaz' diyor, kaşlarını çatarak."
+    "'Büyüğünle böyle konuşulmaz' diyor, kaşlarını çatarak.",
+    "'Hiç hoş olmadı' diyor; yüzünü çeviriyor.",
+    "Kaşlarını çatıyor; bir süre konuşmuyor."
    ]
   }
  },
@@ -1258,40 +1315,62 @@
   "sen": [
    "Kalkıyorsun; masaya bozuk para bırakıyorsun.",
    "'Ben kaçayım' diyorsun, ayağa kalkıyorsun.",
-   "Saatine bakıp kalkıyorsun."
+   "Saatine bakıp kalkıyorsun.",
+   "Hesabı ödeyip kalkıyorsun.",
+   "'Ben gideyim artık' diyorsun; sandalyeyi yerine itiyorsun.",
+   "Ceketini alıp kalkıyorsun.",
+   "'Sonra devam ederiz' diyorsun, kalkarken."
   ],
   "veda": {
    "genc": [
     "Görüşürüz! Yine gel ama.",
     "Hadi bye. Kaybolma!",
-    "Tamamdır, görüşürüz."
+    "Tamamdır, görüşürüz.",
+    "Görüşürüz, yaz bana!",
+    "Hadi, kendine iyi bak!",
+    "Tamam, sonra görüşürüz o zaman."
    ],
    "orta": [
     "Hadi eyvallah, yine bekleriz.",
     "Görüşürüz {s.hitap}.",
-    "Hadi, kendine iyi bak."
+    "Hadi, kendine iyi bak.",
+    "Hadi görüşürüz, iyi günler.",
+    "Yine bekleriz, unutma.",
+    "Selametle, görüşmek üzere."
    ],
    "yasli": [
     "Güle güle evladım, yolun açık olsun.",
     "Allah'a emanet. Yine gel, unutma bizi.",
-    "Hadi bakalım, selametle."
+    "Hadi bakalım, selametle.",
+    "Güle güle, yine uğra.",
+    "Hadi evladım, Allah'a emanet ol.",
+    "Yolun açık olsun; yine gel."
    ]
   },
   "o": {
    "genc": [
     "Ay, saate bak! Gitmem lazım, sonra konuşuruz.",
     "Pardon, arkadaşım geldi. Sonra yazışırız!",
-    "Benim bir derse yetişmem lazım, kaçtım!"
+    "Benim bir derse yetişmem lazım, kaçtım!",
+    "Ay telefonum çalıyor, kaçmam lazım!",
+    "Off, geç kaldım; sonra görüşürüz!",
+    "Benim gitmem lazım, ama bu sohbet bitmedi!"
    ],
    "orta": [
     "Bak saat kaç olmuş; ben gideyim.",
     "Bugünlük bu kadar, işler bekliyor.",
-    "Hadi bana müsaade; çocuklar bekler."
+    "Hadi bana müsaade; çocuklar bekler.",
+    "Ben kalkayım; yarın erken kalkacağım.",
+    "İşe dönmem lazım, kusura bakma.",
+    "Bir randevum var; gitmem gerek."
    ],
    "yasli": [
     "Ben kalkayım evladım, ilaç saati geldi.",
     "Hanım bekler; ben gideyim.",
-    "Yoruldum biraz; yarın yine buradayım."
+    "Yoruldum biraz; yarın yine buradayım.",
+    "Ben gideyim, hava kararmadan evde olayım.",
+    "Dizlerim tutulmadan kalkayım.",
+    "Hadi, ben yavaş yavaş gideyim."
    ]
   }
  },

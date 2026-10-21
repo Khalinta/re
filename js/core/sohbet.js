@@ -67,8 +67,15 @@ function sozSec(durum, k, adaylar, rng, hafiza) {
   durum.bilgi.sonSoz ??= [];
   const kisisel = new Set(k?.son || []), genel = new Set(durum.bilgi.sonSoz);
   const taze = adaylar.filter(t => !kisisel.has(anahtar(t)) && !genel.has(anahtar(t)));
-  const yarim = adaylar.filter(t => !kisisel.has(anahtar(t)));
-  const t = rng.sec(taze.length ? taze : yarim.length ? yarim : adaylar);
+  const yarim = k ? adaylar.filter(t => !kisisel.has(anahtar(t))) : [];
+  // Hepsi yakında duyulduysa: bu kişiden (kişisizse genelde) en uzun zamandır duyulmayan
+  const enEski = () => {
+    const liste = k ? k.son : durum.bilgi.sonSoz;
+    const son = t => liste.lastIndexOf(anahtar(t));
+    const en = Math.min(...adaylar.map(son));
+    return adaylar.filter(t => son(t) === en);
+  };
+  const t = rng.sec(taze.length ? taze : yarim.length ? yarim : enEski());
   if (k) k.son = [...(k.son || []), anahtar(t)].slice(-(hafiza?.kisi ?? 80));
   durum.bilgi.sonSoz = [...durum.bilgi.sonSoz, anahtar(t)].slice(-(hafiza?.genel ?? 220));
   return t;

@@ -1,0 +1,90 @@
+{
+  "_aciklama": "Tanıdıkların kendi hayatı (adım 3.6): sen görmezken de yaşarlar. Her gün, tanıştığın her kişi için en çok bir olay; olasılık günlüktür. kosul: durum (meslek durumu), medeni, yasMin/yasMax, cocukMax, dertVar, iliskiYok (seninle flört/sevgili değilse). degisim: kişinin değişen hali (meslekDurumu + meslek havuzdan, medeni, cocuk +1, dert kalkar, yok: şehirden gider/vefat). Öğrenme: bir sonraki oturuşunda kendisi anlatır (haber, kuşağa göre birinci ağızdan) ya da ortak tanıdıklarından dedikodu olarak duyarsın (dedikodu, {t.ad}). ozet: Tanıdıklarım'da görünen kısa satır. Yer tutucular: {s.hitap}, {t.ad}, {meslek} (yeni iş).",
+  "gunlukTavan": 0.012,
+  "olaylar": [
+    {
+      "id": "is_buldu", "olasilik": 0.006, "kosul": { "durum": ["issiz"], "yasMin": 18, "yasMax": 60 },
+      "degisim": { "meslekDurumu": "calisiyor" },
+      "haber": { "genc": ["Haberin var mı? İş buldum! {meslek|bas}. Maaş az ama başlangıç.", "Sonunda! İşe başladım; {meslek}. Annem ağladı, ben de biraz."], "orta": ["Haberim var: iş buldum. {meslek|bas}. Şükür.", "Aylar sonra bir kapı açıldı; {meslek} olarak başladım."], "yasli": ["Bu yaşta iş buldum, inanır mısın? {meslek|bas}."] },
+      "dedikodu": ["{t.ad} iş bulmuş; {meslek} olarak çalışıyormuş.", "{t.ad|in} işi oldu sonunda; {meslek}."],
+      "ozet": "İş buldu: {meslek}."
+    },
+    {
+      "id": "isten_cikti", "olasilik": 0.003, "kosul": { "durum": ["calisiyor"], "yasMin": 20 },
+      "degisim": { "meslekDurumu": "issiz", "dert": "issizlik" },
+      "haber": { "genc": ["İşten çıkardılar beni. 'Küçülme' diyorlar. Ben küçüldüm asıl.", "Kovuldum. Neyse, zaten sevmiyordum; ama kira..."], "orta": ["İşten çıkarıldım. Yirmi yıl, bir imzayla bitti.", "Fabrika küçüldü; ilk çıkanlardan bendim."], "yasli": ["Beni de gönderdiler evladım; yaşlısın dediler."] },
+      "dedikodu": ["{t.ad|i} işten çıkarmışlar; çok bozuk.", "{t.ad} işsiz kalmış; duydun mu?"],
+      "ozet": "İşini kaybetti."
+    },
+    {
+      "id": "terfi", "olasilik": 0.002, "kosul": { "durum": ["calisiyor", "kendi"], "yasMin": 22 },
+      "degisim": {},
+      "haber": { "genc": ["Terfi aldım ya! Küçük bir zam, ama olsun.", "Patron beni sorumlu yaptı; şimdi herkes bana kızıyor."], "orta": ["İşler açıldı; bu ay iyi kazandım.", "Sonunda bir zam. Ufak ama nefes aldırdı."], "yasli": ["İşler iyi gidiyor evladım, şükür."] },
+      "dedikodu": ["{t.ad|in} işleri açılmış; havalara giriyor.", "{t.ad} terfi almış diyorlar."],
+      "ozet": "İşleri iyi gidiyor."
+    },
+    {
+      "id": "sevgili_buldu", "olasilik": 0.004, "kosul": { "medeni": ["bekar", "bosanmis"], "yasMin": 18, "yasMax": 55, "iliskiYok": true },
+      "degisim": { "medeni": "sevgilili" },
+      "haber": { "genc": ["Bir şey söyleyeceğim ama gülme: biriyle görüşüyorum.", "Ya... Biriyle tanıştım. Daha başında ama iyi hissediyorum."], "orta": ["Hayatıma biri girdi. Bu yaşta, düşünebiliyor musun?", "Biriyle görüşüyorum; şimdilik kimse bilmiyor."], "yasli": ["Gülme evladım; bir arkadaşla çay içmeye başladık. Arkadaş."] },
+      "dedikodu": ["{t.ad|in} hayatına biri girmiş; her akşam telefonla konuşuyormuş.", "{t.ad} âşık olmuş diyorlar; yüzü gülüyor."],
+      "ozet": "Hayatında biri var."
+    },
+    {
+      "id": "ayrildi", "olasilik": 0.004, "kosul": { "medeni": ["sevgilili"], "iliskiYok": true },
+      "degisim": { "medeni": "bekar" },
+      "haber": { "genc": ["Ayrıldık. Konuşmak istemiyorum; ama sen sor yine de.", "Bitti. Mesajlarımı görüp cevap vermiyor; bitti yani."], "orta": ["Ayrıldık. Olmuyordu zaten; ikimiz de biliyorduk.", "Bitti. İnsan bu yaşta bile alışamıyor buna."], "yasli": ["O arkadaşla görüşmüyoruz artık. Olsun."] },
+      "dedikodu": ["{t.ad} sevgilisinden ayrılmış; çok kötüymüş.", "{t.ad|in} ilişkisi bitmiş; kim kimi bıraktı, orası karışık."],
+      "ozet": "Sevgilisinden ayrıldı."
+    },
+    {
+      "id": "evlendi", "olasilik": 0.002, "kosul": { "medeni": ["sevgilili"], "yasMin": 22, "yasMax": 50, "iliskiYok": true },
+      "degisim": { "medeni": "evli" },
+      "haber": { "genc": ["Evleniyorum! Yani evlendim; dün nikâh vardı. Çağıramadım, kusura bakma!", "Evlendik! Ufak bir nikâh, iki şahit, bir pasta."], "orta": ["Evlendim. Ufak bir nikâh yaptık; kimseye haber vermedik.", "Hayat şaşırtıyor: evlendim."], "yasli": ["Bu yaşta nikâh kıydık evladım; gülme!"] },
+      "dedikodu": ["{t.ad} evlenmiş! Kimseye haber vermemiş.", "{t.ad|in} nikâhı olmuş; ufak bir şey, belediyede."],
+      "ozet": "Evlendi."
+    },
+    {
+      "id": "bosandi", "olasilik": 0.0012, "kosul": { "medeni": ["evli"], "yasMin": 25, "iliskiYok": true },
+      "degisim": { "medeni": "bosanmis" },
+      "haber": { "genc": ["Boşanıyoruz. Çok erken evlenmişiz, şimdi anlıyorum."], "orta": ["Boşandık. Ev ona kaldı; ben bir odadayım şimdi.", "Bitti. Mahkemede on dakika sürdü; on beş yıl, on dakika."], "yasli": ["Bu yaşta ayrıldık evladım. Herkes şaşırdı; ben şaşırmadım."] },
+      "dedikodu": ["{t.ad} boşanmış; herkes başka bir sebep söylüyor.", "{t.ad|in} evliliği bitmiş; ev kime kalacak diye kavga ediyorlarmış."],
+      "ozet": "Boşandı."
+    },
+    {
+      "id": "cocuk_oldu", "olasilik": 0.0015, "kosul": { "medeni": ["evli"], "yasMin": 22, "yasMax": 42, "cocukMax": 3 },
+      "degisim": { "cocuk": 1 },
+      "haber": { "genc": ["{s.ebeveyn} oldum! Daha inanamıyorum.", "Bebek geldi! Uykusuzum ama mutluyum."], "orta": ["Bir bebeğimiz oldu! Bak, fotoğrafı burada.", "Ailemiz büyüdü: bir bebek. Uyumuyoruz ama olsun."], "yasli": [] },
+      "dedikodu": ["{t.ad|in} bir bebeği olmuş!", "{t.ad} bebek sahibi olmuş; hayırlı olsun."],
+      "ozet": "Bir bebeği oldu."
+    },
+    {
+      "id": "dert_bitti", "olasilik": 0.004, "kosul": { "dertVar": true },
+      "degisim": { "dert": null },
+      "haber": { "genc": ["Hatırlıyor musun o derdimi? Çözüldü! Sonunda nefes alıyorum.", "O mesele var ya... Bitti. Kendime bile inanamıyorum."], "orta": ["Geçen anlattığım dert vardı ya; hallettik, şükür.", "Bir yükten kurtuldum; anlatırım sonra."], "yasli": ["O dert geçti evladım; Allah'a şükür."] },
+      "dedikodu": ["{t.ad|in} yüzü gülüyor bu ara; derdi çözülmüş diyorlar.", "{t.ad} işini yoluna koymuş."],
+      "ozet": "Derdi çözüldü."
+    },
+    {
+      "id": "hastalandi", "olasilik": 0.002, "kosul": { "yasMin": 55 },
+      "degisim": { "dert": "saglik" },
+      "haber": { "genc": [], "orta": ["Doktor bir şey buldu; ameliyat olacağım. Korkma, ciddi değil dediler.", "Hastaneden yeni çıktım; kalp. Dikkat etmem lazımmış."], "yasli": ["Hastaneye yattım evladım; bir şey yok, yaşlılık.", "Doktorlar yine bir şey buldu. Bu yaşta her ay bir şey."] },
+      "dedikodu": ["{t.ad} hastaneye kaldırılmış; durumu nasıl, bilen yok.", "{t.ad|in} sağlığı iyi değilmiş; geçen hafta ameliyat olmuş."],
+      "ozet": "Sağlığı bozuldu."
+    },
+    {
+      "id": "tasindi", "olasilik": 0.0012, "kosul": { "yasMin": 20, "yasMax": 70, "iliskiYok": true },
+      "degisim": { "yok": "tasindi" },
+      "haber": { "genc": [], "orta": [], "yasli": [] },
+      "dedikodu": ["{t.ad} şehirden taşınmış; başka bir şehirde iş bulmuş diyorlar.", "{t.ad} gitti; kimseye veda bile etmeden."],
+      "ozet": "Şehirden taşındı."
+    },
+    {
+      "id": "vefat", "olasilik": 0.0006, "kosul": { "yasMin": 76 },
+      "degisim": { "yok": "vefat" },
+      "haber": { "genc": [], "orta": [], "yasli": [] },
+      "dedikodu": ["{t.ad|i} kaybettik. Cenaze dün kalktı; mahalle oradaydı.", "{t.ad} vefat etmiş; Allah rahmet eylesin."],
+      "ozet": "Vefat etti."
+    }
+  ]
+}

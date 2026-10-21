@@ -15,6 +15,9 @@ import { kodaCevir } from '../core/aktarim.js';
 import { zarfla } from '../core/kayitbicim.js';
 import { sirala } from '../core/tr.js';
 import { panoyaKopyala } from '../ui/ekranlar/aktarim.js';
+import { kisiGuncel, hayatOlayiTetikle } from '../core/npchayat.js';
+import { flortDurumu, hitapSec, kusak } from '../core/sohbet.js';
+import { npcTanimi } from '../core/npc.js';
 
 const BOLUMLER = [['genel', 'Genel'], ['durum', 'Durum'], ['olaylar', 'Olaylar'], ['bayraklar', 'Bayrak'], ['npc', 'NPC'], ['hatalar', 'Hata']];
 let aktifBolum = 'genel';
@@ -214,15 +217,42 @@ function bayraklar() {
 // ------------------------------------------------------------- NPC
 
 function npcBolumu() {
-  const npcler = d().npcler || {};
-  const kartlar = Object.entries(npcler).map(([id, n]) => h('div', { class: 'dev-kart' },
-    h('div', {}, h('b', {}, id), n.iliskiTuru ? h('span', { class: 'soluk kucuk' }, ' · ' + n.iliskiTuru) : null),
-    h('div', { class: 'kucuk' }, Object.entries(n.iliski || {}).map(([k, v]) => `${k} ${v}`).join(' · ') || 'ilişki değeri yok'),
-    ...(n.anilar || []).slice(-5).map(a => h('div', { class: 'soluk kucuk' }, `${zamanYaz(a.z)}: ${a.metin}`))));
+  const durum = d(), veri = oyun.veri;
+  const npcler = durum.npcler || {};
+  const sb = veri.npc.sohbet;
+  const degistir = (id, ad, x) => { oyun.gelistiriciDegistir(y => { const k = y.npcler[id]; k.iliski[ad] = (k.iliski[ad] ?? 0) + x; }, `${id} ${ad} ${x > 0 ? '+' : ''}${x}`); yenile(); };
+  const olaySec = id => {
+    const s = h('select', { class: 'dev-girdi' }, veri.npc.hayatOlaylari.olaylar.map(o => h('option', { value: o.id }, o.id)));
+    return satir(s, dugme('Yaşat', () => { oyun.gelistiriciDegistir(y => hayatOlayiTetikle(y, veri, id, s.value), `${id}: ${s.value}`); yenile(); }));
+  };
+  const kart = (id, k) => {
+    const n = kisiGuncel(durum, veri, id);
+    if (!n) return h('div', { class: 'dev-kart' }, id);
+    const f = flortDurumu(durum, veri, id);
+    return h('div', { class: 'dev-kart' },
+      h('div', {}, h('b', {}, `${n.tamAd} `), h('span', { class: 'soluk kucuk' }, `${id} · ${n.yas} · ${kusak(n, sb)} · ${n.uslup} · ${n.medeni}${k.iliskiTuru ? ' · ' + k.iliskiTuru : ''}${n.yok ? ' · ' + n.yok : ''}`)),
+      h('div', { class: 'kucuk' }, npcTanimi(n, veri)),
+      h('div', { class: 'kucuk' }, Object.entries(k.iliski || {}).map(([a, v]) => `${a} ${v}`).join(' · ') || 'ilişki değeri yok'),
+      h('div', { class: 'kucuk soluk' }, `hitap: ${hitapSec(durum, veri, n)} · flört: ${f.uygun ? 'uygun' : 'yaş uygun değil'}${f.engel ? ' (engel: ' + f.engel + ')' : ''} · ilgi ${f.ilgi} · yönelim ${f.yonelim}${k.numara ? ' · numara var' : ''}${k.randevu !== undefined ? ' · buluşma günü ' + (k.randevu + 1) : ''}`),
+      h('div', { class: 'kucuk soluk' }, `bildiği: ${Object.keys(k.bilinen || {}).join(', ') || '—'}`),
+      ...(k.hayat || []).map(x => h('div', { class: 'kucuk' }, `${x.gun + 1}. gün: ${x.id}${x.meslek ? ' (' + x.meslek + ')' : ''}${x.bilinen ? '' : ' — henüz bilmiyorsun'}`)),
+      ...(k.anilar || []).slice(-4).map(a => h('div', { class: 'soluk kucuk' }, `${zamanYaz(a.zaman ?? a.z ?? 0)}: ${a.metin}`)),
+      satir(dugme('Yakınlık +20', () => degistir(id, 'yakinlik', 20)), dugme('Çekim +20', () => degistir(id, 'cekim', 20)), dugme('Gerginlik 0', () => degistir(id, 'gerginlik', -(k.iliski.gerginlik ?? 0)))),
+      olaySec(id));
+  };
+  const tanidik = Object.entries(npcler).filter(([, k]) => k.tanisildi !== undefined);
+  const diger = Object.entries(npcler).filter(([, k]) => k.tanisildi === undefined);
+  const m = durum.konum?.mekan && durum.konum.mekan !== 'ev' ? oyun.veri.dunya.mekanlar.mekanlar.find(x => x.id === durum.konum.mekan) : null;
+  const burada = m ? oyun.mekandakiler(m) : [];
   return [
-    bos('NPC arka planları (aile, geçmiş, sır, konuşma tarzı) Faz 3\'te üretilecek; şimdilik yalnızca olayların oluşturduğu ilişki değerleri ve anılar görünür.'),
-    ...(kartlar.length ? kartlar : [bos('Henüz tanışılan NPC yok.')]),
-  ];
+    bos('Kişiler seed\'den üretilir; kayıtta yalnızca ilişkiler, anılar, öğrendikleri ve hayatlarındaki değişiklikler durur.'),
+    m ? baslik(`Şu an ${m.ad}`) : null,
+    ...burada.map(x => { const n = oyun.kisiBilgisi(x.id); return h('div', { class: 'kucuk' }, `${x.ad} — ${x.id} · ${n.yas} · ${n.cinsiyet} · ${n.medeni} · ilgi ${n.ilgi} · ${n.yonelim}${n.engel ? ' · engel ' + n.engel : ''}`); }),
+    baslik(`Tanıdıklar (${tanidik.length})`),
+    ...(tanidik.length ? tanidik.map(([id, k]) => kart(id, k)) : [bos('Henüz tanışılan kimse yok.')]),
+    diger.length ? baslik(`Kayıtta olup tanışmadıkların (${diger.length})`) : null,
+    ...diger.map(([id, k]) => h('div', { class: 'dev-kart kucuk' }, `${id} · ${Object.entries(k.iliski || {}).map(([a, v]) => `${a} ${v}`).join(' · ')}`)),
+  ].filter(Boolean);
 }
 
 // ------------------------------------------------------------- Hatalar

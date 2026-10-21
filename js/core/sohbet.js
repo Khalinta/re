@@ -19,6 +19,7 @@ import { ek } from './tr.js';
 import { aksiyonKaydet } from './durum.js';
 import { bayrakKoy } from './bayrak.js';
 import { kisi, mekandakiler, gorunus, tanisildiMi, tanidiklari, kisiOrada, sablonBul, anlatacagiDedikodu } from './insanlar.js';
+import { kisiGuncel, bilinmeyenOlaylar, haberSablonu } from './npchayat.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
 const kucukBas = s => s ? s[0].toLocaleLowerCase('tr') + s.slice(1) : s;
@@ -108,7 +109,7 @@ function degiskenler(durum, veri, n, rng, ekler = {}) {
   return {
     s: {
       ad: n.hitapAdi, ilkAd: n.ad, hitapAdi: n.hitapAdi, hitap: hitapSec(durum, veri, n),
-      meslek: n.meslek.ad, meslekEski: mm, adamim: n.cinsiyet === 'e' ? 'adamım' : 'kadınım',
+      meslek: n.meslek.ad, meslekEski: mm, adamim: n.cinsiyet === 'e' ? 'adamım' : 'kadınım', ebeveyn: n.cinsiyet === 'e' ? 'Baba' : 'Anne',
       memleketAd: n.memleket, memleketDen: ek(n.memleket, 'den'), memleketLi, memleketLiyim: benim(memleketLi),
       kokenAd: n.koken && v.memleket.yoreler[n.koken] ? v.memleket.yoreler[n.koken].ad : '',
       semtAd: semt?.ad ?? '', gerilimAd: gerilim?.ad ?? 'mahallenin hâli',
@@ -209,9 +210,19 @@ export function kisiDedikodusu(durum, veri, n, mekan, rng) {
   const burada = new Set(mekan ? mekandakiler(durum, veri, mekan, mekan.kalabalik?.[dilim(durum.zaman.dakika).id] ?? 0) : []);
   const tanidik = tanidiklari(veri, durum.seed, n.id).map(x => x.id).filter(id => id !== n.id);
   if (!tanidik.length) return null;
-  const agirlikli = tanidik.map(id => ({ id, agirlik: 1 + (burada.has(id) ? 4 : 0) + (tanisildiMi(durum, id) ? 3 : 0) }));
+  const yeniHaber = id => veri.npc.hayatOlaylari && bilinmeyenOlaylar(durum.npcler?.[id]).length > 0;
+  const agirlikli = tanidik.map(id => ({ id, agirlik: 1 + (burada.has(id) ? 4 : 0) + (tanisildiMi(durum, id) ? 3 : 0) + (yeniHaber(id) ? 12 : 0) }));
   for (let deneme = 0; deneme < 6; deneme++) {
     const tid = rng.agirlikliSec(agirlikli).id;
+    // Tanıdığının sen yokken yaşadığı bir şey: en taze dedikodu
+    if (yeniHaber(tid)) {
+      const x = bilinmeyenOlaylar(durum.npcler[tid])[0];
+      const tk = kisiGuncel(durum, veri, tid);
+      const sablon = haberSablonu(veri, x, null, rng, true).replace('{meslek', '{t.meslek');
+      const metin = metinCoz(sablon, rng, { durum, veri, baglam: { degisken: { t: { ad: tk.hitapAdi, meslek: x.meslek ?? tk.meslek.ad } } } }).map(p => p.metin).join(' ');
+      x.bilinen = true;
+      return { id: `h:${tid}:${x.gun}:${x.id}`, metin, kisi: tid, dogru: true };
+    }
     const t = kisi(veri, durum.seed, tid);
     if (!t || t.yas < 16) continue;
     // Kimse kendi örgütünün insanları hakkında konuşmaz
@@ -292,7 +303,7 @@ export function yaninaOtur(durum, veri, rng, mekan, kalabalik, id) {
   const sb = veri.npc.sohbet;
   if (!kisiOrada(durum, veri, mekan, kalabalik, id)) return { tamam: false, sebep: 'O artık burada değil.' };
   if (!tanisildiMi(durum, id)) return { tamam: false, sebep: 'Önce tanışmanız lazım.' };
-  const k = durum.npcler[id], n = kisi(veri, durum.seed, id, k.sablon);
+  const k = durum.npcler[id], n = kisiGuncel(durum, veri, id);
   const p = [{ tur: 'secim', metin: `${ek(n.hitapAdi, 'in')} yanına otur` }];
   zamanGecir(durum, sb.sure.otur, 'normal', veri.sim);
   if ((k.iliski.gerginlik ?? 0) >= sb.gerginlikEsigi) {
@@ -304,6 +315,16 @@ export function yaninaOtur(durum, veri, rng, mekan, kalabalik, id) {
   const yak = k.iliski.yakinlik ?? 0;
   p.push(...soyle(durum, veri, n, k, (k.iliski.gerginlik ?? 0) >= 4 ? sb.selam.soguk : yak >= 25 ? sb.selam.yakin : sb.selam.yeni, rng));
   oturumBaslat(durum, id, mekan, sabir(veri, n, k));
+  // Sen yokken hayatında bir şey olduysa önce onu anlatır (3.6)
+  const haber = veri.npc.hayatOlaylari ? bilinmeyenOlaylar(k).find(x => haberSablonu(veri, x, kusak(n, sb), rng)) : null;
+  if (haber) {
+    const t = haberSablonu(veri, haber, kusak(n, sb), rng).replace('{meslek', '{s.yeniMeslek');
+    p.push(...soyle(durum, veri, n, k, [t], rng, { yeniMeslek: haber.meslek ?? n.meslek.ad }));
+    for (const x of bilinmeyenOlaylar(k)) x.bilinen = true;
+    k.anilar.push({ zaman: durum.zaman.dakika, metin: 'sana hayatındaki değişikliği anlattı' });
+    aksiyonKaydet(durum, 'otur:' + id);
+    return { tamam: true, paragraflar: p };
+  }
   // İlgisi yüksekse flörtü o başlatabilir
   const f = veri.npc.flort;
   if (f && flortUygun(durum, veri, n) && !flortEngeli(durum, veri, n) && ilgi(durum, veri, n, k) >= f.esikler.npcBaslatir && rng.olasilik(0.45)) {
@@ -430,7 +451,7 @@ export function sohbetKonulari(durum, veri) {
   if (!o) return [];
   const sb = veri.npc.sohbet, k = durum.npcler?.[o.npc];
   if (!k) return [];
-  const n = kisi(veri, durum.seed, o.npc, k.sablon);
+  const n = kisiGuncel(durum, veri, o.npc);
   if (o.bekleyen) {
     const def = soruTanimi(veri, o.bekleyen);
     return (def?.cevaplar || []).filter(c => !c.kosul || kosulTutar(durum, veri, n, k, c.kosul)).map(c => ({ konu: 'cevap:' + c.id, ad: c.ad, dakika: sb.sure.cevap }));
@@ -465,7 +486,7 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
   if (!o) return { tamam: false, sebep: 'Kimseyle konuşmuyorsun.' };
   const sb = veri.npc.sohbet;
   const mekan = mekanBul(veri.dunya, o.mekan);
-  const id = o.npc, k = durum.npcler[id], n = kisi(veri, durum.seed, id, k.sablon);
+  const id = o.npc, k = durum.npcler[id], n = kisiGuncel(durum, veri, id);
   if (!oturumGecerli(durum, veri)) { oturumBitir(durum); return { tamam: false, sebep: `${n.hitapAdi} artık burada değil.` }; }
   if (!sohbetKonulari(durum, veri).some(x => x.konu === konu)) return { tamam: false, sebep: 'Bunu şimdi açamazsın.' };
   const gun = gunNo(durum.zaman.dakika);

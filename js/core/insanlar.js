@@ -7,6 +7,7 @@ import { npcUret, sabitNpcSablonlari, npcTanimi, dertMetni, hayalMetni, fizikTar
 import { dilim, gunNo } from './zaman.js';
 import { semtBul } from './dunya.js';
 import { mekanBul } from './mekan.js';
+import { kisiGuncel, bilinenOlaylar } from './npchayat.js';
 
 const sabitlerOnbellek = new WeakMap();
 function sabitler(dunya) {
@@ -58,7 +59,9 @@ export function mekandakiler(durum, veri, m, kalabalik) {
     const id = rng.olasilik(sb.havuz.mekandanOrani) ? `n:${m.id}:${rng.aralik(0, sb.havuz.mekan - 1)}` : `n:${m.semt}:${rng.aralik(0, sb.havuz.semt - 1)}`;
     if (!liste.includes(id)) liste.push(id);
   }
-  return kalabalik === 0 ? liste.filter(id => id === sahip) : liste;
+  // Şehirden taşınan ya da vefat eden tanıdıklar artık görülmez (3.6)
+  const sonuc = liste.filter(id => !durum.npcler?.[id]?.degisim?.yok);
+  return kalabalik === 0 ? sonuc.filter(id => id === sahip) : sonuc;
 }
 
 // Tanışmadan önceki kısa tarif: en göze çarpan şey + yaş + kim ("uzun boylu, geniş omuzlu, kırklarında bir adam")
@@ -164,12 +167,13 @@ export function tanidiklarim(durum, veri) {
   return Object.entries(durum.npcler || {})
     .filter(([, k]) => k.tanisildi !== undefined)
     .map(([id, k]) => {
-      const n = kisi(veri, durum.seed, id, k.sablon);
+      const n = kisiGuncel(durum, veri, id);
       const g = veri.npc.gorunus;
       return { id, ad: n.hitapAdi, tamAd: n.tamAd, tanim: npcTanimi(n, veri), yakinlik: Math.round(k.iliski.yakinlik ?? 0), gerginlik: k.iliski.gerginlik ?? 0, katman: k.katman,
         nerede: k.nerede, gecmis: k.gecmis ? (durum.hikaye?.baglantilar?.find(b => b.id === id)?.etiket ?? null) : null, disarida: !!k.disarida, dert: k.bilinen?.dert ? dertMetni(n, veri) : null, hayal: k.bilinen?.hayal ? (n.figur ? veri.dunya.figurler.figurler.find(x => x.id === n.figur)?.istek : hayalMetni(n, veri)) : null,
         tuhaflik: (k.sohbet ?? 0) >= 3 ? n.tuhaflik : null, anilar: k.anilar, sohbet: k.sohbet ?? 0,
         numara: !!k.numara, iliskiTuru: k.iliskiTuru ?? null, flortEngel: k.bilinen?.flortEngel ?? null, randevu: k.randevu ?? null,
+        haberler: bilinenOlaylar(durum, veri, id), yok: (k.hayat || []).some(x => x.bilinen && ['tasindi', 'vefat'].includes(x.id)) ? k.degisim?.yok : null,
         gorunus: n.fizik && g ? fizikTarifi(n, g) : null, cekicilik: n.fizik && g ? cekicilikAdi(n, g) : null, karizma: n.fizik && g ? karizmaAdi(n, g) : null };
     })
     .sort((a, b) => b.yakinlik - a.yakinlik);

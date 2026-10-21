@@ -16,6 +16,7 @@ import * as konum from './core/konum.js';
 import * as insanlar from './core/insanlar.js';
 import * as sohbet from './core/sohbet.js';
 import { npcVeriDogrula } from './core/npc.js';
+import { npcHayatGunu } from './core/npchayat.js';
 import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
 import { karakterUret, hikayeyiUygula, hikayeVeriDogrula } from './core/hikaye.js';
@@ -32,7 +33,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbetVeri, gorunusVeri, arketipler, bilesenler, flort, dedikodu] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbetVeri, gorunusVeri, arketipler, bilesenler, flort, dedikodu, hayatOlaylari] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -61,8 +62,9 @@ export async function veriYukle() {
     jsonAl('./data/hikaye/bilesenler.json'),
     jsonAl('./data/npc/flort.json'),
     jsonAl('./data/npc/dedikodu.json'),
+    jsonAl('./data/npc/hayat_olaylari.json'),
   ]);
-  veri.npc = { isimler, memleket, kisilik, hayat, sohbet: sohbetVeri, gorunus: gorunusVeri, flort, dedikodu };
+  veri.npc = { isimler, memleket, kisilik, hayat, sohbet: sohbetVeri, gorunus: gorunusVeri, flort, dedikodu, hayatOlaylari };
   veri.gezi = gezi;
   veri.ekonomi = ekonomi;
   const ekoSorunlari = ekonomiDogrula(ekonomi, { isTurleri: sirketler.isTurleri, hizmetler: mekanlar.hizmetler, ulasim });
@@ -115,7 +117,16 @@ function ayrac(dk, gunDegisti) {
 }
 
 // Zaman ilerledikten sonra: geçen günlerde dünyada olanlar işlenir (gündem, enflasyon, maçlar...)
-const dunyayiIlerlet = () => dunyaIlerlet(durum, veri);
+const dunyayiIlerlet = () => {
+  const haberler = dunyaIlerlet(durum, veri);
+  // Tanıdıkların kendi hayatı (3.6): geçen her gün için
+  const bugun = gunNo(durum.zaman.dakika);
+  if (durum.dunya) {
+    for (let g = (durum.dunya.npcGun ?? bugun) + 1; g <= bugun; g++) npcHayatGunu(durum, veri, g);
+    durum.dunya.npcGun = bugun;
+  }
+  return haberler;
+};
 
 function paragraflariKaydet(liste) {
   for (const p of liste) anlatimKaydet(durum, p);
@@ -273,6 +284,11 @@ export const yolculukSecenekleri = hedef => konum.yolculukSecenekleri(durum, ver
 export const konumMetni = () => konum.konumMetni(durum, veri);
 export const duyulanlar = () => konum.duyulanlar(durum, veri);
 export const tanidiklarim = () => insanlar.tanidiklarim(durum, veri);
+// Geliştirici paneli: bir kişinin flört açısından durumu
+export function kisiBilgisi(id) {
+  const n = insanlar.kisi(veri, durum.seed, id, durum.npcler?.[id]?.sablon);
+  return { yas: n.yas, cinsiyet: n.cinsiyet, medeni: n.medeni, ...sohbet.flortDurumu(durum, veri, id) };
+}
 
 // Hayatım → Karakter: kim olduğun (hikâye motorundan önce başlamış oyunlarda hikaye: null)
 export function karakterBilgisi() {

@@ -5,6 +5,7 @@
 import { Rng } from './rng.js';
 import { kisi } from './insanlar.js';
 import { rngAl } from './durum.js';
+import { tarihAl } from './zaman.js';
 
 const metinDegerleri = (x, n) => ({ meslek: x.meslek ?? n.meslek.ad });
 
@@ -19,6 +20,11 @@ export function kisiGuncel(durum, veri, id) {
   if (d.medeni) { g.medeni = d.medeni; g.aile = { ...n.aile, medeni: d.medeni }; }
   if (d.cocuk) g.aile = { ...(g.aile ?? n.aile), cocuk: (n.aile.cocuk ?? 0) + d.cocuk };
   if ('dert' in d) g.dert = d.dert;
+  if ('hayal' in d) g.hayal = d.hayal;
+  if ('sir' in d) g.sir = d.sir;
+  // Aile (3.11): anne/baba vefatı, kardeşle küsmek/barışmak — kişi kartının aile ağacı da buna göre çizilir
+  for (const rol of ['anne', 'baba']) if (d[rol + 'Vefat']) g.aile = { ...(g.aile ?? n.aile), [rol]: { ...n.aile[rol], yasiyor: false, vefatYili: d[rol + 'Vefat'] } };
+  if (d.aileIliski) g.aile = { ...(g.aile ?? n.aile), iliski: d.aileIliski };
   if (d.yok) g.yok = d.yok;
   return g;
 }
@@ -30,7 +36,18 @@ function kosulTutar(n, k, kosul = {}) {
   if (kosul.yasMax !== undefined && n.yas > kosul.yasMax) return false;
   if (kosul.cocukMax !== undefined && (n.aile?.cocuk ?? 0) > kosul.cocukMax) return false;
   if (kosul.dertVar && !n.dert) return false;
+  if (kosul.dertYok && n.dert) return false;
   if (kosul.iliskiYok && k.iliskiTuru) return false;
+  // 3.11: aile, cinsiyet, gelir, hayal
+  if (kosul.cocukMin !== undefined && (n.aile?.cocuk ?? 0) < kosul.cocukMin) return false;
+  if (kosul.kardesMin !== undefined && (n.aile?.kardes ?? 0) < kosul.kardesMin) return false;
+  if (kosul.anneSag && n.aile?.anne?.yasiyor === false) return false;
+  if (kosul.babaSag && n.aile?.baba?.yasiyor === false) return false;
+  if (kosul.aileIliski && !kosul.aileIliski.includes(n.aile?.iliski)) return false;
+  if (kosul.cinsiyet && kosul.cinsiyet !== n.cinsiyet) return false;
+  if (kosul.gelirMax !== undefined && (n.gelir ?? 3) > kosul.gelirMax) return false;
+  if (kosul.hayalVar && !n.hayal) return false;
+  if (kosul.yore && !kosul.yore.includes(n.yore)) return false;
   return true;
 }
 
@@ -43,13 +60,23 @@ export function hayatOlayiUygula(durum, veri, id, olayId, gun, rng) {
   const kayit = { gun, id: o.id, bilinen: false };
   const dg = o.degisim || {};
   if (dg.meslekDurumu) {
-    if (dg.meslekDurumu === 'calisiyor') {
-      const liste = (veri.npc.hayat.meslekler[n.sakinTuru] || []).filter(m => m.durum === 'calisiyor' && (m.yasMin === undefined || n.yas >= m.yasMin) && (m.yasMax === undefined || n.yas <= m.yasMax));
-      const m = liste.length ? rng.sec(liste) : { ad: 'işçi' };
-      d.meslek = { ad: m.ad, durum: 'calisiyor', isTuru: m.isTuru };
+    if (['calisiyor', 'kendi'].includes(dg.meslekDurumu)) {
+      const uygun = m => m.durum === dg.meslekDurumu && (m.yasMin === undefined || n.yas >= m.yasMin) && (m.yasMax === undefined || n.yas <= m.yasMax);
+      let liste = (veri.npc.hayat.meslekler[n.sakinTuru] || []).filter(uygun);
+      if (!liste.length) liste = Object.values(veri.npc.hayat.meslekler).flat().filter(uygun);
+      const m = liste.length ? rng.sec(liste) : { ad: dg.meslekDurumu === 'kendi' ? 'esnaf' : 'işçi' };
+      d.meslek = { ad: m.ad, durum: dg.meslekDurumu, isTuru: m.isTuru };
       kayit.meslek = m.ad;
+    } else if (dg.meslekDurumu === 'emekli') {
+      const ad = `emekli ${n.meslek.ad.replace(/^emekli /, '')}`;
+      d.meslek = { ad, durum: 'emekli' };
+      kayit.meslek = ad;
     } else d.meslek = { ad: 'işsiz', durum: dg.meslekDurumu };
   }
+  if (dg.ebeveynVefat) d[dg.ebeveynVefat + 'Vefat'] = tarihAl(durum.zaman.baslangic, gun * 1440).getUTCFullYear();
+  if (dg.aileIliski) d.aileIliski = dg.aileIliski;
+  if ('hayal' in dg) d.hayal = dg.hayal;
+  if (dg.sirKalkar?.includes(n.sir)) d.sir = null; // barışan kişinin 'kardeşiyle küs' sırrı kalmaz
   if (dg.medeni) d.medeni = dg.medeni;
   if (dg.cocuk) d.cocuk = (d.cocuk ?? 0) + dg.cocuk;
   if ('dert' in dg) d.dert = dg.dert;

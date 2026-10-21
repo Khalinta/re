@@ -31,6 +31,16 @@ function kosulTutar(k, b) {
   if (k.kanca && !b.kancalar?.includes(k.kanca)) return false;
   if (k.acikMin !== undefined && b.eksenler?.acik < k.acikMin) return false;
   if (k.uyumluMin !== undefined && b.eksenler?.uyumlu < k.uyumluMin) return false;
+  // Aileyle tutarlılık (3.11): çocuğu olmayana çocuk derdi, kardeşi olmayana kardeş sırrı, annesi ölmüşe "annem hasta" düşmez
+  if (k.cocukMin !== undefined && (b.aile?.cocuk ?? 0) < k.cocukMin) return false;
+  if (k.cocukMax !== undefined && (b.aile?.cocuk ?? 0) > k.cocukMax) return false;
+  if (k.kardesMin !== undefined && (b.aile?.kardes ?? 0) < k.kardesMin) return false;
+  if (k.anneSag && b.aile?.anne?.yasiyor === false) return false;
+  if (k.babaSag && b.aile?.baba?.yasiyor === false) return false;
+  if (k.ebeveynSag && b.aile?.anne?.yasiyor === false && b.aile?.baba?.yasiyor === false) return false;
+  if (k.babaOlu && b.aile?.baba?.yasiyor !== false) return false;
+  if (k.yore && !k.yore.includes(b.yore)) return false;
+  if (k.aileIliski && !k.aileIliski.includes(b.aile?.iliski)) return false;
   return true;
 }
 const uygunlar = (liste, b) => liste.filter(x => kosulTutar(x, b));
@@ -172,7 +182,7 @@ export function npcUret(seed, id, sablon, veri) {
   for (let i = 0, n = rng.aralik(1, 2); i < n && al.length; i++) b.alisanliklar.push(al.splice(rng.agirlikliSec(al.map((x, j) => ({ j, agirlik: x.agirlik }))).j, 1)[0].id);
   b.tuhaflik = rng.sec(v.kisilik.tuhafliklar);
   b.tik = rng.sec(v.kisilik.konusmaTikleri);
-  const sec = liste => { const u = uygunlar(liste, b); return u.length ? rng.agirlikliSec(u.map(x => ({ ...x, agirlik: x.agirlik ?? (x.kanca ? 6 : 1) }))).id : null; };
+  const sec = liste => { const u = uygunlar(liste, b).filter(x => !x.olay); return u.length ? rng.agirlikliSec(u.map(x => ({ ...x, agirlik: x.agirlik ?? (x.kanca ? 6 : 1) }))).id : null; };
   b.dert = sablon.dert ?? sec(h.dertler);
   b.hayal = sablon.hayal ?? sec(h.hayaller);
   b.sir = sablon.sir ?? sec(h.sirlar);

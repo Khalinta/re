@@ -59,7 +59,7 @@ export function aileAgaci(seed, n, veri) {
     const dogum = n.dogumYili - (x.yas - n.yas);
     const p = { rol, ad: isim(dogum, c), soyad: n.soyad, cinsiyet: c, dogumYili: dogum, yasiyor: x.yasiyor !== false };
     if (p.yasiyor) { p.yas = SIMDIKI_YIL - dogum; p.nerede = n.gocmus && r.olasilik(0.7) ? ek(n.memleket, 'de') : nereli(r, D); }
-    else p.vefatYili = Math.min(SIMDIKI_YIL - 1, Math.max(n.dogumYili + 3, dogum + 45 + r.aralik(0, 35)));
+    else { const tahmin = Math.min(SIMDIKI_YIL - 1, Math.max(n.dogumYili + 3, dogum + 45 + r.aralik(0, 35))); p.vefatYili = x.vefatYili ?? tahmin; } // vefatYili: hayat olayından (npchayat)
     sonuc[rol] = p;
   }
   // Eş / eski eş / sevgili
@@ -100,11 +100,34 @@ export function aileAgaci(seed, n, veri) {
     if (yasiyor) { k.yas = yas; k.medeni = yas >= 24 && r.olasilik(0.6) ? 'evli' : 'bekar'; k.nerede = nereli(r, D); }
     else k.vefatYili = Math.min(SIMDIKI_YIL - 1, dogum + r.aralik(20, Math.max(21, SIMDIKI_YIL - dogum - 1)));
     // Kardeşlerden birine küs (aile ilişkisi 'kus' ise)
-    if (a.iliski === 'kus' && i === 0) k.kus = true;
+    if ((a.iliski === 'kus' || n.sir === 'kus_kardes') && i === 0) k.kus = true;
     sonuc.kardesler.push(k);
   }
   sonuc.kardesler.sort((x, y) => x.dogumYili - y.dogumYili);
+  derdeUydur(seed, n, veri, sonuc);
   return sonuc;
+}
+
+// Kişinin derdi ailesinden bahsediyorsa aile ağacı ona uyar (3.11): "oğlu iş bulamıyor" diyenin yetişkin bir oğlu,
+// "çocukları başka şehirde" diyenin uzakta yaşayan çocukları, "okul masrafı" diyenin okul çağında bir çocuğu olur.
+// Ayrı bir akıştan: ağacın geri kalanı değişmez.
+function derdeUydur(seed, n, veri, sonuc) {
+  const c = sonuc.cocuklar;
+  if (!c.length) return;
+  const r = Rng.akis(seed, 'aileDert|' + n.id);
+  const yabanci = n.yore === 'yurtdisi';
+  const ad = (yil, cins) => yabanci ? r.sec(veri.npc.isimler.yabanci[n.ulke][cins === 'e' ? 'erkek' : 'kadin']) : adUret(r, veri, yil, cins);
+  if (n.dert === 'oglu_issiz') {
+    const b = c[0];
+    if (b.cinsiyet !== 'e') { b.cinsiyet = 'e'; b.ad = ad(b.dogumYili, 'e'); }
+    if (b.yas < 22 && n.yas - 18 >= 22) { b.yas = 22 + r.aralik(0, Math.min(6, n.yas - 40)); b.dogumYili = SIMDIKI_YIL - b.yas; }
+    if (b.yas >= 18) { b.nerede = "Karaliman'da"; b.medeni ??= 'bekar'; }
+  }
+  if (n.dert === 'evlat_uzakta') for (const x of c) if (x.yas >= 18 && ["Karaliman'da", 'yanında'].includes(x.nerede)) x.nerede = r.sec(["İstanbul'da", "Ankara'da", "İzmir'de", 'yurt dışında']);
+  if (n.dert === 'cocuk_okul') {
+    const s = c[c.length - 1];
+    if (s.yas >= 18) { s.yas = r.aralik(7, 17); s.dogumYili = SIMDIKI_YIL - s.yas; s.nerede = 'yanında'; delete s.medeni; }
+  }
 }
 
 // ------------------------------------------------------------------ insanlar arası ilişki ağı
@@ -183,7 +206,8 @@ export function derinlik(seed, n, veri) {
   const rutinler = D.rutin[n.durum] ?? D.rutin.calisiyor;
   const gelir = n.gelir ?? 3;
   let paraI = Math.max(0, Math.min(5, gelir - 1 + r.aralik(-1, 1) + (n.durum === 'issiz' ? -1 : 0) + (n.gizli?.includes('borclu') ? -2 : 0)));
-  if (['borc', 'kira', 'maas', 'issizlik'].includes(n.dert)) paraI = Math.min(paraI, 1);
+  const dertTanim = veri.npc.hayat.dertler.find(x => x.id === n.dert);
+  if (dertTanim?.para) paraI = Math.min(paraI, 1); // parayla ilgili dert: varlıklı olamaz
   // Not: çekiliş sırası değişmemeli (aynı seed → aynı kişi); kimlikler (…Id) sohbette kullanılır (3.10)
   const degerler = sec(r, D.degerler, n, 2), gundem = sec(r, D.gundemBakisi, n), takim = sec(r, D.takim, n);
   const muzik = r.sec(D.muzik[ku]), yemek = r.sec(D.yemek);
@@ -207,7 +231,7 @@ export function derinlik(seed, n, veri) {
     guven: sec(r, D.guvenTarzi, n).ad,
     kiskanclik: Math.max(1, Math.min(5, 3 + (n.ozellikler.includes('kiskanc') ? 2 : 0) - (n.eksenler.dengeli >= 4 ? 1 : 0) + r.aralik(-1, 1))),
     kotuAliskanlik: (ka = sec(r, D.kotuAliskanlik, n)).ad, kotuAliskanlikId: ka.id,
-    saglik: n.dert === 'saglik' ? 'sağlık sorunları var' : agirlikliSec(r, D.saglik[ku]),
+    saglik: dertTanim?.saglik ? 'sağlık sorunları var' : agirlikliSec(r, D.saglik[ku]),
     para: D.para[paraI],
     rutin: r.sec(rutinler).replace('{mekanTuru}', mekanTuru),
   };

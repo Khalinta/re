@@ -88,7 +88,7 @@ test('olaylar oyunun kurallarıyla: engel varken buluşma kurulmaz; kartla çeli
       { hakkinda: 'Hiç Olmayan Biri', alan: 'yeni', deger: '', metin: 'X.' },
     ],
   }), { randevuKur });
-  assert.ok(!t.d.zamanlayicilar.some(z => z.olay === 'randevu'), 'engel varken buluşma kuruldu');
+  assert.ok(!t.d.zamanlayicilar.some(z => z.olay.startsWith('randevu')), 'engel varken buluşma kuruldu');
   assert.ok(u.reddedilen.some(x => x.startsWith('buluşma')) && u.reddedilen.some(x => x.includes('yas')) && u.reddedilen.some(x => x.includes('tanıdıkları')));
   assert.ok(kisiKarti(t.d, veri, t.id).olgular.includes('Bir kedisi var, adı Duman.'));
   cevabiUygula(t.d, veri, t.id, 'Tamam, görüşürüz.', cevap({ olaylar: ['kalkip_gitti'] }), { randevuKur });
@@ -103,7 +103,7 @@ test('ilgisi yüksek ve engel yoksa buluşmayı kabul edebilir; numara verir', (
     t.d.npcler[t.id].iliski.yakinlik = 40;
     cevabiUygula(t.d, veri, t.id, 'Numaranı alabilir miyim? Yarın akşam?', cevap({ olaylar: ['numara_verdi', 'bulusmayi_kabul_etti'] }), { randevuKur });
     assert.ok(t.d.npcler[t.id].numara);
-    assert.ok(t.d.zamanlayicilar.some(z => z.olay === 'randevu' && z.baglam.npc.kisi === t.id));
+    assert.ok(t.d.zamanlayicilar.some(z => z.olay.startsWith('randevu') && z.baglam.npc.kisi === t.id));
     return;
   }
   assert.fail('uygun kişi bulunamadı');

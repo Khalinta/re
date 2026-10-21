@@ -9,7 +9,7 @@
 //  - Dedikodu insanlar üzerine (dedikodu.json): tanıdıkların gerçek sırları, dertleri, gizli ilişkileri — ya da uydurma.
 // Oturum: durum.sohbet = { npc, mekan, kalan (sabır), kullanilan: { konu }, bekleyen: { tur: 'soru'|'secim', id } }
 import { Rng } from './rng.js';
-import { npcKaydet, katmanYukselt, fizikTarifi, gununHali, dertMetni, sirMetni } from './npc.js';
+import { npcKaydet, katmanYukselt, fizikTarifi, gununHali, dertMetni, sirMetni, hayalMetni } from './npc.js';
 import { zamanGecir } from './simulasyon.js';
 import { dilim, gunNo, gunDakikasi, tarihAl, yas as yasHesapla } from './zaman.js';
 import { semtBul } from './dunya.js';
@@ -20,12 +20,14 @@ import { aksiyonKaydet } from './durum.js';
 import { bayrakKoy } from './bayrak.js';
 import { kisi, mekandakiler, gorunus, tanisildiMi, tanidiklari, kisiOrada, sablonBul, anlatacagiDedikodu } from './insanlar.js';
 import { kisiGuncel, bilinmeyenOlaylar, haberSablonu } from './npchayat.js';
-import { gizliIliskiMi } from './kart.js';
+import { gizliIliskiMi, derinlik } from './kart.js';
 import { sirriBiliyorMu, ozetEkle } from './hafiza.js';
 import { derinKonular, derinHamle, derinSecenekler, derinCevapla, derinSoruAdaylari, derinSoruSor } from './zevk.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
 const kucukBas = s => s ? s[0].toLocaleLowerCase('tr') + s.slice(1) : s;
+// Cümle ortasına alınacak metnin ilk harfi: özel adla başlıyorsa ("Demirspor'u…", "KoinPazar'da…") dokunulmaz
+const ortaya = s => !s ? s : /^[^\s]*'/.test(s) || /^[A-ZÇĞİÖŞÜ][a-zçğıöşü]*[A-ZÇĞİÖŞÜ]/.test(s) ? s : kucukBas(s);
 const deger = (rng, x) => Array.isArray(x) ? rng.aralik(x[0], x[1]) : (x ?? 0);
 
 export function kusak(n, sb) {
@@ -196,10 +198,35 @@ export function ilgi(durum, veri, n, k) {
 }
 
 // Buluşma: ertesi akşam 20.00'de olay (data/olaylar/iliski.json → randevu)
+// Buluşma yeri kişiye göre (3.11): kuşağı, içip içmediği, dindarlığı; aynı kişiyle üst üste aynı yer seçilmez
+const RANDEVU_YERLERI = [
+  { olay: 'randevu', w: { genc: 2, orta: 2, yasli: 2 } }, // Kordon
+  { olay: 'randevu_meyhane', w: { genc: 0.6, orta: 2, yasli: 1.5 }, icki: true },
+  { olay: 'randevu_bar', w: { genc: 2.5, orta: 0.8, yasli: 0 }, icki: true },
+  { olay: 'randevu_seyir', w: { genc: 1.5, orta: 1.2, yasli: 1 } },
+  { olay: 'randevu_vapur', w: { genc: 1.5, orta: 1.5, yasli: 1.2 } },
+  { olay: 'randevu_han', w: { genc: 1, orta: 1.5, yasli: 2 } },
+];
+function randevuYeri(durum, veri, n, k) {
+  const ku = kusak(n, veri.npc.sohbet);
+  const d = veri.npc.derinlik ? derinlik(durum.seed, n, veri) : {};
+  const adaylar = RANDEVU_YERLERI.filter(x => x.olay === 'randevu' || veri.olaylar?.[x.olay]).map(x => {
+    let a = x.w[ku];
+    if (x.icki && (d.dindarlikI ?? 0) >= 3) a = 0; // ibadetini yapan meyhaneye, bara çağırmaz
+    if (x.icki && d.kotuAliskanlikId === 'icki') a *= 2;
+    if (x.olay === k.sonRandevu) a *= 0.05;
+    return { olay: x.olay, agirlik: a };
+  }).filter(x => x.agirlik > 0);
+  return Rng.akis(durum.seed, `randevu|${n.id}|${k.randevuSayisi ?? 0}`).agirlikliSec(adaylar).olay;
+}
+
 export function randevuKur(durum, veri, id, n, k) {
   const dk = durum.zaman.dakika;
   const zaman = dk - gunDakikasi(dk) + 1440 + 20 * 60;
-  durum.zamanlayicilar.push({ zaman, olay: 'randevu', baglam: { npc: { kisi: id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+  const olay = randevuYeri(durum, veri, n, k);
+  k.sonRandevu = olay;
+  k.randevuSayisi = (k.randevuSayisi ?? 0) + 1;
+  durum.zamanlayicilar.push({ zaman, olay, baglam: { npc: { kisi: id }, degisken: { kisi: { ad: n.hitapAdi } } } });
   durum.zamanlayicilar.sort((a, b) => a.zaman - b.zaman);
   k.randevu = gunNo(zaman);
   k.anilar.push({ zaman: dk, metin: 'buluşmak için sözleştiniz' });
@@ -228,8 +255,8 @@ export function kisiDedikodusu(durum, veri, n, mekan, rng) {
       x.bilinen = true;
       return { id: `h:${tid}:${x.gun}:${x.id}`, metin, kisi: tid, dogru: true };
     }
-    const t = kisi(veri, durum.seed, tid);
-    if (!t || t.yas < 16) continue;
+    const t = kisiGuncel(durum, veri, tid); // hayatındaki değişikliklerle (boşandıysa boşanmış konuşulur)
+    if (!t || t.yas < 16 || t.yok) continue;
     // Kimse kendi örgütünün insanları hakkında konuşmaz
     const orgutu = x => x.figur ? veri.dunya.figurler.figurler.find(f => f.id === x.figur)?.orgut : null;
     if (orgutu(n) && orgutu(n) === orgutu(t)) continue;
@@ -238,6 +265,14 @@ export function kisiDedikodusu(durum, veri, n, mekan, rng) {
     if (t.dert) turler.push({ tur: 'dert', a: 2 });
     if (['bosanmis', 'dul'].includes(t.medeni)) turler.push({ tur: t.medeni, a: 1.5 });
     for (const g of t.gizli || []) if (D.turler[g]) turler.push({ tur: g, a: 2 });
+    // Kişi kartından (3.11): hayali, alışkanlığı, parası, ailesiyle arası, kıskançlığı — hepsi gerçek
+    const dr = veri.npc.derinlik ? derinlik(durum.seed, t, veri) : {};
+    if (t.hayal && t.hayal !== 'hicbir_sey' && D.turler.hayal) turler.push({ tur: 'hayal', a: 1.5 });
+    if (['icki', 'kumar', 'gec'].includes(dr.kotuAliskanlikId) && D.turler[dr.kotuAliskanlikId]) turler.push({ tur: dr.kotuAliskanlikId, a: 1.2 });
+    if (['rahat', 'varlıklı'].includes(dr.para) && D.turler.varlikli) turler.push({ tur: 'varlikli', a: 1 });
+    if (dr.para === 'borç içinde' && D.turler.borcIcinde) turler.push({ tur: 'borcIcinde', a: 1.5 });
+    if (['kus', 'kopuk'].includes(t.aile?.iliski) && D.turler.aileKopuk) turler.push({ tur: 'aileKopuk', a: 1 });
+    if (dr.kiskanclik >= 5 && D.turler.kiskanc) turler.push({ tur: 'kiskanc', a: 1 });
     const es = tanidik.find(u => u !== tid && gizliIliskiMi(veri, durum.seed, t, kisi(veri, durum.seed, u)));
     if (es) turler.push({ tur: ['evli', 'sevgilili'].includes(t.medeni) ? 'askEvli' : 'ask', a: 4, u: es });
     const yalan = rng.olasilik(D.oran.yalan);
@@ -246,7 +281,7 @@ export function kisiDedikodusu(durum, veri, n, mekan, rng) {
     if (duyulan[anahtar]) continue;
     const tanisik = tanisildiMi(durum, tid);
     const u = sec.u ? kisi(veri, durum.seed, sec.u) : null;
-    const tv = { ad: t.hitapAdi, sir: kucukBas(sirMetni(t, veri) ?? ''), dert: kucukBas(dertMetni(t, veri) ?? ''), tarif: gorunus(t, veri) };
+    const tv = { ad: t.hitapAdi, sir: ortaya(sirMetni(t, veri) ?? ''), dert: ortaya(dertMetni(t, veri) ?? ''), hayal: ortaya(hayalMetni(t, veri) ?? ''), tarif: gorunus(t, veri) };
     let metin = sozSec(durum, null, D.turler[sec.tur], rng, sb.hafiza);
     const ctx = { durum, veri, baglam: { degisken: { t: tv, u: u ? { ad: u.hitapAdi } : {} } } };
     metin = metinCoz(metin, rng, ctx).map(p => p.metin).join(' ');

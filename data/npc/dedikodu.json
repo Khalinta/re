@@ -1,70 +1,151 @@
 {
- "_aciklama": "İnsanlar üzerine dedikodu (adım 3.5): kişiler tanıdıkları insanlar hakkında konuşur. Konular kişinin GERÇEK sırlarından, dertlerinden, gizli özelliklerinden, medeni halinden ve seed'den belirlenimli gizli ilişkilerden (kim kiminle) gelir — doğrudur; 'yalan' türü uydurmadır. Sen hangisinin doğru olduğunu bilmezsin (Duyduklarım'da yalnızca 'kimden duydun' yazar). Önce tanıdığın ya da o an mekanda olan insanlar konuşulur. Yer tutucular: {t.ad} hakkında konuşulan, {t.tarif} görünüşü (tanımıyorsan), {u.ad} ikinci kişi; metin alanları küçük harfle başlatılır.",
- "oran": {
-  "yalan": 0.22,
-  "ask": 0.3
- },
- "askOlasiligi": 0.12,
- "burada": [
-  "Şu {t.tarif} var ya, şurada oturan;",
-  "Arkana bakma ama, şu {t.tarif}...",
-  "Bak şuradaki {t.tarif};"
- ],
- "turler": {
-  "sir": [
-   "{t.ad} var ya... {t.sir}",
-   "{t.ad} hakkında bir şey duydum; {t.sir}",
-   "{t.ad|i} tanıyor musun? {t.sir|bas} Kimseye söyleme."
+  "_aciklama": "İnsanlar üzerine dedikodu (adım 3.5): kişiler tanıdıkları insanlar hakkında konuşur. Konular kişinin GERÇEK sırlarından, dertlerinden, gizli özelliklerinden, medeni halinden ve seed'den belirlenimli gizli ilişkilerden (kim kiminle) gelir — doğrudur; 'yalan' türü uydurmadır. Sen hangisinin doğru olduğunu bilmezsin (Duyduklarım'da yalnızca 'kimden duydun' yazar). Önce tanıdığın ya da o an mekanda olan insanlar konuşulur. Yer tutucular: {t.ad} hakkında konuşulan, {t.tarif} görünüşü (tanımıyorsan), {u.ad} ikinci kişi; metin alanları küçük harfle başlatılır.",
+  "oran": {
+    "yalan": 0.22,
+    "ask": 0.3
+  },
+  "askOlasiligi": 0.12,
+  "burada": [
+    "Şu {t.tarif} var ya, şurada oturan;",
+    "Arkana bakma ama, şu {t.tarif}...",
+    "Bak şuradaki {t.tarif};"
   ],
-  "dert": [
-   "{t.ad} çok zor günler geçiriyormuş; {t.dert}",
-   "{t.ad|in} hali hiç iyi değil. {t.dert|bas}",
-   "Geçen {t.ad} burada ağlıyordu. {t.dert|bas}"
-  ],
-  "bosanmis": [
-   "{t.ad} eşinden ayrılmış; sebebini kimse bilmiyor, ama herkesin bir tahmini var.",
-   "{t.ad|in} boşanması mahallede hâlâ konuşuluyor; ev kime kaldı, çocuklar kimde..."
-  ],
-  "dul": [
-   "{t.ad} eşini kaybettiğinden beri başka biri oldu; eskiden bu masanın en neşelisiydi."
-  ],
-  "borclu": [
-   "{t.ad} borç batağındaymış; geçen hafta kapısına adamlar gelmiş.",
-   "{t.ad|e} sakın borç verme; kendisi zaten herkese borçlu."
-  ],
-  "ihbarci": [
-   "{t.ad|e} dikkat et; polisle arası fazla iyi. Yanında ağzından laf kaçırma.",
-   "{t.ad} her şeyi birilerine taşıyor diyorlar; kime, orası belli değil."
-  ],
-  "hirsli": [
-   "{t.ad} gözünü bir yere dikti mi, arkasında kim kalırsa kalsın, oraya gider.",
-   "{t.ad|in} hırsı bir gün başını yakacak; şimdiden belli."
-  ],
-  "guvenilmez": [
-   "{t.ad|e} güvenme; bugün senin dostun, yarın başkasının.",
-   "{t.ad} geçen ay ortağını yüz üstü bırakmış; şimdi masum rolünde."
-  ],
-  "ask": [
-   "{t.ad} ile {u.ad} arasında bir şey var; geçen gece ikisini Kordon'da el ele görmüşler.",
-   "{t.ad} ile {u.ad}... Herkes biliyor, bir onlar bilmiyor sanıyor.",
-   "{t.ad} her akşam bir bahaneyle {u.ad|in} olduğu yere geliyor. Tesadüf mü sence?"
-  ],
-  "askEvli": [
-   "{t.ad} evli ama {u.ad} ile gizli gizli görüşüyormuş. Duyan duydu, bir eşi duymadı.",
-   "{t.ad|in} eşi bilse kıyamet kopar: {u.ad} ile aralarında bir şey var."
-  ],
-  "yalan": [
-   "{t.ad|e} piyango çıkmış ama kimseye söylemiyormuş.",
-   "{t.ad} yurt dışına kaçacakmış; borçlar yüzünden.",
-   "{t.ad} gizli gizli evlenmiş; nikâh şahidi bile yokmuş.",
-   "{t.ad|in} eski bir sabıkası varmış; kimse tam bilmiyor ne yüzünden.",
-   "{t.ad} yakında buradan taşınıyormuş; zengin bir akrabası ölmüş.",
-   "{t.ad} geceleri kumar oynuyormuş; Gar Palas'ta görenler var.",
-   "{t.ad|in} aslında iki ailesi varmış; biri başka şehirde."
-  ]
- },
- "kim": {
-  "genc": "bir genç",
-  "diger": "biri"
- }
+  "turler": {
+    "sir": [
+      "{t.ad} var ya... {t.sir}",
+      "{t.ad} hakkında bir şey duydum; {t.sir}",
+      "{t.ad|i} tanıyor musun? {t.sir|bas} Kimseye söyleme.",
+      "Sana bir şey söyleyeceğim ama benden duymadın: {t.sir}",
+      "{t.ad|i} herkes iyi bilir ya; {t.sir}",
+      "{t.ad} hakkında kimsenin bilmediği bir şey var. {t.sir|bas}",
+      "Yemin ettirdi bana ama... {t.ad}: {t.sir}",
+      "{t.ad|in} yüzüne bakınca anlamazsın; {t.sir}"
+    ],
+    "dert": [
+      "{t.ad} çok zor günler geçiriyormuş; {t.dert}",
+      "{t.ad|in} hali hiç iyi değil. {t.dert|bas}",
+      "Geçen {t.ad} burada ağlıyordu. {t.dert|bas}",
+      "{t.ad} son zamanlarda hiç kendinde değil; {t.dert}",
+      "{t.ad|i} gördün mü bu ara? Erimiş. {t.dert|bas}",
+      "{t.ad|e} bir selam ver, iyi gelir. {t.dert|bas}",
+      "{t.ad} kimseye bir şey demiyor ama ben biliyorum: {t.dert}",
+      "Geçen akşam {t.ad} ile oturduk; dertli. {t.dert|bas}"
+    ],
+    "bosanmis": [
+      "{t.ad} eşinden ayrılmış; sebebini kimse bilmiyor, ama herkesin bir tahmini var.",
+      "{t.ad|in} boşanması mahallede hâlâ konuşuluyor; ev kime kaldı, çocuklar kimde...",
+      "{t.ad} boşandıktan sonra küçük bir eve taşınmış; eşyaların yarısı bile sığmamış.",
+      "{t.ad|in} eski eşi hâlâ arıyormuş; barışacaklar mı, kim bilir.",
+      "{t.ad} boşandı ya, şimdi gençleşti; her akşam dışarıda."
+    ],
+    "dul": [
+      "{t.ad} eşini kaybettiğinden beri başka biri oldu; eskiden bu masanın en neşelisiydi.",
+      "{t.ad} hâlâ her cuma mezarlığa gidiyormuş.",
+      "{t.ad|in} evinde hâlâ eşinin ceketi kapının arkasında asılıymış.",
+      "{t.ad} yalnız kaldı kalalı kimseyle doğru dürüst konuşmuyor."
+    ],
+    "borclu": [
+      "{t.ad} borç batağındaymış; geçen hafta kapısına adamlar gelmiş.",
+      "{t.ad|e} sakın borç verme; kendisi zaten herkese borçlu.",
+      "{t.ad} herkesten borç istemiş; benden de. Vermedim.",
+      "{t.ad|in} kapısına icra gelmiş diyorlar; komşular görmüş."
+    ],
+    "ihbarci": [
+      "{t.ad|e} dikkat et; polisle arası fazla iyi. Yanında ağzından laf kaçırma.",
+      "{t.ad} her şeyi birilerine taşıyor diyorlar; kime, orası belli değil.",
+      "{t.ad} geçen ay karakoldan çıkarken görülmüş; elini kolunu sallayarak.",
+      "{t.ad} ile konuşurken kelimelerini seç; her şeyi bir yere yazıyormuş gibi."
+    ],
+    "hirsli": [
+      "{t.ad} gözünü bir yere dikti mi, arkasında kim kalırsa kalsın, oraya gider.",
+      "{t.ad|in} hırsı bir gün başını yakacak; şimdiden belli.",
+      "{t.ad} patronun gözüne girmek için arkadaşını sattı; herkes biliyor.",
+      "{t.ad|in} gözü yükseklerde; bu mahalle ona dar geliyor."
+    ],
+    "guvenilmez": [
+      "{t.ad|e} güvenme; bugün senin dostun, yarın başkasının.",
+      "{t.ad} geçen ay ortağını yüz üstü bırakmış; şimdi masum rolünde.",
+      "{t.ad|e} bir şey emanet etme; geri gelmez.",
+      "{t.ad} söz verir, unutur; unutmak işine gelir."
+    ],
+    "ask": [
+      "{t.ad} ile {u.ad} arasında bir şey var; geçen gece ikisini Kordon'da el ele görmüşler.",
+      "{t.ad} ile {u.ad}... Herkes biliyor, bir onlar bilmiyor sanıyor.",
+      "{t.ad} her akşam bir bahaneyle {u.ad|in} olduğu yere geliyor. Tesadüf mü sence?",
+      "{t.ad} ile {u.ad} aynı saatte çıkıp aynı saatte geliyorlar. Bana tesadüf deme.",
+      "{t.ad|in} telefonunda {u.ad|in} adı başka bir isimle kayıtlıymış.",
+      "Geçen hafta {t.ad} ile {u.ad|i} sahilde gördüm; beni görünce ayrıldılar."
+    ],
+    "askEvli": [
+      "{t.ad} evli ama {u.ad} ile gizli gizli görüşüyormuş. Duyan duydu, bir eşi duymadı.",
+      "{t.ad|in} eşi bilse kıyamet kopar: {u.ad} ile aralarında bir şey var.",
+      "{t.ad} evli ama {u.ad|i} görünce yüzü başka türlü gülüyor. Herkes fark etti.",
+      "{t.ad|in} eşi bir şeyden şüphelenmiş; {u.ad|in} adını duyunca bardağı kırmış.",
+      "{t.ad} ile {u.ad} her salı aynı yerde; {t.ad|in} eşi sanıyor ki fazla mesai."
+    ],
+    "yalan": [
+      "{t.ad|e} piyango çıkmış ama kimseye söylemiyormuş.",
+      "{t.ad} yurt dışına kaçacakmış; borçlar yüzünden.",
+      "{t.ad} gizli gizli evlenmiş; nikâh şahidi bile yokmuş.",
+      "{t.ad|in} eski bir sabıkası varmış; kimse tam bilmiyor ne yüzünden.",
+      "{t.ad} yakında buradan taşınıyormuş; zengin bir akrabası ölmüş.",
+      "{t.ad} geceleri kumar oynuyormuş; Gar Palas'ta görenler var.",
+      "{t.ad|in} aslında iki ailesi varmış; biri başka şehirde.",
+      "{t.ad} aslında İstanbul'da bir şirketin sahibiymiş; burada saklanıyormuş.",
+      "{t.ad|in} babası bir zamanlar şehrin en zengin adamıymış.",
+      "{t.ad} yakında evleniyormuş; hem de çok zengin biriyle.",
+      "{t.ad} geçen yıl bir yarışmaya katılmış; televizyona çıkmış.",
+      "{t.ad} limanda gece işleri çeviriyormuş; parası oradan.",
+      "{t.ad|in} bir ikiz kardeşi varmış; küçükken ayrılmışlar.",
+      "{t.ad} eskiden şarkıcıymış; bir albümü bile varmış.",
+      "{t.ad} kimseye söylemiyor ama ehliyetini sahte almış.",
+      "{t.ad} belediyeden ihale almış; birden zenginleşecekmiş.",
+      "{t.ad|in} evinde gece ışıklar hiç sönmüyormuş; içeride ne var, kimse bilmiyor.",
+      "{t.ad} yıllar önce bu şehirden kaçmış, adını değiştirip geri gelmiş.",
+      "{t.ad} ünlü bir futbolcunun akrabasıymış.",
+      "{t.ad} aslında hiç evlenmemiş; o yüzük kendini korumak içinmiş."
+    ],
+    "hayal": [
+      "{t.ad|in} kafasında tek bir şey var: {t.hayal} Herkese anlatıyor.",
+      "{t.ad} para biriktiriyor; amacı belli: {t.hayal}",
+      "{t.ad} rüyasında bile aynı şeyi görüyormuş: {t.hayal}",
+      "{t.ad|in} hayali {t.hayal} Olur mu, bilmem."
+    ],
+    "icki": [
+      "{t.ad} her akşam içiyor; geçen gece eve zor götürdüler.",
+      "{t.ad|in} sabahları elleri titriyormuş; bilenler biliyor.",
+      "{t.ad} meyhanede hesabı her ay sona bırakıyor; meyhaneci söylendi."
+    ],
+    "kumar": [
+      "{t.ad} Gar Palas'ın arka masalarında görülmüş; kaybediyormuş.",
+      "{t.ad|in} kumar merakı var; maaşı ayın beşinde bitiyor.",
+      "{t.ad} kupon doldurmadan uyuyamıyormuş."
+    ],
+    "varlikli": [
+      "{t.ad|in} parası çok ama kimseye bir çay ısmarlamaz.",
+      "{t.ad} görünüşe aldanma; bankada epey parası var diyorlar.",
+      "{t.ad} parayı sever; parası da var, orası kesin."
+    ],
+    "borcIcinde": [
+      "{t.ad} ayı ayına getiremiyormuş; marketteki veresiye defteri onun adıyla dolu.",
+      "{t.ad|in} durumu çok kötü; telefonu sürekli çalıyor, açmıyor.",
+      "{t.ad} geçen hafta yüzüğünü bozdurmuş."
+    ],
+    "aileKopuk": [
+      "{t.ad} ailesiyle görüşmüyor; bayramlarda bile yalnız.",
+      "{t.ad|in} ailesiyle arası kopuk; sebebini kimse bilmiyor."
+    ],
+    "kiskanc": [
+      "{t.ad} çok kıskançmış; eski sevgilisi bu yüzden kaçıp gitmiş diyorlar.",
+      "{t.ad|in} kıskançlığı yüzünden kimse onunla uzun süre arkadaş kalamıyor."
+    ],
+    "gec": [
+      "{t.ad} her yere geç kalır; kendi doğum gününe bile geç kalmış diyorlar.",
+      "{t.ad} ile saat konuşma; ona göre saat diye bir şey yok."
+    ]
+  },
+  "kim": {
+    "genc": "bir genç",
+    "diger": "biri"
+  }
 }

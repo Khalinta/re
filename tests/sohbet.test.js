@@ -183,14 +183,14 @@ test('flört: ilgi yüksekse iltifat karşılık bulur, numara verilir, buluşma
       assert.ok(s.paragraflar.some(p => p.konusan === 'Sen'), 'senin sözün yazılı');
     }
     if (k.numara) numara++;
-    const z = d.zamanlayicilar.find(x => x.olay === 'randevu');
+    const z = d.zamanlayicilar.find(x => x.olay.startsWith('randevu'));
     if (once < npc.flort.esikler.numara) { assert.ok(!k.numara || k.iliski.cekim > 30); ret++; }
     if (z) {
       bulusma++;
       assert.equal(z.baglam.npc.kisi, id);
       d.zaman.dakika = z.zaman;
       const rr = Rng.akis('R' + i, 'randevu');
-      let s = olayBaslat(d, 'randevu', veri, rr, z.baglam);
+      let s = olayBaslat(d, z.olay, veri, rr, z.baglam);
       temiz(s.paragraflar);
       for (let j = 0; !s.bitti && j < 10; j++) {
         const l = olaySecenekleri(d, veri).filter(x => !x.devreDisi);

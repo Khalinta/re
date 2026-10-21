@@ -483,13 +483,10 @@
       {
        "metin": "Öde, uzatma",
        "maliyet": {
-        "dakika": 20
+        "dakika": 20,
+        "para": 450
        },
-       "etki": [
-        {
-         "para": -450
-        }
-       ],
+       "etki": [],
        "sonuc": "Ödüyorsun. Cüzdan hafifliyor, vicdan rahat."
       },
       {
@@ -574,12 +571,10 @@
       {
        "metin": "Hırdavatçıdan kapan al",
        "maliyet": {
-        "dakika": 30
+        "dakika": 30,
+        "para": 60
        },
        "etki": [
-        {
-         "para": -60
-        },
         {
          "durum": {
           "stres": -2
@@ -644,13 +639,10 @@
       {
        "metin": "Çarşıdaki tamirciye götür",
        "maliyet": {
-        "dakika": 60
+        "dakika": 60,
+        "para": 700
        },
-       "etki": [
-        {
-         "para": -700
-        }
-       ],
+       "etki": [],
        "sonuc": "Eski Çarşı'daki tamirci \"Orijinal mi yan sanayi mi?\" diye soruyor. Yan sanayi. Yine de para."
       },
       {
@@ -1031,12 +1023,10 @@
       {
        "metin": "Bakkaldan bir şey al, ver",
        "maliyet": {
-        "dakika": 15
+        "dakika": 15,
+        "para": 60
        },
        "etki": [
-        {
-         "para": -60
-        },
         {
          "durum": {
           "ruh": 6
@@ -1105,12 +1095,10 @@
       {
        "metin": "Mama ver, sev",
        "maliyet": {
-        "dakika": 10
+        "dakika": 10,
+        "para": 40
        },
        "etki": [
-        {
-         "para": -40
-        },
         {
          "durum": {
           "ruh": 6,
@@ -1169,12 +1157,10 @@
       {
        "metin": "En yakın kafeye dal",
        "maliyet": {
-        "dakika": 30
+        "dakika": 30,
+        "para": 60
        },
        "etki": [
-        {
-         "para": -60
-        },
         {
          "durum": {
           "ruh": 3
@@ -1186,12 +1172,10 @@
       {
        "metin": "Seyyardan şemsiye al",
        "maliyet": {
-        "dakika": 5
+        "dakika": 5,
+        "para": 120
        },
        "etki": [
-        {
-         "para": -120
-        },
         {
          "durum": {
           "hijyen": -2
@@ -1323,22 +1307,19 @@
        "metin": "Bir paket al",
        "etki": [
         {
-         "para": -20
-        },
-        {
          "durum": {
           "ruh": 1
          }
         }
        ],
-       "sonuc": "Mendili alıyorsun, parasını veriyorsun. Çocuk bir sonraki cama koşuyor; arkasından bakıyorsun."
+       "sonuc": "Mendili alıyorsun, parasını veriyorsun. Çocuk bir sonraki cama koşuyor; arkasından bakıyorsun.",
+       "maliyet": {
+        "para": 20
+       }
       },
       {
        "metin": "Para ver, mendil alma",
        "etki": [
-        {
-         "para": -50
-        },
         {
          "durum": {
           "ruh": -1,
@@ -1346,17 +1327,18 @@
          }
         }
        ],
-       "sonuc": "Parayı alıp hızla cebine sokuyor; bir köşede bekleyen bir adama bakıyor. Para kime gidecek, biliyorsun aslında."
+       "sonuc": "Parayı alıp hızla cebine sokuyor; bir köşede bekleyen bir adama bakıyor. Para kime gidecek, biliyorsun aslında.",
+       "maliyet": {
+        "para": 50
+       }
       },
       {
        "metin": "Simit al, ona ver",
        "maliyet": {
-        "dakika": 5
+        "dakika": 5,
+        "para": 25
        },
        "etki": [
-        {
-         "para": -25
-        },
         {
          "durum": {
           "ruh": 4
@@ -1419,12 +1401,10 @@
       {
        "metin": "Şapkaya para at",
        "maliyet": {
-        "dakika": 10
+        "dakika": 10,
+        "para": 100
        },
        "etki": [
-        {
-         "para": -100
-        },
         {
          "durum": {
           "ruh": 8,
@@ -2001,12 +1981,10 @@
       {
        "metin": "Şeker ve harçlık ver",
        "maliyet": {
-        "dakika": 5
+        "dakika": 5,
+        "para": 60
        },
        "etki": [
-        {
-         "para": -60
-        },
         {
          "durum": {
           "ruh": 6
@@ -2065,12 +2043,10 @@
       {
        "metin": "Eczaneye uğra",
        "maliyet": {
-        "dakika": 20
+        "dakika": 20,
+        "para": 150
        },
        "etki": [
-        {
-         "para": -150
-        },
         {
          "durum": {
           "saglik": 6

@@ -13,7 +13,7 @@ import { npcKaydet, katmanYukselt, fizikTarifi, gununHali, dertMetni, sirMetni, 
 import { zamanGecir } from './simulasyon.js';
 import { dilim, gunNo, gunDakikasi, tarihAl, yas as yasHesapla } from './zaman.js';
 import { semtBul } from './dunya.js';
-import { mekanBul } from './mekan.js';
+import { mekanBul, acikMi } from './mekan.js';
 import { metinCoz } from './metin.js';
 import { ek } from './tr.js';
 import { aksiyonKaydet } from './durum.js';
@@ -174,6 +174,26 @@ function oturumBaslat(durum, id, mekan, kalan) {
   durum.sohbet = { npc: id, mekan: mekan.id, kalan, kullanilan: {}, bekleyen: null, bas: durum.zaman.dakika };
 }
 export const oturumBitir = durum => { delete durum.sohbet; };
+
+// Olaydan buluşmaya (3.17): "Hemen yanına git" gibi seçeneklerde gerçekten onunla bir yerdesin ve konuşabilirsin.
+// Mekan: onun semtinde şu an açık, istenen türde bir yer (yoksa şehirde); sure dakika boyunca orada kalır.
+export function bulusmaKur(durum, veri, id, { turler = ['kafe', 'park', 'cay_ocagi'], sure = 120 } = {}) {
+  const n = kisiGuncel(durum, veri, id);
+  if (!n || n.yok) return null;
+  const t = durum.zaman.dakika, hg = tarihAl(durum.zaman.baslangic, t).getUTCDay();
+  const tumu = veri.dunya.mekanlar.mekanlar.filter(m => turler.includes(m.tur) && acikMi(m, t, hg));
+  const yakin = tumu.filter(m => m.semt === n.semt);
+  const aday = (yakin.length ? yakin : tumu).sort((a, b) => turler.indexOf(a.tur) - turler.indexOf(b.tur) || a.id.localeCompare(b.id));
+  const m = aday.length ? Rng.akis(durum.seed, `bulus|${id}|${gunNo(t)}`).sec(aday.filter(x => x.tur === aday[0].tur)) : null;
+  if (!m) return null;
+  durum.konum = { semt: m.semt, mekan: m.id };
+  const k = durum.npcler?.[id];
+  if (!k) return null;
+  k.sonGorus = t;
+  delete k.ayrildi;
+  durum.sohbet = { npc: id, mekan: m.id, kalan: sabir(veri, n, k) + 2, kullanilan: {}, bekleyen: null, bas: t, bulusma: t + sure };
+  return m;
+}
 
 // ------------------------------------------------------------------ flört hesapları
 
@@ -425,6 +445,7 @@ export function yaninaOtur(durum, veri, rng, mekan, kalabalik, id) {
 export function oturumGecerli(durum, veri) {
   const o = durum.sohbet;
   if (!o || durum.konum?.mekan !== o.mekan) return false;
+  if (o.bulusma) return durum.zaman.dakika < o.bulusma; // seni çağırdı, buluştunuz (3.17): o kalkana kadar orada
   const m = mekanBul(veri.dunya, o.mekan);
   const kal = m.kalabalik?.[dilim(durum.zaman.dakika).id] ?? 0;
   return mekandakiler(durum, veri, m, kal).includes(o.npc);

@@ -7,6 +7,9 @@
 import { bayrakKoy, bayrakKaldir, sayacEkle } from './bayrak.js';
 import { sinirla, zamanGecir } from './simulasyon.js';
 import { para as paraYaz } from './format.js';
+import { bulusmaKur } from './sohbet.js';
+import { mekanBul } from './mekan.js';
+import { ek } from './tr.js';
 
 export const SURE = { dakika: 1, saat: 60, gun: 1440, hafta: 10080, ay: 43200 };
 export function sureDk(s) {
@@ -91,6 +94,13 @@ export const ETKILER = {
     const d = ctx.durum;
     if (d.ev?.semt) d.konum = { semt: d.ev.semt, mekan: 'ev' };
     delete d.sohbet;
+  },
+  // { "bulus": { "npc": "kisi", "turler": ["kafe", "park"], "sure": { "saat": 2 } } }  (3.17) olaydan sonra onunla gerçekten bir
+  // yerdesin: konum o mekana geçer, sohbet açılır (seni çağırdı, yanına gittin)
+  bulus: (v, ctx, notlar) => {
+    const id = npcId(ctx, v.npc);
+    const m = bulusmaKur(ctx.durum, ctx.veri, id, { turler: v.turler, sure: v.sure ? sureDk(v.sure) : undefined });
+    if (m) notlar.push(`Şimdi ${ek(mekanBul(ctx.veri.dunya, m.id).ad, 'de')}, onunla birliktesin`);
   },
   // { "numaraVer": { "npc": "kisi" } }  (3.16) numarası artık sende (peçeteni bulup yazdı)
   numaraVer: (v, ctx) => {

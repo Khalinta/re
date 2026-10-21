@@ -197,7 +197,9 @@ export function olaySecenekleri(durum, veri) {
     if (!ag.tamam && s.gizle) return;
     const m = s.maliyet || {};
     let devreDisi = !ag.tamam, sebep = !ag.tamam ? (s.kosulSebep || 'Bunu şu an yapamazsın.') : undefined;
-    if (!devreDisi && m.para && durum.para < m.para) { devreDisi = true; sebep = `Cebinde ${paraYaz(m.para)} yok.`; }
+    // Para: bedel ya da doğrudan para düşen etki (3.17: olmayan parayla fatura ödenmesin)
+    const harcar = (m.para ?? 0) + (s.etki || []).reduce((a, e) => a + (typeof e.para === 'number' && e.para < 0 ? -e.para : 0), 0);
+    if (!devreDisi && harcar && durum.para < harcar) { devreDisi = true; sebep = `Cebinde ${paraYaz(harcar)} yok.`; }
     if (!devreDisi && m.enerji && durum.durumlar.enerji < m.enerji) { devreDisi = true; sebep = 'Buna enerjin yetmez.'; }
     const ipucu = s.kontrol && olay.ipucu !== false ? zorlukIfadesi(kontrolOlasiligi(s.kontrol, ctx)) : undefined;
     liste.push({ sira, metin: s.metin, alt: [s.alt, ipucu].filter(Boolean).join(' ') || undefined, maliyet: m, devreDisi, sebep, teknik: !ag.tamam ? nedenTutmadi(ag) : undefined });

@@ -167,9 +167,6 @@
        },
        "etki": [
         {
-         "para": -1000
-        },
-        {
          "iliski": {
           "npc": "kisi",
           "yakinlik": 6,
@@ -207,9 +204,6 @@
         "para": 500
        },
        "etki": [
-        {
-         "para": -500
-        },
         {
          "iliski": {
           "npc": "kisi",
@@ -420,9 +414,6 @@
        },
        "etki": [
         {
-         "para": -200
-        },
-        {
          "iliski": {
           "npc": "kisi",
           "yakinlik": 8,
@@ -444,6 +435,9 @@
         },
         {
          "gunluk": "{kisi.ad|in} evinde yemek. Uzun zamandır bu kadar gülmemiştim."
+        },
+        {
+         "eveDon": true
         }
        ],
        "sonuc": [
@@ -510,7 +504,7 @@
        {
         "tur": "konusma",
         "konusan": "{kisi.ad}",
-        "metin": "{kisi.hitap|bas}, cumartesi işin var mı? Taşınıyorum da... Kamyon tuttum ama adam yok."
+        "metin": "{kisi.hitap|bas}, bugün işin var mı? Taşınıyorum da... Kamyon kapıda ama adam yok."
        }
       ]
      ],
@@ -541,6 +535,9 @@
           "aclik": -20,
           "ruh": 6
          }
+        },
+        {
+         "eveDon": true
         }
        ],
        "sonuc": [
@@ -828,13 +825,10 @@
       {
        "metin": "Küçük bir hediye al, uğra",
        "maliyet": {
-        "dakika": 60,
+        "dakika": 40,
         "para": 250
        },
        "etki": [
-        {
-         "para": -250
-        },
         {
          "iliski": {
           "npc": "kisi",
@@ -852,6 +846,19 @@
          "durum": {
           "ruh": 6
          }
+        },
+        {
+         "bulus": {
+          "npc": "kisi",
+          "turler": [
+           "pastane",
+           "kafe",
+           "cay_ocagi"
+          ],
+          "sure": {
+           "saat": 2
+          }
+         }
         }
        ],
        "sonuc": [
@@ -860,7 +867,7 @@
          {
           "tur": "konusma",
           "konusan": "{kisi.ad}",
-          "metin": "Hatırladın mı? Kimse hatırlamadı, inanır mısın?"
+          "metin": "Hatırladın mı? Kimse hatırlamadı, inanır mısın? Dur, ceketimi alayım; aşağıda bir şey içelim, ben ısmarlıyorum."
          }
         ]
        ]
@@ -1006,12 +1013,10 @@
       {
        "metin": "Bir çay içelim",
        "maliyet": {
-        "dakika": 30
+        "dakika": 10,
+        "para": 30
        },
        "etki": [
-        {
-         "para": -30
-        },
         {
          "iliski": {
           "npc": "kisi",
@@ -1022,11 +1027,24 @@
          "durum": {
           "ruh": 5
          }
+        },
+        {
+         "bulus": {
+          "npc": "kisi",
+          "turler": [
+           "cay_ocagi",
+           "kahvehane",
+           "kafe"
+          ],
+          "sure": {
+           "saat": 1
+          }
+         }
         }
        ],
        "sonuc": [
         [
-         "Köşedeki çay ocağında iki çay. Sohbet havadan sudan başlıyor, hayattan devam ediyor.",
+         "En yakın çay ocağına oturuyorsunuz; iki çay geliyor.",
          {
           "tur": "konusma",
           "konusan": "{kisi.ad}",
@@ -1086,7 +1104,7 @@
       {
        "metin": "Hemen yanına git",
        "maliyet": {
-        "dakika": 90
+        "dakika": 25
        },
        "etki": [
         {
@@ -1107,11 +1125,24 @@
           "ruh": -2,
           "stres": 3
          }
+        },
+        {
+         "bulus": {
+          "npc": "kisi",
+          "turler": [
+           "park",
+           "kafe",
+           "cay_ocagi"
+          ],
+          "sure": {
+           "saat": 2
+          }
+         }
         }
        ],
        "sonuc": [
         [
-         "Sahilde bir bankta buluyorsun onu. Uzun süre bir şey demiyor; sonra her şeyi anlatıyor.",
+         "Yarım saat sonra yanındasın. Seni görünce bir şey demiyor; sadece yer açıyor. Sonra konuşmaya başlıyor.",
          {
           "tur": "konusma",
           "konusan": "{kisi.ad}",
@@ -2303,16 +2334,16 @@
          }
         },
         {
-         "para": -180
-        },
-        {
          "durum": {
           "aclik": -30,
           "ruh": 3
          }
         }
        ],
-       "sonuc": "Bir dürüm söylüyorsun. Gecenin tek doğru numarası buymuş."
+       "sonuc": "Bir dürüm söylüyorsun. Gecenin tek doğru numarası buymuş.",
+       "maliyet": {
+        "para": 180
+       }
       }
      ]
     }

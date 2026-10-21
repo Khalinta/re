@@ -68,9 +68,11 @@ export function paragraflariGoster(paragraflar) {
 }
 
 // Serbest sohbet (3.9): biriyle konuşurken, yapay zekâ açıksa yazma kutusu + önerilen cevaplar
+let taslak = ''; // gönderilemeyen söz (sınır doldu, bağlantı koptu): kutuda kalır, yeniden yazmak gerekmez
 function serbestCiz() {
   if (!oyun.serbestSohbetVar()) { serbestKap.replaceChildren(); return; }
   const girdi = h('textarea', { class: 'serbest-girdi', rows: '1', maxlength: '600', placeholder: 'Ne söylersin? (istediğini yaz)', enterkeyhint: 'send' });
+  girdi.value = taslak;
   const gonder = h('button', { class: 'dugme birincil serbest-gonder', 'aria-label': 'Söyle' }, 'Söyle');
   const durumYazi = h('span', { class: 'serbest-durum soluk kucuk' });
   const yolla = async metin => {
@@ -80,6 +82,7 @@ function serbestCiz() {
     girdi.disabled = true; gonder.disabled = true; durumYazi.textContent = 'karşılık bekleniyor…';
     try {
       const s = await oyun.serbestKonus(metin);
+      taslak = !s.tamam && s.hata ? metin : '';
       if (!s.tamam && s.hata === 'anahtar') bilgiGoster('Yapay zekâ', `${s.sebep}\n\nDaha Fazla → Yapay zekâ sohbeti bölümünden anahtarı kontrol et.`);
     } catch (e) {
       bilgiGoster('Yapay zekâ', 'Bir şey ters gitti: ' + (e?.message ?? e));

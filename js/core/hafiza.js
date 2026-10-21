@@ -8,7 +8,7 @@
 import { Rng } from './rng.js';
 import { gunNo } from './zaman.js';
 import { kisi, tanisiyorMu } from './insanlar.js';
-import { bagTuru, kisiKarti } from './kart.js';
+import { bagTuru, kisiKarti, olguGuncelMi, olguIzi as izi, DEGISEBILIR } from './kart.js';
 
 export const SINIR = { ozet: 30, olgu: 40 };
 
@@ -80,16 +80,16 @@ export function olguDenetle(kart, olgu) {
 }
 
 // Kişi hakkında kalıcı bir olgu ekler (kartla çelişmiyorsa). hakkinda: kişinin kimliği.
-// Aynı alan için ikinci bir olgu (yeni dışında) eklenmez: ilk söylenen kalır.
+// Aynı alan için ikinci bir olgu (yeni dışında) eklenmez: ilk söylenen kalır (değişebilen alanda: kart değişmedikçe).
 export function olguEkle(durum, veri, hakkinda, olgu, kaynak) {
   const kart = kisiKarti(durum, veri, hakkinda);
   if (!kart) return { tamam: false, sebep: 'kişi yok' };
   const den = olguDenetle(kart, olgu);
   if (!den.tamam) return den;
   const h = kayit(durum, hakkinda).hafiza;
-  if (olgu.alan !== 'yeni' && h.olgular.some(x => x.alan === olgu.alan)) return { tamam: true, zaten: true };
+  if (olgu.alan !== 'yeni' && h.olgular.some(x => x.alan === olgu.alan && olguGuncelMi(kart, x))) return { tamam: true, zaten: true };
   if (olgu.alan === 'yeni' && h.olgular.some(x => normal(x.metin) === normal(olgu.metin))) return { tamam: true, zaten: true };
-  h.olgular.push({ alan: olgu.alan, deger: olgu.deger ?? null, metin: olgu.metin ?? String(olgu.deger), gun: gunNo(durum.zaman.dakika), kaynak });
+  h.olgular.push({ alan: olgu.alan, deger: olgu.deger ?? null, metin: olgu.metin ?? String(olgu.deger), gun: gunNo(durum.zaman.dakika), kaynak, ...(DEGISEBILIR[olgu.alan] ? { iz: izi(kart, olgu.alan) } : {}) });
   if (h.olgular.length > SINIR.olgu) h.olgular.splice(0, h.olgular.length - SINIR.olgu);
   return { tamam: true };
 }
@@ -101,6 +101,8 @@ export function hafizaMetni(durum, veri, id) {
   const b = k.bilinen || {};
   const bildikleri = Object.keys(b).filter(x => x.startsWith('oyuncu_')).map(x => ({ memleket: 'nereli olduğunu', is: 'ne iş yaptığını', hikaye: 'geçmişini (buraya nasıl geldiğini)', semt: 'nerede oturduğunu', medeni: 'ilişki durumunu', yalan: 'sana bir yalan söylediğini değil, uydurma bir hikâye anlattığını (gerçeği bilmiyor)', flort: 'ona ilgi duyduğunu' }[x.slice(7)] ?? x.slice(7)));
   const h = k.hafiza || { ozetler: [], olgular: [] };
+  const kart = h.olgular.length ? kisiKarti(durum, veri, id) : null;
+  const guncel = h.olgular.filter(x => olguGuncelMi(kart, x)), eski = h.olgular.filter(x => !olguGuncelMi(kart, x));
   const kisiHakkinda = Object.entries(durum.bilgi?.dedikodular || {}).filter(([, d]) => d.kaynak === id && d.metin).map(([, d]) => d.metin);
   return [
     `Seninle ${k.sohbet ?? 0} kez sohbet etti. Yakınlık ${Math.round(k.iliski?.yakinlik ?? 0)}, güven ${k.iliski?.guven ?? 0}, gerginlik ${k.iliski?.gerginlik ?? 0}, çekim ${k.iliski?.cekim ?? 0}.${k.iliskiTuru ? ' İlişkiniz: ' + k.iliskiTuru + '.' : ''}${k.numara ? ' Numaranız birbirinizde.' : ''}`,
@@ -108,7 +110,8 @@ export function hafizaMetni(durum, veri, id) {
     (k.anilar || []).length ? `Birlikte yaşadıklarınız: ${k.anilar.map(a => a.metin).join('; ')}.` : null,
     h.ozetler.length ? `Önceki konuşmalarınız: ${h.ozetler.map(x => `(${x.gun + 1}. gün) ${x.metin}`).join(' ')}` : null,
     kisiHakkinda.length ? `Sana daha önce anlattığı dedikodular: ${kisiHakkinda.join(' | ')}` : null,
-    h.olgular.length ? `Kendisi hakkında konuşmalarda ortaya çıkmış, DEĞİŞMEZ olgular: ${h.olgular.map(x => x.metin).join('; ')}.` : null,
+    guncel.length ? `Kendisi hakkında konuşmalarda ortaya çıkmış, DEĞİŞMEZ olgular: ${guncel.map(x => x.metin).join('; ')}.` : null,
+    eski.length ? `Eskiden doğruydu, artık değil (hayatı değişti; kişi kartındaki güncel durum geçerli): ${eski.map(x => `(${x.gun + 1}. gün söylemişti) ${x.metin}`).join('; ')}.` : null,
   ].filter(Boolean).join('\n');
 }
 

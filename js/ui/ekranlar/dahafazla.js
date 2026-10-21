@@ -6,8 +6,8 @@ import { SECENEKLER, al, degistir } from '../../ayarlar.js';
 import { OYUN_SURUMU } from '../../surum.js';
 import { hataPaneli } from '../../hata.js';
 import { yediDokunusKur } from '../../dev/panel.js';
-import { ayarlar as yzAyar, ayarDegistir as yzDegistir, harcama } from '../../yz/ayar.js';
-import { MODELLER } from '../../core/yz.js';
+import { ayarlar as yzAyar, ayarDegistir as yzDegistir, etkin as yzEtkin, harcama } from '../../yz/ayar.js';
+import { MODELLER, SAGLAYICILAR } from '../../core/yz.js';
 
 function segment(anahtar, etiket) {
   const grup = h('div', { class: 'segment', role: 'radiogroup', 'aria-label': etiket });
@@ -19,36 +19,41 @@ function segment(anahtar, etiket) {
   return h('div', { class: 'ayar' }, h('div', { class: 'ayar-ad' }, etiket), grup);
 }
 
-// Yapay zekâ sohbeti (3.9): anahtar, model, açık/kapalı, bağlantı denemesi, bu ayki harcama
+// Yapay zekâ sohbeti (3.9): sağlayıcı (Claude / Gemini), anahtar, model, açık/kapalı, bağlantı denemesi, bu ayki harcama
+const YARDIM = {
+  claude: 'Claude anahtarı için: platform.claude.com → hesap aç → Billing\'den kredi yükle (istersen aylık harcama sınırı koy) → API Keys → Create Key → buraya yapıştır. Claude Pro aboneliği buna dahil değildir.',
+  gemini: 'Gemini anahtarı için: aistudio.google.com → Google hesabınla gir → API Keys → Create API key (ya da hazır olanın yanındaki kopyala düğmesi) → buraya yapıştır. Ücretsiz katmanda kart gerekmez; dakikalık ve günlük istek sınırı vardır, yazdıkların Google\'ın modellerini geliştirmek için kullanılabilir.',
+};
 function yzBolumu() {
   const kap = h('div', { class: 'kart yz-kart' });
   const ciz = () => {
-    const a = yzAyar(), hr = harcama();
-    const girdi = h('input', { class: 'ad-girdi', type: 'password', placeholder: 'sk-ant-…', autocomplete: 'off', spellcheck: 'false' });
+    const a = yzAyar(), e = yzEtkin(), hr = harcama();
+    const g = e.saglayici === 'gemini';
+    const girdi = h('input', { class: 'ad-girdi', type: 'password', placeholder: SAGLAYICILAR[e.saglayici].ipucu, autocomplete: 'off', spellcheck: 'false' });
     const sonuc = h('p', { class: 'soluk kucuk' });
-    const modelGrup = h('div', { class: 'segment', role: 'radiogroup', 'aria-label': 'Model' },
-      MODELLER.map(m => h('button', { role: 'radio', 'aria-checked': String(a.model === m.id), onclick: () => { yzDegistir({ model: m.id }); ciz(); } }, m.ad.replace('Claude ', ''))));
-    const secili = MODELLER.find(m => m.id === a.model) ?? MODELLER[0];
+    const secim = (etiket, ogeler) => h('div', { class: 'ayar' }, h('div', { class: 'ayar-ad' }, etiket),
+      h('div', { class: 'segment', role: 'radiogroup', 'aria-label': etiket }, ogeler.map(([ad, secili, yap]) => h('button', { role: 'radio', 'aria-checked': String(secili), onclick: () => { yap(); ciz(); } }, ad))));
+    const modeller = MODELLER.filter(m => m.saglayici === e.saglayici);
+    const secili = modeller.find(m => m.id === e.model) ?? modeller[0];
     const mesajBasi = (4000 * secili.girdi + 400 * secili.cikti) / 1e6;
+    const anahtarYaz = v => yzDegistir(g ? { gAnahtar: v } : { anahtar: v });
     kap.replaceChildren(
-      h('p', { class: 'panel-metin' }, 'Biriyle konuşurken istediğini yazabilirsin; karşındakinin cevabını Claude yazar, kişinin kartına ve sana dair hafızasına sadık kalarak. İnternet ve kendi Claude API anahtarın gerekir; her mesajın küçük bir ücreti var. Anahtar yalnızca bu telefonda saklanır.'),
-      h('div', { class: 'ayar' }, h('div', { class: 'ayar-ad' }, 'Durum'),
-        h('div', { class: 'segment', role: 'radiogroup' },
-          h('button', { role: 'radio', 'aria-checked': String(a.acik), onclick: () => { yzDegistir({ acik: true }); ciz(); } }, 'Açık'),
-          h('button', { role: 'radio', 'aria-checked': String(!a.acik), onclick: () => { yzDegistir({ acik: false }); ciz(); } }, 'Kapalı'))),
-      h('div', { class: 'ayar' }, h('div', { class: 'ayar-ad' }, 'Model'), modelGrup),
-      h('p', { class: 'soluk kucuk' }, `${secili.ad}: ${secili.not}. Mesaj başına yaklaşık ${mesajBasi < 0.001 ? (mesajBasi * 100).toFixed(2) + ' sent' : '$' + mesajBasi.toFixed(3)}.`),
-      a.anahtar
-        ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Anahtar'), h('span', { class: 'soluk' }, `kayıtlı (…${a.anahtar.slice(-4)})`))
-        : h('p', { class: 'soluk kucuk' }, 'Henüz anahtar yok.'),
+      h('p', { class: 'panel-metin' }, 'Biriyle konuşurken istediğini yazabilirsin; karşındakinin cevabını yapay zekâ yazar, kişinin kartına ve sana dair hafızasına sadık kalarak. İnternet ve kendi API anahtarın gerekir: Claude ücretli (mesaj başına küçük bir ücret), Gemini\'nin ücretsiz katmanı var. Anahtar yalnızca bu telefonda saklanır.'),
+      secim('Durum', [['Açık', a.acik, () => yzDegistir({ acik: true })], ['Kapalı', !a.acik, () => yzDegistir({ acik: false })]]),
+      secim('Yapay zekâ', Object.entries(SAGLAYICILAR).map(([id, s]) => [s.ad, e.saglayici === id, () => yzDegistir({ saglayici: id })])),
+      secim('Model', modeller.map(m => [m.ad, m.id === secili.id, () => yzDegistir(g ? { gModel: m.id } : { model: m.id })])),
+      h('p', { class: 'soluk kucuk' }, `${SAGLAYICILAR[e.saglayici].ad.replace(' (ücretsiz)', '')} ${secili.ad}: ${secili.not}. ${g ? '' : `Mesaj başına yaklaşık ${mesajBasi < 0.001 ? (mesajBasi * 100).toFixed(2) + ' sent' : '$' + mesajBasi.toFixed(3)}.`}`),
+      e.anahtar
+        ? h('div', { class: 'ozet-satir' }, h('span', {}, 'Anahtar'), h('span', { class: 'soluk' }, `kayıtlı (…${e.anahtar.slice(-4)})`))
+        : h('p', { class: 'soluk kucuk' }, `Henüz ${g ? 'Gemini' : 'Claude'} anahtarı yok.`),
       girdi,
       h('div', { class: 'dugme-yigini alt-bosluk' },
-        h('button', { class: 'dugme birincil', onclick: () => { const v = girdi.value.trim(); if (!v) return; yzDegistir({ anahtar: v }); ciz(); } }, a.anahtar ? 'Anahtarı değiştir' : 'Anahtarı kaydet'),
-        a.anahtar ? h('button', { class: 'dugme', onclick: async e => { e.target.disabled = true; sonuc.textContent = 'Deneniyor…'; const { baglantiDene } = await import('../../yz/istemci.js'); const r = await baglantiDene(); sonuc.textContent = r.tamam ? `Bağlantı tamam (${r.model}).` : `Olmadı: ${r.mesaj}`; e.target.disabled = false; } }, 'Bağlantıyı dene') : null,
-        a.anahtar ? h('button', { class: 'dugme dugme-metin', onclick: () => { yzDegistir({ anahtar: '' }); ciz(); } }, 'Anahtarı sil') : null),
+        h('button', { class: 'dugme birincil', onclick: () => { const v = girdi.value.trim(); if (!v) return; anahtarYaz(v); ciz(); } }, e.anahtar ? 'Anahtarı değiştir' : 'Anahtarı kaydet'),
+        e.anahtar ? h('button', { class: 'dugme', onclick: async ev => { ev.target.disabled = true; sonuc.textContent = 'Deneniyor…'; const { baglantiDene } = await import('../../yz/istemci.js'); const r = await baglantiDene(); sonuc.textContent = r.tamam ? `Bağlantı tamam (${r.model}).` : `Olmadı: ${r.mesaj}`; ev.target.disabled = false; } }, 'Bağlantıyı dene') : null,
+        e.anahtar ? h('button', { class: 'dugme dugme-metin', onclick: () => { anahtarYaz(''); ciz(); } }, 'Anahtarı sil') : null),
       sonuc,
-      h('div', { class: 'ozet-satir' }, h('span', {}, 'Bu ay'), h('span', { class: 'soluk' }, `$${hr.toplam.toFixed(3)} · ${hr.istek} mesaj`)),
-      h('p', { class: 'soluk kucuk' }, 'Anahtar almak için: platform.claude.com → hesap aç → Billing\'den kredi yükle (istersen aylık harcama sınırı koy) → API Keys → Create Key → buraya yapıştır.'));
+      h('div', { class: 'ozet-satir' }, h('span', {}, 'Bu ay'), h('span', { class: 'soluk' }, `${hr.istek} mesaj · Claude harcaması $${hr.toplam.toFixed(3)}`)),
+      h('p', { class: 'soluk kucuk' }, YARDIM[e.saglayici]));
   };
   ciz();
   return kap;

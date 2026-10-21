@@ -94,3 +94,22 @@ test('sırlar: kim biliyor belirlenimli; tanımayan bilmez; kanka ve gizli iliş
   }
   assert.ok(sir > 0);
 });
+
+test('değişebilen olgular: hayatı değişince (boşanma, iş) eski olgu "eskiden doğruydu" olur, yenisi söylenebilir; geçmiş olgular kalır', () => {
+  const d = yeni();
+  const id = ids.find(x => kisiKarti(d, veri, x).medeni === 'evli' && kisiKarti(d, veri, x).durum !== 'issiz');
+  const k = kisiKarti(d, veri, id);
+  assert.ok(olguEkle(d, veri, id, { alan: 'medeni', deger: 'evli', metin: 'Evli, eşiyle iyi geçiniyor.' }, 'sohbet').tamam);
+  assert.ok(olguEkle(d, veri, id, { alan: 'yas', deger: k.yas, metin: `${k.yas} yaşında.` }, 'sohbet').tamam);
+  assert.ok(olguEkle(d, veri, id, { alan: 'medeni', deger: 'bekâr', metin: 'x' }, 'sohbet').tamam === false);
+  // Hayatı değişti: boşandı
+  d.npcler[id].degisim = { medeni: 'bosanmis' };
+  const k2 = kisiKarti(d, veri, id);
+  assert.ok(!k2.olgular.includes('Evli, eşiyle iyi geçiniyor.') && k2.olgular.includes(`${k.yas} yaşında.`));
+  const h = hafizaMetni(d, veri, id);
+  assert.ok(/Eskiden doğruydu[^\n]*Evli, eşiyle iyi geçiniyor/.test(h) && !/DEĞİŞMEZ[^\n]*Evli, eşiyle/.test(h), h);
+  const s = olguEkle(d, veri, id, { alan: 'medeni', deger: 'boşanmış', metin: 'Geçen ay boşandı.' }, 'sohbet');
+  assert.ok(s.tamam && !s.zaten);
+  assert.ok(kisiKarti(d, veri, id).olgular.includes('Geçen ay boşandı.'));
+  assert.ok(olguEkle(d, veri, id, { alan: 'medeni', deger: 'boşanmış', metin: 'Boşanmış.' }, 'sohbet').zaten, 'yeni durum da kilitli');
+});

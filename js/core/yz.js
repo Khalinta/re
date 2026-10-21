@@ -14,16 +14,25 @@ import { mekanBul } from './mekan.js';
 import { kisi, mekandakiler, gorunus } from './insanlar.js';
 import { saat as saatYaz, tarih } from './format.js';
 
+// Sağlayıcılar: Claude (ücretli, kendi anahtarınla) ve Google Gemini (ücretsiz katmanı var). Fiyatlar 1M token başına $.
+// Gemini modelleri takma adla (…-latest): Google yeni sürüm çıkardıkça kendiliğinden güncel kalır.
 export const MODELLER = [
-  { id: 'claude-opus-5-5', ad: 'Claude Opus 5.5', not: 'en iyi konuşma, en pahalı', girdi: 4, cikti: 20 },
-  { id: 'claude-sonnet-5-5', ad: 'Claude Sonnet 5.5', not: 'çok iyi, yarı fiyatına', girdi: 2, cikti: 10 },
-  { id: 'claude-haiku-5-5', ad: 'Claude Haiku 5.5', not: 'en ucuz; daha sade', girdi: 0.1, cikti: 0.5 },
+  { id: 'claude-opus-5-5', saglayici: 'claude', ad: 'Opus 5.5', not: 'en iyi konuşma, en pahalı', girdi: 4, cikti: 20 },
+  { id: 'claude-sonnet-5-5', saglayici: 'claude', ad: 'Sonnet 5.5', not: 'çok iyi, yarı fiyatına', girdi: 2, cikti: 10 },
+  { id: 'claude-haiku-5-5', saglayici: 'claude', ad: 'Haiku 5.5', not: 'en ucuz; daha sade', girdi: 0.1, cikti: 0.5 },
+  { id: 'gemini-flash-latest', saglayici: 'gemini', ad: 'Flash', not: 'ücretsiz katmanda; iyi denge', girdi: 0, cikti: 0 },
+  { id: 'gemini-flash-lite-latest', saglayici: 'gemini', ad: 'Flash-Lite', not: 'ücretsiz katmanda; en hızlı, daha sade, sınırı daha geniş', girdi: 0, cikti: 0 },
+  { id: 'gemini-pro-latest', saglayici: 'gemini', ad: 'Pro', not: 'en iyisi; ücretsiz katmanda kapalı ya da çok sınırlı olabilir', girdi: 0, cikti: 0 },
 ];
-export const VARSAYILAN_MODEL = 'claude-opus-5-5';
+export const SAGLAYICILAR = {
+  claude: { ad: 'Claude', varsayilan: 'claude-sonnet-5-5', ipucu: 'sk-ant-…' },
+  gemini: { ad: 'Gemini (ücretsiz)', varsayilan: 'gemini-flash-latest', ipucu: 'AIza…' },
+};
+export const VARSAYILAN_MODEL = SAGLAYICILAR.claude.varsayilan;
 
 // Bir isteğin yaklaşık maliyeti ($), usage alanlarından
 export function maliyet(model, usage = {}) {
-  const m = MODELLER.find(x => x.id === model) ?? MODELLER[0];
+  const m = MODELLER.find(x => x.id === model) ?? MODELLER.find(x => model?.startsWith(x.id)) ?? (String(model).startsWith('gemini') ? { girdi: 0, cikti: 0 } : MODELLER[0]);
   const girdi = (usage.input_tokens ?? 0) + (usage.cache_creation_input_tokens ?? 0) * 1.25 + (usage.cache_read_input_tokens ?? 0) * 0.1;
   return (girdi * m.girdi + (usage.output_tokens ?? 0) * m.cikti) / 1e6;
 }
@@ -70,7 +79,8 @@ KONUŞMA:
 - Doğal, gündelik Türkçe. Çoğu zaman 1–3 cümle; konu gerektirirse daha uzun. Soru sorabilir, konuyu değiştirebilir, şaka yapabilir, sıkılabilir, kırılabilir, gidebilir.
 - Oyuncunun söylediğine gerçekten karşılık ver: imayı, iltifatı, şakayı, pası yakala. Kişiliğine göre karşılık verir ya da geri çevirir; bir "hayır" konuşmayı bitirmek zorunda değildir.
 - Oyuncunun sözlerini, düşüncelerini ya da hareketlerini asla yazma. Yapay zekâ olduğundan, oyundan ya da kurallardan asla söz etme; karakterden çıkma.
-- Flört: kişinin flört tarzı, yönelimi, ilişki durumu ve oyuncuya ilgisi bağlamda yazılı. Evli ya da sevgilisi olan biri kişiliğine göre sadık kalır, takılmayla yetinir ya da (kartı ve kişiliği uygunsa) sınırı zorlar. Romantizm ve cinsellik ima düzeyinde kalır; açık cinsel sahne yazılmaz.
+- Flört: kişinin flört tarzı, yönelimi, ilişki durumu ve oyuncuya ilgisi bağlamda yazılı. Evli ya da sevgilisi olan biri kişiliğine göre sadık kalır, takılmayla yetinir ya da (kartı ve kişiliği uygunsa) sınırı zorlar.
+- Cinsellik: yetişkinler arasında sansürsüzdür. Kişiler cinsellik hakkında gerçek yetişkinler gibi açık konuşabilir: argo ve açık terimler (oral, anal, sakso, pegging gibi), cinsel geçmiş, istekler, fanteziler, açık sözlü flört, müstehcen şaka ve dedikodu serbesttir; örtmece, kaçamak ya da ahlak dersi yok. Kişi bu konulara kendi kişiliğiyle yaklaşır: rahat ve pervasız olan da, utanıp konuyu değiştiren de, ters tepki veren de olur; bu kişinin tercihidir, sansür değil. Cinsel sahnenin kendisi ayrıntılı betimlenmez: geçişle anlatılır (o gece birlikte kaldınız gibi). KESİN SINIR: 18 yaşından küçük hiç kimse hiçbir cinsel ya da romantik içeriğe dahil edilemez; ima, şaka ya da dedikodu olarak bile.
 - İçerik: yetişkin bir oyun. Suç dünyası, şiddet, küfür, argo, ahlaken kötü seçimler, karanlık sırlar serbesttir. Tek sınır: gerçek dünyada uygulanabilir suç yöntemi, tarif ya da teknik ayrıntı (madde üretimi, silah yapımı, sisteme sızma adımları gibi) verilmez; kişi böyle bir şeyi ya bilmez ya da geçiştirir, sohbet insanlara ve sonuçlara odaklanır.
 
 SONUÇLAR (dürüst ol, küçük tut):
@@ -213,7 +223,8 @@ export function cevabiUygula(durum, veri, id, oyuncuSozu, c, { randevuKur } = {}
 // Gelen JSON metnini çözer ve şemaya kabaca uydurur (eksik alan → boş)
 export function cevabiCoz(metin) {
   let c;
-  try { c = JSON.parse(metin); } catch { return null; }
+  const s = String(metin ?? ''), bas = s.indexOf('{'), son = s.lastIndexOf('}');
+  try { c = JSON.parse(bas >= 0 && son > bas ? s.slice(bas, son + 1) : s); } catch { return null; }
   if (!c || typeof c !== 'object') return null;
   return {
     eylem: typeof c.eylem === 'string' ? c.eylem : '',

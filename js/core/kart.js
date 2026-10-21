@@ -255,6 +255,15 @@ export function hayatOykusu(seed, n, aile, veri) {
 
 // ------------------------------------------------------------------ kişi kartı
 
+// Zamanla değişebilen alanlar (kişinin hayatı değişince: boşanma, iş, taşınma). Bu olgular söylendiği andaki
+// kart değeriyle (iz) saklanır; kart değişince 'eskiden doğruydu' sayılır ve yerine yenisi söylenebilir.
+// Geçmişe dair olgular (yaş, anne/baba adı, memleket, çocuk/kardeş sayısı, serbest olgular) değişmez.
+export const DEGISEBILIR = { medeni: k => k.medeni, meslek: k => `${k.durum}|${k.meslek}`, semt: k => k.semt };
+export const olguIzi = (kart, alan) => DEGISEBILIR[alan]?.(kart) ?? null;
+// Olgu bugün de geçerli mi? (izi olmayan eski kayıtlar geçerli sayılır)
+export const olguGuncelMi = (kart, o) => !DEGISEBILIR[o.alan] || o.iz == null || o.iz === olguIzi(kart, o.alan);
+
+
 // Bir kişinin bütün bilgisi (oyuncuyla ilişkisi dahil). Yapay zekâ sohbeti (3.9) ve geliştirici paneli kullanır.
 export function kisiKarti(durum, veri, id) {
   const k = durum.npcler?.[id];
@@ -262,7 +271,7 @@ export function kisiKarti(durum, veri, id) {
   if (!n) return null;
   const v = veri.npc;
   const aile = aileAgaci(durum.seed, n, veri);
-  return {
+  const kart = {
     id, ad: n.hitapAdi, tamAd: n.tamAd, yas: n.yas, cinsiyet: n.cinsiyet, kusak: kusakOf(n),
     tanim: npcTanimi(n, veri), memleket: n.memleket, yore: n.yore, koken: n.koken, agiz: n.agiz, uslup: n.uslup, tik: n.tik,
     egitim: n.egitim, meslek: n.meslek.ad, durum: n.durum, medeni: n.medeni, semt: n.semt,
@@ -274,9 +283,11 @@ export function kisiKarti(durum, veri, id) {
     derinlik: derinlik(durum.seed, n, veri),
     aile, oyku: hayatOykusu(durum.seed, n, aile, veri), ag: iliskiAgi(veri, durum.seed, id),
     hayatOlaylari: bilinenOlaylar(durum, veri, id),
-    olgular: (k?.hafiza?.olgular || []).map(x => x.metin), // konuşmalarda kesinleşmiş, değişmez olgular (3.8)
+    olgular: [], // konuşmalarda kesinleşmiş olgular (3.8); aşağıda, güncel kartla süzülerek
     oyuncuyla: k ? { iliski: k.iliski, tur: k.iliskiTuru ?? null, numara: !!k.numara, bildikleri: Object.keys(k.bilinen || {}).filter(x => x.startsWith('oyuncu_')).map(x => x.slice(7)), anilar: (k.anilar || []).map(a => a.metin) } : null,
   };
+  kart.olgular = (k?.hafiza?.olgular || []).filter(x => olguGuncelMi(kart, x)).map(x => x.metin);
+  return kart;
 }
 
 // Kartın düz metin hali (yapay zekâya verilecek; geliştirici panelinde de görünür)

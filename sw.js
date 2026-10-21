@@ -4,7 +4,7 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-704e55c39de3';
+const ONBELLEK_SURUMU = 'yeniden-953f67bf9ad6';
 const DOSYALAR = [
   './',
   './css/temel.css',
@@ -120,6 +120,8 @@ const DOSYALAR = [
   './js/ui/uzunbas.js',
   './js/vendor/anthropic-sdk.mjs',
   './js/yz/ayar.js',
+  './js/yz/claude.js',
+  './js/yz/gemini.js',
   './js/yz/istemci.js',
   './manifest.webmanifest',
 ];

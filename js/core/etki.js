@@ -86,6 +86,14 @@ export const ETKILER = {
     n.anilar.push({ z: ctx.durum.zaman.dakika, metin: v.metin, ...(v.duygu !== undefined ? { duygu: v.duygu } : {}) });
     if (n.anilar.length > ANI_SINIRI) n.anilar.splice(0, n.anilar.length - ANI_SINIRI);
   },
+  // { "partnerdenAyril": { "npc": "kisi" } }  (3.13) kişi senin için evliliğini/ilişkisini bitirir: boşanmış ya da bekâr olur,
+  // gizli ilişki biter; Tanıdıklarım'da "Senin için ilişkisini bitirdi." (kisiGuncel uygular)
+  partnerdenAyril: (v, ctx) => {
+    const n = npcKaydi(ctx.durum, npcId(ctx, v.npc));
+    (n.degisim ??= {}).partnerdenAyrildi = true;
+    n.gizli = false;
+    n.hayat = [...(n.hayat || []), { gun: Math.floor(ctx.durum.zaman.dakika / 1440), id: 'partnerden_ayrildi', bilinen: true }].slice(-12);
+  },
   // { "itibar": { "genel": 2, "semt": { "eski_carsi": 3, "_ev": 1 }, "sektor": { "hizmet": 1 } } }
   itibar: (v, ctx) => {
     const d = ctx.durum;

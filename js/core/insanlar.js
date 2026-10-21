@@ -173,7 +173,7 @@ export function tanidiklarim(durum, veri) {
       return { id, ad: n.hitapAdi, tamAd: n.tamAd, tanim: npcTanimi(n, veri), yakinlik: Math.round(k.iliski.yakinlik ?? 0), gerginlik: k.iliski.gerginlik ?? 0, katman: k.katman,
         nerede: k.nerede, gecmis: k.gecmis ? (durum.hikaye?.baglantilar?.find(b => b.id === id)?.etiket ?? null) : null, disarida: !!k.disarida, dert: k.bilinen?.dert ? dertMetni(n, veri) : null, hayal: k.bilinen?.hayal ? (n.figur ? veri.dunya.figurler.figurler.find(x => x.id === n.figur)?.istek : hayalMetni(n, veri)) : null,
         tuhaflik: (k.sohbet ?? 0) >= 3 ? n.tuhaflik : null, anilar: k.anilar, sohbet: k.sohbet ?? 0,
-        numara: !!k.numara, iliskiTuru: k.iliskiTuru ?? null, flortEngel: k.bilinen?.flortEngel ?? null, randevu: k.randevu ?? null,
+        numara: !!k.numara, iliskiTuru: k.iliskiTuru ?? null, flortEngel: k.bilinen?.flortEngel === 'yonelim' ? 'yonelim' : k.bilinen?.partnerVar && ['evli', 'sevgilili'].includes(n.medeni) ? 'evli' : null, gizli: !!k.gizli && ['evli', 'sevgilili'].includes(n.medeni), randevu: k.randevu ?? null,
         haberler: bilinenOlaylar(durum, veri, id), yok: (k.hayat || []).some(x => x.bilinen && ['tasindi', 'vefat'].includes(x.id)) ? k.degisim?.yok : null,
         ogrendiklerim: ogrendiklerim(durum, veri, id, n),
         gorunus: n.fizik && g ? fizikTarifi(n, g) : null, cekicilik: n.fizik && g ? cekicilikAdi(n, g) : null, karizma: n.fizik && g ? karizmaAdi(n, g) : null };

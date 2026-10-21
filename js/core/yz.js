@@ -7,6 +7,7 @@
 import { kisiKarti, kartMetni } from './kart.js';
 import { hafizaMetni, bildigiSirlar, olguEkle, ozetEkle } from './hafiza.js';
 import { flortUygun, flortEngeli, ilgi, oturumBitir } from './sohbet.js';
+import { partnerli, aciklik, sadakatTipi } from './sadakat.js';
 import { fizikTarifi } from './npc.js';
 import { dilim, gunNo, gunDakikasi, tarihAl, yas as yasHesapla } from './zaman.js';
 import { semtBul } from './dunya.js';
@@ -115,7 +116,9 @@ function flortMetni(durum, veri, id) {
   const engel = flortEngeli(durum, veri, n);
   const ig = ilgi(durum, veri, n, k);
   const ilgiAd = ig >= 45 ? 'oyuncudan çok hoşlanıyor' : ig >= 22 ? 'oyuncudan hoşlanıyor' : ig >= 6 ? 'oyuncuya biraz ilgi duyuyor' : ig >= -10 ? 'oyuncuya romantik ilgisi yok' : 'oyuncudan hiç hoşlanmadı';
-  return `${engel === 'evli' ? 'Hayatında biri var (kartta yazılı). ' : engel === 'yonelim' ? 'Oyuncunun cinsiyetine romantik ilgi duymaz. ' : ''}${ilgiAd}.`;
+  const tip = partnerli(n) ? sadakatTipi(aciklik(durum, veri, n, k)) : null;
+  const sadakat = { sadik: 'Hayatında biri var ve ona sadık; flörte gülümser ama sınır çizer. ', kararsiz: 'Hayatında biri var; vicdanıyla arzusu arasında kararsız. ', acik: 'Hayatında biri var ama ilişkisi onu doyurmuyor; gizli kalmak şartıyla açık. ', atesli: 'Hayatında biri var ve bu onu durdurmuyor; yasak olan onu heyecanlandırıyor. ' }[tip] ?? '';
+  return `${sadakat}${engel === 'yonelim' ? 'Oyuncunun cinsiyetine romantik ilgi duymaz. ' : ''}${ilgiAd}.`;
 }
 
 // Bu an oyunun kurallarının izin verdikleri (istekte modele söylenir, cevapta aynı kurallarla denetlenir)

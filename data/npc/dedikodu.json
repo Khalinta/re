@@ -142,6 +142,12 @@
     "gec": [
       "{t.ad} her yere geç kalır; kendi doğum gününe bile geç kalmış diyorlar.",
       "{t.ad} ile saat konuşma; ona göre saat diye bir şey yok."
+    ],
+    "seninle": [
+      "{t.ad} ile seni görmüşler; Ilıcaköy yolunda, akşamüstü. {t.ad|in} hayatında biri yok muydu?",
+      "Ben bir şey demiyorum ama {t.ad|in} sana bakışını herkes gördü. Eşi görmesin yeter.",
+      "{t.ad} ile aranızda bir şey varmış diyorlar. Doğru mu? Bana söyle, kimseye demem.",
+      "Dikkat et; {t.ad|in} eşi bir şeylerden şüpheleniyormuş. Telefonunu karıştırmış."
     ]
   },
   "kim": {

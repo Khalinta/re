@@ -20,8 +20,9 @@ import { aksiyonKaydet } from './durum.js';
 import { bayrakKoy } from './bayrak.js';
 import { kisi, mekandakiler, gorunus, tanisildiMi, tanidiklari, kisiOrada, sablonBul, anlatacagiDedikodu } from './insanlar.js';
 import { kisiGuncel, bilinmeyenOlaylar, haberSablonu } from './npchayat.js';
-import { gizliIliskiMi, derinlik } from './kart.js';
+import { gizliIliskiMi, derinlik, aileAgaci } from './kart.js';
 import { sirriBiliyorMu, ozetEkle } from './hafiza.js';
+import { partnerli, aciklik, sadakatTipi, partnerCezasi } from './sadakat.js';
 import { derinKonular, derinHamle, derinSecenekler, derinCevapla, derinSoruAdaylari, derinSoruSor } from './zevk.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
@@ -180,9 +181,9 @@ export function flortUygun(durum, veri, n) {
   return Math.abs(n.yas - o.yas) <= kr.yasFarkiTaban + kr.yasFarkiOran * Math.min(n.yas, o.yas);
 }
 
-// Flörte engel: ilişkisi var / yönelimi uymuyor
+// Flörte engel: yalnızca yönelim (cinsiyetine ilgi duymaz). ~~İlişkisi olan ('evli') engeldi~~ → 3.13'ten beri
+// evli/sevgilili olmak kapı değil: ne kadar açık olduğu sadakat.js'te hesaplanır ve ilgiye işler.
 export function flortEngeli(durum, veri, n) {
-  if (['evli', 'sevgilili'].includes(n.medeni)) return 'evli';
   const o = oyuncu(durum, veri), y = yonelim(durum.seed, n, veri);
   if (o.cinsiyet && ((y === 'karsi' && o.cinsiyet === n.cinsiyet) || (y === 'ayni' && o.cinsiyet !== n.cinsiyet))) return 'yonelim';
   return null;
@@ -194,7 +195,7 @@ export function ilgi(durum, veri, n, k) {
   const uyum = Rng.akis(durum.seed, 'uyum|' + n.id).aralik(...f.kurallar.uyum);
   return uyum + (o.cekicilik - 5) * w.cekicilik + (o.karizma - 5) * w.karizma + (k?.iliski?.yakinlik ?? 0) * w.yakinlik
     + (n.eksenler.disadonuk - 3) * w.disadonuk + (k?.iliski?.cekim ?? 0) * w.cekim + Math.abs(n.yas - o.yas) * w.yasFarki
-    + ((durum.durumlar?.ruh ?? 50) - 50) * w.ruh;
+    + ((durum.durumlar?.ruh ?? 50) - 50) * w.ruh - partnerCezasi(durum, veri, n, k);
 }
 
 // Buluşma: ertesi akşam 20.00'de olay (data/olaylar/iliski.json → randevu)
@@ -208,6 +209,12 @@ const RANDEVU_YERLERI = [
   { olay: 'randevu_han', w: { genc: 1, orta: 1.5, yasli: 2 } },
 ];
 function randevuYeri(durum, veri, n, k) {
+  // Partneri olanla buluşma gizli olur (3.13); ateşli olan arada herkesin içinde de buluşur (risk)
+  if (partnerli(n) && veri.olaylar?.randevu_gizli) {
+    const tip = sadakatTipi(aciklik(durum, veri, n, k));
+    if (!(tip === 'atesli' && Rng.akis(durum.seed, `acik|${n.id}|${k.randevuSayisi ?? 0}`).olasilik(0.3))) return 'randevu_gizli';
+    k.iliski.risk = (k.iliski.risk ?? 0) + 3;
+  }
   const ku = kusak(n, veri.npc.sohbet);
   const d = veri.npc.derinlik ? derinlik(durum.seed, n, veri) : {};
   const adaylar = RANDEVU_YERLERI.filter(x => x.olay === 'randevu' || veri.olaylar?.[x.olay]).map(x => {
@@ -226,7 +233,14 @@ export function randevuKur(durum, veri, id, n, k) {
   const olay = randevuYeri(durum, veri, n, k);
   k.sonRandevu = olay;
   k.randevuSayisi = (k.randevuSayisi ?? 0) + 1;
-  durum.zamanlayicilar.push({ zaman, olay, baglam: { npc: { kisi: id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+  const kd = { ad: n.hitapAdi };
+  if (olay === 'randevu_gizli') {
+    k.sonGizliRandevu = gunNo(zaman);
+    k.vicdanSoyledi = false;
+    kd.esAd = (veri.npc.derinlik && aileAgaci(durum.seed, n, veri).es?.ad) || 'eşi';
+    kd.partner = n.medeni === 'evli' ? 'eşi' : 'sevgilisi';
+  }
+  durum.zamanlayicilar.push({ zaman, olay, baglam: { npc: { kisi: id }, degisken: { kisi: kd } } });
   durum.zamanlayicilar.sort((a, b) => a.zaman - b.zaman);
   k.randevu = gunNo(zaman);
   k.anilar.push({ zaman: dk, metin: 'buluşmak için sözleştiniz' });
@@ -273,6 +287,9 @@ export function kisiDedikodusu(durum, veri, n, mekan, rng) {
     if (dr.para === 'borç içinde' && D.turler.borcIcinde) turler.push({ tur: 'borcIcinde', a: 1.5 });
     if (['kus', 'kopuk'].includes(t.aile?.iliski) && D.turler.aileKopuk) turler.push({ tur: 'aileKopuk', a: 1 });
     if (dr.kiskanclik >= 5 && D.turler.kiskanc) turler.push({ tur: 'kiskanc', a: 1 });
+    // Seninle gizli ilişkisi görülmüşse (3.13): mahalle konuşur
+    const gk = durum.npcler?.[tid];
+    if (gk?.gizli && (gk.iliski?.risk ?? 0) >= 3 && D.turler.seninle) turler.push({ tur: 'seninle', a: 6 });
     const es = tanidik.find(u => u !== tid && gizliIliskiMi(veri, durum.seed, t, kisi(veri, durum.seed, u)));
     if (es) turler.push({ tur: ['evli', 'sevgilili'].includes(t.medeni) ? 'askEvli' : 'ask', a: 4, u: es });
     const yalan = rng.olasilik(D.oran.yalan);
@@ -343,6 +360,21 @@ export function yaninaOtur(durum, veri, rng, mekan, kalabalik, id) {
   const k = durum.npcler[id], n = kisiGuncel(durum, veri, id);
   const p = [{ tur: 'secim', metin: `${ek(n.hitapAdi, 'in')} yanına otur` }];
   zamanGecir(durum, sb.sure.otur, 'normal', veri.sim);
+  // Az önce konuştuğunla (3.13): o kalktıysa meşguldür; sen kalktıysan dönüşünü ilgisine göre karşılar
+  const ara = k.ayrildi ? durum.zaman.dakika - k.ayrildi.zaman : Infinity;
+  if (ara < sb.tekrarOturma.bekleme) {
+    if (k.ayrildi.kim === 'o' || (k.donus ?? 0) >= 1) {
+      p.push(...anlat(durum, veri, n, k, sb.tekrarOturma.mesgul, rng));
+      return { tamam: true, paragraflar: p };
+    }
+    const sevindi = veri.npc.flort && flortUygun(durum, veri, n) ? ilgi(durum, veri, n, k) >= veri.npc.flort.esikler.iyi : (k.iliski.yakinlik ?? 0) >= 20;
+    p.push(...soyle(durum, veri, n, k, sevindi ? sb.tekrarOturma.sevindi : sb.tekrarOturma.sikildi, rng));
+    k.donus = (k.donus ?? 0) + 1;
+    oturumBaslat(durum, id, mekan, sevindi ? sabir(veri, n, k) : Math.max(2, Math.floor(sabir(veri, n, k) / 2)));
+    aksiyonKaydet(durum, 'otur:' + id);
+    return { tamam: true, paragraflar: p };
+  }
+  k.donus = 0;
   if ((k.iliski.gerginlik ?? 0) >= sb.gerginlikEsigi) {
     p.push(...anlat(durum, veri, n, k, sb.kacinir, rng));
     return { tamam: true, paragraflar: p };
@@ -350,8 +382,14 @@ export function yaninaOtur(durum, veri, rng, mekan, kalabalik, id) {
   const hal = veri.npc.gorunus ? gununHali(durum.seed, n, gunNo(durum.zaman.dakika), veri.npc.gorunus) : null;
   if (hal) p.push({ tur: 'anlati', metin: `${n.hitapAdi} ${hal.metin}.` });
   const yak = k.iliski.yakinlik ?? 0;
-  p.push(...soyle(durum, veri, n, k, (k.iliski.gerginlik ?? 0) >= 4 ? sb.selam.soguk : yak >= 25 ? sb.selam.yakin : sb.selam.yeni, rng));
+  const bugunGordu = k.ayrildi && gunNo(k.ayrildi.zaman) === gunNo(durum.zaman.dakika);
+  p.push(...soyle(durum, veri, n, k, (k.iliski.gerginlik ?? 0) >= 4 ? sb.selam.soguk : bugunGordu ? sb.selam.bugun : yak >= 25 ? sb.selam.yakin : sb.selam.yeni, rng));
   oturumBaslat(durum, id, mekan, sabir(veri, n, k));
+  // Gizli buluşmadan sonra kararsız olanın vicdanı (bir kez)
+  if (k.gizli && k.sonGizliRandevu && !k.vicdanSoyledi && sadakatTipi(aciklik(durum, veri, n, k)) === 'kararsiz') {
+    p.push(...soyle(durum, veri, n, k, veri.npc.flort.vicdan, rng, { esAd: (veri.npc.derinlik && aileAgaci(durum.seed, n, veri).es?.ad) || 'o' }));
+    k.vicdanSoyledi = true;
+  }
   // Sen yokken hayatında bir şey olduysa önce onu anlatır (3.6)
   const haber = veri.npc.hayatOlaylari ? bilinmeyenOlaylar(k).find(x => haberSablonu(veri, x, kusak(n, sb), rng)) : null;
   if (haber) {
@@ -500,7 +538,7 @@ export function sohbetKonulari(durum, veri) {
     return (def?.cevaplar || []).filter(c => !c.kosul || kosulTutar(durum, veri, n, k, c.kosul)).map(c => ({ konu: 'cevap:' + c.id, ad: c.ad, dakika: sb.sure.cevap }));
   }
   const yak = k.iliski?.yakinlik ?? 0, gun = gunNo(durum.zaman.dakika);
-  const flort = veri.npc.flort && flortUygun(durum, veri, n) && !k.bilinen?.flortEngel;
+  const flort = veri.npc.flort && flortUygun(durum, veri, n) && k.bilinen?.flortEngel !== 'yonelim';
   const liste = [];
   for (const [konu, t] of Object.entries(sb.konular)) {
     if (konu !== 'bitir' && o.kullanilan[konu]) continue;
@@ -560,6 +598,7 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
   if (konu === 'bitir') {
     p.push(...anlat(durum, veri, n, k, sb.bitir.sen, rng));
     p.push(...soyle(durum, veri, n, k, sb.bitir.veda, rng));
+    k.ayrildi = { zaman: durum.zaman.dakika, kim: 'sen' };
     oturumBitir(durum);
     aksiyonKaydet(durum, 'sohbet:bitir');
     return { tamam: true, paragraflar: p };
@@ -675,6 +714,7 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
   if (durum.sohbet && o.kalan <= 0 && !o.bekleyen) {
     p.push(...soyle(durum, veri, n, k, sb.bitir.o, rng));
     p.push({ tur: 'sistem', metin: sb.sabirBitti.replace('{s.ad}', n.hitapAdi) });
+    k.ayrildi = { zaman: durum.zaman.dakika, kim: 'o' };
     oturumBitir(durum);
   } else if (durum.sohbet && soruOlabilir && !o.bekleyen) {
     // Karşılıklılık: meraklı ve dışadönük olan daha çok sorar
@@ -694,23 +734,41 @@ function flortHamlesi(durum, veri, rng, n, k, konu, p) {
   if (engel) {
     p.push(...anlat(durum, veri, n, k, F.uygunsuz[engel], rng));
     k.bilinen.flortEngel = engel;
-    ozetEkle(durum, n.id, `Oyuncu onunla flört etmeye çalıştı; o ${engel === 'evli' ? 'hayatında biri olduğunu' : 'ilgilenmediğini'} söyledi.`);
+    ozetEkle(durum, n.id, 'Oyuncu onunla flört etmeye çalıştı; o ilgilenmediğini söyledi.');
     k.bilinen.oyuncu_flort = true;
     return false;
   }
+  // Partneri olan (3.13): ilk flörtte hayatında biri olduğunu kendi tarzıyla söyler; sonra açıklığına göre davranır
+  const partner = partnerli(n), tip = partner ? sadakatTipi(aciklik(durum, veri, n, k)) : null;
   const ig = ilgi(durum, veri, n, k);
   const seviye = ig >= F.esikler.iyi ? 'iyi' : ig >= F.esikler.orta ? 'orta' : 'kotu';
+  if (partner && !k.bilinen.partnerVar) {
+    // Açık/ateşli tavır ancak gerçekten ilgiliyse; değilse yalnızca hayatında biri olduğunu anar
+    const ton = ['acik', 'atesli'].includes(tip) && seviye !== 'iyi' ? 'sadik' : tip;
+    p.push(...anlat(durum, veri, n, k, F.partner[ton], rng, { partner: n.medeni === 'evli' ? (n.cinsiyet === 'e' ? 'karım' : 'kocam') : 'sevgilim' }));
+    k.bilinen.partnerVar = true;
+  }
   if (konu === 'iltifat' || konu === 'takil') {
+    if (partner && tip === 'sadik' && seviye === 'kotu') {
+      // Sadık biri sınır çizer; ısrar edersen gerilir
+      k.sinirSayisi = (k.sinirSayisi ?? 0) + 1;
+      p.push(...anlat(durum, veri, n, k, k.sinirSayisi >= 3 ? F.partnerIsrar : F.partnerSinir, rng));
+      if (k.sinirSayisi >= 3) { k.iliski.gerginlik = (k.iliski.gerginlik ?? 0) + 2; k.iliski.cekim = (k.iliski.cekim ?? 0) - 3; }
+      return false;
+    }
     p.push(...anlat(durum, veri, n, k, F[konu][seviye], rng));
+    if (partner && seviye === 'iyi' && rng.olasilik(0.5)) p.push(...anlat(durum, veri, n, k, F.gizliIsaret[tip], rng));
     iliskiEkle(k, F.etki[seviye], rng, seviye !== 'kotu');
+    if (partner && seviye !== 'kotu') k.iliski.risk = (k.iliski.risk ?? 0) + 1; // herkesin içinde
     ozetEkle(durum, n.id, `Oyuncu ona ${konu === 'iltifat' ? 'iltifat etti' : 'tatlı tatlı takıldı'}; ${seviye === 'iyi' ? 'hoşuna gitti' : seviye === 'orta' ? 'belli etmedi' : 'hoşlanmadı'}.`);
     if (seviye === 'iyi') { durum.sohbet.kalan += veri.npc.sohbet.sabir.flortEki; if (rng.olasilik(0.4)) k.anilar.push({ zaman: durum.zaman.dakika, metin: 'aranızda bir elektrik vardı' }); }
     return seviye !== 'kotu';
   }
   if (konu === 'numara') {
     if (ig >= F.esikler.numara) {
-      p.push(...anlat(durum, veri, n, k, F.numara.evet, rng));
+      p.push(...anlat(durum, veri, n, k, partner ? F.numaraGizli : F.numara.evet, rng));
       k.numara = true;
+      if (partner) k.gizli = true;
       k.iliski.cekim = (k.iliski.cekim ?? 0) + 3;
       k.anilar.push({ zaman: durum.zaman.dakika, metin: 'numarasını verdi' });
       p.push({ tur: 'sistem', metin: `${n.hitapAdi} numarasını verdi` });
@@ -723,7 +781,8 @@ function flortHamlesi(durum, veri, rng, n, k, konu, p) {
   }
   if (konu === 'davet') {
     if (ig >= F.esikler.davet) {
-      p.push(...anlat(durum, veri, n, k, F.davet.evet, rng));
+      p.push(...anlat(durum, veri, n, k, partner ? F.davetGizli : F.davet.evet, rng));
+      if (partner) k.gizli = true;
       randevuKur(durum, veri, n.id, n, k);
       p.push({ tur: 'sistem', metin: `Yarın akşam ${n.hitapAdi} ile buluşacaksın` });
       return false;

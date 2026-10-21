@@ -21,6 +21,8 @@ import { istekHazirla, cevabiUygula } from './core/yz.js';
 import { hazirMi as yzHazirMi } from './yz/ayar.js';
 import { zevkOzeti } from './core/zevk.js';
 import { olayKisisi } from './core/olaykisi.js';
+import { gizliIliskiGunu, ortayaCiktiKur } from './core/sadakat.js';
+import { aileAgaci as kartAile } from './core/kart.js';
 import { semtBul } from './core/dunya.js';
 import { gununHavasi, anlikHava, havaOzeti } from './core/hava.js';
 import { karakterUret, hikayeyiUygula, hikayeVeriDogrula } from './core/hikaye.js';
@@ -128,7 +130,14 @@ const dunyayiIlerlet = () => {
   // Tanıdıkların kendi hayatı (3.6): geçen her gün için
   const bugun = gunNo(durum.zaman.dakika);
   if (durum.dunya) {
-    for (let g = (durum.dunya.npcGun ?? bugun) + 1; g <= bugun; g++) npcHayatGunu(durum, veri, g);
+    for (let g = (durum.dunya.npcGun ?? bugun) + 1; g <= bugun; g++) {
+      npcHayatGunu(durum, veri, g);
+      // Gizli ilişkiler (3.13): risk birikmişse ortaya çıkabilir → ertesi gün olay
+      for (const id of gizliIliskiGunu(durum, veri, g, rngAl(durum, 'gizli'))) {
+        const n = insanlar.kisi(veri, durum.seed, id, durum.npcler[id]?.sablon);
+        ortayaCiktiKur(durum, id, n, kartAile(durum.seed, n, veri).es?.ad);
+      }
+    }
     durum.dunya.npcGun = bugun;
   }
   return haberler;

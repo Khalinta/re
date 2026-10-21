@@ -4,7 +4,7 @@
 // Herhangi bir dosya değişince sürüm (içerik özeti) değişir, tarayıcı yeni sürümü indirir.
 
 // <otomatik>
-const ONBELLEK_SURUMU = 'yeniden-6e1c18afa6ae';
+const ONBELLEK_SURUMU = 'yeniden-f2d05d39f866';
 const DOSYALAR = [
   './',
   './css/temel.css',
@@ -91,6 +91,7 @@ const DOSYALAR = [
   './js/core/olaykisi.js',
   './js/core/rapor.js',
   './js/core/rng.js',
+  './js/core/sadakat.js',
   './js/core/simulasyon.js',
   './js/core/sohbet.js',
   './js/core/takvim.js',

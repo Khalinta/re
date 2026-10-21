@@ -12,7 +12,7 @@
 import { Rng } from './rng.js';
 import { gunNo, tarihAl } from './zaman.js';
 import { ek } from './tr.js';
-import { derinlik, aileAgaci, hayatOykusu } from './kart.js';
+import { derinlik, aileAgaci, hayatOykusu, iliskiHali } from './kart.js';
 import { ozetEkle } from './hafiza.js';
 import { benim, kusak, oyuncu } from './sohbet.js';
 
@@ -349,8 +349,7 @@ function aileDegiskenleri(aile) {
 function aileSatiri(A, parca, aile, n, durum, v, ku) {
   if (parca === 'es') {
     if (n.medeni === 'evli' && aile.es) {
-      const r = Rng.akis(durum.seed, 'es|' + n.id);
-      const ton = n.dert === 'yalnizlik' ? 'gergin' : r.agirlikliSec([{ t: 'mutlu', agirlik: 5 }, { t: 'alisilmis', agirlik: 4 }, { t: 'gergin', agirlik: 2 }]).t;
+      const ton = iliskiHali(durum.seed, n);
       return { grup: A.es[ton] };
     }
     if (n.medeni === 'sevgilili' && aile.es) return { grup: A.es.sevgilili };

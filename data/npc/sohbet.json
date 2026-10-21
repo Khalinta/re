@@ -452,6 +452,20 @@
     "Sen mi? Neyse, otur.",
     "Otur. Ama çok kalmam."
    ]
+  },
+  "bugun": {
+   "_": [
+    "Yine sen! Bugün beni bırakmadın.",
+    "Bir günde iki kere; artık tesadüf diyemeyiz.",
+    "Geldin mi yine? İyi ettin; sıkılıyordum."
+   ],
+   "genc": [
+    "Ooo, ikinci raund!",
+    "Yine mi sen? Şaka şaka, gel."
+   ],
+   "yasli": [
+    "Gel evladım; sabahki sohbet yarım kalmıştı."
+   ]
   }
  },
  "konular": {
@@ -2233,6 +2247,33 @@
       }
      }
     }
+   ]
+  }
+ },
+ "tekrarOturma": {
+  "_aciklama": "3.13: sohbeti bitirdikten sonra hemen yanına dönmek. bekleme (dakika) dolmadan: o kalktıysa meşgul; sen kalktıysan dönüşünü ilgisine göre karşılar (sevindi/sikildi). İkinci kez dönersen meşgul.",
+  "bekleme": 120,
+  "mesgul": [
+   "{s.ad} yanındakiyle konuşuyor; seni görünce eliyle 'sonra' işareti yapıyor.",
+   "{s.ad} telefonda; kısa bir baş selamı, o kadar.",
+   "{s.ad} hesabı istemiş, kalkmak üzere; 'Başka zaman' der gibi gülümsüyor.",
+   "{s.ad} gözlerini kapamış, kulaklıkta bir şey dinliyor; rahatsız etmek istemiyorsun."
+  ],
+  "sevindi": {
+   "_": [
+    "Gitmene izin vermeyecektim zaten. Otur.",
+    "Geri döneceğini biliyordum.",
+    "Ne o, özledin mi? Ben de."
+   ],
+   "genc": [
+    "Döndün! Tamam, ikinci tur benden."
+   ]
+  },
+  "sikildi": {
+   "_": [
+    "Unuttuğun bir şey mi var?",
+    "Hmm. Bir şey mi diyecektin?",
+    "Yine mi? Pekâlâ, ama kısa."
    ]
   }
  }

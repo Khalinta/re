@@ -193,7 +193,7 @@ test('kimse kendisi, örgütü ya da mekanı hakkındaki dedikoduyu anlatmaz', (
 });
 
 test('ağızsı ağzı olmayan veri: bütün sohbet cümleleri tanınan yer tutucularla yazılmış', () => {
-  const izinli = new Set(['ad', 'ilkAd', 'hitapAdi', 'hitap', 'meslek', 'meslekEski', 'memleketAd', 'memleketDen', 'memleketLi', 'memleketLiyim', 'kokenAd', 'semtAd', 'gerilimAd', 'haber', 'dedikodu', 'tanidikAd', 'tanidikYer', 'tanidikYorum', 'mekanAd', 'adamim']);
+  const izinli = new Set(['ad', 'ilkAd', 'hitapAdi', 'hitap', 'meslek', 'meslekEski', 'memleketAd', 'memleketDen', 'memleketLi', 'memleketLiyim', 'kokenAd', 'semtAd', 'gerilimAd', 'haber', 'dedikodu', 'tanidikAd', 'tanidikYer', 'tanidikYorum', 'mekanAd', 'adamim', 'partner', 'esAd']);
   const oyuncuIzinli = new Set(['ad', 'eskiMeslek', 'semt', 'ozet', 'memleket', 'memleketCumle']);
   const gez = x => {
     if (typeof x === 'string') {

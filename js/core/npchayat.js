@@ -21,6 +21,8 @@ export function kisiGuncel(durum, veri, id) {
   if (d.cocuk) g.aile = { ...(g.aile ?? n.aile), cocuk: (n.aile.cocuk ?? 0) + d.cocuk };
   if ('dert' in d) g.dert = d.dert;
   if ('hayal' in d) g.hayal = d.hayal;
+  // Oyuncu için ilişkisini bitirdi (3.13, etki: partnerdenAyril)
+  if (d.partnerdenAyrildi && ['evli', 'sevgilili'].includes(g.medeni)) { g.medeni = g.medeni === 'evli' ? 'bosanmis' : 'bekar'; g.aile = { ...(g.aile ?? n.aile), medeni: g.medeni }; }
   if ('sir' in d) g.sir = d.sir;
   // Aile (3.11): anne/baba vefatı, kardeşle küsmek/barışmak — kişi kartının aile ağacı da buna göre çizilir
   for (const rol of ['anne', 'baba']) if (d[rol + 'Vefat']) g.aile = { ...(g.aile ?? n.aile), [rol]: { ...n.aile[rol], yasiyor: false, vefatYili: d[rol + 'Vefat'] } };
@@ -77,7 +79,7 @@ export function hayatOlayiUygula(durum, veri, id, olayId, gun, rng) {
   if (dg.aileIliski) d.aileIliski = dg.aileIliski;
   if ('hayal' in dg) d.hayal = dg.hayal;
   if (dg.sirKalkar?.includes(n.sir)) d.sir = null; // barışan kişinin 'kardeşiyle küs' sırrı kalmaz
-  if (dg.medeni) d.medeni = dg.medeni;
+  if (dg.medeni) { d.medeni = dg.medeni; delete d.partnerdenAyrildi; }
   if (dg.cocuk) d.cocuk = (d.cocuk ?? 0) + dg.cocuk;
   if ('dert' in dg) d.dert = dg.dert;
   if (dg.yok) d.yok = dg.yok;

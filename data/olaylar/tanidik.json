@@ -1151,6 +1151,318 @@
      ]
     }
    }
+  },
+  {
+   "id": "gizli_ortaya_cikti",
+   "baslik": "Öğrendi",
+   "etiketler": [
+    "tanidik",
+    "gizli",
+    "iliski"
+   ],
+   "tetik": "zamanlayici",
+   "tekrar": true,
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Telefon çalıyor: {kisi.ad}. Sesi titriyor; ağlamış.",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "{kisi.esAd} öğrendi. Telefonumu gördü. Her şeyi. Bağırdı, sonra hiç konuşmadı. Ben... Ne yapacağım bilmiyorum."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "\"Benimle ol; ondan ayrıl\"",
+       "alt": "Her şeyi değiştirir.",
+       "maliyet": {
+        "dakika": 30
+       },
+       "kontrol": {
+        "sans": 0.35,
+        "bonus": [
+         {
+          "kosul": {
+           "iliski": {
+            "npc": "kisi",
+            "cekim": {
+             "min": 60
+            }
+           }
+          },
+          "deger": 30
+         },
+         {
+          "kosul": {
+           "iliski": {
+            "npc": "kisi",
+            "yakinlik": {
+             "min": 40
+            }
+           }
+          },
+          "deger": 15
+         }
+        ]
+       },
+       "basari": {
+        "sonuc": [
+         [
+          "Uzun bir sessizlik. Hattın öbür ucunda bir nefes.",
+          {
+           "tur": "konusma",
+           "konusan": "{kisi.ad}",
+           "metin": "Tamam. Tamam... Ayrılıyorum. Yıllardır cesaret edemediğim şeyi sen bir cümleyle yaptırdın."
+          }
+         ]
+        ],
+        "etki": [
+         {
+          "partnerdenAyril": {
+           "npc": "kisi"
+          }
+         },
+         {
+          "iliski": {
+           "npc": "kisi",
+           "yakinlik": 10,
+           "cekim": 10,
+           "risk": -100,
+           "tur": "sevgili"
+          }
+         },
+         {
+          "ani": {
+           "npc": "kisi",
+           "metin": "senin için ilişkisini bitirdi"
+          }
+         },
+         {
+          "durum": {
+           "stres": 8,
+           "ruh": 6
+          }
+         },
+         {
+          "gunluk": "{kisi.ad} ayrılıyor. Benim için. Korkuyorum ve hiç bu kadar canlı hissetmedim."
+         }
+        ]
+       },
+       "basarisiz": {
+        "sonuc": [
+         [
+          {
+           "tur": "konusma",
+           "konusan": "{kisi.ad}",
+           "metin": "Yapamam. Ev, aile, herkes... Yapamam. Özür dilerim."
+          },
+          "Telefon kapanıyor. Bir daha açılmıyor."
+         ]
+        ],
+        "etki": [
+         {
+          "iliski": {
+           "npc": "kisi",
+           "tur": "arkadas",
+           "cekim": -10,
+           "gerginlik": 3,
+           "risk": -100
+          }
+         },
+         {
+          "durum": {
+           "ruh": -10,
+           "stres": 8
+          }
+         }
+        ]
+       }
+      },
+      {
+       "metin": "\"Bitirelim\"",
+       "alt": "Herkes için en az acı.",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "tur": "arkadas",
+          "risk": -100,
+          "yakinlik": -6,
+          "cekim": -8
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "gizli ilişkiniz bitti"
+         }
+        },
+        {
+         "durum": {
+          "ruh": -6,
+          "stres": -2
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Biliyordum bunu diyeceğini. Belki de haklısın."
+         },
+         "Bir süre ikiniz de konuşmuyorsunuz; sonra o kapatıyor."
+        ]
+       ]
+      },
+      {
+       "metin": "\"Daha dikkatli oluruz\"",
+       "alt": "Saklamaya devam.",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "cekim": 3
+         }
+        },
+        {
+         "durum": {
+          "stres": 10
+         }
+        }
+       ],
+       "sonuclar": [
+        {
+         "agirlik": 6,
+         "sonuc": "\"Daha dikkatli olacağız\" diyorsunuz. İkiniz de inanmıyorsunuz; ikiniz de vazgeçmiyorsunuz."
+        },
+        {
+         "agirlik": 4,
+         "sonuc": "\"Daha dikkatli olacağız\" diyorsun. İki gün sonra kapın çalıyor.",
+         "git": "yuzlesme"
+        }
+       ]
+      }
+     ]
+    },
+    "yuzlesme": {
+     "metin": [
+      [
+       "Kapıda tanımadığın biri. Gözleri kan çanağı; elleri titriyor ama sesi sakin.",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.esAd}",
+        "metin": "Ben {kisi.esAd}. Kim olduğumu biliyorsun. Ben de senin kim olduğunu öğrendim."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Özür dile",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": 10,
+          "ozguven": -4
+         }
+        },
+        {
+         "itibar": {
+          "genel": -1
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "\"Özür dilerim\" diyorsun. Bir süre yüzüne bakıyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.esAd}",
+          "metin": "Özrünü kendine sakla. Bir daha yaklaşma."
+         },
+         "Merdivenlerden iniyor; ayak sesleri apartmanda yankılanıyor. Kapılar aralanıyor."
+        ]
+       ]
+      },
+      {
+       "metin": "İnkâr et",
+       "maliyet": {
+        "dakika": 15
+       },
+       "kontrol": {
+        "sans": 0.4
+       },
+       "basari": {
+        "sonuc": "Gözlerine uzun uzun bakıyor. Sonra hiçbir şey demeden gidiyor. İnandı mı? Bilmiyorsun.",
+        "etki": [
+         {
+          "durum": {
+           "stres": 8
+          }
+         }
+        ]
+       },
+       "basarisiz": {
+        "sonuc": [
+         [
+          "Telefonunu çıkarıp bir fotoğraf gösteriyor: sen ve {kisi.ad}, Kordon'da.",
+          "Söyleyecek söz kalmıyor."
+         ]
+        ],
+        "etki": [
+         {
+          "durum": {
+           "stres": 12,
+           "ozguven": -6
+          }
+         },
+         {
+          "itibar": {
+           "genel": -3,
+           "semt": {
+            "_ev": -3
+           }
+          }
+         }
+        ]
+       }
+      },
+      {
+       "metin": "Kapıyı kapat",
+       "maliyet": {
+        "dakika": 2
+       },
+       "etki": [
+        {
+         "durum": {
+          "stres": 12
+         }
+        },
+        {
+         "itibar": {
+          "semt": {
+           "_ev": -2
+          }
+         }
+        }
+       ],
+       "sonuc": "Kapıyı kapatıyorsun. Kapının öbür yanından bir şey söylüyor; duymamaya çalışıyorsun. Duyuyorsun."
+      }
+     ]
+    }
+   }
   }
  ]
 }

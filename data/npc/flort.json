@@ -1,447 +1,501 @@
 {
- "_aciklama": "Flört (adım 3.5, kullanıcı isteği). Kişinin sana ilgisi (ilgi) seed'den belirlenimli bir 'uyum' + senin çekiciliğin ve karizman + aranızdaki yakınlık + kişinin dışadönüklüğü + biriken çekimden hesaplanır; yaş farkı düşürür. Flört seçenekleri ancak ikiniz de 18+ ve yaş farkı makulse (taban + küçük yaşın oranı) çıkar. Kişinin yönelimi (karşı cins / aynı cins / ikisi) ve ilişki durumu (evli, sevgilili) seed'den; uymuyorsa kibarca geri çevirir — bunu da öğrenmiş olursun. iyi/orta/kotu: ilgi eşiklerine göre tepki. numara alınca buluşma teklif edilebilir; kabul edilirse ertesi akşam bir buluşma olayı (data/olaylar/iliski.json) gelir. Tepkiler konuşanın kuşağına göre; senin cümlelerin (oyuncu) yaşsız.",
- "kurallar": {
-  "yasFarkiTaban": 4,
-  "yasFarkiOran": 0.3,
-  "yonelim": {
-   "karsi": 0.9,
-   "ayni": 0.05,
-   "iki": 0.05
-  },
-  "uyum": [
-   -14,
-   20
-  ],
-  "gunlukIltifat": 2
- },
- "ilgi": {
-  "cekicilik": 5,
-  "karizma": 4,
-  "yakinlik": 0.4,
-  "disadonuk": 2,
-  "cekim": 0.8,
-  "yasFarki": -1.5,
-  "ruh": 0.1
- },
- "esikler": {
-  "iyi": 22,
-  "orta": 6,
-  "numara": 32,
-  "davet": 45,
-  "npcBaslatir": 40
- },
- "etki": {
-  "iyi": {
-   "cekim": [
-    4,
-    7
-   ],
-   "yakinlik": [
-    1,
-    3
-   ]
-  },
-  "orta": {
-   "cekim": [
-    1,
-    3
-   ],
-   "yakinlik": [
-    0,
-    1
-   ]
-  },
-  "kotu": {
-   "cekim": [
-    -3,
-    -1
-   ],
-   "gerginlik": [
-    1,
-    2
-   ]
-  }
- },
- "iltifat": {
-  "oyuncu": [
-   "Gülüşün çok güzel; bunu biri söylemiştir eminim.",
-   "Bu mekanın en ilginç insanı sensin, söylemem lazımdı.",
-   "Gözlerinde bir şey var; ne olduğunu çözemedim.",
-   "Seninle konuşmak bugünün en iyi kısmı oldu.",
-   "Sesin çok güzel; bir şey anlatırken insan dinlemeden duramıyor.",
-   "Bu renk sana çok yakışmış."
-  ],
-  "iyi": {
-   "genc": [
-    "Yanakları kızarıyor: 'Ya dur, utandırma beni!' Ama gülümsüyor.",
-    "'Sen de fena değilsin hani' diyor, gözlerini kaçırmadan.",
-    "Gülüyor, saçıyla oynuyor: 'Bunu her kıza söylüyor musun?' — sorusu cevap beklemiyor.",
-    "'Bak şimdi bunu unutmayacağım' diyor; gözleri parlıyor."
-   ],
-   "orta": [
-    "Bir an duruyor, sonra gülümsüyor: 'Uzun zamandır kimse böyle bir şey söylememişti.'",
-    "'Çok naziksin' diyor; sesi biraz yumuşamış.",
-    "Gözlerini kaçırmıyor: 'Sen de bayağı ilginç birisin, biliyor musun?'"
-   ],
-   "yasli": [
-    "Gülüyor: 'Bu yaşta bana iltifat eden mi kaldı? Sağ ol, gönlüm şenlendi.'",
-    "'Dil pabuç kadar,' diyor; ama memnun olduğu belli."
-   ]
-  },
-  "orta": {
-   "genc": [
-    "Gülüyor: 'Tamam, not ettim.' Konuyu değiştiriyor ama gözü sende.",
-    "'Hıı, öyle mi?' diyor; dudağının kenarında bir gülümseme."
-   ],
-   "orta": [
-    "Kibarca teşekkür ediyor; bir şey düşünüyor gibi.",
-    "'Teşekkürler' diyor; ne düşündüğünü çözemiyorsun."
-   ],
-   "yasli": [
-    "'Eksik olma' diyor, gülümseyerek."
-   ]
-  },
-  "kotu": {
-   "genc": [
-    "Hafifçe geri çekiliyor: 'Ee... teşekkürler?'",
-    "Telefonuna bakıyor; ortam bir derece soğudu.",
-    "'Biz sadece sohbet ediyorduk ama' diyor."
-   ],
-   "orta": [
-    "Kaşlarını kaldırıyor: 'Bunu söylemene gerek yoktu.'",
-    "Gülümsüyor ama gözleri gülmüyor; bir adım geri çekildi."
-   ],
-   "yasli": [
-    "'Hadi hadi, sen bana bakma; git yaşıtlarına söyle bunu' diyor."
-   ]
-  }
- },
- "takil": {
-  "oyuncu": [
-   "Bu kadar ciddi görünmek zorunda mısın? Gülünce daha iyi oluyorsun.",
-   "Bahse girerim bu mekana sırf benimle karşılaşmak için geliyorsun.",
-   "Bir daha bu kadar geç kalırsan seni başka masaya veririm.",
-   "Şu çaydan ikinciyi içersek resmen arkadaş oluruz, haberin olsun.",
-   "Sen bana bir şey borçlusun: az önceki espriye gülmedin."
-  ],
-  "iyi": {
-   "genc": [
-    "Gülüyor: 'Sen var ya... Tamam, belki biraz.'",
-    "'Fazla kendinden emin değil misin?' diyor; hiç de rahatsız görünmüyor.",
-    "Kahkaha atıyor, koluna hafifçe vuruyor."
-   ],
-   "orta": [
-    "Gülüyor: 'Bu hızla gidersek iki çay sonra evleniyoruz.'",
-    "'Sen tehlikelisin' diyor, gülerek."
-   ],
-   "yasli": [
-    "'Vay sen vay!' diyor, gülerek. 'Bizim gençliğimizde de böyleleri vardı.'"
-   ]
-  },
-  "orta": {
-   "_": [
-    "Gülüyor ama cevap vermiyor; topu sana bırakıyor.",
-    "'Bakarız' diyor, omuz silkerek."
-   ]
-  },
-  "kotu": {
-   "_": [
-    "Gülmüyor. 'Biraz fazla rahatsın galiba.'",
-    "Ortam bir an soğuyor; o da fark ediyor, sen de."
-   ]
-  }
- },
- "numara": {
-  "oyuncu": [
-   "Numaranı versene; bu sohbet burada bitmesin.",
-   "Bir dahaki sefer tesadüfe kalmasın; numaranı alabilir miyim?",
-   "Sana yazabilir miyim bazen?"
-  ],
-  "evet": {
-   "genc": [
-    "Telefonunu uzatıyor: 'Yaz bakalım. Ama saçma sapan mesajlar atarsan engellerim, ona göre.'",
-    "Gülüyor, numarasını söylüyor; sonra 'Kaydettin mi? Ne diye kaydettin, göster!'",
-    "'Tamam ama ilk mesajı sen atacaksın' diyor."
-   ],
-   "orta": [
-    "Bir an düşünüyor, sonra numarasını bir peçeteye yazıp uzatıyor.",
-    "'Olur' diyor; sade, ama gözleri olmaz demiyor."
-   ],
-   "yasli": [
-    "'Al bakalım,' diyor, numarayı yavaşça söylüyor. 'Bu yaşta numara veren mi kaldı!'"
-   ]
-  },
-  "hayir": {
-   "genc": [
-    "'Ya... biraz erken değil mi? Burada görüşürüz zaten' diyor.",
-    "Gülümsüyor ama başını sallıyor: 'Şimdilik böyle kalsın.'"
-   ],
-   "orta": [
-    "'Şimdilik böyle iyi bence' diyor; kibar ama net.",
-    "'Burada sık sık görüşüyoruz zaten' diyor."
-   ],
-   "yasli": [
-    "'Evladım, ben telefonla konuşmayı bilmem' diyor; gülerek, ama cevap belli."
-   ]
-  },
-  "zaten": [
-   "Numarası zaten sende."
-  ]
- },
- "davet": {
-  "oyuncu": [
-   "Bir akşam seninle oturup uzun uzun konuşmak isterim. Yarın akşam?",
-   "Yarın akşam bir şeyler içelim mi? Sadece ikimiz.",
-   "Kordon'da yürüyelim mi yarın akşam? Ben ısmarlarım."
-  ],
-  "evet": {
-   "genc": [
-    "Gözleri parlıyor: 'Olur. Ama mekanı ben seçerim.'",
-    "'Yarın mı? Tamam. Geç kalma ama!'",
-    "Gülüyor: 'Bunu soracağını biliyordum. Olur.'"
-   ],
-   "orta": [
-    "Bir an duruyor, sonra: 'Olur. Uzun zamandır kimse beni bir yere çağırmamıştı.'",
-    "'Yarın akşam, sekizde' diyor. 'Kordon'daki iskelede.'"
-   ],
-   "yasli": [
-    "'Bu yaşta randevu!' diyor, gülerek. 'Olur, gelirim. Ama erken; gece geç yatamam.'"
-   ]
-  },
-  "hayir": {
-   "genc": [
-    "'Ya, şimdi hiç olmaz; kafam çok dolu. Kusura bakma.'",
-    "Gülümsüyor ama başını sallıyor: 'Burada görüşmek daha iyi bence.'"
-   ],
-   "orta": [
-    "'Teşekkür ederim ama hayır' diyor; nazik, net.",
-    "'Bilmiyorum... Henüz değil' diyor."
-   ],
-   "yasli": [
-    "'Evladım, benim yaşımda insan akşam evinde olur' diyor."
-   ]
-  },
-  "numaraYok": [
-   "Önce bir numarasını alman lazım."
-  ],
-  "zaten": [
-   "Zaten bir buluşmanız var."
-  ]
- },
- "uygunsuz": {
-  "evli": {
-   "genc": [
-    "Gülümsüyor, elini kaldırıp yüzüğü gösteriyor: 'Nişanlıyım ama, haberin olsun.'",
-    "'Sevgilim var ya' diyor; kibar ama kapıyı kapattı."
-   ],
-   "orta": [
-    "Elini masaya koyuyor; yüzüğü görünüyor. 'Evliyim' diyor, sakin.",
-    "'Eşim duysa güler' diyor; kapı kapandı."
-   ],
-   "yasli": [
-    "'Ben evli barklı {s.adamim} evladım' diyor; gülerek ama net."
-   ]
-  },
-  "yonelim": {
-   "_": [
-    "Gülüyor: 'Yanlış kapıyı çalıyorsun ama iltifat için sağ ol.'",
-    "'Ben o taraflarda değilim' diyor, gülümseyerek; ortam bozulmadı."
-   ]
-  },
-  "yas": {
-   "_": [
-    "'Sen bana yaş olarak fazla gelmiyor musun?' diyor; konu kapandı.",
-    "Gülüyor: 'Ben senin için ya çok gencim ya da çok yaşlı; hangisi olduğuna sen karar ver.'"
-   ]
-  }
- },
- "npcBaslatir": {
-  "genc": [
-   "Bir süre sana bakıyor, sonra: 'Biliyor musun, seni ilk gördüğümde bu kadar komik biri olduğunu düşünmemiştim.'",
-   "Masaya eğiliyor: 'Bu arada... bugün çok iyi görünüyorsun.'",
-   "'Seninle konuşmak garip bir şekilde iyi geliyor' diyor; sonra kendi söylediğine kızarıyor."
-  ],
-  "orta": [
-   "'Seninle konuşmak iyi geliyor' diyor, gözlerini kaçırmadan.",
-   "Bir an susuyor: 'Senin gibi biriyle daha önce tanışmamış olmam ne garip.'"
-  ],
-  "yasli": [
-   "'Senin yaşında olsaydım...' diyor, gülerek. Lafın gerisini getirmiyor."
-  ]
- },
- "sorular": {
-  "yalniz_mi": {
-   "soru": {
-    "genc": [
-     "Bu arada... sevgilin var mı? Merak ettim, o kadar.",
-     "Hayatında biri var mı? Sadece soruyorum!"
-    ],
-    "orta": [
-     "Sen yalnız mısın, yoksa evde bekleyen biri var mı?",
-     "Evli değilsin herhalde?"
-    ],
-    "yasli": [
-     "Evlendin mi sen evladım? Yoksa hâlâ bekâr mısın?"
-    ]
-   },
-   "cevaplar": [
-    {
-     "id": "yalniz",
-     "ad": "Yalnız olduğunu söyle",
-     "soz": [
-      "Yok, kimse yok. Şimdilik.",
-      "Yalnızım. Bu ara kimseye vakit ayıramadım."
-     ],
-     "etki": {
-      "cekim": [
-       3,
-       6
-      ]
-     },
-     "ogren": "medeni",
-     "karar": "hep",
-     "tepki": {
-      "iyi": {
-       "genc": [
-        "'Hmm' diyor, gülümseyerek. 'İyi. Yani... iyi işte.'",
-        "'Ciddi misin? İnanmadım' diyor; inanmış gibi görünüyor."
-       ],
-       "orta": [
-        "'Anladım' diyor; sesinde bir şey değişti.",
-        "Gülümsüyor: 'Benim de öyle.'"
-       ],
-       "yasli": [
-        "'Vakit geçmeden bul birini evladım' diyor."
-       ]
-      }
-     }
+  "_aciklama": "Flört (adım 3.5, kullanıcı isteği). Kişinin sana ilgisi (ilgi) seed'den belirlenimli bir 'uyum' + senin çekiciliğin ve karizman + aranızdaki yakınlık + kişinin dışadönüklüğü + biriken çekimden hesaplanır; yaş farkı düşürür. Flört seçenekleri ancak ikiniz de 18+ ve yaş farkı makulse (taban + küçük yaşın oranı) çıkar. Kişinin yönelimi (karşı cins / aynı cins / ikisi) ve ilişki durumu (evli, sevgilili) seed'den; uymuyorsa kibarca geri çevirir — bunu da öğrenmiş olursun. iyi/orta/kotu: ilgi eşiklerine göre tepki. numara alınca buluşma teklif edilebilir; kabul edilirse ertesi akşam bir buluşma olayı (data/olaylar/iliski.json) gelir. Tepkiler konuşanın kuşağına göre; senin cümlelerin (oyuncu) yaşsız. 3.13: evli/sevgilili olmak engel değil (~~uygunsuz.evli: kapı kapanır~~); açıklık sadakat.js'te. partner: ilk flörtte hayatındaki kişiyi tipine göre anar; partnerSinir/partnerIsrar: sadık biri sınır çizer, ısrar gerer; gizliIsaret: gizlilik telaşı; numaraGizli/davetGizli; vicdan: gizli buluşmadan sonra kararsız olanın sözü.",
+  "kurallar": {
+    "yasFarkiTaban": 6,
+    "yasFarkiOran": 0.5,
+    "yonelim": {
+      "karsi": 0.9,
+      "ayni": 0.05,
+      "iki": 0.05
     },
-    {
-     "id": "karisik",
-     "ad": "Karışık de",
-     "soz": [
-      "Karışık. Anlatması uzun.",
-      "Bir şey vardı; bitti mi bitmedi mi, ben de bilmiyorum."
-     ],
-     "etki": {
-      "cekim": [
-       1,
-       3
-      ]
-     },
-     "ogren": "medeni",
-     "karar": "hep",
-     "tepki": {
-      "iyi": {
-       "_": [
-        "'Gizemli' diyor; ilgisini çekti.",
-        "'Anlatırsın bir gün' diyor."
-       ]
-      }
-     }
-    },
-    {
-     "id": "neden",
-     "ad": "\"Neden sordun?\" de",
-     "soz": [
-      "Neden sordun ki?",
-      "Bu soru nereden çıktı?"
-     ],
-     "etki": {
-      "cekim": [
-       2,
-       5
-      ]
-     },
-     "karar": "ilgi",
-     "tepki": {
-      "iyi": {
-       "genc": [
-        "Kızarıyor: 'Hiç! Öylesine!' Ama öylesine olmadığı belli.",
-        "'Bilmem... Merak ettim işte' diyor, gözünü kaçırmadan."
-       ],
-       "orta": [
-        "Gülüyor: 'Bence nedenini biliyorsun.'"
-       ],
-       "yasli": [
-        "'Ah, gençler,' diyor, gülerek."
-       ]
-      },
-      "kotu": {
-       "_": [
-        "'Öylesine sordum' diyor; konu kapandı."
-       ]
-      }
-     }
-    }
-   ]
+    "uyum": [
+      -14,
+      20
+    ],
+    "gunlukIltifat": 2
   },
-  "bulusalim": {
-   "soru": {
-    "genc": [
-     "Bak, ne diyeceğim... Yarın akşam bir şeyler yapalım mı? Sadece ikimiz.",
-     "Yarın akşam boş musun? Bir yere gidelim."
-    ],
-    "orta": [
-     "Yarın akşam ne yapıyorsun? Bir yemek yiyelim mi?"
-    ],
-    "yasli": [
-     "Yarın akşam iskelede çay içelim mi seninle?"
-    ]
-   },
-   "cevaplar": [
-    {
-     "id": "evet",
-     "ad": "Kabul et",
-     "soz": [
-      "Olur. Çok isterim.",
-      "Yarın akşam, tamam. Söz."
-     ],
-     "etki": {
+  "ilgi": {
+    "cekicilik": 5,
+    "karizma": 4,
+    "yakinlik": 0.4,
+    "disadonuk": 2,
+    "cekim": 0.8,
+    "yasFarki": -1.5,
+    "ruh": 0.1
+  },
+  "esikler": {
+    "iyi": 22,
+    "orta": 6,
+    "numara": 32,
+    "davet": 45,
+    "npcBaslatir": 40
+  },
+  "etki": {
+    "iyi": {
       "cekim": [
-       4,
-       7
+        4,
+        7
       ],
       "yakinlik": [
-       2,
-       3
+        1,
+        3
       ]
-     },
-     "karar": "hep",
-     "randevu": true,
-     "tepki": {
-      "iyi": {
-       "_": [
-        "Gülümsüyor: 'Tamam. Sekizde, Kordon'da.'",
-        "'Süper. Geç kalma!'"
-       ]
-      }
-     }
     },
-    {
-     "id": "hayir",
-     "ad": "Nazikçe reddet",
-     "soz": [
-      "Yarın olmaz, kusura bakma.",
-      "Şimdilik böyle kalsın, olur mu?"
-     ],
-     "etki": {
+    "orta": {
       "cekim": [
-       -4,
-       -2
+        1,
+        3
+      ],
+      "yakinlik": [
+        0,
+        1
       ]
-     },
-     "karar": "hep",
-     "tepki": {
-      "iyi": {
-       "_": [
-        "'Tamam, sorun değil' diyor; biraz bozuldu.",
-        "'Peki' diyor, gülümsemeye çalışarak."
-       ]
-      }
-     }
+    },
+    "kotu": {
+      "cekim": [
+        -3,
+        -1
+      ],
+      "gerginlik": [
+        1,
+        2
+      ]
     }
-   ]
-  }
- }
+  },
+  "iltifat": {
+    "oyuncu": [
+      "Gülüşün çok güzel; bunu biri söylemiştir eminim.",
+      "Bu mekanın en ilginç insanı sensin, söylemem lazımdı.",
+      "Gözlerinde bir şey var; ne olduğunu çözemedim.",
+      "Seninle konuşmak bugünün en iyi kısmı oldu.",
+      "Sesin çok güzel; bir şey anlatırken insan dinlemeden duramıyor.",
+      "Bu renk sana çok yakışmış."
+    ],
+    "iyi": {
+      "genc": [
+        "Yanakları kızarıyor: 'Ya dur, utandırma beni!' Ama gülümsüyor.",
+        "'Sen de fena değilsin hani' diyor, gözlerini kaçırmadan.",
+        "Gülüyor, saçıyla oynuyor: 'Bunu her kıza söylüyor musun?' — sorusu cevap beklemiyor.",
+        "'Bak şimdi bunu unutmayacağım' diyor; gözleri parlıyor."
+      ],
+      "orta": [
+        "Bir an duruyor, sonra gülümsüyor: 'Uzun zamandır kimse böyle bir şey söylememişti.'",
+        "'Çok naziksin' diyor; sesi biraz yumuşamış.",
+        "Gözlerini kaçırmıyor: 'Sen de bayağı ilginç birisin, biliyor musun?'"
+      ],
+      "yasli": [
+        "Gülüyor: 'Bu yaşta bana iltifat eden mi kaldı? Sağ ol, gönlüm şenlendi.'",
+        "'Dil pabuç kadar,' diyor; ama memnun olduğu belli."
+      ]
+    },
+    "orta": {
+      "genc": [
+        "Gülüyor: 'Tamam, not ettim.' Konuyu değiştiriyor ama gözü sende.",
+        "'Hıı, öyle mi?' diyor; dudağının kenarında bir gülümseme."
+      ],
+      "orta": [
+        "Kibarca teşekkür ediyor; bir şey düşünüyor gibi.",
+        "'Teşekkürler' diyor; ne düşündüğünü çözemiyorsun."
+      ],
+      "yasli": [
+        "'Eksik olma' diyor, gülümseyerek."
+      ]
+    },
+    "kotu": {
+      "genc": [
+        "Hafifçe geri çekiliyor: 'Ee... teşekkürler?'",
+        "Telefonuna bakıyor; ortam bir derece soğudu.",
+        "'Biz sadece sohbet ediyorduk ama' diyor."
+      ],
+      "orta": [
+        "Kaşlarını kaldırıyor: 'Bunu söylemene gerek yoktu.'",
+        "Gülümsüyor ama gözleri gülmüyor; bir adım geri çekildi."
+      ],
+      "yasli": [
+        "'Hadi hadi, sen bana bakma; git yaşıtlarına söyle bunu' diyor."
+      ]
+    }
+  },
+  "takil": {
+    "oyuncu": [
+      "Bu kadar ciddi görünmek zorunda mısın? Gülünce daha iyi oluyorsun.",
+      "Bahse girerim bu mekana sırf benimle karşılaşmak için geliyorsun.",
+      "Bir daha bu kadar geç kalırsan seni başka masaya veririm.",
+      "Şu çaydan ikinciyi içersek resmen arkadaş oluruz, haberin olsun.",
+      "Sen bana bir şey borçlusun: az önceki espriye gülmedin."
+    ],
+    "iyi": {
+      "genc": [
+        "Gülüyor: 'Sen var ya... Tamam, belki biraz.'",
+        "'Fazla kendinden emin değil misin?' diyor; hiç de rahatsız görünmüyor.",
+        "Kahkaha atıyor, koluna hafifçe vuruyor."
+      ],
+      "orta": [
+        "Gülüyor: 'Bu hızla gidersek iki çay sonra evleniyoruz.'",
+        "'Sen tehlikelisin' diyor, gülerek."
+      ],
+      "yasli": [
+        "'Vay sen vay!' diyor, gülerek. 'Bizim gençliğimizde de böyleleri vardı.'"
+      ]
+    },
+    "orta": {
+      "_": [
+        "Gülüyor ama cevap vermiyor; topu sana bırakıyor.",
+        "'Bakarız' diyor, omuz silkerek."
+      ]
+    },
+    "kotu": {
+      "_": [
+        "Gülmüyor. 'Biraz fazla rahatsın galiba.'",
+        "Ortam bir an soğuyor; o da fark ediyor, sen de."
+      ]
+    }
+  },
+  "numara": {
+    "oyuncu": [
+      "Numaranı versene; bu sohbet burada bitmesin.",
+      "Bir dahaki sefer tesadüfe kalmasın; numaranı alabilir miyim?",
+      "Sana yazabilir miyim bazen?"
+    ],
+    "evet": {
+      "genc": [
+        "Telefonunu uzatıyor: 'Yaz bakalım. Ama saçma sapan mesajlar atarsan engellerim, ona göre.'",
+        "Gülüyor, numarasını söylüyor; sonra 'Kaydettin mi? Ne diye kaydettin, göster!'",
+        "'Tamam ama ilk mesajı sen atacaksın' diyor."
+      ],
+      "orta": [
+        "Bir an düşünüyor, sonra numarasını bir peçeteye yazıp uzatıyor.",
+        "'Olur' diyor; sade, ama gözleri olmaz demiyor."
+      ],
+      "yasli": [
+        "'Al bakalım,' diyor, numarayı yavaşça söylüyor. 'Bu yaşta numara veren mi kaldı!'"
+      ]
+    },
+    "hayir": {
+      "genc": [
+        "'Ya... biraz erken değil mi? Burada görüşürüz zaten' diyor.",
+        "Gülümsüyor ama başını sallıyor: 'Şimdilik böyle kalsın.'"
+      ],
+      "orta": [
+        "'Şimdilik böyle iyi bence' diyor; kibar ama net.",
+        "'Burada sık sık görüşüyoruz zaten' diyor."
+      ],
+      "yasli": [
+        "'Evladım, ben telefonla konuşmayı bilmem' diyor; gülerek, ama cevap belli."
+      ]
+    },
+    "zaten": [
+      "Numarası zaten sende."
+    ]
+  },
+  "davet": {
+    "oyuncu": [
+      "Bir akşam seninle oturup uzun uzun konuşmak isterim. Yarın akşam?",
+      "Yarın akşam bir şeyler içelim mi? Sadece ikimiz.",
+      "Kordon'da yürüyelim mi yarın akşam? Ben ısmarlarım."
+    ],
+    "evet": {
+      "genc": [
+        "Gözleri parlıyor: 'Olur. Ama mekanı ben seçerim.'",
+        "'Yarın mı? Tamam. Geç kalma ama!'",
+        "Gülüyor: 'Bunu soracağını biliyordum. Olur.'"
+      ],
+      "orta": [
+        "Bir an duruyor, sonra: 'Olur. Uzun zamandır kimse beni bir yere çağırmamıştı.'",
+        "'Yarın akşam, sekizde' diyor. 'Kordon'daki iskelede.'"
+      ],
+      "yasli": [
+        "'Bu yaşta randevu!' diyor, gülerek. 'Olur, gelirim. Ama erken; gece geç yatamam.'"
+      ]
+    },
+    "hayir": {
+      "genc": [
+        "'Ya, şimdi hiç olmaz; kafam çok dolu. Kusura bakma.'",
+        "Gülümsüyor ama başını sallıyor: 'Burada görüşmek daha iyi bence.'"
+      ],
+      "orta": [
+        "'Teşekkür ederim ama hayır' diyor; nazik, net.",
+        "'Bilmiyorum... Henüz değil' diyor."
+      ],
+      "yasli": [
+        "'Evladım, benim yaşımda insan akşam evinde olur' diyor."
+      ]
+    },
+    "numaraYok": [
+      "Önce bir numarasını alman lazım."
+    ],
+    "zaten": [
+      "Zaten bir buluşmanız var."
+    ]
+  },
+  "uygunsuz": {
+    "yonelim": {
+      "_": [
+        "Gülüyor, hiç bozulmadan: 'Ben o taraflarda değilim; ama iltifat iltifattır, aldım.'",
+        "'Yanlış kapı' diyor, gözünü kırparak; 'ama sohbetin güzel, otur.'",
+        "Kahkaha atıyor: 'Keşke! Ama benim gönlüm başka yöne bakar.' Sohbet kaldığı yerden sürüyor."
+      ]
+    },
+    "yas": {
+      "_": [
+        "Gülüyor: 'Aramızdaki yaş farkını sen mi hesap etmedin, ben mi?' Ama hoşuna gittiği belli.",
+        "'Bu yaşta bana iltifat eden kalmamıştı' diyor; yanakları pembeleşiyor, konu dağılıyor."
+      ]
+    }
+  },
+  "npcBaslatir": {
+    "genc": [
+      "Bir süre sana bakıyor, sonra: 'Biliyor musun, seni ilk gördüğümde bu kadar komik biri olduğunu düşünmemiştim.'",
+      "Masaya eğiliyor: 'Bu arada... bugün çok iyi görünüyorsun.'",
+      "'Seninle konuşmak garip bir şekilde iyi geliyor' diyor; sonra kendi söylediğine kızarıyor."
+    ],
+    "orta": [
+      "'Seninle konuşmak iyi geliyor' diyor, gözlerini kaçırmadan.",
+      "Bir an susuyor: 'Senin gibi biriyle daha önce tanışmamış olmam ne garip.'"
+    ],
+    "yasli": [
+      "'Senin yaşında olsaydım...' diyor, gülerek. Lafın gerisini getirmiyor."
+    ]
+  },
+  "sorular": {
+    "yalniz_mi": {
+      "soru": {
+        "genc": [
+          "Bu arada... sevgilin var mı? Merak ettim, o kadar.",
+          "Hayatında biri var mı? Sadece soruyorum!"
+        ],
+        "orta": [
+          "Sen yalnız mısın, yoksa evde bekleyen biri var mı?",
+          "Evli değilsin herhalde?"
+        ],
+        "yasli": [
+          "Evlendin mi sen evladım? Yoksa hâlâ bekâr mısın?"
+        ]
+      },
+      "cevaplar": [
+        {
+          "id": "yalniz",
+          "ad": "Yalnız olduğunu söyle",
+          "soz": [
+            "Yok, kimse yok. Şimdilik.",
+            "Yalnızım. Bu ara kimseye vakit ayıramadım."
+          ],
+          "etki": {
+            "cekim": [
+              3,
+              6
+            ]
+          },
+          "ogren": "medeni",
+          "karar": "hep",
+          "tepki": {
+            "iyi": {
+              "genc": [
+                "'Hmm' diyor, gülümseyerek. 'İyi. Yani... iyi işte.'",
+                "'Ciddi misin? İnanmadım' diyor; inanmış gibi görünüyor."
+              ],
+              "orta": [
+                "'Anladım' diyor; sesinde bir şey değişti.",
+                "Gülümsüyor: 'Benim de öyle.'"
+              ],
+              "yasli": [
+                "'Vakit geçmeden bul birini evladım' diyor."
+              ]
+            }
+          }
+        },
+        {
+          "id": "karisik",
+          "ad": "Karışık de",
+          "soz": [
+            "Karışık. Anlatması uzun.",
+            "Bir şey vardı; bitti mi bitmedi mi, ben de bilmiyorum."
+          ],
+          "etki": {
+            "cekim": [
+              1,
+              3
+            ]
+          },
+          "ogren": "medeni",
+          "karar": "hep",
+          "tepki": {
+            "iyi": {
+              "_": [
+                "'Gizemli' diyor; ilgisini çekti.",
+                "'Anlatırsın bir gün' diyor."
+              ]
+            }
+          }
+        },
+        {
+          "id": "neden",
+          "ad": "\"Neden sordun?\" de",
+          "soz": [
+            "Neden sordun ki?",
+            "Bu soru nereden çıktı?"
+          ],
+          "etki": {
+            "cekim": [
+              2,
+              5
+            ]
+          },
+          "karar": "ilgi",
+          "tepki": {
+            "iyi": {
+              "genc": [
+                "Kızarıyor: 'Hiç! Öylesine!' Ama öylesine olmadığı belli.",
+                "'Bilmem... Merak ettim işte' diyor, gözünü kaçırmadan."
+              ],
+              "orta": [
+                "Gülüyor: 'Bence nedenini biliyorsun.'"
+              ],
+              "yasli": [
+                "'Ah, gençler,' diyor, gülerek."
+              ]
+            },
+            "kotu": {
+              "_": [
+                "'Öylesine sordum' diyor; konu kapandı."
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "bulusalim": {
+      "soru": {
+        "genc": [
+          "Bak, ne diyeceğim... Yarın akşam bir şeyler yapalım mı? Sadece ikimiz.",
+          "Yarın akşam boş musun? Bir yere gidelim."
+        ],
+        "orta": [
+          "Yarın akşam ne yapıyorsun? Bir yemek yiyelim mi?"
+        ],
+        "yasli": [
+          "Yarın akşam iskelede çay içelim mi seninle?"
+        ]
+      },
+      "cevaplar": [
+        {
+          "id": "evet",
+          "ad": "Kabul et",
+          "soz": [
+            "Olur. Çok isterim.",
+            "Yarın akşam, tamam. Söz."
+          ],
+          "etki": {
+            "cekim": [
+              4,
+              7
+            ],
+            "yakinlik": [
+              2,
+              3
+            ]
+          },
+          "karar": "hep",
+          "randevu": true,
+          "tepki": {
+            "iyi": {
+              "_": [
+                "Gülümsüyor: 'Tamam. Sekizde, Kordon'da.'",
+                "'Süper. Geç kalma!'"
+              ]
+            }
+          }
+        },
+        {
+          "id": "hayir",
+          "ad": "Nazikçe reddet",
+          "soz": [
+            "Yarın olmaz, kusura bakma.",
+            "Şimdilik böyle kalsın, olur mu?"
+          ],
+          "etki": {
+            "cekim": [
+              -4,
+              -2
+            ]
+          },
+          "karar": "hep",
+          "tepki": {
+            "iyi": {
+              "_": [
+                "'Tamam, sorun değil' diyor; biraz bozuldu.",
+                "'Peki' diyor, gülümsemeye çalışarak."
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "partner": {
+    "sadik": [
+      "Gülümsüyor; telefonunun ekranındaki fotoğrafı sana çeviriyor: ikisi, bir sahilde. '{s.partner|bas} duysa çok güler' diyor; ama sohbeti kesmiyor.",
+      "'{s.partner|bas} var, söyleyeyim de içimde kalmasın' diyor, sıcak ama net; sonra kaldığınız yerden devam ediyor.",
+      "'Hayatımda biri var' diyor, gözlerini kaçırmadan. 'Ama konuşmak yasak değil, değil mi?'"
+    ],
+    "kararsiz": [
+      "Bir an duraksıyor; telefonuna bakıyor, sonra sana. 'Benim {s.partner} var...' diyor; cümlenin gerisi gelmiyor.",
+      "'Bunu söylemem lazım: {s.partner} var' diyor; söylerken sesi alçalıyor, gözlerini senden alamıyor.",
+      "Elini masadan çekiyor, sonra geri koyuyor. 'Bunu yapmamalıyız' diyor; neyi, söylemiyor."
+    ],
+    "acik": [
+      "Telefonunu ters çevirip masaya bırakıyor, gülümseyerek: 'Bu akşam yokmuş gibi yapalım mı?'",
+      "'{s.partner|bas} şehir dışında' diyor, sanki laf arasında; sonra uzun uzun bakıyor.",
+      "'{s.partner|bas} var; ama ölmedim' diyor, kadehini kaldırarak."
+    ],
+    "atesli": [
+      "'{s.partner|bas} var, biliyorsun değil mi?' diyor; dudağını ısırıyor. 'Bu seni durdurur mu?'",
+      "Telefonu çalıyor; ekranda '{s.partner|bas}' yazıyor. Açmıyor. Gözünü kırpıyor: 'Kimse bilmeyecek.'",
+      "'{s.partner|bas} bana hiç böyle bakmadı' diyor, sana doğru eğilerek."
+    ]
+  },
+  "partnerSinir": [
+    "Gülümsüyor ama elini çekiyor: 'Sen tatlısın, ama ben başkasıyım. Arkadaş olalım, olur mu?'",
+    "'Bak, hoşuma gitmedi değil' diyor; 'ama ben eve dönüyorum, her akşam. Bunu bil.'",
+    "Kibarca başını sallıyor: 'Bu kadarı yeter; gerisi bana göre değil.' Ama sana kızgın değil, belli."
+  ],
+  "partnerIsrar": [
+    "Yüzü değişiyor: 'Bir kere söyledim. Saygı göster, ya da kalk.'",
+    "'Ciddiyim' diyor, sesini yükseltmeden ama soğuk. 'Bir daha açma bunu.'"
+  ],
+  "gizliIsaret": {
+    "sadik": [
+      "Bir an kapıya bakıyor; tanıdık biri girmiş mi diye."
+    ],
+    "kararsiz": [
+      "Telefonu titriyor; ekrana bakıp ters çeviriyor. Kim olduğunu ikiniz de biliyorsunuz.",
+      "Etrafına bakıyor, sesini alçaltıyor; yanakları kızarmış.",
+      "'Burada herkes beni tanır' diyor, fısıldar gibi; ama gitmiyor."
+    ],
+    "acik": [
+      "Masanın altında dizi dizine değiyor; çekmiyor.",
+      "'Burada olmaz' diyor, gülümseyerek; 'ama başka yerde...' Cümleyi bitirmiyor.",
+      "Garson gelince arkasına yaslanıyor, gidince yine eğiliyor."
+    ],
+    "atesli": [
+      "Elini masanın altından dizine koyuyor; yüzünde hiçbir şey yokmuş gibi bir ifade.",
+      "'Herkes bakıyor' diyorsun; 'bıraksın baksınlar' diyor.",
+      "Kulağına eğilip bir şey fısıldıyor; ne dediğini bütün akşam düşünüyorsun."
+    ]
+  },
+  "numaraGizli": [
+    "Numarasını bir peçeteye yazıyor, katlayıp eline sıkıştırıyor. 'Akşam altıdan sonra yazma.'",
+    "'Kaydederken başka bir isimle kaydet' diyor, numarasını söylerken. Ciddi.",
+    "Telefonunu uzatıyor: 'Numaranı yaz, ben ararım. Sen arama.'"
+  ],
+  "davetGizli": [
+    "'Burada olmaz' diyor. 'Ilıcaköy tarafında bir yer var; kimse gelmez. Yarın akşam.'",
+    "Bir süre susuyor; sonra kalbinin sesini bastırır gibi: 'Yarın. Ama kimse bilmeyecek.'",
+    "'Delilik bu' diyor, gülerek. 'Yarın akşam; şehrin öbür ucunda.'"
+  ],
+  "vicdan": [
+    "Bir süre susuyor. 'Dün gece... Eve gidince uyuyamadım. Ne yapıyoruz biz?'",
+    "'Bunu yapmamalıydık' diyor; ama gözleri başka bir şey söylüyor.",
+    "'Sabah {s.esAd} kahvaltıyı hazırladı; yüzüne bakamadım' diyor. Sonra yine sana bakıyor."
+  ]
 }

@@ -1050,6 +1050,23 @@
         "{t.ad|in} yeni evi varmış; nereden buldu bu parayı?"
       ],
       "ozet": "Aynı semtte başka bir eve taşındı."
+    },
+    {
+      "id": "partnerden_ayrildi",
+      "olasilik": 0,
+      "kosul": {},
+      "degisim": {},
+      "haber": {
+        "genc": [],
+        "orta": [],
+        "yasli": []
+      },
+      "dedikodu": [
+        "{t.ad} eşinden ayrılmış; araya biri girmiş diyorlar.",
+        "{t.ad|in} evliliği bitmiş; herkes başka birinin adını fısıldıyor."
+      ],
+      "ozet": "Senin için ilişkisini bitirdi.",
+      "_not": "Yalnızca etkiyle (partnerdenAyril) olur; kendiliğinden çıkmaz."
     }
   ]
 }

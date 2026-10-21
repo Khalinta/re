@@ -74,10 +74,10 @@ test('cevap uygulanır: konuşma kişinin ağzından, ilişki değişimi −5…
   assert.equal(t.d.sohbet.yz.length, 2);
 });
 
-test('olaylar oyunun kurallarıyla: engel varken buluşma kurulmaz; kartla çelişen olgu reddedilir; uyumlu olgu kalıcı olur; gitti → oturum biter', () => {
+test('olaylar oyunun kurallarıyla: ilgi düşükken buluşma kurulmaz; kartla çelişen olgu reddedilir; uyumlu olgu kalıcı olur; gitti → oturum biter', () => {
   const t = oturum('YZ3', n => ['evli', 'sevgilili'].includes(n.medeni) && n.yas >= 20 && n.yas <= 32) || oturum('YZ3b', n => ['evli', 'sevgilili'].includes(n.medeni) && n.yas >= 20 && n.yas <= 32);
   assert.ok(t, 'ilişkisi olan biri bulunamadı');
-  assert.equal(flortEngeli(t.d, veri, t.n), 'evli');
+  t.d.npcler[t.id].iliski.cekim = -60; // ilgisi düşük: buluşma kurallarca olamaz
   const kart = kisiKarti(t.d, veri, t.id);
   assert.ok(istekHazirla(t.d, veri, t.id, 'Çıkalım mı?').kullanici.includes('Bir akşam buluşmayı kabul etmesi: OLAMAZ'), 'model kuralı önceden bilmeli');
   const u = cevabiUygula(t.d, veri, t.id, 'Yarın akşam çıkalım mı?', cevap({
@@ -88,7 +88,7 @@ test('olaylar oyunun kurallarıyla: engel varken buluşma kurulmaz; kartla çeli
       { hakkinda: 'Hiç Olmayan Biri', alan: 'yeni', deger: '', metin: 'X.' },
     ],
   }), { randevuKur });
-  assert.ok(!t.d.zamanlayicilar.some(z => z.olay.startsWith('randevu')), 'engel varken buluşma kuruldu');
+  assert.ok(!t.d.zamanlayicilar.some(z => z.olay.startsWith('randevu')), 'ilgi düşükken buluşma kuruldu');
   assert.ok(u.reddedilen.some(x => x.startsWith('buluşma')) && u.reddedilen.some(x => x.includes('yas')) && u.reddedilen.some(x => x.includes('tanıdıkları')));
   assert.ok(kisiKarti(t.d, veri, t.id).olgular.includes('Bir kedisi var, adı Duman.'));
   cevabiUygula(t.d, veri, t.id, 'Tamam, görüşürüz.', cevap({ olaylar: ['kalkip_gitti'] }), { randevuKur });

@@ -40,6 +40,14 @@ function sec(r, liste, n, adet = 1) {
   return adet === 1 ? sonuc[0] : sonuc;
 }
 
+// Evli/sevgilili birinin ilişkisinin hali (belirlenimli): 'mutlu' | 'alisilmis' | 'gergin' (yoksa null).
+// Aile sohbeti (zevk.js) ve sadakat (sadakat.js) aynı sonucu kullanır.
+export function iliskiHali(seed, n) {
+  if (!['evli', 'sevgilili'].includes(n.medeni)) return null;
+  if (['yalnizlik', 'evlilik_soguk'].includes(n.dert) || ['sevmiyor', 'ayrilacak'].includes(n.sir)) return 'gergin';
+  return Rng.akis(seed, 'es|' + n.id).agirlikliSec([{ t: 'mutlu', agirlik: 5 }, { t: 'alisilmis', agirlik: 4 }, { t: 'gergin', agirlik: 2 }]).t;
+}
+
 // ------------------------------------------------------------------ aile ağacı
 
 const adUret = (r, veri, dogumYili, cinsiyet) => r.sec(donemBul(veri.npc.isimler, dogumYili)[cinsiyet === 'e' ? 'erkek' : 'kadin']);
@@ -211,7 +219,7 @@ export function derinlik(seed, n, veri) {
   // Not: çekiliş sırası değişmemeli (aynı seed → aynı kişi); kimlikler (…Id) sohbette kullanılır (3.10)
   const degerler = sec(r, D.degerler, n, 2), gundem = sec(r, D.gundemBakisi, n), takim = sec(r, D.takim, n);
   const muzik = r.sec(D.muzik[ku]), yemek = r.sec(D.yemek);
-  let ka;
+  let ka, ft;
   // Torunu olmayanın hobisi torunlar olmaz
   const hobi = r.sec(D.hobi[ku].filter(x => !(x.startsWith('torun') && !((n.aile?.cocuk ?? 0) > 0 && n.yas >= 50))));
   return {
@@ -227,7 +235,7 @@ export function derinlik(seed, n, veri) {
     korku: r.sec(D.korkular),
     hassas: r.sec([...D.hassasKonular._, ...(D.hassasKonular[ku] || [])].filter(x => !(x === 'boşanması' && n.medeni !== 'bosanmis') && !(x === 'çocuğu olmaması' && ((n.aile?.cocuk ?? 0) > 0 || n.yas < 32)))),
     mizah: sec(r, D.mizah, n).ad,
-    flort: sec(r, D.flortTarzi, n).ad,
+    flort: (ft = sec(r, D.flortTarzi, n)).ad, flortId: ft.id,
     guven: sec(r, D.guvenTarzi, n).ad,
     kiskanclik: Math.max(1, Math.min(5, 3 + (n.ozellikler.includes('kiskanc') ? 2 : 0) - (n.eksenler.dengeli >= 4 ? 1 : 0) + r.aralik(-1, 1))),
     kotuAliskanlik: (ka = sec(r, D.kotuAliskanlik, n)).ad, kotuAliskanlikId: ka.id,

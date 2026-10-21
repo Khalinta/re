@@ -141,12 +141,12 @@ test('karşılıklı sohbet: kişi sana soru soruyor, cevabın seçenek oluyor, 
   assert.ok(hikayeAnlatildi > 3, `geçmişini anlatma ${hikayeAnlatildi}`);
 });
 
-test('flört: yaş ve ilişki uygunluğu; engel açıkça söylenir ve flört seçenekleri kapanır', () => {
+test('flört: yaş uygunluğu; evli/sevgilili kapıyı kapatmaz (3.13): hayatındaki kişiyi anar, flört seçenekleri kalır', () => {
   const d = durumYap('UYGUN', { yas: 25 });
   for (let i = 0; i < 400; i++) {
     const n = kisi(veri, d.seed, `n:${['camlik', 'eski_carsi', 'bezhane', 'marina'][i % 4]}:${i % 40}`);
     const u = flortUygun(d, veri, n);
-    if (n.yas < 18 || Math.abs(n.yas - 25) > 16) assert.equal(u, false, `${n.yas}`);
+    if (n.yas < 18 || Math.abs(n.yas - 25) > 19) assert.equal(u, false, `${n.yas}`);
     if (n.yas >= 18 && Math.abs(n.yas - 25) <= 4) assert.equal(u, true, `${n.yas}`);
   }
   const t = tanisilmis('EVLI', 'kordon_mekan', n => ['evli', 'sevgilili'].includes(n.medeni) && n.yas >= 20 && n.yas <= 32, { yas: 26 });
@@ -155,9 +155,11 @@ test('flört: yaş ve ilişki uygunluğu; engel açıkça söylenir ve flört se
   t.d.zaman.dakika = t.an;
   const s = sohbetHamlesi(t.d, veri, t.r, 'iltifat');
   assert.ok(s.tamam, s.sebep);
-  assert.equal(flortEngeli(t.d, veri, t.n), 'evli');
-  assert.ok(t.d.npcler[t.id].bilinen.flortEngel);
-  if (t.d.sohbet) assert.ok(!sohbetKonulari(t.d, veri).some(x => ['iltifat', 'takil', 'numara', 'davet'].includes(x.konu)));
+  assert.notEqual(flortEngeli(t.d, veri, t.n), 'evli');
+  if (!flortEngeli(t.d, veri, t.n)) {
+    assert.ok(t.d.npcler[t.id].bilinen.partnerVar, 'hayatındaki kişiyi anmadı');
+    if (t.d.sohbet) assert.ok(sohbetKonulari(t.d, veri).some(x => ['takil', 'numara'].includes(x.konu)), 'flört seçenekleri kapandı');
+  }
 });
 
 test('flört: ilgi yüksekse iltifat karşılık bulur, numara verilir, buluşma kurulur ve buluşma oynanır', () => {

@@ -159,14 +159,20 @@ test('dert eşiği: yakınlık düşükken kaçamak; yüksekken birinci ağızda
   assert.ok(!t.paragraflar.some(p => dert.soz.some(z => p.metin.startsWith(z.slice(0, 15)))));
 });
 
-test('şaka ters gidebilir; gerginlik eşiği aşılınca kişi yanına oturmana izin vermez', () => {
+test('gerginlik eşiği aşılınca ~~yanına oturmana izin vermez~~ (3.19) soğuk bir yüzleşme başlar: özür, dinlemek ya da kalkmak', () => {
   const { d, id, an, m, kal, r } = tanisilmis('SAKA');
   const k = d.npcler[id];
   k.iliski.gerginlik = 9;
   d.sohbet = null; delete d.sohbet;
   d.zaman.dakika = an;
   const s = yaninaOtur(d, veri, r, m, kal, id);
-  assert.ok(s.tamam && !d.sohbet);
+  assert.ok(s.tamam && d.sohbet?.bekleyen?.alan === 'gergin', JSON.stringify(d.sohbet));
+  const l = sohbetKonulari(d, veri).map(x => x.konu);
+  assert.ok(l.includes('cevap:a:ozur') && l.includes('cevap:a:dinle') && l.includes('cevap:a:git') && !l.includes('cevap:a:saril'), l.join());
+  // Barışana kadar dene
+  for (let i = 0; i < 6 && d.sohbet?.bekleyen?.alan === 'gergin'; i++) assert.ok(sohbetHamlesi(d, veri, r, 'cevap:a:dinle').tamam);
+  assert.ok(!d.sohbet || !d.sohbet.bekleyen || k.iliski.gerginlik >= 8);
+  if (d.sohbet && !d.sohbet.bekleyen) assert.ok(k.iliski.gerginlik < 8);
 });
 
 test('kimse kendisi, örgütü ya da mekanı hakkındaki dedikoduyu anlatmaz', () => {

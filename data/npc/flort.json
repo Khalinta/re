@@ -1773,6 +1773,94 @@
           "arzu": 2
         }
       }
+    },
+    "gergin": {
+      "_aciklama": "3.19: gerginlik eşiği aşılınca kapı kapanmaz; yanına oturunca soğuk bir yüzleşme başlar (kullanıcı: 'bazılarının yanına oturup konuşma bile başlatamıyorum'). neden: kiskanc (başka biriyle flörtünü duydu), ihmal (sevgilisini uzun süre görmedin), israr (sınır çizdiği halde üstüne gittin), genel.",
+      "giris": {
+        "kiskanc": [
+          "Seni görünce yüzü kararıyor. 'Bir de gelip yanıma oturuyorsun, öyle mi?' Bardağını itiyor. 'Konuş bakalım.'",
+          "Bakmıyor bile. 'Herkes biliyor, bir ben bilmiyormuşum' diyor, alçak sesle. 'Hadi, anlat.'"
+        ],
+        "ihmal": [
+          "'Ooo, hatırladın mı beni?' diyor; gülümsemiyor. 'Kaç gün oldu, sayıyor musun? Ben saydım.'",
+          "Telefonunu masaya ters kapatıyor. 'Yazmadın, aramadın. Şimdi ne diyeceksin?'"
+        ],
+        "israr": [
+          "'Sana söylemiştim' diyor, sesi soğuk. 'Ama sen dinlemiyorsun, değil mi?'"
+        ],
+        "genel": [
+          "Seni görünce yüzü asılıyor. 'Şimdi mi geldin?' Ama kalkıp gitmiyor; bekliyor.",
+          "'Otur' diyor, kısa. 'Konuşmamız lazım zaten.' Gözlerini senden kaçırıyor."
+        ]
+      },
+      "secenekler": {
+        "ozur": {
+          "ad": "Özür dile",
+          "soz": [
+            "Haklısın. Özür dilerim; gerçekten.",
+            "Ben hata yaptım. Bunu düzeltmek istiyorum."
+          ]
+        },
+        "dinle": {
+          "ad": "Ne olduğunu sor, dinle",
+          "soz": [
+            "Anlat. Sözünü kesmeyeceğim.",
+            "Neye kırıldın? Duymak istiyorum."
+          ]
+        },
+        "saril": {
+          "ad": "Elini tut, yakınlaş",
+          "soz": [
+            "Masanın üstünden elini tutuyorsun; çekerse çeksin."
+          ],
+          "sevgili": true
+        },
+        "git": {
+          "ad": "Rahat bırak, kalk",
+          "soz": [
+            "Peki. Seni sıkmayayım; sakinleşince konuşuruz."
+          ]
+        }
+      },
+      "sonuc": {
+        "ozur": {
+          "iyi": [
+            "Bir süre susuyor. Sonra omuzları iniyor. 'Tamam' diyor. 'Ama bir daha olmasın.'",
+            "Gözleri doluyor; kızgınlığı yerini yorgunluğa bırakıyor. 'Özür dilemeni bekliyordum, biliyor musun?'"
+          ],
+          "kotu": [
+            "'Özür dilemek kolay' diyor. 'Hep böyle diyorsun.' Hâlâ kızgın."
+          ]
+        },
+        "dinle": {
+          "iyi": [
+            "Anlatıyor; önce sert, sonra yavaşlayarak. Sen dinledikçe sesi yumuşuyor. Sonunda derin bir nefes alıyor: 'İyi geldi söylemek.'"
+          ],
+          "kotu": [
+            "Anlatıyor ama her cümlede daha çok kızıyor. 'Sen beni hiç anlamıyorsun ki.'"
+          ]
+        },
+        "saril": {
+          "iyi": [
+            "Elini çekmiyor. Bir süre öyle kalıyorsunuz; sonra parmakları parmaklarına kenetleniyor. 'Sana kızgın kalamıyorum, sinir oluyorum buna.'",
+            "Önce kaskatı; sonra yavaşça başını omzuna yaslıyor. Kimse bir şey demiyor; gerek de yok."
+          ],
+          "kotu": [
+            "Elini sertçe çekiyor. 'Şimdi olmaz. Dokunma bana.'"
+          ]
+        },
+        "git": {
+          "_": [
+            "'Peki' diyor. Kalkarken arkandan bakıyor; ne düşündüğünü çıkaramıyorsun."
+          ]
+        }
+      },
+      "baristi": [
+        "Bir süre sonra bardağını sana doğru itiyor: 'Bir çay daha söyle bari.' Buz çözülüyor."
+      ],
+      "bitti": [
+        "'Bugünlük bu kadar yeter' diyor ve kalkıyor. Kapının önünde bir an duruyor, sonra çıkıp gidiyor."
+      ]
     }
   }
 }

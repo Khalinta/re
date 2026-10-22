@@ -3,7 +3,7 @@
  "olaylar": [
   {
    "id": "tanidik_gece_arar",
-   "baslik": "Gece yarısı arayan",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "telefon"
@@ -133,7 +133,7 @@
   },
   {
    "id": "tanidik_borc",
-   "baslik": "Bir ricam var",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "para"
@@ -569,7 +569,7 @@
   },
   {
    "id": "tanidik_gece_mesaj",
-   "baslik": "Gece mesajı",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "flort"
@@ -687,7 +687,7 @@
   },
   {
    "id": "tanidik_kirgin",
-   "baslik": "Kırgınlık",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "gerginlik"
@@ -1079,7 +1079,7 @@
   },
   {
    "id": "tanidik_dert_haberi",
-   "baslik": "Kötü haber",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik"
    ],
@@ -1185,7 +1185,7 @@
   },
   {
    "id": "gizli_ortaya_cikti",
-   "baslik": "Öğrendi",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "gizli",
@@ -1497,7 +1497,7 @@
   },
   {
    "id": "ozledim",
-   "baslik": "Bir mesaj",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "ask"
@@ -1628,7 +1628,7 @@
   },
   {
    "id": "gece_cagri",
-   "baslik": "Gece yarısı",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "ask",
@@ -1714,7 +1714,7 @@
   },
   {
    "id": "gece_cagri_gizli",
-   "baslik": "Gece yarısı",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "ask",
@@ -1801,7 +1801,7 @@
   },
   {
    "id": "kiskanc_mesaj",
-   "baslik": "Kıskançlık",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "ask",
@@ -1850,6 +1850,11 @@
            "gun": 7
           }
          }
+        },
+        {
+         "kiskanclikKonusuldu": {
+          "npc": "kisi"
+         }
         }
        ],
        "sonuc": [
@@ -1872,6 +1877,11 @@
           "gerginlik": 5,
           "arzu": -6
          }
+        },
+        {
+         "kiskanclikKonusuldu": {
+          "npc": "kisi"
+         }
         }
        ],
        "sonuc": "\"Peki\" geliyor. Sonra hiçbir şey. Bir gün, iki gün."
@@ -1885,6 +1895,11 @@
           "gerginlik": 4,
           "guven": -4
          }
+        },
+        {
+         "kiskanclikKonusuldu": {
+          "npc": "kisi"
+         }
         }
        ],
        "sonuc": "Telefon üç kez çalıyor. Sonra bir mesaj: \"Anladım.\""
@@ -1895,7 +1910,7 @@
   },
   {
    "id": "sevgili_kavga",
-   "baslik": "Kavga",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "ask",
@@ -2002,7 +2017,7 @@
   },
   {
    "id": "senden_ayriliyor",
-   "baslik": "Bitti",
+   "baslik": "{kisi.ad}",
    "etiketler": [
     "tanidik",
     "ask"

@@ -255,14 +255,65 @@ export function askKarsilama(durum, veri, rng, n, k, p, ar) {
   return true;
 }
 
+// Gerginlik eşiği aşılınca (3.19): kapı kapanmaz, yüzleşme başlar. Oturum açılmış olmalı.
+function gerginNeden(durum, k) {
+  if (k.duydugu && !k.duydugu.konustu) return 'kiskanc';
+  const son = Math.max(k.sonGorus ?? -Infinity, ...(k.anilar || []).map(a => a.zaman ?? a.z ?? -Infinity));
+  if (k.iliskiTuru === 'sevgili' && gunNo(durum.zaman.dakika) - Math.floor(son / 1440) > 7) return 'ihmal';
+  if ((k.sinirSayisi ?? 0) >= 3) return 'israr';
+  return 'genel';
+}
+export function gerginKarsilama(durum, veri, rng, n, k, p, ar) {
+  const G = A(veri)?.gergin;
+  if (!G || !durum.sohbet) return false;
+  const neden = gerginNeden(durum, k);
+  p.push(...ar.anlat(durum, veri, n, k, G.giris[neden], rng));
+  if (neden === 'kiskanc') k.duydugu.konustu = true;
+  durum.sohbet.bekleyen = { tur: 'ask', alan: 'gergin', neden };
+  return true;
+}
+
 export function askSecenekler(durum, veri) {
   const X = A(veri), dk = veri.npc.sohbet.sure.cevap;
+  if (durum.sohbet?.bekleyen?.alan === 'gergin') {
+    const k = durum.npcler?.[durum.sohbet.npc];
+    return Object.entries(X.gergin.secenekler).filter(([, c]) => !c.sevgili || sevgiliMi(k)).map(([id, c]) => ({ konu: 'cevap:a:' + id, ad: c.ad, dakika: dk }));
+  }
   if (durum.sohbet?.bekleyen?.alan === 'teklif') return Object.entries(X.teklif).map(([id, c]) => ({ konu: 'cevap:a:' + id, ad: c.ad, dakika: dk }));
   return Object.entries(X.kiskanclikCevap).map(([id, c]) => ({ konu: 'cevap:a:' + id, ad: c.ad, dakika: dk }));
 }
 
 export function askCevapla(durum, veri, rng, n, k, id, p, ar) {
   const X = A(veri);
+  if (durum.sohbet?.bekleyen?.alan === 'gergin') {
+    const G = X.gergin, c = G.secenekler[id];
+    if (!c || (c.sevgili && !sevgiliMi(k))) return { tamam: false, sebep: 'Bunu şimdi söyleyemezsin.' };
+    p.push(...ar.sen(durum, veri, n, k, c.soz, rng));
+    const g0 = k.iliski.gerginlik ?? 0, guven = k.iliski.guven ?? 0, yak = k.iliski.yakinlik ?? 0;
+    if (id === 'git') {
+      p.push(...ar.anlat(durum, veri, n, k, G.sonuc.git._, rng));
+      k.iliski.gerginlik = g0 - 1;
+      k.ayrildi = { zaman: durum.zaman.dakika, kim: 'sen' };
+      delete durum.sohbet;
+      return { tamam: true };
+    }
+    const sans = sinir(({ ozur: 0.5, dinle: 0.55, saril: 0.25 + arzu(k) / 120 })[id] + guven / 40 + yak / 120 - (g0 - 8) / 30, 0.1, 0.9);
+    const iyi = rng.olasilik(sans);
+    p.push(...ar.anlat(durum, veri, n, k, G.sonuc[id][iyi ? 'iyi' : 'kotu'], rng));
+    k.iliski.gerginlik = Math.max(0, g0 + (iyi ? -({ ozur: 5, dinle: 4, saril: 6 })[id] : 1));
+    if (iyi && id === 'dinle') k.iliski.guven = guven + 1;
+    if (iyi && id === 'saril') arzuEkle(k, 4);
+    if ((k.iliski.gerginlik ?? 0) < veri.npc.sohbet.gerginlikEsigi) {
+      if (iyi) p.push(...ar.anlat(durum, veri, n, k, G.baristi, rng));
+      if (iyi) k.anilar.push({ zaman: durum.zaman.dakika, metin: 'kavgadan sonra barıştınız' });
+      durum.sohbet.bekleyen = null;
+    } else if (!iyi && (k.iliski.gerginlik ?? 0) >= veri.npc.sohbet.gerginlikEsigi + 4) {
+      p.push(...ar.anlat(durum, veri, n, k, G.bitti, rng));
+      k.ayrildi = { zaman: durum.zaman.dakika, kim: 'o' };
+      delete durum.sohbet;
+    }
+    return { tamam: true };
+  }
   if (durum.sohbet?.bekleyen?.alan === 'teklif') {
     const t = X.teklif[id];
     if (!t) return { tamam: false, sebep: 'Bunu şimdi söyleyemezsin.' };

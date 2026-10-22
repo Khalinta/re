@@ -111,6 +111,11 @@ export const ETKILER = {
     n.numara = true;
     if (n.sahteNumara) n.sahteNumara.ogrendi = true;
   },
+  // { "kiskanclikKonusuldu": { "npc": "kisi" } }  (3.19) telefonda konuştunuz; yanına oturunca aynı hesabı yeniden sormaz
+  kiskanclikKonusuldu: (v, ctx) => {
+    const n = npcKaydi(ctx.durum, npcId(ctx, v.npc));
+    if (n.duydugu) n.duydugu.konustu = true;
+  },
   // { "sahteOgrendi": { "npc": "kisi" } }  (3.16) verdiği numaranın yanlış olduğunu anladın
   sahteOgrendi: (v, ctx) => {
     const n = npcKaydi(ctx.durum, npcId(ctx, v.npc));

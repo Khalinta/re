@@ -249,6 +249,7 @@ function aksiyonYapIc(id) {
     if (id === 'gezi:cik') return konum.disariCik(durum, veri, rng);
     if (id === 'gezi:eve') return konum.eveGir(durum, veri, rng);
     if (id === 'gezi:evegit') return eveGit(rng);
+    if (id.startsWith('gezi:gir:')) return konum.mekanaGir(durum, veri, rng, id.slice(9));
     return konum.mekanAksiyonuYap(durum, veri, rng, id.slice(6));
   });
   const a = aksiyonBul(id);

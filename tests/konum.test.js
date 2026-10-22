@@ -26,7 +26,9 @@ test('yere göre aksiyonlar: evde dışarı çık; sokakta eve dön; mekanda hiz
   assert.deepEqual(idler(d), ['gezi:cik']);
   assert.equal(konum.disariCik(d, veri, rng()).tamam, true);
   assert.deepEqual(d.konum, { semt: 'tabakhane', mekan: null });
-  assert.deepEqual(idler(d), ['gezi:eve']);
+  // 3.19: sokakta semtteki yerler doğrudan seçilir; başka semt için Şehir; eve dön
+  const sokak = idler(d);
+  assert.ok(sokak.includes('gezi:gir:sefa_bakkal') && sokak.includes('gezi:sehir') && sokak.at(-1) === 'gezi:eve', sokak.join());
   const g = konum.mekanaGir(d, veri, rng(), 'sefa_bakkal');
   assert.equal(g.tamam, true, g.sebep);
   assert.ok(g.paragraflar.some(p => p.metin.includes('veresiye defteri')), 'ilk ziyarette tasvir');
@@ -72,8 +74,11 @@ test('kulak ver: kalabalık yerde zamanla mekanın bütün dedikoduları duyulur
   assert.equal(new Set(duyulan.map(x => x.id)).size, duyulan.length);
 });
 
-test('yolculuk: süre ve ücret düşülür, konum değişir; para yetmezse ya da aynı semtse olmaz', () => {
+test('yolculuk: süre ve ücret düşülür, konum değişir; para yetmezse ya da aynı semtse olmaz; evdeyken önce dışarı çıkılır', () => {
   const d = yeni(8);
+  assert.match(konum.yolculukYap(d, veri, rng(), 'marina', 'toplu').sebep, /dışarı çık/);
+  assert.match(konum.mekanaGir(d, veri, rng(), 'sefa_bakkal').sebep, /dışarı çık/);
+  konum.disariCik(d, veri, rng());
   const r = konum.yolculukYap(d, veri, rng(), 'marina', 'toplu');
   assert.equal(r.tamam, true, r.sebep);
   assert.deepEqual(d.konum, { semt: 'marina', mekan: null });
@@ -84,7 +89,7 @@ test('yolculuk: süre ve ücret düşülür, konum değişir; para yetmezse ya d
   assert.match(konum.yolculukYap(d, veri, rng(), 'yamacevler', 'taksi').sebep, /yok/);
   const y = konum.yolculukYap(d, veri, rng(), 'tersaneonu', 'yuruyus');
   assert.equal(y.tamam, true);
-  assert.deepEqual(idler(d), ['gezi:evegit']);
+  assert.equal(idler(d).at(-1), 'gezi:evegit');
 });
 
 test('gece yarısından sonra toplu taşıma yok ama yürüyüş ve taksi var', () => {

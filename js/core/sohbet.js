@@ -23,7 +23,7 @@ import { kisiGuncel, bilinmeyenOlaylar, haberSablonu } from './npchayat.js';
 import { gizliIliskiMi, derinlik, aileAgaci } from './kart.js';
 import { sirriBiliyorMu, ozetEkle } from './hafiza.js';
 import { partnerli, aciklik, sadakatTipi, partnerCezasi } from './sadakat.js';
-import { askKonulari, askHamlesi, askSecenekler, askCevapla, askKarsilama, npcAtilim, kiskanclikYay, sonucSec, ozelUygula, sahteSurer } from './ask.js';
+import { askKonulari, askHamlesi, askSecenekler, askCevapla, askKarsilama, npcAtilim, kiskanclikYay, sonucSec, ozelUygula, sahteSurer, gerginKarsilama } from './ask.js';
 import { derinKonular, derinHamle, derinSecenekler, derinCevapla, derinSoruAdaylari, derinSoruSor } from './zevk.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
@@ -403,8 +403,12 @@ export function yaninaOtur(durum, veri, rng, mekan, kalabalik, id) {
     return { tamam: true, paragraflar: p };
   }
   k.donus = 0;
+  // ~~Gerginse "Şimdi olmaz" deyip konuşmazdı~~ (3.19: barışmanın yolu kapanıyordu) → soğuk bir yüzleşme başlar
   if ((k.iliski.gerginlik ?? 0) >= sb.gerginlikEsigi) {
-    p.push(...anlat(durum, veri, n, k, sb.kacinir, rng));
+    oturumBaslat(durum, id, mekan, Math.max(3, Math.floor(sabir(veri, n, k) / 2)));
+    k.sonGorus = durum.zaman.dakika;
+    if (!gerginKarsilama(durum, veri, rng, n, k, p, ARACLAR)) { p.push(...anlat(durum, veri, n, k, sb.kacinir, rng)); oturumBitir(durum); }
+    aksiyonKaydet(durum, 'otur:' + id);
     return { tamam: true, paragraflar: p };
   }
   const hal = veri.npc.gorunus ? gununHali(durum.seed, n, gunNo(durum.zaman.dakika), veri.npc.gorunus) : null;

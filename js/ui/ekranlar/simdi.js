@@ -112,6 +112,7 @@ export function menuyuGoster() {
     devreDisi: !x.tamam,
     sebep: x.sebep,
   })), async s => {
+    if (s.id === 'gezi:sehir') { sekmeyeGec('sehir'); return; } // başka semt: Şehir ekranında seçilir
     const sonuc = await guvenli('aksiyon:' + s.id, () => oyun.aksiyonYap(s.id), hataSecenekleri());
     if (!sonuc) return; // hata paneli açık; "Devam et" menüyü yeniden kurar
     if (!sonuc.tamam) bilgiGoster(s.metin, sonuc.sebep);

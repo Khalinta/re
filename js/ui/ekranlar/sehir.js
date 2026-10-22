@@ -25,6 +25,12 @@ let gorunur = false;
 
 const veri = () => oyun.veri;
 const d = () => oyun.durumAl();
+const evde = () => d().konum.mekan === 'ev';
+
+// Evdeyken bir yere gitmek için önce dışarı çıkılır (3.19); çıkınca Şimdi ekranında semtteki yerler seçilir
+function cikDugmesi(kapat = () => {}) {
+  return h('button', { class: 'dugme birincil', onclick: () => { kapat(); disaridanHamle('cik', () => oyun.aksiyonYap('gezi:cik')); } }, 'Önce dışarı çık');
+}
 
 function satir(ad, alt, eylem, sag = null) {
   return h('button', { class: 'satir', onclick: eylem },
@@ -54,6 +60,7 @@ function mekanPaneli(m) {
   let panel;
   const alt = [];
   if (icinde) alt.push(h('p', { class: 'soluk kucuk' }, 'Şu an buradasın.'));
+  else if (evde()) alt.push(h('p', { class: 'soluk kucuk' }, 'Evdesin; bir yere gitmek için önce dışarı çık.'), cikDugmesi(() => panel.kapat()));
   else if (burada) {
     alt.push(h('button', { class: 'dugme birincil', 'aria-disabled': kapali ? 'true' : null, onclick: () => {
       if (kapali) { bilgiGoster(m.ad, kapali); return; }
@@ -123,7 +130,7 @@ function semtPaneli(id) {
       h('p', { class: 'panel-metin' }, s.unluYerler.map(u => u.ad).join(' · ')),
       h('h3', { class: 'bolum-baslik' }, 'Mekanlar'),
       h('div', { class: 'kart-liste' }, mekanlar.map(m => satir(m.ad, mekanAlt(m), () => mekanPaneli(m))))),
-    altBilgi: burada ? null : h('div', { class: 'dugme-yigini' }, yolDugmeleri(id, () => panel.kapat())),
+    altBilgi: burada ? null : h('div', { class: 'dugme-yigini' }, evde() ? [h('p', { class: 'soluk kucuk' }, 'Evdesin; önce dışarı çık.'), cikDugmesi(() => panel.kapat())] : yolDugmeleri(id, () => panel.kapat())),
   });
 }
 
@@ -144,6 +151,7 @@ function ciz() {
       h('p', {}, semt.ozet),
       h('p', { class: 'soluk' }, semt.atmosfer[dilim(du.zaman.dakika).id]),
       h('button', { class: 'dugme kucuk-dugme', onclick: () => semtPaneli(semt.id) }, 'Semt hakkında')),
+    evde() ? h('div', { class: 'kart' }, h('p', {}, 'Evdesin. Bir yere gitmek için önce dışarı çık; çıkınca gideceğin yeri seçersin.'), cikDugmesi()) : null,
     h('h2', { class: 'bolum-baslik' }, `${ek(semt.ad, 'de', { iyelik: semt.iyelik })} gidilecek yerler`),
     h('div', { class: 'kart-liste' }, mekanlar.map(m => satir(m.ad + (du.konum.mekan === m.id ? ' · buradasın' : ''), mekanAlt(m), () => mekanPaneli(m)))),
     h('h2', { class: 'bolum-baslik' }, 'Şehirde bugün'),

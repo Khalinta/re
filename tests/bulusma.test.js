@@ -100,3 +100,19 @@ test('her olay sahnesinde parasız seçilebilecek en az bir seçenek var; hiçbi
     for (const x of l) assert.ok(!(x.maliyet?.para && (x.etki || []).some(e => typeof e.para === 'number' && e.para < 0)), `${o.id}/${sid}/${x.metin}: para iki kez`);
   }
 });
+
+test('mesaj olaylarının başlığı ne olacağını söylemez (kişinin adı); kıskançlığı telefonda konuşunca yanına oturduğunda yeniden sormaz', () => {
+  const t = tanidikli('KIS1');
+  assert.ok(t);
+  const k = t.d.npcler[t.id];
+  k.duydugu = { kisi: 'x', gun: 0, konustu: false };
+  const baglam = olayKisisi(t.d, veri, { kiskanc: true }, t.r);
+  assert.ok(baglam);
+  t.d.aktifOlay = null;
+  const b = olayBaslat(t.d, 'kiskanc_mesaj', veri, t.r, baglam);
+  const baslik = b.paragraflar.find(p => p.tur === 'olayBaslik').metin;
+  assert.equal(baslik, baglam.degisken.kisi.ad);
+  olaySecenegiSec(t.d, veri, t.r, olaySecenekleri(t.d, veri)[0].sira);
+  assert.equal(k.duydugu.konustu, true);
+  for (const f of dosyalar) for (const o of oku('data/olaylar/' + f).olaylar) assert.ok(!/^(Kıskançlık|Kavga|Bitti|Kırgınlık|Öğrendi)$/.test(o.baslik ?? ''), o.id + ': ' + o.baslik);
+});

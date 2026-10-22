@@ -33,7 +33,7 @@ import { kosulAcikla, nedenTutmadi } from './kosul.js';
 import { etkileriUygula, sureDk } from './etki.js';
 import { zamanGecir, sinirla } from './simulasyon.js';
 import { para as paraYaz } from './format.js';
-import { metinCoz } from './metin.js';
+import { metinCoz, sablonUygula } from './metin.js';
 import { olayKisisi } from './olaykisi.js';
 
 export const VARSAYILAN_BASLANGIC = 'giris';
@@ -177,7 +177,8 @@ export function olayBaslat(durum, olayId, veri, rng, baglam = {}) {
   durum.aktifOlay = { id: olay.id, sahne: olay.baslangic || VARSAYILAN_BASLANGIC, baglam };
   const paragraflar = [];
   const zincir = [];
-  if (olay.baslik) paragraflar.push({ tur: 'olayBaslik', metin: olay.baslik });
+  // Başlık şablon olabilir (3.19): mesaj olaylarında yalnızca gönderenin adı ({kisi.ad}), ne olacağı söylenmez
+  if (olay.baslik) paragraflar.push({ tur: 'olayBaslik', metin: sablonUygula(olay.baslik, { durum, veri, baglam }, rng) });
   const bitti = sahneyeGir(durum, olay, durum.aktifOlay.sahne, veri, rng, paragraflar, zincir);
   if (bitti) return { paragraflar, ...bitir(durum, zincir) };
   return { paragraflar, bitti: false, zincir };

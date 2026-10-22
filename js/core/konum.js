@@ -4,7 +4,7 @@
 import { zamanGecir, sinirla } from './simulasyon.js';
 import { tarihAl, gunDakikasi, gunNo, isoTarih, dilim } from './zaman.js';
 import { semtBul } from './dunya.js';
-import { mekanBul, acikMi, kalabalik } from './mekan.js';
+import { mekanBul, acikMi, kalabalik, semtMekanlari } from './mekan.js';
 import { mekanKapanisi } from './ilerleme.js';
 import { yolSecenekleri } from './ulasim.js';
 import { gununHavasi, anlikHava, havaMetni } from './hava.js';
@@ -107,6 +107,13 @@ export function baglamAksiyonlari(durum, veri) {
       : !konusulacaklar(durum, veri, m).length ? 'Burada bugün yeni bir şey konuşulmuyor.' : null);
     ekle('gezi:cik', 'Dışarı çık', { dakika: s.mekandanCik });
   } else {
+    // Sokaktasın (3.19): semtteki yerler doğrudan seçilir; başka semt için Şehir ekranı
+    const t = durum.zaman.dakika, hg = haftaGunu(durum);
+    for (const m of semtMekanlari(veri.dunya, k.semt).sort((a, b) => Number(!acikMi(a, t, hg)) - Number(!acikMi(b, t, hg)))) {
+      const kapali = mekanKapaliMi(durum, m);
+      ekle('gezi:gir:' + m.id, `${ek(m.ad, 'e', { iyelik: m.iyelik })} gir`, { dakika: g.sureler.mekanaGir }, kapali, veri.dunya.mekanlar.mekanTurleri?.[m.tur]);
+    }
+    ekle('gezi:sehir', 'Başka bir semte git…', {});
     if (durum.ev && k.semt === durum.ev.semt) ekle('gezi:eve', 'Eve dön', { dakika: s.eveGir });
     else if (durum.ev) {
       const yol = enHizliYol(durum, veri, durum.ev.semt);
@@ -149,6 +156,7 @@ export function yolculukYap(durum, veri, rng, hedef, kip) {
   const g = veri.gezi;
   const semt = semtBul(veri.dunya, hedef);
   if (!semt) throw new Error('Bilinmeyen semt: ' + hedef);
+  if (durum.konum.mekan === EVDE) return { tamam: false, sebep: 'Evdesin; önce dışarı çık.' }; // 3.19, kullanıcı isteği
   if (hedef === durum.konum.semt) return { tamam: false, sebep: 'Zaten buradasın.' };
   const yol = yolculukSecenekleri(durum, veri, hedef)[kip];
   if (!yol) return { tamam: false, sebep: kip === 'toplu' ? 'Şu saatte toplu taşımayla gidilmiyor.' : 'Yol bulunamadı.' };
@@ -189,6 +197,7 @@ export function mekanaGir(durum, veri, rng, mekanId) {
   const g = veri.gezi;
   const m = mekanBul(veri.dunya, mekanId);
   if (!m) throw new Error('Bilinmeyen mekan: ' + mekanId);
+  if (durum.konum.mekan === EVDE) return { tamam: false, sebep: 'Evdesin; önce dışarı çık.' };
   if (m.semt !== durum.konum.semt) return { tamam: false, sebep: `${m.ad} başka bir semtte.` };
   if (durum.konum.mekan === m.id) return { tamam: false, sebep: 'Zaten buradasın.' };
   const kapali = mekanKapaliMi(durum, m);

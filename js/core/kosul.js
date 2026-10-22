@@ -219,6 +219,12 @@ export const KONTROLLER = {
     return deger(yol, yolAl(ctx.durum, yol), Object.keys(kural).length ? kural : { var: true });
   },
 
+  // Olay bağlamındaki değişken (3.20): { "baglam": "kisi.cinsiyet", "esit": "k" }
+  baglam: (a, ctx) => {
+    const { baglam: yol, ...kural } = a;
+    return deger('bağlam ' + yol, yolAl(ctx.baglam?.degisken, yol), Object.keys(kural).length ? kural : { var: true });
+  },
+
   // Hikaye yayı: { "yay": { "id": "apartman_borcu", "asama": ["borclu", "ertelendi"] } }
   //   | { "yay": { "id": "x", "durum": "yok" | "aktif" | "bitti" } } | { "yay": { "id": "x", "sonuc": "odendi" } }
   yay: (a, ctx) => {
@@ -290,6 +296,7 @@ export function kosulAcikla(kosul, ctx) {
 
   // Genel yol kontrolü tek bir yapraktır: { "deger": "a.b", "min": 1 } bölünmez
   if ('deger' in kosul) return KONTROLLER.deger(kosul, ctx);
+  if ('baglam' in kosul) return KONTROLLER.baglam(kosul, ctx);
   const anahtarlar = Object.keys(kosul);
   if (anahtarlar.length > 1) return kosulAcikla({ ve: anahtarlar.map(k => ({ [k]: kosul[k] })) }, ctx);
   const [k] = anahtarlar;
@@ -339,9 +346,10 @@ export function kosulDogrula(kosul, yol = 'kosul') {
     if (Array.isArray(k)) { k.forEach((x, i) => gez(x, `${y}[${i}]`)); return; }
     if (typeof k !== 'object') { hatalar.push(`${y}: koşul nesne olmalı`); return; }
     if (!Object.keys(k).length) hatalar.push(`${y}: boş koşul`);
-    if ('deger' in k) {
-      const { deger: adres, ...kural } = k;
-      if (typeof adres !== 'string') hatalar.push(`${y}.deger: yol ("deger": "a.b") gerekli`);
+    if ('deger' in k || 'baglam' in k) {
+      const { deger: adres0, baglam: adres1, ...kural } = k;
+      const adres = adres0 ?? adres1;
+      if (typeof adres !== 'string') hatalar.push(`${y}: yol ("deger" / "baglam": "a.b") gerekli`);
       if (Object.keys(kural).length && !kuralGecerliMi(kural)) hatalar.push(`${y}: bozuk kural`);
       return;
     }

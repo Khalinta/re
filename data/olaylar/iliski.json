@@ -2854,7 +2854,7 @@
          "Yol boyunca elleri elinde; kimse konuşmuyor. Konuşmaya gerek yok."
         ]
        ],
-       "git": "gece"
+       "git": "kapi"
       },
       {
        "metin": "Ona gidelim",
@@ -2868,7 +2868,7 @@
          "Onun evi: kitaplar, yarım kalmış bir bulaşık, kapının önünde dağınık ayakkabılar. \"Dağınık\" diyor, utanarak. Umurunda değil."
         ]
        ],
-       "git": "gece"
+       "git": "kapi"
       },
       {
        "metin": "Kapıda vazgeç",
@@ -2897,50 +2897,26 @@
          "iliski": {
           "npc": "kisi",
           "gece": {
-           "min": 1
+           "min": 2
           }
          }
         },
         "metin": [
          [
-          "Kapı kapanır kapanmaz birbirinizi buluyorsunuz; bu sefer el yordamıyla değil, ezbere.",
-          "Ceketler yere, ayakkabılar koridora. Gerisi, ikinizin bildiği bir yol."
+          "Bedenlerinizin artık birbirini tanıdığı geceler bunlar. Neresinin gıdıklandığını, neresinde nefesinin kesildiğini biliyorsun; o da senin."
          ],
          [
-          "Bu sefer acele yok. Işığı kapatmıyorsunuz; birbirinize bakmak istiyorsunuz.",
-          "{kisi.ad} kulağına adını fısıldıyor; sesinde geçen gecenin hatırası."
-         ]
-        ]
-       },
-       {
-        "kosul": {
-         "iliski": {
-          "npc": "kisi",
-          "arzu": {
-           "min": 65
-          }
-         }
-        },
-        "metin": [
-         [
-          "Merdivenlerde öpüşmeye başlıyorsunuz; kapıyı açmak için anahtarı üç kez düşürüyorsun.",
-          "İçeri girer girmez {kisi.ad} seni duvara yaslıyor. Gecenin geri kalanı ikinizin."
-         ],
-         [
-          "Taksi bile uzun geliyor. Arka koltukta elleriniz birbirinden ayrılmıyor; şoför aynadan bakmamaya çalışıyor.",
-          "Kapı, merdiven, karanlık; nefesler, gülüşler, adınız. Sonrası, gece."
+          "Ezbere bildiğin bir yol, ama her seferinde yeni bir dönemeç."
          ]
         ]
        }
       ],
       "varsayilan": [
        [
-        "İçeride bir an ikiniz de ne yapacağınızı bilemiyorsunuz; ışık açık, ikiniz de gergin.",
-        "{kisi.ad} gülüyor: \"Bu kadar ciddi olmayalım.\" Işığı kapatıyor. Gerisi kolaylaşıyor."
+        "Yatak, karanlık, nefesler. {kisi.ad} kulağına bir şey fısıldıyor; ne dediğini değil, nasıl dediğini duyuyorsun."
        ],
        [
-        "Kapının önünde son bir tereddüt. Sonra {kisi.ad} elini tutup seni içeri çekiyor.",
-        "Yavaş, ürkek, sonra hiç değil. Gece uzun."
+        "Kıyafetler bir yerlerde. Teninin sıcaklığı, saçının kokusu; dünya bu odadan ibaret."
        ]
       ]
      },
@@ -2970,7 +2946,7 @@
         },
         {
          "zaman": {
-          "saat": 6
+          "saat": 2
          }
         },
         {
@@ -2990,7 +2966,7 @@
          "Sabaha karşı başını göğsüne koymuş uyuyor. Sen uyuyamıyorsun; uyumak istemiyorsun."
         ]
        ],
-       "git": "sabah"
+       "git": "sonra"
       },
       {
        "metin": "Kendini bırak",
@@ -3016,7 +2992,7 @@
         },
         {
          "zaman": {
-          "saat": 6
+          "saat": 2
          }
         },
         {
@@ -3036,7 +3012,7 @@
          "Gece birkaç kez bitiyor ve yeniden başlıyor. Sabah ışığı perdeden sızdığında ikiniz de bitkin, ikiniz de gülüyorsunuz."
         ]
        ],
-       "git": "sabah"
+       "git": "sonra"
       },
       {
        "metin": "Ona ne istediğini sor",
@@ -3063,7 +3039,7 @@
         },
         {
          "zaman": {
-          "saat": 6
+          "saat": 2
          }
         },
         {
@@ -3083,7 +3059,528 @@
          "\"Kimse bana bunu sormamıştı\" diyor sonra, karanlıkta."
         ]
        ],
-       "git": "sabah"
+       "git": "sonra"
+      },
+      {
+       "metin": "Ona ne istediğini söyle",
+       "alt": "Utanmadan, açık açık.",
+       "maliyet": {
+        "dakika": 60
+       },
+       "sonuclar": [
+        {
+         "agirlik": 1,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 45
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 18,
+            "guven": 4,
+            "cekim": 8
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          },
+          {
+           "gunluk": "{kisi.ad} ile. Ne istediğimi söyledim. O da istiyormuş."
+          }
+         ],
+         "sonuc": [
+          [
+           "Söylüyorsun; kelimesi kelimesine, hiçbir şeyi süslemeden. {kisi.ad} bir an susuyor; sonra gözlerinde bir parıltı.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Bunu söylemeni bekliyordum."
+           },
+           "Gecenin geri kalanı tam istediğin gibi; hatta daha fazlası."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "kosul": {
+          "degil": {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": {
+             "min": 45
+            }
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 10,
+            "guven": 6,
+            "yakinlik": 4
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Söylüyorsun. {kisi.ad} gülümsüyor, saçını kulağının arkasına atıyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Bu gece değil o. Ama aklımda... Bir dahakine."
+           },
+           "Başka bir yol buluyorsunuz; o da güzel. Söylediğin şey aranızda bir söz gibi kalıyor."
+          ]
+         ],
+         "git": "sonra"
+        }
+       ]
+      },
+      {
+       "metin": "Ağzınla onu memnun et",
+       "alt": "Bu gece onun gecesi.",
+       "maliyet": {
+        "dakika": 60
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gece": 1,
+          "arzu": 16,
+          "guven": 4,
+          "cekim": 10,
+          "yakinlik": 3
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "birlikte bir gece geçirdiniz"
+         }
+        },
+        {
+         "zaman": {
+          "saat": 2
+         }
+        },
+        {
+         "durum": {
+          "ruh": 12,
+          "stres": -12,
+          "enerji": -12
+         }
+        },
+        {
+         "gunluk": "{kisi.ad}. Bu gece onundu. Adımı söyleyişini unutamıyorum."
+        }
+       ],
+       "sonuc": [
+        [
+         "Bu gece onun. Acele etmiyorsun; nefesinin değiştiği yerleri öğreniyorsun, orada kalıyorsun. {kisi.ad} parmaklarını saçlarına geçiriyor; adını öyle bir söylüyor ki duvarlar duyuyor."
+        ],
+        [
+         "Yavaşça aşağı iniyorsun. {kisi.ad} önce gülüyor, sonra gülmeyi unutuyor. Sonunda tavana bakıp uzun uzun nefes alıyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Sen nereden çıktın?"
+         }
+        ]
+       ],
+       "git": "sonra"
+      },
+      {
+       "metin": "Kontrolü ona bırak",
+       "alt": "Bu gece o yönetsin.",
+       "maliyet": {
+        "dakika": 60
+       },
+       "sonuclar": [
+        {
+         "agirlik": 2,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 50
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 20,
+            "cekim": 10,
+            "guven": 3
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          },
+          {
+           "gunluk": "Bu gece o yönetti. Kendimi hiç bu kadar bırakmamıştım."
+          }
+         ],
+         "sonuc": [
+          [
+           "\"Bu gece sen karar ver\" diyorsun. {kisi.ad} bir kaşını kaldırıyor; sonra kemerini çıkarıp bileklerini nazikçe başucuna bağlıyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Kıpırdamak yok. Ben ne dersem."
+           },
+           "Gecenin her dakikasını o belirliyor; sen de bunun ne kadar hoşuna gittiğine şaşırıyorsun."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "kosul": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": {
+             "min": 50
+            }
+           }
+          },
+          {
+           "baglam": "kisi.cinsiyet",
+           "esit": "k"
+          },
+          {
+           "deger": "karakter.cinsiyet",
+           "esit": "e"
+          }
+         ],
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 20,
+            "cekim": 10,
+            "guven": 3
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          },
+          {
+           "gunluk": "Bu gece o yönetti. Kendimi hiç bu kadar bırakmamıştım."
+          }
+         ],
+         "sonuc": [
+          [
+           "\"Sen yönet\" diyorsun. {kisi.ad} gülümsüyor; uzun zamandır bunu bekliyormuş gibi. Kulağına bir şey fısıldıyor: hiç denemediğin bir şey. Pegging. Bir an duraksıyorsun; sonra başınla evet diyorsun.",
+           "Yavaş, çok konuşarak, çok gülerek; ve sonunda hiç konuşmadan."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 14,
+            "cekim": 6,
+            "yakinlik": 3
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "\"Sen yönet\" diyorsun. {kisi.ad} önce şaşırıyor; ne yapacağını bilemiyor, utanarak gülüyor. Sonra cesaretleniyor ve seni sırtüstü itiyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Peki. Ama gülersen biterim."
+           },
+           "Gülmüyorsun. Uzun süre gülmüyorsun."
+          ]
+         ],
+         "git": "sonra"
+        }
+       ]
+      },
+      {
+       "metin": "Yeni bir şey dene",
+       "alt": "İkiniz için de ilk kez.",
+       "kosul": {
+        "iliski": {
+         "npc": "kisi",
+         "gece": {
+          "min": 1
+         }
+        }
+       },
+       "gizle": true,
+       "maliyet": {
+        "dakika": 60
+       },
+       "sonuclar": [
+        {
+         "agirlik": 1,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 55
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 18,
+            "guven": 6,
+            "cekim": 8
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte yeni bir şey denediniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "\"Hiç denemediğimiz bir şey\" diyorsun. {kisi.ad} bir an düşünüyor, sonra kulağına söylüyor: anal. İkiniz de bir an susuyorsunuz; sonra gülüyorsunuz.",
+           "Yavaş, sabırla, her adımda birbirinize sorarak. Sonunda başını omzuna koyuyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Seninle her şeyi denerim galiba. Bu korkutucu."
+           }
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 14,
+            "yakinlik": 4
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte yeni bir şey denediniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Bir oyun uyduruyorsunuz: bir barda ilk kez tanışan iki yabancı. {kisi.ad} sana sahte bir isimle hitap ediyor; sen ona. Rol yarıda dağılıyor, ama gece dağılmıyor."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 12,
+            "cekim": 6
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte yeni bir şey denediniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Dolabın aynalı kapağını açıyorsunuz. Önce ikiniz de bakamıyorsunuz; sonra bakmadan duramıyorsunuz."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 8,
+            "yakinlik": 6
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte gülmekten öldünüz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Bir şey denemeye kalkıyorsunuz; yatağın kenarından ikiniz birden düşüyorsunuz. Yerde, battaniyenin içinde, gülmekten ağlıyorsunuz. Gecenin geri kalanı orada, yerde."
+          ]
+         ],
+         "git": "sonra"
+        }
+       ]
       }
      ]
     },
@@ -3223,89 +3720,8 @@
        "sonuc": "O uyurken giyiniyorsun. Kapıyı sessizce çekiyorsun. Merdivenlerde telefonun titriyor: \"Kaçtın mı?\""
       }
      ]
-    }
-   }
-  },
-  {
-   "id": "birlikte_gece_gizli",
-   "tetik": "zamanlayici",
-   "tekrar": true,
-   "baslik": "Kimse bilmesin",
-   "etiketler": [
-    "iliski",
-    "flort",
-    "gece",
-    "gizli"
-   ],
-   "sahneler": {
-    "giris": {
-     "metin": [
-      [
-       "Önce o çıktı; sen beş dakika sonra. Köşede bekliyor; kapüşonunu çekmiş, etrafına bakıyor.",
-       {
-        "tur": "konusma",
-        "konusan": "{kisi.ad}",
-        "metin": "Ne yapıyoruz biz? ...Boş ver. Gidelim."
-       }
-      ]
-     ],
-     "secenekler": [
-      {
-       "metin": "Bana gidelim",
-       "alt": "Evine.",
-       "maliyet": {
-        "dakika": 30,
-        "para": 150
-       },
-       "etki": [
-        {
-         "iliski": {
-          "npc": "kisi",
-          "risk": 2
-         }
-        }
-       ],
-       "sonuc": [
-        [
-         "Yol boyunca elleri elinde; kimse konuşmuyor. Konuşmaya gerek yok."
-        ]
-       ],
-       "git": "gece"
-      },
-      {
-       "metin": "Bir pansiyon tutalım",
-       "alt": "Yıldız Pansiyon; kimse sormaz.",
-       "maliyet": {
-        "dakika": 30,
-        "para": 600
-       },
-       "sonuc": [
-        [
-         "Yıldız Pansiyon'un resepsiyonundaki adam başını gazeteden kaldırmıyor. Anahtar, merdiven, kapı."
-        ]
-       ],
-       "git": "gece"
-      },
-      {
-       "metin": "Kapıda vazgeç",
-       "alt": "Bu gece değil.",
-       "maliyet": {
-        "dakika": 5
-       },
-       "etki": [
-        {
-         "iliski": {
-          "npc": "kisi",
-          "arzu": -5,
-          "gerginlik": 2
-         }
-        }
-       ],
-       "sonuc": "\"Bu gece değil\" diyorsun. {kisi.ad} bir an bakıyor; \"Peki\" diyor. Kırgın mı, rahatlamış mı, çıkaramıyorsun."
-      }
-     ]
     },
-    "gece": {
+    "kapi": {
      "metin": {
       "kosullu": [
        {
@@ -3362,6 +3778,487 @@
      },
      "secenekler": [
       {
+       "metin": "Yavaş yavaş soy onu",
+       "alt": "Her düğme bir soru.",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 4
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Düğmeleri tek tek açıyorsun; her birinde duruyor, gözlerine bakıyorsun. {kisi.ad} nefesini tutuyor. Üçüncü düğmede gülüyor: \"Bu bir işkence.\""
+        ],
+        [
+         "Acele etmiyorsun. Kumaş omzundan kayarken {kisi.ad} gözlerini kapatıyor; tenine değen her parmak bir soru, cevabı her seferinde evet."
+        ]
+       ],
+       "git": "gece"
+      },
+      {
+       "metin": "Duvara yasla, öp",
+       "alt": "Bekleyemiyorsun.",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 6
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Sırtı duvara değiyor; bir tablo eğiliyor, kimsenin umurunda değil. Öpüşmeniz nefes nefese bölünüyor; {kisi.ad} gömleğinin yakasından tutup seni bırakmıyor."
+        ],
+        [
+         "Kapı daha tam kapanmadan onu duvara yaslıyorsun. Bir an şaşırıyor; sonra daha sert karşılık veriyor. \"Ben de bütün akşam bunu düşünüyordum\" diyor, nefesinin arasından."
+        ]
+       ],
+       "git": "gece"
+      },
+      {
+       "metin": "Işığı açık bırak",
+       "alt": "Ona bakmak istiyorsun.",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 2,
+          "arzu": 3
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Işığı kapatmak için uzanan eli tutuyorsun. \"Bırak\" diyorsun, \"seni görmek istiyorum.\" {kisi.ad} önce utanıyor; sonra utanmayı bırakıp sana bakıyor. O bakış gecenin geri kalanını belirliyor."
+        ]
+       ],
+       "git": "gece"
+      },
+      {
+       "metin": "Önce bir kadeh, konuşalım",
+       "alt": "Gerilimi uzat.",
+       "maliyet": {
+        "dakika": 25
+       },
+       "sonuclar": [
+        {
+         "agirlik": 1,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 55
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": 5
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Kadehleri dolduruyorsun; {kisi.ad} birini alıp masaya bırakıyor, öbürünü senin elinden alıyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Konuşmayı sonra yaparız."
+           }
+          ]
+         ],
+         "git": "gece"
+        },
+        {
+         "agirlik": 1,
+         "kosul": {
+          "degil": {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": {
+             "min": 55
+            }
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "guven": 3,
+            "yakinlik": 3,
+            "arzu": 3
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Mutfak tezgâhına yaslanıp içiyorsunuz. {kisi.ad} çocukluğundan bir şey anlatıyor; komik, sonra hüzünlü. Bardağı bıraktığında gözleri başka bakıyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Tamam. Artık konuşmak istemiyorum."
+           }
+          ]
+         ],
+         "git": "gece"
+        }
+       ]
+      }
+     ]
+    },
+    "sonra": {
+     "metin": [
+      [
+       "Sonra. Terli çarşaflar, yavaşlayan nefesler. {kisi.ad} başını göğsüne koymuş; parmağıyla tenine görünmez şekiller çiziyor."
+      ],
+      [
+       "Sonra. Pencereden sokak lambasının ışığı vuruyor; {kisi.ad} yüzünü yastığa gömmüş, gülümsüyor. \"Ne?\" diyorsun. \"Hiç\" diyor. \"Hiç.\""
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Sarıl, hiçbir şey söyleme",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "zaman": {
+          "saat": 4
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 3,
+          "guven": 1
+         }
+        },
+        {
+         "durum": {
+          "stres": -4
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Kollarını ona doluyorsun. Bir süre sonra nefesi ağırlaşıyor; uyuyor. Sen de, onun kalp atışını sayarken."
+        ]
+       ],
+       "git": "sabah"
+      },
+      {
+       "metin": "Ona bir sırrını anlat",
+       "alt": "Karanlıkta söylemesi kolay.",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "zaman": {
+          "saat": 4
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "guven": 5,
+          "yakinlik": 4
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "ona kimseye anlatmadığın bir şeyi anlattın"
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Karanlıkta, kimseye söylemediğin bir şeyi anlatıyorsun. {kisi.ad} sözünü kesmiyor. Bitince elini tutuyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Teşekkür ederim. Bana güvendiğin için."
+         },
+         "Sonra o da bir şey anlatıyor; sabaha kadar ikinizin arasında kalacak bir şey."
+        ]
+       ],
+       "git": "sabah"
+      },
+      {
+       "metin": "Onu nasıl gördüğünü söyle",
+       "maliyet": {
+        "dakika": 15
+       },
+       "etki": [
+        {
+         "zaman": {
+          "saat": 4
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 3,
+          "yakinlik": 3
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Ona onu nasıl gördüğünü söylüyorsun: gülerken burnunu kırıştırmasını, sabırsızlığını, ellerini. {kisi.ad} yüzünü saklıyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Sus. Sus, ağlayacağım."
+         }
+        ]
+       ],
+       "git": "sabah"
+      },
+      {
+       "metin": "Bir daha",
+       "alt": "Gece bitmedi.",
+       "maliyet": {
+        "dakika": 45
+       },
+       "sonuclar": [
+        {
+         "agirlik": 1,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 60
+           }
+          }
+         },
+         "etki": [
+          {
+           "zaman": {
+            "saat": 4
+           }
+          },
+          {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": 8,
+            "cekim": 4
+           }
+          },
+          {
+           "durum": {
+            "enerji": -10,
+            "ruh": 4
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Elini beline koyuyorsun. {kisi.ad} gözünü açmadan gülüyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Sen ciddisin."
+           },
+           "Ciddisin. O da öyle çıkıyor."
+          ]
+         ],
+         "git": "sabah"
+        },
+        {
+         "agirlik": 1,
+         "kosul": {
+          "degil": {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": {
+             "min": 60
+            }
+           }
+          }
+         },
+         "etki": [
+          {
+           "zaman": {
+            "saat": 4
+           }
+          },
+          {
+           "iliski": {
+            "npc": "kisi",
+            "yakinlik": 2
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Bana biraz insaf."
+           },
+           "Gülerek yüzüne bir yastık bastırıyor; sonra o yastığa sarılıp uyuyakalıyor."
+          ]
+         ],
+         "git": "sabah"
+        }
+       ]
+      },
+      {
+       "metin": "Hemen uyu",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "zaman": {
+          "saat": 4
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": -1
+         }
+        }
+       ],
+       "sonuc": "Gözlerin kapanıyor. Uykuya dalarken {kisi.ad} hâlâ uyanık; bir süre karanlıkta sana bakıyor.",
+       "git": "sabah"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "birlikte_gece_gizli",
+   "tetik": "zamanlayici",
+   "tekrar": true,
+   "baslik": "Kimse bilmesin",
+   "etiketler": [
+    "iliski",
+    "flort",
+    "gece",
+    "gizli"
+   ],
+   "sahneler": {
+    "giris": {
+     "metin": [
+      [
+       "Önce o çıktı; sen beş dakika sonra. Köşede bekliyor; kapüşonunu çekmiş, etrafına bakıyor.",
+       {
+        "tur": "konusma",
+        "konusan": "{kisi.ad}",
+        "metin": "Ne yapıyoruz biz? ...Boş ver. Gidelim."
+       }
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Bana gidelim",
+       "alt": "Evine.",
+       "maliyet": {
+        "dakika": 30,
+        "para": 150
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "risk": 2
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Yol boyunca elleri elinde; kimse konuşmuyor. Konuşmaya gerek yok."
+        ]
+       ],
+       "git": "kapi"
+      },
+      {
+       "metin": "Bir pansiyon tutalım",
+       "alt": "Yıldız Pansiyon; kimse sormaz.",
+       "maliyet": {
+        "dakika": 30,
+        "para": 600
+       },
+       "sonuc": [
+        [
+         "Yıldız Pansiyon'un resepsiyonundaki adam başını gazeteden kaldırmıyor. Anahtar, merdiven, kapı."
+        ]
+       ],
+       "git": "kapi"
+      },
+      {
+       "metin": "Kapıda vazgeç",
+       "alt": "Bu gece değil.",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": -5,
+          "gerginlik": 2
+         }
+        }
+       ],
+       "sonuc": "\"Bu gece değil\" diyorsun. {kisi.ad} bir an bakıyor; \"Peki\" diyor. Kırgın mı, rahatlamış mı, çıkaramıyorsun."
+      }
+     ]
+    },
+    "gece": {
+     "metin": {
+      "kosullu": [
+       {
+        "kosul": {
+         "iliski": {
+          "npc": "kisi",
+          "gece": {
+           "min": 2
+          }
+         }
+        },
+        "metin": [
+         [
+          "Bedenlerinizin artık birbirini tanıdığı geceler bunlar. Neresinin gıdıklandığını, neresinde nefesinin kesildiğini biliyorsun; o da senin."
+         ],
+         [
+          "Ezbere bildiğin bir yol, ama her seferinde yeni bir dönemeç."
+         ]
+        ]
+       }
+      ],
+      "varsayilan": [
+       [
+        "Yatak, karanlık, nefesler. {kisi.ad} kulağına bir şey fısıldıyor; ne dediğini değil, nasıl dediğini duyuyorsun."
+       ],
+       [
+        "Kıyafetler bir yerlerde. Teninin sıcaklığı, saçının kokusu; dünya bu odadan ibaret."
+       ]
+      ]
+     },
+     "secenekler": [
+      {
        "metin": "Acele etme",
        "alt": "Yavaş, şefkatle.",
        "maliyet": {
@@ -3386,7 +4283,7 @@
         },
         {
          "zaman": {
-          "saat": 6
+          "saat": 2
          }
         },
         {
@@ -3406,7 +4303,7 @@
          "Sabaha karşı başını göğsüne koymuş uyuyor. Sen uyuyamıyorsun; uyumak istemiyorsun."
         ]
        ],
-       "git": "sabah"
+       "git": "sonra"
       },
       {
        "metin": "Kendini bırak",
@@ -3432,7 +4329,7 @@
         },
         {
          "zaman": {
-          "saat": 6
+          "saat": 2
          }
         },
         {
@@ -3452,7 +4349,7 @@
          "Gece birkaç kez bitiyor ve yeniden başlıyor. Sabah ışığı perdeden sızdığında ikiniz de bitkin, ikiniz de gülüyorsunuz."
         ]
        ],
-       "git": "sabah"
+       "git": "sonra"
       },
       {
        "metin": "Ona ne istediğini sor",
@@ -3479,7 +4376,7 @@
         },
         {
          "zaman": {
-          "saat": 6
+          "saat": 2
          }
         },
         {
@@ -3499,7 +4396,528 @@
          "\"Kimse bana bunu sormamıştı\" diyor sonra, karanlıkta."
         ]
        ],
-       "git": "sabah"
+       "git": "sonra"
+      },
+      {
+       "metin": "Ona ne istediğini söyle",
+       "alt": "Utanmadan, açık açık.",
+       "maliyet": {
+        "dakika": 60
+       },
+       "sonuclar": [
+        {
+         "agirlik": 1,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 45
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 18,
+            "guven": 4,
+            "cekim": 8
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          },
+          {
+           "gunluk": "{kisi.ad} ile. Ne istediğimi söyledim. O da istiyormuş."
+          }
+         ],
+         "sonuc": [
+          [
+           "Söylüyorsun; kelimesi kelimesine, hiçbir şeyi süslemeden. {kisi.ad} bir an susuyor; sonra gözlerinde bir parıltı.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Bunu söylemeni bekliyordum."
+           },
+           "Gecenin geri kalanı tam istediğin gibi; hatta daha fazlası."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "kosul": {
+          "degil": {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": {
+             "min": 45
+            }
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 10,
+            "guven": 6,
+            "yakinlik": 4
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Söylüyorsun. {kisi.ad} gülümsüyor, saçını kulağının arkasına atıyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Bu gece değil o. Ama aklımda... Bir dahakine."
+           },
+           "Başka bir yol buluyorsunuz; o da güzel. Söylediğin şey aranızda bir söz gibi kalıyor."
+          ]
+         ],
+         "git": "sonra"
+        }
+       ]
+      },
+      {
+       "metin": "Ağzınla onu memnun et",
+       "alt": "Bu gece onun gecesi.",
+       "maliyet": {
+        "dakika": 60
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "gece": 1,
+          "arzu": 16,
+          "guven": 4,
+          "cekim": 10,
+          "yakinlik": 3
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "birlikte bir gece geçirdiniz"
+         }
+        },
+        {
+         "zaman": {
+          "saat": 2
+         }
+        },
+        {
+         "durum": {
+          "ruh": 12,
+          "stres": -12,
+          "enerji": -12
+         }
+        },
+        {
+         "gunluk": "{kisi.ad}. Bu gece onundu. Adımı söyleyişini unutamıyorum."
+        }
+       ],
+       "sonuc": [
+        [
+         "Bu gece onun. Acele etmiyorsun; nefesinin değiştiği yerleri öğreniyorsun, orada kalıyorsun. {kisi.ad} parmaklarını saçlarına geçiriyor; adını öyle bir söylüyor ki duvarlar duyuyor."
+        ],
+        [
+         "Yavaşça aşağı iniyorsun. {kisi.ad} önce gülüyor, sonra gülmeyi unutuyor. Sonunda tavana bakıp uzun uzun nefes alıyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Sen nereden çıktın?"
+         }
+        ]
+       ],
+       "git": "sonra"
+      },
+      {
+       "metin": "Kontrolü ona bırak",
+       "alt": "Bu gece o yönetsin.",
+       "maliyet": {
+        "dakika": 60
+       },
+       "sonuclar": [
+        {
+         "agirlik": 2,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 50
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 20,
+            "cekim": 10,
+            "guven": 3
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          },
+          {
+           "gunluk": "Bu gece o yönetti. Kendimi hiç bu kadar bırakmamıştım."
+          }
+         ],
+         "sonuc": [
+          [
+           "\"Bu gece sen karar ver\" diyorsun. {kisi.ad} bir kaşını kaldırıyor; sonra kemerini çıkarıp bileklerini nazikçe başucuna bağlıyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Kıpırdamak yok. Ben ne dersem."
+           },
+           "Gecenin her dakikasını o belirliyor; sen de bunun ne kadar hoşuna gittiğine şaşırıyorsun."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "kosul": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": {
+             "min": 50
+            }
+           }
+          },
+          {
+           "baglam": "kisi.cinsiyet",
+           "esit": "k"
+          },
+          {
+           "deger": "karakter.cinsiyet",
+           "esit": "e"
+          }
+         ],
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 20,
+            "cekim": 10,
+            "guven": 3
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          },
+          {
+           "gunluk": "Bu gece o yönetti. Kendimi hiç bu kadar bırakmamıştım."
+          }
+         ],
+         "sonuc": [
+          [
+           "\"Sen yönet\" diyorsun. {kisi.ad} gülümsüyor; uzun zamandır bunu bekliyormuş gibi. Kulağına bir şey fısıldıyor: hiç denemediğin bir şey. Pegging. Bir an duraksıyorsun; sonra başınla evet diyorsun.",
+           "Yavaş, çok konuşarak, çok gülerek; ve sonunda hiç konuşmadan."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 14,
+            "cekim": 6,
+            "yakinlik": 3
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte bir gece geçirdiniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "\"Sen yönet\" diyorsun. {kisi.ad} önce şaşırıyor; ne yapacağını bilemiyor, utanarak gülüyor. Sonra cesaretleniyor ve seni sırtüstü itiyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Peki. Ama gülersen biterim."
+           },
+           "Gülmüyorsun. Uzun süre gülmüyorsun."
+          ]
+         ],
+         "git": "sonra"
+        }
+       ]
+      },
+      {
+       "metin": "Yeni bir şey dene",
+       "alt": "İkiniz için de ilk kez.",
+       "kosul": {
+        "iliski": {
+         "npc": "kisi",
+         "gece": {
+          "min": 1
+         }
+        }
+       },
+       "gizle": true,
+       "maliyet": {
+        "dakika": 60
+       },
+       "sonuclar": [
+        {
+         "agirlik": 1,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 55
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 18,
+            "guven": 6,
+            "cekim": 8
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte yeni bir şey denediniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "\"Hiç denemediğimiz bir şey\" diyorsun. {kisi.ad} bir an düşünüyor, sonra kulağına söylüyor: anal. İkiniz de bir an susuyorsunuz; sonra gülüyorsunuz.",
+           "Yavaş, sabırla, her adımda birbirinize sorarak. Sonunda başını omzuna koyuyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Seninle her şeyi denerim galiba. Bu korkutucu."
+           }
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 14,
+            "yakinlik": 4
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte yeni bir şey denediniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Bir oyun uyduruyorsunuz: bir barda ilk kez tanışan iki yabancı. {kisi.ad} sana sahte bir isimle hitap ediyor; sen ona. Rol yarıda dağılıyor, ama gece dağılmıyor."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 12,
+            "cekim": 6
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte yeni bir şey denediniz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Dolabın aynalı kapağını açıyorsunuz. Önce ikiniz de bakamıyorsunuz; sonra bakmadan duramıyorsunuz."
+          ]
+         ],
+         "git": "sonra"
+        },
+        {
+         "agirlik": 1,
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "gece": 1,
+            "arzu": 8,
+            "yakinlik": 6
+           }
+          },
+          {
+           "ani": {
+            "npc": "kisi",
+            "metin": "birlikte gülmekten öldünüz"
+           }
+          },
+          {
+           "zaman": {
+            "saat": 2
+           }
+          },
+          {
+           "durum": {
+            "ruh": 12,
+            "stres": -12,
+            "enerji": -12
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Bir şey denemeye kalkıyorsunuz; yatağın kenarından ikiniz birden düşüyorsunuz. Yerde, battaniyenin içinde, gülmekten ağlıyorsunuz. Gecenin geri kalanı orada, yerde."
+          ]
+         ],
+         "git": "sonra"
+        }
+       ]
       }
      ]
     },
@@ -3671,6 +5089,430 @@
          "Bir süre öyle kalıyorsunuz. Sonra o gidiyor; önce o, sen beş dakika sonra."
         ]
        ]
+      }
+     ]
+    },
+    "kapi": {
+     "metin": {
+      "kosullu": [
+       {
+        "kosul": {
+         "iliski": {
+          "npc": "kisi",
+          "gece": {
+           "min": 1
+          }
+         }
+        },
+        "metin": [
+         [
+          "Kapı kapanır kapanmaz birbirinizi buluyorsunuz; bu sefer el yordamıyla değil, ezbere.",
+          "Ceketler yere, ayakkabılar koridora. Gerisi, ikinizin bildiği bir yol."
+         ],
+         [
+          "Bu sefer acele yok. Işığı kapatmıyorsunuz; birbirinize bakmak istiyorsunuz.",
+          "{kisi.ad} kulağına adını fısıldıyor; sesinde geçen gecenin hatırası."
+         ]
+        ]
+       },
+       {
+        "kosul": {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": {
+           "min": 65
+          }
+         }
+        },
+        "metin": [
+         [
+          "Merdivenlerde öpüşmeye başlıyorsunuz; kapıyı açmak için anahtarı üç kez düşürüyorsun.",
+          "İçeri girer girmez {kisi.ad} seni duvara yaslıyor. Gecenin geri kalanı ikinizin."
+         ],
+         [
+          "Taksi bile uzun geliyor. Arka koltukta elleriniz birbirinden ayrılmıyor; şoför aynadan bakmamaya çalışıyor.",
+          "Kapı, merdiven, karanlık; nefesler, gülüşler, adınız. Sonrası, gece."
+         ]
+        ]
+       }
+      ],
+      "varsayilan": [
+       [
+        "İçeride bir an ikiniz de ne yapacağınızı bilemiyorsunuz; ışık açık, ikiniz de gergin.",
+        "{kisi.ad} gülüyor: \"Bu kadar ciddi olmayalım.\" Işığı kapatıyor. Gerisi kolaylaşıyor."
+       ],
+       [
+        "Kapının önünde son bir tereddüt. Sonra {kisi.ad} elini tutup seni içeri çekiyor.",
+        "Yavaş, ürkek, sonra hiç değil. Gece uzun."
+       ]
+      ]
+     },
+     "secenekler": [
+      {
+       "metin": "Yavaş yavaş soy onu",
+       "alt": "Her düğme bir soru.",
+       "maliyet": {
+        "dakika": 10
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 4
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Düğmeleri tek tek açıyorsun; her birinde duruyor, gözlerine bakıyorsun. {kisi.ad} nefesini tutuyor. Üçüncü düğmede gülüyor: \"Bu bir işkence.\""
+        ],
+        [
+         "Acele etmiyorsun. Kumaş omzundan kayarken {kisi.ad} gözlerini kapatıyor; tenine değen her parmak bir soru, cevabı her seferinde evet."
+        ]
+       ],
+       "git": "gece"
+      },
+      {
+       "metin": "Duvara yasla, öp",
+       "alt": "Bekleyemiyorsun.",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 6
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Sırtı duvara değiyor; bir tablo eğiliyor, kimsenin umurunda değil. Öpüşmeniz nefes nefese bölünüyor; {kisi.ad} gömleğinin yakasından tutup seni bırakmıyor."
+        ],
+        [
+         "Kapı daha tam kapanmadan onu duvara yaslıyorsun. Bir an şaşırıyor; sonra daha sert karşılık veriyor. \"Ben de bütün akşam bunu düşünüyordum\" diyor, nefesinin arasından."
+        ]
+       ],
+       "git": "gece"
+      },
+      {
+       "metin": "Işığı açık bırak",
+       "alt": "Ona bakmak istiyorsun.",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 2,
+          "arzu": 3
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Işığı kapatmak için uzanan eli tutuyorsun. \"Bırak\" diyorsun, \"seni görmek istiyorum.\" {kisi.ad} önce utanıyor; sonra utanmayı bırakıp sana bakıyor. O bakış gecenin geri kalanını belirliyor."
+        ]
+       ],
+       "git": "gece"
+      },
+      {
+       "metin": "Önce bir kadeh, konuşalım",
+       "alt": "Gerilimi uzat.",
+       "maliyet": {
+        "dakika": 25
+       },
+       "sonuclar": [
+        {
+         "agirlik": 1,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 55
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": 5
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Kadehleri dolduruyorsun; {kisi.ad} birini alıp masaya bırakıyor, öbürünü senin elinden alıyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Konuşmayı sonra yaparız."
+           }
+          ]
+         ],
+         "git": "gece"
+        },
+        {
+         "agirlik": 1,
+         "kosul": {
+          "degil": {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": {
+             "min": 55
+            }
+           }
+          }
+         },
+         "etki": [
+          {
+           "iliski": {
+            "npc": "kisi",
+            "guven": 3,
+            "yakinlik": 3,
+            "arzu": 3
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Mutfak tezgâhına yaslanıp içiyorsunuz. {kisi.ad} çocukluğundan bir şey anlatıyor; komik, sonra hüzünlü. Bardağı bıraktığında gözleri başka bakıyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Tamam. Artık konuşmak istemiyorum."
+           }
+          ]
+         ],
+         "git": "gece"
+        }
+       ]
+      }
+     ]
+    },
+    "sonra": {
+     "metin": [
+      [
+       "Sonra. Pansiyonun ince duvarlarından bir televizyon sesi geliyor. {kisi.ad} başını göğsüne koymuş; telefonu komodinin üstünde ters duruyor. Bir kez titriyor; bakmıyor."
+      ],
+      [
+       "Sonra. İkiniz de tavana bakıyorsunuz. Bir yerde başka bir hayat seni bekliyor, onu da. Şimdilik bu oda yeter."
+      ]
+     ],
+     "secenekler": [
+      {
+       "metin": "Sarıl, hiçbir şey söyleme",
+       "maliyet": {
+        "dakika": 20
+       },
+       "etki": [
+        {
+         "zaman": {
+          "saat": 4
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": 3,
+          "guven": 1
+         }
+        },
+        {
+         "durum": {
+          "stres": -4
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Kollarını ona doluyorsun. Bir süre sonra nefesi ağırlaşıyor; uyuyor. Sen de, onun kalp atışını sayarken."
+        ]
+       ],
+       "git": "sabah"
+      },
+      {
+       "metin": "Ona bir sırrını anlat",
+       "alt": "Karanlıkta söylemesi kolay.",
+       "maliyet": {
+        "dakika": 30
+       },
+       "etki": [
+        {
+         "zaman": {
+          "saat": 4
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "guven": 5,
+          "yakinlik": 4
+         }
+        },
+        {
+         "ani": {
+          "npc": "kisi",
+          "metin": "ona kimseye anlatmadığın bir şeyi anlattın"
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Karanlıkta, kimseye söylemediğin bir şeyi anlatıyorsun. {kisi.ad} sözünü kesmiyor. Bitince elini tutuyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Teşekkür ederim. Bana güvendiğin için."
+         },
+         "Sonra o da bir şey anlatıyor; sabaha kadar ikinizin arasında kalacak bir şey."
+        ]
+       ],
+       "git": "sabah"
+      },
+      {
+       "metin": "Onu nasıl gördüğünü söyle",
+       "maliyet": {
+        "dakika": 15
+       },
+       "etki": [
+        {
+         "zaman": {
+          "saat": 4
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "arzu": 3,
+          "yakinlik": 3
+         }
+        }
+       ],
+       "sonuc": [
+        [
+         "Ona onu nasıl gördüğünü söylüyorsun: gülerken burnunu kırıştırmasını, sabırsızlığını, ellerini. {kisi.ad} yüzünü saklıyor.",
+         {
+          "tur": "konusma",
+          "konusan": "{kisi.ad}",
+          "metin": "Sus. Sus, ağlayacağım."
+         }
+        ]
+       ],
+       "git": "sabah"
+      },
+      {
+       "metin": "Bir daha",
+       "alt": "Gece bitmedi.",
+       "maliyet": {
+        "dakika": 45
+       },
+       "sonuclar": [
+        {
+         "agirlik": 1,
+         "kosul": {
+          "iliski": {
+           "npc": "kisi",
+           "arzu": {
+            "min": 60
+           }
+          }
+         },
+         "etki": [
+          {
+           "zaman": {
+            "saat": 4
+           }
+          },
+          {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": 8,
+            "cekim": 4
+           }
+          },
+          {
+           "durum": {
+            "enerji": -10,
+            "ruh": 4
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           "Elini beline koyuyorsun. {kisi.ad} gözünü açmadan gülüyor.",
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Sen ciddisin."
+           },
+           "Ciddisin. O da öyle çıkıyor."
+          ]
+         ],
+         "git": "sabah"
+        },
+        {
+         "agirlik": 1,
+         "kosul": {
+          "degil": {
+           "iliski": {
+            "npc": "kisi",
+            "arzu": {
+             "min": 60
+            }
+           }
+          }
+         },
+         "etki": [
+          {
+           "zaman": {
+            "saat": 4
+           }
+          },
+          {
+           "iliski": {
+            "npc": "kisi",
+            "yakinlik": 2
+           }
+          }
+         ],
+         "sonuc": [
+          [
+           {
+            "tur": "konusma",
+            "konusan": "{kisi.ad}",
+            "metin": "Bana biraz insaf."
+           },
+           "Gülerek yüzüne bir yastık bastırıyor; sonra o yastığa sarılıp uyuyakalıyor."
+          ]
+         ],
+         "git": "sabah"
+        }
+       ]
+      },
+      {
+       "metin": "Hemen uyu",
+       "maliyet": {
+        "dakika": 5
+       },
+       "etki": [
+        {
+         "zaman": {
+          "saat": 4
+         }
+        },
+        {
+         "iliski": {
+          "npc": "kisi",
+          "yakinlik": -1
+         }
+        }
+       ],
+       "sonuc": "Gözlerin kapanıyor. Uykuya dalarken {kisi.ad} hâlâ uyanık; bir süre karanlıkta sana bakıyor.",
+       "git": "sabah"
       }
      ]
     }

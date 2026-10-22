@@ -38,10 +38,13 @@ export function askKonulari(durum, veri, n, k, ig) {
   const m = mekanBul(veri.dunya, o.mekan);
   for (const [id, h] of Object.entries(X.serbest || {})) {
     if (id.startsWith('_') || o.kullanilan['ask:' + id]) continue;
-    const c = h.kosul || {};
+    const c = h.kosul || {}, sa = h.sart;
+    // sart (3.20): hepsi tutmalı — ilişki türü, en az gece/yakınlık/arzu, iki kullanım arası gün
+    if (sa && ((sa.tur && !sa.tur.includes(k.iliskiTuru)) || (sa.gece && (k.iliski.gece ?? 0) < sa.gece) || (sa.yakinlik && (k.iliski.yakinlik ?? 0) < sa.yakinlik)
+      || (sa.arzu && ar < sa.arzu) || (sa.aralik && gun - (k.serbestGun?.[id] ?? -Infinity) < sa.aralik))) continue;
     if (c.numaraYok && (k.numara || sahteSurer(k))) continue;
     if (c.mekan && !c.mekan.includes(m?.tur)) continue;
-    const acik = sevgiliMi(k) || (c.ilgi !== undefined && ig >= c.ilgi) || (c.arzu !== undefined && ar >= c.arzu) || (c.yakinlik !== undefined && (k.iliski.yakinlik ?? 0) >= c.yakinlik);
+    const acik = sa || sevgiliMi(k) || (c.ilgi !== undefined && ig >= c.ilgi) || (c.arzu !== undefined && ar >= c.arzu) || (c.yakinlik !== undefined && (k.iliski.yakinlik ?? 0) >= c.yakinlik);
     if (acik) l.push({ konu: 'ask:' + id, ad: h.baslik, dakika: h.sure });
   }
   return l;
@@ -77,6 +80,10 @@ export function ozelUygula(durum, veri, rng, n, k, ozel = [], p, ar, s = 0) {
       if (!k.iliskiTuru) k.iliskiTuru = 'flort';
       if (partner) k.iliski.risk = (k.iliski.risk ?? 0) + 2;
     } else if (o === 'flort') { if (!k.iliskiTuru) k.iliskiTuru = 'flort'; }
+    else if (o === 'sevgili') {
+      if (k.iliskiTuru !== 'sevgili') k.anilar.push({ zaman: durum.zaman.dakika, metin: 'birbirinize "seni seviyorum" dediniz' });
+      k.iliskiTuru = 'sevgili';
+    }
     else if (o === 'risk') k.iliski.risk = (k.iliski.risk ?? 0) + 1;
     else if (o === 'kiskanclik') kiskanclikYay(durum, veri, n.id, rng);
     else if (o === 'numara' && !k.numara) {
@@ -91,7 +98,7 @@ export function ozelUygula(durum, veri, rng, n, k, ozel = [], p, ar, s = 0) {
       p.push({ tur: 'sistem', metin: `Yarın akşam ${n.hitapAdi} ile buluşacaksın` });
     } else if (o === 'cik') {
       const olay = partner ? 'birlikte_gece_gizli' : 'birlikte_gece';
-      durum.zamanlayicilar.unshift({ zaman: durum.zaman.dakika, olay, baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+      durum.zamanlayicilar.unshift({ zaman: durum.zaman.dakika, olay, baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi, cinsiyet: n.cinsiyet } } } });
       if (partner) { k.iliski.risk = (k.iliski.risk ?? 0) + 2; k.gizli = true; }
       delete durum.sohbet;
     } else if (o === 'kalkar' || o === 'senKalk') {
@@ -101,7 +108,7 @@ export function ozelUygula(durum, veri, rng, n, k, ozel = [], p, ar, s = 0) {
       // Arar mı? Kimse bilmez: ilgisi yüksekse çoğunlukla, düşükse ara sıra
       if (rng.olasilik(sinir((s + 10) / 50, 0.12, 0.9))) {
         const zaman = durum.zaman.dakika + rng.aralik(3 * 60, 30 * 60);
-        durum.zamanlayicilar.push({ zaman, olay: 'pecete_mesaj', baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+        durum.zamanlayicilar.push({ zaman, olay: 'pecete_mesaj', baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi, cinsiyet: n.cinsiyet } } } });
         durum.zamanlayicilar.sort((a, b) => a.zaman - b.zaman);
       }
       k.peceteGun = gun;
@@ -117,7 +124,8 @@ function etkiUygula(k, etki = {}, partner) {
   if (partner && (etki.arzu ?? 0) > 0) k.iliski.risk = (k.iliski.risk ?? 0) + 1; // herkesin gözü önünde
 }
 
-function serbestHamle(durum, veri, rng, n, k, h, s, tarz, p, ar) {
+function serbestHamle(durum, veri, rng, n, k, h, s, tarz, p, ar, hamle) {
+  (k.serbestGun ??= {})[hamle] = gunNo(durum.zaman.dakika);
   p.push(...ar.anlat(durum, veri, n, k, h.oyuncu, rng));
   const id = sonucSec(durum, k, n, h.sonuclar, s, rng, tarz);
   if (!id) return true;
@@ -140,7 +148,7 @@ export function askHamlesi(durum, veri, rng, n, k, konu, ig, p, ar) {
   const sen = liste => p.push(...ar.sen(durum, veri, n, k, liste, rng));
   const partner = partnerli(n);
   k.bilinen ??= {};
-  if (X.serbest?.[konu]) return serbestHamle(durum, veri, rng, n, k, X.serbest[konu], s, tarz, p, ar);
+  if (X.serbest?.[konu]) return serbestHamle(durum, veri, rng, n, k, X.serbest[konu], s, tarz, p, ar, konu);
   if (konu === 'goz') {
     const sev = s >= X.esikler.gozIyi ? 'iyi' : s >= X.esikler.gozOrta ? 'orta' : 'kotu';
     anlat(X.goz.sen);
@@ -196,7 +204,7 @@ export function askHamlesi(durum, veri, rng, n, k, konu, ig, p, ar) {
       anlat(partner ? X.cik.gizli : X.cik.evet);
       // Aynı gece: sohbetten hemen sonra olay (vakti gelmiş zamanlayıcı)
       const olay = partner ? 'birlikte_gece_gizli' : 'birlikte_gece';
-      durum.zamanlayicilar.unshift({ zaman: durum.zaman.dakika, olay, baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+      durum.zamanlayicilar.unshift({ zaman: durum.zaman.dakika, olay, baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi, cinsiyet: n.cinsiyet } } } });
       if (partner) { k.iliski.risk = (k.iliski.risk ?? 0) + 2; k.gizli = true; }
       arzuEkle(k, 6);
       delete durum.sohbet;

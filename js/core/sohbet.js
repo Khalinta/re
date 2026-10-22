@@ -261,7 +261,7 @@ export function randevuKur(durum, veri, id, n, k) {
   const olay = randevuYeri(durum, veri, n, k);
   k.sonRandevu = olay;
   k.randevuSayisi = (k.randevuSayisi ?? 0) + 1;
-  const kd = { ad: n.hitapAdi };
+  const kd = { ad: n.hitapAdi, cinsiyet: n.cinsiyet };
   if (olay === 'randevu_gizli') {
     k.sonGizliRandevu = gunNo(zaman);
     k.vicdanSoyledi = false;
@@ -917,7 +917,7 @@ function numaraIsrar(durum, veri, rng, n, k, ig, p) {
     k.sahteNumara = { gun };
     p.push({ tur: 'sistem', metin: `${n.hitapAdi} numarasını verdi` });
     const zaman = durum.zaman.dakika - gunDakikasi(durum.zaman.dakika) + 1440 + rng.aralik(11 * 60, 19 * 60);
-    durum.zamanlayicilar.push({ zaman, olay: 'sahte_numara', baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+    durum.zamanlayicilar.push({ zaman, olay: 'sahte_numara', baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi, cinsiyet: n.cinsiyet } } } });
     durum.zamanlayicilar.sort((a, b) => a.zaman - b.zaman);
     return false;
   }
@@ -925,7 +925,7 @@ function numaraIsrar(durum, veri, rng, n, k, ig, p) {
     k.seninNumaran = gun;
     if (rng.olasilik(sinirla((ig + 20) / 60, 0.15, 0.85))) {
       const zaman = durum.zaman.dakika + rng.aralik(4 * 60, 40 * 60);
-      durum.zamanlayicilar.push({ zaman, olay: 'pecete_mesaj', baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi } } } });
+      durum.zamanlayicilar.push({ zaman, olay: 'pecete_mesaj', baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi, cinsiyet: n.cinsiyet } } } });
       durum.zamanlayicilar.sort((a, b) => a.zaman - b.zaman);
     }
     return false;

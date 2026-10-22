@@ -77,6 +77,7 @@ export function ozelUygula(durum, veri, rng, n, k, ozel = [], p, ar, s = 0) {
   const gun = gunNo(durum.zaman.dakika), partner = partnerli(n);
   for (const o of ozel) {
     if (o === 'opucuk') {
+      if (durum.sohbet) durum.sohbet.son = 'opucuk';
       if (k.ilkOpucuk === undefined) { k.ilkOpucuk = gun; k.anilar.push({ zaman: durum.zaman.dakika, metin: 'ilk kez öpüştünüz' }); }
       if (!k.iliskiTuru) k.iliskiTuru = 'flort';
       if (partner) k.iliski.risk = (k.iliski.risk ?? 0) + 2;
@@ -133,6 +134,7 @@ function serbestHamle(durum, veri, rng, n, k, h, s, tarz, p, ar, hamle) {
   const x = h.sonuclar[id];
   p.push(...ar.anlat(durum, veri, n, k, havuz(x.metin, tarz), rng));
   etkiUygula(k, x.etki, partnerli(n));
+  if ((x.etki?.gerginlik ?? 0) > 0 && durum.sohbet) durum.sohbet.son = 'kirildi';
   const surer = ozelUygula(durum, veri, rng, n, k, x.ozel, p, ar, s);
   ozetEkle(durum, n.id, `Oyuncu: "${h.baslik}". Sonuç: ${id}.`);
   return surer && (x.etki?.arzu ?? 0) > 0;

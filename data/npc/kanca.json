@@ -943,6 +943,1188 @@
      }
     }
    }
+  },
+  "hal_yorgun": {
+   "ad": "yorgunluk",
+   "etiket": [
+    "hal:yorgun"
+   ],
+   "olgu": "Bugün çok yorgun.",
+   "yanitlar": {
+    "cay": {
+     "ad": "Otur, sana bir çay söyleyeyim",
+     "dakika": 5,
+     "kosul": {
+      "para": 20
+     },
+     "para": 20,
+     "soz": [
+      "Otur sen; ben bir çay söyleyeyim, ilk yudumu sessizce iç."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Çay gelince iki eliyle bardağı kavrıyor. 'Bunu hiç bilmeden ne çok istiyormuşum' diyor."
+        ],
+        "oz:gururlu": [
+         "'Gerek yoktu' diyor; ama çayı bırakmıyor, bitirene kadar."
+        ]
+       },
+       "etki": {
+        "yakinlik": 3
+       }
+      }
+     }
+    },
+    "neden": {
+     "ad": "Neden bu kadar yoruldun?",
+     "dakika": 8,
+     "soz": [
+      "Bu ne yorgunluk böyle? Ne oldu?"
+     ],
+     "sonuclar": {
+      "acar": {
+       "a": 0,
+       "b": 0.35,
+       "metin": {
+        "_": [
+         "Bir an susuyor; sonra anlatmaya başlıyor. Yorgunluğun altında başka bir şey var."
+        ]
+       },
+       "etki": {
+        "guven": 2
+       },
+       "ozel": [
+        "derdiniAc"
+       ]
+      },
+      "kapali": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Uzun hikâye' diyor; gülümsüyor ama anlatmıyor. Sorman yine de iyi geldi."
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       }
+      }
+     }
+    },
+    "erken": {
+     "ad": "\"Bugün erken yat\"",
+     "dakika": 3,
+     "soz": [
+      "Bugün kendine iyilik yap; erkenden yat."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.1,
+       "metin": {
+        "_": [
+         "'Annem gibi konuştun' diyor, gülerek. 'Ama haklısın.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       }
+      }
+     }
+    }
+   }
+  },
+  "hal_gergin": {
+   "ad": "gerginlik",
+   "etiket": [
+    "hal:gergin"
+   ],
+   "olgu": "Bugün gergin.",
+   "yanitlar": {
+    "kim": {
+     "ad": "Ne oldu? Kim sinirlendirdi seni?",
+     "dakika": 8,
+     "soz": [
+      "Bir şey olmuş belli. Kim kızdırdı seni?"
+     ],
+     "sonuclar": {
+      "acar": {
+       "a": 0,
+       "b": 0.35,
+       "metin": {
+        "_": [
+         "'Sorma' diyor; sonra soruyu bekliyormuş gibi bir solukta anlatıyor."
+        ],
+        "oz:alingan": [
+         "'Herkes beni sinirlendiriyor bugün' diyor, sana bakarak; sonra yumuşuyor ve anlatıyor."
+        ]
+       },
+       "etki": {
+        "guven": 2
+       },
+       "ozel": [
+        "derdiniAc"
+       ]
+      },
+      "ters": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "'Senin işin değil' diyor, sertçe. Sonra fark ediyor: 'Pardon. Sana kızgın değilim.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 1
+       }
+      }
+     }
+    },
+    "nefes": {
+     "ad": "\"Derin bir nefes al; geçer\"",
+     "dakika": 3,
+     "soz": [
+      "Derin bir nefes al. Geçecek; her zaman geçiyor."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0.5,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Gözlerini kapatıp nefes alıyor; omuzları biraz iniyor. 'Tamam. Biraz.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       }
+      },
+      "kotu": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "'Bana sakin ol deme' diyor. Ama sinirli değil, yorgun."
+        ],
+        "oz:kavgaci": [
+         "'Sakin ol mu?' diyor, sesini yükselterek. Yan masa dönüp bakıyor."
+        ]
+       },
+       "etki": {
+        "gerginlik": 1
+       }
+      }
+     }
+    },
+    "guldur": {
+     "ad": "Onu güldürmeye çalış",
+     "dakika": 5,
+     "soz": [
+      "Bugünü kurtaracak bir hikâyem var; dinle."
+     ],
+     "sonuclar": {
+      "guldu": {
+       "a": 0.5,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "Önce direniyor, sonra kahkahayı patlatıyor. 'Sen var ya...' Gerginlik dağıldı."
+        ]
+       },
+       "etki": {
+        "yakinlik": 4
+       }
+      },
+      "olmadi": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "Gülümsemeye çalışıyor; olmuyor. 'Bugün değil' diyor."
+        ]
+       },
+       "etki": {}
+      }
+     }
+    }
+   }
+  },
+  "hal_dalgin": {
+   "ad": "dalgınlık",
+   "etiket": [
+    "hal:dalgin"
+   ],
+   "olgu": "Bugün aklı başka yerde.",
+   "yanitlar": {
+    "nerede": {
+     "ad": "\"Neredesin? Aklın başka yerde\"",
+     "dakika": 6,
+     "soz": [
+      "Burada değilsin sanki. Aklın nerede?"
+     ],
+     "sonuclar": {
+      "acar": {
+       "a": 0,
+       "b": 0.35,
+       "metin": {
+        "_": [
+         "İrkiliyor; sonra gülümsüyor. 'Fark ettin mi?' diyor ve aklındakini anlatıyor."
+        ]
+       },
+       "etki": {
+        "guven": 2,
+        "yakinlik": 2
+       },
+       "ozel": [
+        "derdiniAc"
+       ]
+      },
+      "hayal": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Hiç' diyor. 'Bir şeyler hayal ediyordum. Saçma şeyler.' Gözleri hâlâ uzakta."
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       }
+      }
+     }
+    },
+    "birak": {
+     "ad": "Onu rahat bırak",
+     "dakika": 2,
+     "soz": [
+      "Seni düşüncelerinle baş başa bırakayım; sonra konuşuruz."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.1,
+       "metin": {
+        "_": [
+         "'Sağ ol' diyor. 'Anlayışlısın.' Kalkarken bir şey daha diyecek gibi oluyor, demiyor."
+        ]
+       },
+       "etki": {
+        "yakinlik": 2,
+        "guven": 1
+       },
+       "ozel": [
+        "senKalk"
+       ]
+      }
+     }
+    }
+   }
+  },
+  "hal_keyifli": {
+   "ad": "keyif",
+   "etiket": [
+    "hal:keyifli",
+    "hal:sohbetli"
+   ],
+   "olgu": "Bugün keyfi yerinde.",
+   "yanitlar": {
+    "ne": {
+     "ad": "\"Seni böyle görmek güzel; ne oldu?\"",
+     "dakika": 6,
+     "soz": [
+      "Yüzün gülüyor bugün. Ne oldu, anlat!"
+     ],
+     "sonuclar": {
+      "anlatir": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Küçük bir şey anlatıyor: bir mesaj, bir iltifat, güzel bir kahvaltı. Anlatırken yeniden seviniyor; sevinci sana da geçiyor."
+        ]
+       },
+       "etki": {
+        "yakinlik": 3
+       }
+      }
+     }
+    },
+    "kutla": {
+     "ad": "Bu keyfi kutlayalım",
+     "dakika": 15,
+     "kosul": {
+      "para": 60
+     },
+     "para": 60,
+     "soz": [
+      "Bu keyif boşa gitmesin; benden bir şey içelim."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Kadeh, bardak, ne varsa tokuşturuyorsunuz. 'Hiçbir şeyi kutluyoruz' diyor. 'En güzel kutlama.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 4,
+        "arzu": 2
+       }
+      }
+     }
+    }
+   }
+  },
+  "dedikodu": {
+   "ad": "dedikodu",
+   "etiket": [
+    "dedikodu"
+   ],
+   "olgu": "Sana bir dedikodu anlattı.",
+   "yanitlar": {
+    "kimden": {
+     "ad": "\"Kimden duydun bunu?\"",
+     "dakika": 3,
+     "soz": [
+      "Bunu kimden duydun?"
+     ],
+     "sonuclar": {
+      "soyler": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "'Mahallede herkes biliyor' diyor, omuz silkerek; sonra sesini alçaltıp bir isim veriyor. 'Benden duymadın ama.'"
+        ],
+        "oz:geveze": [
+         "'Ah, kimden duymadım ki!' diyor; üç farklı kaynak sayıyor, hepsi birbirinden emin."
+        ]
+       },
+       "etki": {
+        "guven": 1
+       }
+      },
+      "kizar": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "'Ne yani, yalan mı söylüyorum?' diyor; alınmış."
+        ]
+       },
+       "etki": {
+        "gerginlik": 1
+       }
+      }
+     }
+    },
+    "karisma": {
+     "ad": "\"Başkasının işine karışmayalım\"",
+     "dakika": 3,
+     "soz": [
+      "Bence bu bizi ilgilendirmez; başkasının işi."
+     ],
+     "sonuclar": {
+      "saygi": {
+       "a": 1,
+       "b": 0.15,
+       "metin": {
+        "_": [
+         "Bir an duruyor; sonra başını sallıyor. 'Haklısın. Ağzım çok konuşuyor bazen.' Sana bakışında bir saygı var."
+        ]
+       },
+       "etki": {
+        "guven": 3
+       }
+      },
+      "bozuldu": {
+       "a": 0.6,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Sen de amma ciddisin' diyor; bozuldu."
+        ],
+        "oz:geveze": [
+         "'Peki ahlak hocası' diyor; ama bir daha anlatmadan önce iki kez düşünecek."
+        ]
+       },
+       "etki": {
+        "yakinlik": -1
+       }
+      }
+     }
+    },
+    "soyleyecegim": {
+     "ad": "\"Bunu ona söyleyeceğim\"",
+     "dakika": 3,
+     "soz": [
+      "Bunu {s.kisiAd|e} söylemek lazım; arkasından konuşulduğunu bilmeli."
+     ],
+     "sonuclar": {
+      "korkar": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "Yüzü bembeyaz oluyor. 'Sakın! Benim söylediğimi söyleme, yalvarırım.'"
+        ]
+       },
+       "etki": {
+        "gerginlik": 2,
+        "guven": -2
+       }
+      },
+      "umursamaz": {
+       "a": 0.7,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Söyle' diyor, umursamazca. 'Zaten biliyordur.'"
+        ]
+       },
+       "etki": {}
+      }
+     }
+    },
+    "devam": {
+     "ad": "\"Dur dur, baştan anlat\"",
+     "dakika": 6,
+     "soz": [
+      "Dur bir dakika; baştan, yavaş yavaş anlat."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.1,
+       "metin": {
+        "_": [
+         "Gözleri parlıyor; bu sefer ayrıntılarla, el kol hareketleriyle anlatıyor. İkiniz de suç ortağı gibisiniz artık."
+        ]
+       },
+       "etki": {
+        "yakinlik": 3
+       }
+      }
+     }
+    }
+   }
+  },
+  "hayal": {
+   "ad": "hayal",
+   "etiket": [
+    "hayal"
+   ],
+   "olgu": "Sana hayalini anlattı.",
+   "yanitlar": {
+    "basla": {
+     "ad": "\"Neden hemen başlamıyorsun?\"",
+     "dakika": 6,
+     "soz": [
+      "Bu kadar istiyorsan neden yarın başlamıyorsun?"
+     ],
+     "sonuclar": {
+      "cesaret": {
+       "a": 0.5,
+       "b": 0.25,
+       "metin": {
+        "_": [
+         "Bir an susuyor. 'Kimse bunu bana böyle sormamıştı' diyor. 'Belki de başlarım.' Gözlerinde yeni bir şey var."
+        ]
+       },
+       "etki": {
+        "guven": 3,
+        "yakinlik": 2
+       },
+       "ozel": [
+        "ani:hayaline başlaması için cesaret verdin"
+       ]
+      },
+      "kizar": {
+       "a": 1,
+       "b": -0.15,
+       "metin": {
+        "_": [
+         "'Söylemesi kolay' diyor; kırılmış. 'Benim hayatımı bilmiyorsun.'"
+        ],
+        "oz:gururlu": [
+         "'Herkes akıl veriyor' diyor, soğuk. 'Kimse yardım etmiyor ama.'"
+        ]
+       },
+       "etki": {
+        "gerginlik": 1
+       }
+      }
+     }
+    },
+    "yardim": {
+     "ad": "\"Sana yardım ederim\"",
+     "dakika": 5,
+     "soz": [
+      "Ne lazımsa; elimden geldiğince yardım ederim. Ciddiyim."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0.5,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "Sana uzun uzun bakıyor. 'Ciddisin, değil mi?' Elini sıkıyor. 'Bunu unutmayacağım.'"
+        ]
+       },
+       "etki": {
+        "guven": 5,
+        "yakinlik": 4
+       },
+       "ozel": [
+        "ani:hayali için yardım sözü verdin"
+       ]
+      },
+      "suphe": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Bakarız' diyor, gülümseyerek; ama sözünü bir yere yazdı."
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       }
+      }
+     }
+    },
+    "benimde": {
+     "ad": "\"Benim de bir hayalim var\"",
+     "dakika": 8,
+     "soz": [
+      "Benim de bir hayalim var; daha kimseye söylemedim."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Dikkatle dinliyor; bitince 'güzelmiş' diyor, içtenlikle. 'İkimiz de bir gün başaralım.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 5,
+        "guven": 2
+       }
+      }
+     }
+    }
+   }
+  },
+  "haber": {
+   "ad": "şehrin gündemi",
+   "etiket": [
+    "gundem"
+   ],
+   "olgu": "Şehrin gündemini konuştunuz.",
+   "yanitlar": {
+    "hakli": {
+     "ad": "\"Bence haklılar\"",
+     "dakika": 5,
+     "soz": [
+      "Bence haklılar; bu böyle gitmez."
+     ],
+     "sonuclar": {
+      "katilir": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Değil mi?' diyor, coşarak. 'Ben de diyorum!' Bir süre birlikte söyleniyorsunuz."
+        ]
+       },
+       "etki": {
+        "yakinlik": 3
+       }
+      },
+      "tartisir": {
+       "a": 0.8,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Hiç sanmıyorum' diyor; bir tartışma başlıyor, ama keyifli bir tartışma."
+        ],
+        "oz:kavgaci": [
+         "'Ne haklısı!' diye sesini yükseltiyor; tartışma kızışıyor."
+        ]
+       },
+       "etki": {
+        "yakinlik": 1,
+        "gerginlik": 1
+       }
+      }
+     }
+    },
+    "abarti": {
+     "ad": "\"Abartıyorlar bence\"",
+     "dakika": 5,
+     "soz": [
+      "Bence biraz abartıyorlar; her şey bu kadar kötü değil."
+     ],
+     "sonuclar": {
+      "katilir": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Bilmem' diyor, düşünerek. 'Belki de öyle. Herkes bağırınca insan da bağırıyor.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       }
+      },
+      "tartisir": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Sen burada yaşamıyorsun herhalde' diyor, acı acı gülerek."
+        ]
+       },
+       "etki": {
+        "gerginlik": 1
+       }
+      }
+     }
+    },
+    "hepayni": {
+     "ad": "\"Bu şehirde hep aynı\"",
+     "dakika": 4,
+     "soz": [
+      "Bu şehirde değişen bir şey yok ki; hep aynı hikâye."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.1,
+       "metin": {
+        "_": [
+         "'Hep aynı' diye tekrarlıyor; iç çekiyor. 'Ama biz yine de buradayız, değil mi?'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       }
+      }
+     }
+    }
+   }
+  },
+  "is_konusu": {
+   "ad": "işi",
+   "etiket": [
+    "is:calisiyor",
+    "is:kendi",
+    "is:sahip"
+   ],
+   "olgu": "İşinden bahsetti.",
+   "yanitlar": {
+    "banaIs": {
+     "ad": "\"Oralarda bana göre bir iş var mı?\"",
+     "dakika": 5,
+     "soz": [
+      "Sizin oralarda bana göre bir iş olur mu? Ben de bir şeyler arıyorum."
+     ],
+     "sonuclar": {
+      "sorar": {
+       "a": 0,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "'Sorarım' diyor. 'Bizim şefin bir derdi var, eleman arıyordu galiba. Bir haber veririm.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       },
+       "ozel": [
+        "bayrak:is_ipucu"
+       ]
+      },
+      "yok": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Bizde şu an alım yok' diyor. 'Ama bir şey duyarsam sana söylerim.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 1
+       }
+      }
+     }
+    },
+    "seviyor": {
+     "ad": "\"İşini seviyor musun?\"",
+     "dakika": 6,
+     "soz": [
+      "Peki sen bu işi seviyor musun, yoksa mecbur musun?"
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Bir süre düşünüyor; cevabı ilk aklına gelen değil. 'Bazı günler seviyorum' diyor. 'Bazı günler sadece kira.' Sonra sana da aynısını soruyor."
+        ]
+       },
+       "etki": {
+        "yakinlik": 3,
+        "guven": 1
+       }
+      }
+     }
+    }
+   }
+  },
+  "memleket": {
+   "ad": "memleket",
+   "etiket": [
+    "memleket"
+   ],
+   "olgu": "Memleketini anlattı.",
+   "yanitlar": {
+    "ozluyor": {
+     "ad": "\"Özlüyor musun oraları?\"",
+     "dakika": 6,
+     "soz": [
+      "Özlüyor musun oraları?"
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0.5,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Gözleri uzaklara gidiyor. Bir kokuyu, bir sokağı, bir sesi anlatıyor. 'Özlüyorum' diyor sonunda. 'Ama dönersem bu sefer burayı özlerim.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 4,
+        "guven": 1
+       }
+      }
+     }
+    },
+    "gotur": {
+     "ad": "\"Bir gün beni de götür\"",
+     "dakika": 3,
+     "soz": [
+      "Bir gün beni de götür; anlattığın yerleri görmek istiyorum."
+     ],
+     "sonuclar": {
+      "flortlu": {
+       "a": -1,
+       "b": 0.4,
+       "metin": {
+        "_": [
+         "Gülümsüyor. 'Annemle tanıştırırım o zaman' diyor; şaka mı değil mi, belli değil."
+        ]
+       },
+       "flortKosul": true,
+       "etki": {
+        "arzu": 4,
+        "yakinlik": 3
+       }
+      },
+      "dost": {
+       "a": 1,
+       "b": 0.1,
+       "metin": {
+        "_": [
+         "'Götürürüm' diyor, sevinerek. 'Ama yemekten patlarsın, baştan söyleyeyim.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 3
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "an": {
+  "_aciklama": "3.22: o anın durumu: hava, saat, mekan türü, kişinin bugünkü hali, az önce olanlar, kalkmak üzere olması. kosul: yagmur, gece (22.00–04.00), mekanTur [..], hal [..] (sorulmadan da görünür), son ('kirildi' | 'opucuk'), kalanMax, icmez (false: içmeyen biri değilse). tekrar: oturumda kaç kez. ozel: icki, kalan:N, derdiniAc, sigin (yakındaki kapalı bir mekana birlikte geçersiniz), eveBirak, cik, senKalk.",
+  "bir_sey_mi": {
+   "ad": "\"Bir şey mi oldu?\"",
+   "kosul": {
+    "hal": [
+     "gergin",
+     "dalgin",
+     "yorgun"
+    ]
+   },
+   "dakika": 5,
+   "soz": [
+    "Yüzünden belli; bir şey mi oldu?"
+   ],
+   "sonuclar": {
+    "acar": {
+     "a": 0,
+     "b": 0.35,
+     "metin": {
+      "_": [
+       "Şaşırıyor; sonra omuzları çöküyor. 'Bu kadar belli mi?' diyor ve anlatmaya başlıyor."
+      ]
+     },
+     "etki": {
+      "guven": 2
+     },
+     "ozel": [
+      "derdiniAc"
+     ]
+    },
+    "yok": {
+     "a": 1,
+     "b": 0,
+     "metin": {
+      "_": [
+       "'Yok bir şey' diyor; sesi 'var' diyor. 'Sonra anlatırım belki.'"
+      ]
+     },
+     "etki": {
+      "yakinlik": 2
+     }
+    }
+   },
+   "oncelik": 2
+  },
+  "icki": {
+   "ad": "Bir içki ısmarla",
+   "kosul": {
+    "mekanTur": [
+     "bar",
+     "meyhane",
+     "gece_kulubu",
+     "restoran"
+    ],
+    "para": 120
+   },
+   "para": 120,
+   "dakika": 15,
+   "tekrar": 3,
+   "soz": [
+    "Bir içki daha söyleyelim; bu benden.",
+    "Bardaklar boşaldı; bir tur daha, benden."
+   ],
+   "sonuclar": {
+    "icer": {
+     "a": 1,
+     "b": 0.2,
+     "metin": {
+      "_": [
+       "Bardağını kaldırıyor: 'Neye içiyoruz?' Cevap beklemeden içiyor; yanakları ısınıyor."
+      ],
+      "icki:2": [
+       "İkinci kadehte gülüşü yükseliyor; sana daha yakın oturuyor. 'Bunu bana neden şimdi söylüyorsun, bilmiyorum ama...' diye başlayıp bir sırrının ucunu veriyor."
+      ],
+      "icki:3": [
+       "Üçüncü kadehten sonra kelimeleri biraz kayıyor. 'Sen var ya...' diyor, parmağını göğsüne bastırarak, 'sen başka birisin.' Gözleri uzun süre gözlerinde kalıyor."
+      ]
+     },
+     "etki": {
+      "yakinlik": 2,
+      "arzu": 3
+     },
+     "ozel": [
+      "icki",
+      "kalan:2"
+     ]
+    },
+    "icmez": {
+     "a": 0,
+     "b": 0,
+     "metin": {
+      "_": [
+       "'Ben içmem' diyor, gülümseyerek. 'Ama bir soda alırım; teklifin için sağ ol.'"
+      ]
+     },
+     "icmeyen": true,
+     "etki": {
+      "yakinlik": 1
+     }
+    }
+   },
+   "oncelik": 1
+  },
+  "cay": {
+   "ad": "Bir çay daha söyle",
+   "kosul": {
+    "mekanTur": [
+     "kahvehane",
+     "cay_ocagi",
+     "kafe",
+     "pastane",
+     "lokanta"
+    ],
+    "para": 20
+   },
+   "para": 20,
+   "dakika": 10,
+   "tekrar": 2,
+   "soz": [
+    "İki çay daha! Bu sohbet bitmesin."
+   ],
+   "sonuclar": {
+    "iyi": {
+     "a": 1,
+     "b": 0.1,
+     "metin": {
+      "_": [
+       "'Bir çay daha olur' diyor; sandalyesine yayılıyor. Kalkmaya niyeti yok artık."
+      ],
+      "yasli": [
+       "'Çayı geri çevirmek ayıptır' diyor, bıyık altından gülerek."
+      ]
+     },
+     "etki": {
+      "yakinlik": 1
+     },
+     "ozel": [
+      "kalan:3"
+     ]
+    }
+   },
+   "oncelik": 1
+  },
+  "sigin": {
+   "ad": "Yağmurdan bir yere sığınalım",
+   "kosul": {
+    "yagmur": true,
+    "mekanTur": [
+     "park",
+     "pazar"
+    ]
+   },
+   "dakika": 10,
+   "soz": [
+    "Sırılsıklam olacağız; gel, şuraya bir yere girelim."
+   ],
+   "sonuclar": {
+    "iyi": {
+     "a": 1,
+     "b": 0.2,
+     "metin": {
+      "_": [
+       "Elini tutup koşuyorsunuz; bir saçağın altında, sonra en yakın kafede nefes nefese gülüyorsunuz. Saçlarından su damlıyor."
+      ]
+     },
+     "etki": {
+      "yakinlik": 3,
+      "arzu": 2
+     },
+     "ozel": [
+      "sigin"
+     ]
+    }
+   },
+   "oncelik": 4
+  },
+  "birak": {
+   "ad": "Geç oldu; seni eve bırakayım",
+   "kosul": {
+    "gece": true
+   },
+   "dakika": 30,
+   "soz": [
+    "Bu saatte yalnız gitme; seni eve bırakayım."
+   ],
+   "sonuclar": {
+    "kapida": {
+     "a": -3,
+     "b": 0.5,
+     "metin": {
+      "_": [
+       "Kapısının önünde duruyorsunuz. Anahtarı çıkarıyor ama kapıyı açmıyor. 'Yukarı gelmek ister misin?' diyor; sesi neredeyse fısıltı."
+      ]
+     },
+     "flortKosul": true,
+     "aksam": true,
+     "etki": {
+      "arzu": 8
+     },
+     "ozel": [
+      "cik"
+     ]
+    },
+    "tesekkur": {
+     "a": 1,
+     "b": 0.2,
+     "metin": {
+      "_": [
+       "Yol boyunca konuşuyorsunuz; şehir gece başka. Kapısında 'sağ ol' diyor. 'Kimse bunu yapmazdı.'"
+      ],
+      "yasli": [
+       "Kolunu koluna takıyor; yol boyunca eski günleri anlatıyor. Kapıda 'Allah razı olsun evladım' diyor."
+      ]
+     },
+     "etki": {
+      "yakinlik": 4,
+      "guven": 2
+     },
+     "ozel": [
+      "eveBirak"
+     ]
+    },
+    "gerekyok": {
+     "a": 0.8,
+     "b": -0.1,
+     "metin": {
+      "_": [
+       "'Gerek yok, yakın' diyor; ama teklifin hoşuna gitti. Kapıda el sallıyor."
+      ]
+     },
+     "etki": {
+      "yakinlik": 2
+     },
+     "ozel": [
+      "eveBirak"
+     ]
+    }
+   },
+   "oncelik": 3
+  },
+  "ozur": {
+   "ad": "\"Özür dilerim; kaba oldu\"",
+   "kosul": {
+    "son": "kirildi"
+   },
+   "dakika": 3,
+   "soz": [
+    "Az önceki için özür dilerim; kaba oldu, haklısın."
+   ],
+   "sonuclar": {
+    "kabul": {
+     "a": 0.5,
+     "b": 0.3,
+     "metin": {
+      "_": [
+       "Bir süre bakıyor; sonra yüzü yumuşuyor. 'Tamam' diyor. 'Özür dilemen yetti.'"
+      ]
+     },
+     "etki": {
+      "gerginlik": -3,
+      "guven": 1
+     }
+    },
+    "sogu": {
+     "a": 1,
+     "b": -0.1,
+     "metin": {
+      "_": [
+       "'Olan oldu' diyor, kısa. Ama gerginlik biraz çözüldü."
+      ]
+     },
+     "etki": {
+      "gerginlik": -1
+     }
+    }
+   },
+   "oncelik": 5
+  },
+  "az_once": {
+   "ad": "Az önce olanı konuş",
+   "kosul": {
+    "son": "opucuk"
+   },
+   "dakika": 6,
+   "soz": [
+    "Az önce... Bunu konuşmamız lazım mı, yoksa sadece devam mı edelim?"
+   ],
+   "sonuclar": {
+    "devam": {
+     "a": 0,
+     "b": 0.4,
+     "metin": {
+      "_": [
+       "Gülüyor; dudağını ısırıyor. 'Konuşmayalım' diyor. 'Devam edelim.' Ve devam ediyor."
+      ]
+     },
+     "etki": {
+      "arzu": 6
+     }
+    },
+    "ciddi": {
+     "a": 1,
+     "b": 0.1,
+     "metin": {
+      "_": [
+       "'Ben bunu hafife almıyorum' diyor, ciddileşerek. 'Senin için ne demekti?' Konuşuyorsunuz; uzun ve dürüst."
+      ]
+     },
+     "etki": {
+      "yakinlik": 4,
+      "guven": 3
+     }
+    },
+    "pisman": {
+     "a": 0.8,
+     "b": -0.1,
+     "metin": {
+      "_": [
+       "Gözlerini kaçırıyor. 'Bilmiyorum... Belki biraz hızlı oldu.'"
+      ]
+     },
+     "etki": {
+      "arzu": -2
+     }
+    }
+   },
+   "oncelik": 5
+  },
+  "kal": {
+   "ad": "\"Biraz daha kal\"",
+   "kosul": {
+    "kalanMax": 1
+   },
+   "dakika": 2,
+   "soz": [
+    "Gitme hemen; biraz daha kal."
+   ],
+   "sonuclar": {
+    "kalir": {
+     "a": 0,
+     "b": 0.35,
+     "metin": {
+      "_": [
+       "Saatine bakıyor, sonra sana. 'Peki' diyor. 'Yarım saat. Sonra gerçekten giderim.'"
+      ]
+     },
+     "etki": {
+      "yakinlik": 2
+     },
+     "ozel": [
+      "kalan:3"
+     ]
+    },
+    "gider": {
+     "a": 1,
+     "b": 0,
+     "metin": {
+      "_": [
+       "'Gerçekten gitmem lazım' diyor, üzgün. 'Ama yine görüşürüz.'"
+      ]
+     },
+     "etki": {}
+    }
+   },
+   "oncelik": 4
   }
  }
 }

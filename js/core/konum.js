@@ -16,7 +16,7 @@ import { para as paraYaz, sure as sureYaz } from './format.js';
 import { aksiyonKaydet } from './durum.js';
 import { Rng } from './rng.js';
 import { mekandakiler, tanisildiMi, gorunus, kisi } from './insanlar.js';
-import { tanis, yaninaOtur, sohbetKonulari, oturumGecerli, kisiDedikodusu, dedikoduKaydet } from './sohbet.js';
+import { tanis, yaninaOtur, sohbetKonulari, oturumGecerli, kisiDedikodusu, dedikoduKaydet, evArkadasiEvde, evdeKonus } from './sohbet.js';
 
 export const EVDE = 'ev';
 
@@ -74,7 +74,11 @@ export function baglamAksiyonlari(durum, veri) {
   const k = durum.konum, g = veri.gezi, s = g.sureler;
   const liste = [];
   const ekle = (id, ad, maliyet, sebep, alt) => liste.push({ id, ad, alt, maliyet, tamam: !sebep, sebep });
-  if (k.mekan === EVDE) {
+  if (k.mekan === EVDE && durum.sohbet?.evde && oturumGecerli(durum, veri)) {
+    for (const x of sohbetKonulari(durum, veri)) ekle('sohbet:' + x.konu, x.ad, { dakika: x.dakika });
+  } else if (k.mekan === EVDE) {
+    // Ev arkadaşın evdeyse onunla konuşabilirsin (3.21)
+    if (evArkadasiEvde(durum, veri)) ekle('npc:evde', `${ek(kisi(veri, durum.seed, durum.evArkadasi.id, durum.npcler?.[durum.evArkadasi.id]?.sablon)?.hitapAdi ?? 'Ev arkadaşın', 'le')} konuş`, { dakika: veri.npc.sohbet.sure.otur });
     ekle('gezi:cik', 'Dışarı çık', { dakika: s.evdenCik });
   } else if (k.mekan && durum.sohbet && veri.npc?.sohbet && oturumGecerli(durum, veri)) {
     // Biriyle sohbet ederken yalnızca konular (ve kalkmak)
@@ -283,6 +287,7 @@ export function konusulacaklar(durum, veri, m) {
 
 // Mekandaki biriyle tanış ya da sohbet et: hamle kimliği 'tanis:<npc>' / 'konus:<npc>'
 export function insanHamlesi(durum, veri, rng, hamle) {
+  if (hamle === 'evde') return evdeKonus(durum, veri, rng);
   const m = mekanBul(veri.dunya, durum.konum.mekan);
   if (!m || durum.konum.mekan === EVDE) return { tamam: false, sebep: 'Bir mekanda değilsin.' };
   const kapali = mekanKapaliMi(durum, m);

@@ -1,0 +1,948 @@
+{
+ "_aciklama": "Konuşma kancaları (3.21, kullanıcı: 'Defne ev arkadaşı aramaktan yoruldum diyor; teklif edebilmeliyim, kim olursa olsun. Ezber kalıplardan derin, söylenene özel cevaplar.'). Kişi bir şey söyleyince (desen: söylediği cümlede geçen ifade; dertler: anlattığı dert) o konuya özel cevaplar sohbet menüsünün başına gelir; kişi bunu hatırlar (k.kancalar), sonraki görüşmede 'takip' ile sorulabilir. Sonuçlar ağırlıklı çekiliş: a + b·(skor/10) + iliski[ilişki türü]; skor = yakınlık + 2·güven + ilgi/2. kosul: para, yakinlik, evArkadasiYok. ozel: evArkadasi (yanına taşınır), cozuldu, dusunuyor, randevu, numara, alacak:N, iade:N, ani:metin. flortKosul: yalnızca flörte uygunsa.",
+ "kancalar": {
+  "ev_arkadasi": {
+   "ad": "ev arkadaşı",
+   "desen": "ev arkadaşı ar",
+   "olgu": "Ev arkadaşı arıyor.",
+   "takip": {
+    "ad": "Ev arkadaşı bulabildi mi, sor",
+    "soz": {
+     "_": [
+      "Bulamadım. Ya çok pahalı ya da adam tuhaf. Bir tanesi kedimi istemedi; benim kedim bile yok.",
+      "Hâlâ arıyorum. Her ilanın altında yirmi kişi yorum yazmış."
+     ]
+    }
+   },
+   "yanitlar": {
+    "yanima": {
+     "ad": "\"Benim yanıma taşın\"",
+     "dakika": 6,
+     "kosul": {
+      "evArkadasiYok": true
+     },
+     "soz": [
+      "Benim oda küçük ama ikimize yeter. Yanıma taşınsana; kirayı bölüşürüz.",
+      "Ciddiyim: benim yanımda yer var. Gel, birlikte kalalım."
+     ],
+     "sonuclar": {
+      "kabul": {
+       "a": -1,
+       "b": 0.55,
+       "metin": {
+        "_": [
+         "Bir an sana bakıyor; sonra gülmeye başlıyor. 'Ciddi misin? ...Tamam. Tamam! Yarın eşyalarımı getiriyorum, sonra pişman olma.'",
+         "'Bunu birinin söylemesini bekliyordum galiba' diyor. 'Olur. Ama bulaşık sırası var, haberin olsun.'"
+        ]
+       },
+       "iliski": {
+        "flort": 1,
+        "sevgili": 2
+       },
+       "etki": {
+        "yakinlik": 6,
+        "guven": 4
+       },
+       "ozel": [
+        "evArkadasi",
+        "cozuldu"
+       ]
+      },
+      "flortlu": {
+       "a": -2,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "Kaşını kaldırıyor. 'Ev arkadaşı mı, yoksa başka bir şey mi bu teklif?' Cevabını beklemeden gülümsüyor. 'Düşüneceğim. Ama ilk hissim evet.'"
+        ]
+       },
+       "iliski": {
+        "flort": 3,
+        "sevgili": 2
+       },
+       "etki": {
+        "arzu": 6,
+        "yakinlik": 3
+       },
+       "ozel": [
+        "dusunuyor"
+       ]
+      },
+      "dusunur": {
+       "a": 1.5,
+       "b": 0.1,
+       "metin": {
+        "_": [
+         "'Bu büyük bir şey' diyor, yavaşça. 'Bir düşüneyim. Gerçekten düşüneceğim, laf olsun diye söylemiyorum.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 3,
+        "guven": 2
+       },
+       "ozel": [
+        "dusunuyor"
+       ]
+      },
+      "ret": {
+       "a": 1.5,
+       "b": -0.3,
+       "metin": {
+        "_": [
+         "Gülümsüyor ama başını sallıyor. 'Sağ ol. Ama birbirimizi daha o kadar tanımıyoruz, değil mi?'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 1
+       }
+      }
+     }
+    },
+    "ilan": {
+     "ad": "Birlikte ilanlara bakalım",
+     "dakika": 25,
+     "soz": [
+      "Telefonu ver; birlikte bakalım, ben eleme yaparım."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0.5,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Yan yana oturup ilanları kaydırıyorsunuz; her birine bir kusur buluyorsunuz, gülmekten bir ilanı bitiremiyorsunuz. Sonunda bir tanesi gerçekten iyi; numarayı kaydediyor. 'Sen olmasan bakmazdım bile.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 4
+       },
+       "ozel": [
+        "cozuldu"
+       ]
+      },
+      "eh": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "Yarım saat bakıyorsunuz; hepsi ya pahalı ya rezil. 'En azından birlikte söylendik' diyor."
+        ]
+       },
+       "etki": {
+        "yakinlik": 3
+       }
+      }
+     }
+    },
+    "soracagim": {
+     "ad": "\"Bir tanıdığa sorayım\"",
+     "dakika": 3,
+     "soz": [
+      "Bir sorayım etrafa; belki bilen çıkar."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Sahi mi? Sorarsan çok iyi olur' diyor. Sesinde umut var."
+        ]
+       },
+       "etki": {
+        "yakinlik": 2,
+        "guven": 1
+       }
+      }
+     }
+    }
+   }
+  },
+  "ev_derdi": {
+   "ad": "ev derdi",
+   "dertler": [
+    "kira",
+    "ev_satiliyor",
+    "donusum",
+    "sel",
+    "emekli_maas",
+    "kayinvalide"
+   ],
+   "desen": "taşınmayı düşünüyorum|kirayı yine|evi satıyor",
+   "olgu": "Evle ilgili bir derdi var.",
+   "takip": {
+    "ad": "Ev işi ne oldu, sor",
+    "soz": {
+     "_": [
+      "Hâlâ aynı. Ev sahibi telefonlarımı açmıyor artık.",
+      "Bir yer baktım, olmadı. Bu şehirde ev bulmak piyango."
+     ]
+    }
+   },
+   "yanitlar": {
+    "yanima": {
+     "ad": "\"Bir süre bende kal\"",
+     "dakika": 6,
+     "kosul": {
+      "evArkadasiYok": true
+     },
+     "soz": [
+      "Bulana kadar bende kal. Oda küçük ama sıcak."
+     ],
+     "sonuclar": {
+      "kabul": {
+       "a": -1,
+       "b": 0.55,
+       "metin": {
+        "_": [
+         "Bir an sana bakıyor; sonra gülmeye başlıyor. 'Ciddi misin? ...Tamam. Tamam! Yarın eşyalarımı getiriyorum, sonra pişman olma.'",
+         "'Bunu birinin söylemesini bekliyordum galiba' diyor. 'Olur. Ama bulaşık sırası var, haberin olsun.'"
+        ]
+       },
+       "iliski": {
+        "flort": 1,
+        "sevgili": 2
+       },
+       "etki": {
+        "yakinlik": 6,
+        "guven": 4
+       },
+       "ozel": [
+        "evArkadasi",
+        "cozuldu"
+       ]
+      },
+      "flortlu": {
+       "a": -2,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "Kaşını kaldırıyor. 'Ev arkadaşı mı, yoksa başka bir şey mi bu teklif?' Cevabını beklemeden gülümsüyor. 'Düşüneceğim. Ama ilk hissim evet.'"
+        ]
+       },
+       "iliski": {
+        "flort": 3,
+        "sevgili": 2
+       },
+       "etki": {
+        "arzu": 6,
+        "yakinlik": 3
+       },
+       "ozel": [
+        "dusunuyor"
+       ]
+      },
+      "dusunur": {
+       "a": 1.5,
+       "b": 0.1,
+       "metin": {
+        "_": [
+         "'Bu büyük bir şey' diyor, yavaşça. 'Bir düşüneyim. Gerçekten düşüneceğim, laf olsun diye söylemiyorum.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 3,
+        "guven": 2
+       },
+       "ozel": [
+        "dusunuyor"
+       ]
+      },
+      "ret": {
+       "a": 1.5,
+       "b": -0.3,
+       "metin": {
+        "_": [
+         "Gülümsüyor ama başını sallıyor. 'Sağ ol. Ama birbirimizi daha o kadar tanımıyoruz, değil mi?'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 1
+       }
+      }
+     }
+    },
+    "hak": {
+     "ad": "Haklarını anlat",
+     "dakika": 8,
+     "soz": [
+      "Bak, kiracının hakları var; öyle bir günde çıkaramazlar. Bir sözleşmene bakalım."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0.5,
+       "b": 0.25,
+       "metin": {
+        "_": [
+         "Dikkatle dinliyor; bir kâğıda not alıyor. 'Bunları bilmiyordum' diyor. 'İçim biraz rahatladı.'"
+        ]
+       },
+       "etki": {
+        "guven": 3,
+        "yakinlik": 2
+       }
+      },
+      "kotu": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "'Kâğıt üstünde öyle' diyor, acı bir gülüşle. 'Ev sahibi kanun tanımıyor.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 1
+       }
+      }
+     }
+    }
+   }
+  },
+  "is_ariyor": {
+   "ad": "iş",
+   "dertler": [
+    "issizlik",
+    "oglu_issiz",
+    "universite_kaybi",
+    "son_uyari",
+    "dil",
+    "is_kazasi"
+   ],
+   "desen": "iş arıyorum|iş bulamı",
+   "olgu": "İş arıyor.",
+   "takip": {
+    "ad": "İş bulabildi mi, sor",
+    "soz": {
+     "_": [
+      "Bulamadım. Bir yere çağırdılar, gittim; 'sizi ararız' dediler. Bilirsin.",
+      "Bir şey var ama emin değilim. Maaşı az, yol uzun."
+     ]
+    }
+   },
+   "yanitlar": {
+    "cv": {
+     "ad": "Özgeçmişine birlikte bakalım",
+     "dakika": 30,
+     "soz": [
+      "Göster bakalım özgeçmişini; bir de dışarıdan gözle bakalım."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "Birlikte satır satır geçiyorsunuz; yanlışları düzeltiyor, eksikleri ekliyorsunuz. Bitince ekrana bakıp gülümsüyor: 'Bunu ben yazmışım gibi değil. Teşekkür ederim.'"
+        ]
+       },
+       "etki": {
+        "guven": 4,
+        "yakinlik": 4
+       },
+       "ozel": [
+        "ani:özgeçmişini birlikte düzelttiniz"
+       ]
+      },
+      "utandi": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "Göstermiyor. 'Rezil bir şey, bakma' diyor; ama teklifin hoşuna gitti."
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       }
+      }
+     }
+    },
+    "moral": {
+     "ad": "\"Bu akşam benden; kafanı dağıt\"",
+     "dakika": 20,
+     "kosul": {
+      "para": 120
+     },
+     "para": 120,
+     "soz": [
+      "Bu akşam bir şey düşünme. Ne içiyorsan benden."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "İlk bardaktan sonra omuzları iniyor; ikinciden sonra gülmeye başlıyor. 'Bunu unutmayacağım' diyor."
+        ]
+       },
+       "etki": {
+        "yakinlik": 5,
+        "guven": 2
+       }
+      }
+     }
+    },
+    "soracagim": {
+     "ad": "\"Etrafa sorayım\"",
+     "dakika": 3,
+     "soz": [
+      "Bir sorayım; bilen tanıyan çıkar belki."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Sorarsan iyi olur' diyor. 'Ne iş olsa yaparım, gerçekten.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 2,
+        "guven": 1
+       }
+      }
+     }
+    }
+   }
+  },
+  "para_derdi": {
+   "ad": "para",
+   "dertler": [
+    "borc",
+    "maas",
+    "icra",
+    "kumar_borcu",
+    "kardes_borc",
+    "yurt_parasi",
+    "ilac_parasi",
+    "araba_taksit",
+    "cocuk_okul",
+    "deryapi",
+    "koinpazar",
+    "kefil",
+    "dolandirildi"
+   ],
+   "olgu": "Para sıkıntısı var.",
+   "takip": {
+    "ad": "Para işi düzeldi mi, sor",
+    "soz": {
+     "_": [
+      "Düzelmedi. Ay sonuna kadar idare edeceğim, sonra bakarız.",
+      "Biraz toparladım ama yine sıfıra yakın."
+     ]
+    }
+   },
+   "yanitlar": {
+    "borc": {
+     "ad": "Borç ver (500 ₺)",
+     "dakika": 5,
+     "kosul": {
+      "para": 500
+     },
+     "para": 500,
+     "soz": [
+      "Al şunu; beş yüz. Ne zaman olursa öde, acelesi yok."
+     ],
+     "sonuclar": {
+      "kabul": {
+       "a": 0,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "Bir süre paraya bakıyor; gözleri doluyor. 'Bunu ödeyeceğim. Söz.' Elini sıkıyor, uzun uzun."
+        ]
+       },
+       "etki": {
+        "guven": 6,
+        "yakinlik": 5
+       },
+       "ozel": [
+        "alacak:500",
+        "ani:darda kaldığında borç verdin"
+       ]
+      },
+      "gurur": {
+       "a": 1,
+       "b": -0.15,
+       "metin": {
+        "_": [
+         "Parayı geri itiyor. 'Yapamam. Sağ ol, gerçekten; ama yapamam.' Gururu incinmiş ama teklifin hoşuna gitmiş."
+        ]
+       },
+       "etki": {
+        "yakinlik": 3,
+        "guven": 2
+       },
+       "ozel": [
+        "iade:500"
+       ]
+      }
+     }
+    },
+    "hesap": {
+     "ad": "Birlikte bir hesap yapalım",
+     "dakika": 20,
+     "soz": [
+      "Bir kâğıt kalem; gelen giden ne var, yazalım. Bazen görünce kolaylaşır."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0.5,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Rakamları alt alta yazıyorsunuz. Bir yerde duruyor: 'Bunu hiç böyle görmemiştim.' Çözüm değil ama bir başlangıç."
+        ]
+       },
+       "etki": {
+        "guven": 3,
+        "yakinlik": 3
+       }
+      },
+      "kotu": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "Rakamlar kötü; ikiniz de susuyorsunuz. 'Görmesem daha iyiydi' diyor, acı acı gülerek."
+        ]
+       },
+       "etki": {
+        "yakinlik": 1
+       }
+      }
+     }
+    }
+   }
+  },
+  "yalnizlik": {
+   "ad": "yalnızlık",
+   "dertler": [
+    "yalnizlik",
+    "emekli_bosluk",
+    "cocuk_aramiyor",
+    "evlat_uzakta",
+    "torun_goremiyor",
+    "ozluyor",
+    "sikinti",
+    "gelecek_korkusu"
+   ],
+   "desen": "ev çok sessiz|yalnız kaldım|kimsem yok",
+   "olgu": "Yalnız hissediyor.",
+   "takip": {
+    "ad": "Nasıl hissettiğini sor",
+    "soz": {
+     "_": [
+      "Biraz daha iyiyim. Sen sordun ya, o bile iyi geldi.",
+      "Aynı. Akşamlar uzun."
+     ]
+    }
+   },
+   "yanitlar": {
+    "bulusma": {
+     "ad": "\"Bir akşam birlikte bir şey yapalım\"",
+     "dakika": 5,
+     "soz": [
+      "Bir akşam çıkalım; yürürüz, bir şey yeriz. Yalnız oturma."
+     ],
+     "sonuclar": {
+      "kabul": {
+       "a": 0.5,
+       "b": 0.35,
+       "metin": {
+        "_": [
+         "Yüzü aydınlanıyor. 'Gerçekten mi? Olur. Çok iyi olur.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 5
+       },
+       "ozel": [
+        "randevu"
+       ]
+      },
+      "cekingen": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Bilmem... Belki' diyor; ama gülümsemesi 'evet' diyor."
+        ]
+       },
+       "etki": {
+        "yakinlik": 3
+       }
+      }
+     }
+    },
+    "ugrarim": {
+     "ad": "\"Ben sana uğrarım\"",
+     "dakika": 3,
+     "soz": [
+      "Bundan sonra arada uğrarım. Kapıyı açarsın, değil mi?"
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "'Açarım' diyor; sesi titriyor. 'Çayı da demlerim.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 4,
+        "guven": 2
+       },
+       "ozel": [
+        "ani:yalnız olmadığını söyledin"
+       ]
+      }
+     }
+    },
+    "bende": {
+     "ad": "\"Ben de yalnızım\"",
+     "dakika": 8,
+     "soz": [
+      "Bilir misin, ben de öyleyim. Bu şehirde kimsem yok."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0.5,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Sana uzun uzun bakıyor. 'O zaman iki yalnız olduk' diyor. 'Bu da bir şey.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 5,
+        "guven": 3
+       }
+      }
+     }
+    }
+   }
+  },
+  "hasta_yakini": {
+   "ad": "hastalık",
+   "dertler": [
+    "anne_hasta",
+    "baba_hasta",
+    "anne_unutkan",
+    "saglik",
+    "ameliyat"
+   ],
+   "olgu": "Hastalıkla uğraşıyor.",
+   "takip": {
+    "ad": "Hastası nasıl, sor",
+    "soz": {
+     "_": [
+      "Aynı. Doktorlar bir şey demiyor; ben her şeyi kendim çıkarmaya çalışıyorum.",
+      "Biraz daha iyi bu hafta. Geçici mi bilmiyorum."
+     ]
+    }
+   },
+   "yanitlar": {
+    "gelirim": {
+     "ad": "\"Hastaneye seninle gelirim\"",
+     "dakika": 5,
+     "soz": [
+      "Bir dahaki sefere hastaneye seninle gelirim. Yalnız gitme."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0.5,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "Bir an konuşamıyor. 'Bunu kimse teklif etmedi' diyor. Elini tutuyor."
+        ]
+       },
+       "etki": {
+        "guven": 6,
+        "yakinlik": 5
+       },
+       "ozel": [
+        "ani:hastaneye onunla gelmeyi teklif ettin"
+       ]
+      },
+      "cekingen": {
+       "a": 1,
+       "b": 0,
+       "metin": {
+        "_": [
+         "'Sana yük olmak istemem' diyor; ama teklifin içine işledi."
+        ]
+       },
+       "etki": {
+        "yakinlik": 3,
+        "guven": 2
+       }
+      }
+     }
+    },
+    "ara": {
+     "ad": "\"Bir şey lazım olursa ara\"",
+     "dakika": 3,
+     "soz": [
+      "Gece yarısı bile olsa; bir şey lazım olursa ara."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Telefonunu çıkarıp numaranı kaydediyor. 'Ararım' diyor. 'Gerçekten ararım.'"
+        ]
+       },
+       "etki": {
+        "guven": 3,
+        "yakinlik": 3
+       },
+       "ozel": [
+        "numara"
+       ]
+      }
+     }
+    }
+   }
+  },
+  "kayip": {
+   "ad": "kayıp",
+   "dertler": [
+    "anne_kaybi",
+    "baba_kaybi"
+   ],
+   "olgu": "Yakın zamanda birini kaybetti.",
+   "yanitlar": {
+    "anlat": {
+     "ad": "\"Anlat onu bana\"",
+     "dakika": 20,
+     "soz": [
+      "Başın sağ olsun. Anlatır mısın onu? Nasıl biriydi?"
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "Önce duraksıyor, sonra anlatmaya başlıyor: küçük şeyler, komik şeyler. Bir yerde ağlıyor, bir yerde gülüyor. Bitince 'kimse sormamıştı' diyor."
+        ]
+       },
+       "etki": {
+        "guven": 6,
+        "yakinlik": 6
+       },
+       "ozel": [
+        "ani:kaybettiği kişiyi sana anlattı"
+       ]
+      },
+      "kapali": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "'Şimdi değil' diyor, yavaşça. 'Ama sorman iyi geldi.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 2
+       }
+      }
+     }
+    },
+    "saril": {
+     "ad": "Ona sarıl",
+     "dakika": 3,
+     "kosul": {
+      "yakinlik": 12
+     },
+     "soz": [
+      "Bir şey demeden ona sarılıyorsun."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Önce kaskatı; sonra omzunda ağlamaya başlıyor. Uzun süre öyle kalıyorsunuz."
+        ]
+       },
+       "etki": {
+        "yakinlik": 6,
+        "guven": 4
+       }
+      }
+     }
+    }
+   }
+  },
+  "ask_derdi": {
+   "ad": "kalp",
+   "dertler": [
+    "yeni_ayrilik",
+    "kalp",
+    "sevgili_uzak",
+    "evlilik_soguk",
+    "bosanma"
+   ],
+   "olgu": "Kalbi kırık ya da karışık.",
+   "takip": {
+    "ad": "O mesele ne oldu, sor",
+    "soz": {
+     "_": [
+      "Hâlâ aklımda. Ama eskisi kadar acıtmıyor.",
+      "Değişen bir şey yok. Belki ben de değişmek istemiyorum."
+     ]
+    }
+   },
+   "yanitlar": {
+    "cik": {
+     "ad": "\"Unut onu; bu akşam benimle çık\"",
+     "dakika": 5,
+     "soz": [
+      "Onu düşünmeyi bırak. Bu akşam benimle çık; sana iyi bir akşam borçluyum."
+     ],
+     "sonuclar": {
+      "flort": {
+       "a": -1,
+       "b": 0.45,
+       "metin": {
+        "_": [
+         "Bir an şaşırıyor; sonra gülümsüyor. 'Bu bir teklif mi?' Cevabını bekliyor; bakışı değişti."
+        ]
+       },
+       "flortKosul": true,
+       "etki": {
+        "arzu": 6,
+        "cekim": 4,
+        "yakinlik": 3
+       },
+       "ozel": [
+        "randevu"
+       ]
+      },
+      "dost": {
+       "a": 1,
+       "b": 0.1,
+       "metin": {
+        "_": [
+         "'Sen iyi birisin' diyor, gülümseyerek. 'Olur. Bir akşam çıkalım; ama dertleşmek yok.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 4
+       }
+      },
+      "erken": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "'Daha erken' diyor. 'Ama teklifin için sağ ol.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 1
+       }
+      }
+     }
+    },
+    "dinle": {
+     "ad": "\"Anlat, sonuna kadar dinliyorum\"",
+     "dakika": 20,
+     "soz": [
+      "Anlat. Hepsini. Sözünü kesmeyeceğim."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 0,
+       "b": 0.3,
+       "metin": {
+        "_": [
+         "Anlatıyor; başından sonuna. Bitirdiğinde yüzü hafiflemiş. 'Bunu kimseye bu kadar uzun anlatmamıştım.'"
+        ]
+       },
+       "etki": {
+        "guven": 5,
+        "yakinlik": 4
+       }
+      }
+     }
+    }
+   }
+  },
+  "is_derdi": {
+   "ad": "iş yeri",
+   "dertler": [
+    "patron",
+    "terfi",
+    "vardiya"
+   ],
+   "olgu": "İşinde zor günler geçiriyor.",
+   "yanitlar": {
+    "istifa": {
+     "ad": "\"Bırak o işi\"",
+     "dakika": 5,
+     "soz": [
+      "Bak, hiçbir iş bu kadarına değmez. Bırak; bir şey bulursun."
+     ],
+     "sonuclar": {
+      "cesaret": {
+       "a": 0.5,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "'Belki de haklısın' diyor; gözleri bir an parlıyor. 'Korkuyorum ama haklısın.'"
+        ]
+       },
+       "etki": {
+        "guven": 3,
+        "yakinlik": 2
+       }
+      },
+      "kizdi": {
+       "a": 1,
+       "b": -0.1,
+       "metin": {
+        "_": [
+         "'Söylemesi kolay' diyor, sertçe. 'Benim kiram var.'"
+        ]
+       },
+       "etki": {
+        "gerginlik": 1
+       }
+      }
+     }
+    },
+    "dayan": {
+     "ad": "\"Dayan; ben de dayanıyorum\"",
+     "dakika": 8,
+     "soz": [
+      "Biliyorum, zor. Ben de az değilim; birbirimize dayanırız."
+     ],
+     "sonuclar": {
+      "iyi": {
+       "a": 1,
+       "b": 0.2,
+       "metin": {
+        "_": [
+         "Gülümsüyor; yorgun ama içten. 'Birbirimize dayanırız. Bunu beğendim.'"
+        ]
+       },
+       "etki": {
+        "yakinlik": 4
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

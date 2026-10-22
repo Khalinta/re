@@ -40,7 +40,7 @@ async function jsonAl(yol) {
 }
 
 export async function veriYukle() {
-  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbetVeri, gorunusVeri, arketipler, bilesenler, flort, dedikodu, hayatOlaylari, derinlik, zevk] = await Promise.all([
+  const [sim, aks, takvim, olayAyar, olayListe, yaylar, sehir, semtler, ulasim, kurumlar, sirketler, figurler, orgutler, mekanlar, ilerleme, hava, ekonomi, gezi, isimler, memleket, kisilik, hayat, sohbetVeri, gorunusVeri, arketipler, bilesenler, flort, dedikodu, hayatOlaylari, derinlik, zevk, kanca] = await Promise.all([
     jsonAl('./data/simulasyon.json'),
     jsonAl('./data/aksiyonlar.json'),
     jsonAl('./data/takvim.json'),
@@ -72,8 +72,9 @@ export async function veriYukle() {
     jsonAl('./data/npc/hayat_olaylari.json'),
     jsonAl('./data/npc/derinlik.json'),
     jsonAl('./data/npc/zevk.json'),
+    jsonAl('./data/npc/kanca.json'),
   ]);
-  veri.npc = { isimler, memleket, kisilik, hayat, sohbet: sohbetVeri, gorunus: gorunusVeri, flort, dedikodu, hayatOlaylari, derinlik, zevk };
+  veri.npc = { isimler, memleket, kisilik, hayat, sohbet: sohbetVeri, gorunus: gorunusVeri, flort, dedikodu, hayatOlaylari, derinlik, zevk, kanca };
   veri.gezi = gezi;
   veri.ekonomi = ekonomi;
   const ekoSorunlari = ekonomiDogrula(ekonomi, { isTurleri: sirketler.isTurleri, hizmetler: mekanlar.hizmetler, ulasim });

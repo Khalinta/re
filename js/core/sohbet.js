@@ -25,6 +25,7 @@ import { sirriBiliyorMu, ozetEkle } from './hafiza.js';
 import { partnerli, aciklik, sadakatTipi, partnerCezasi } from './sadakat.js';
 import { askKonulari, askHamlesi, askSecenekler, askCevapla, askKarsilama, npcAtilim, kiskanclikYay, sonucSec, ozelUygula, sahteSurer, gerginKarsilama } from './ask.js';
 import { derinKonular, derinHamle, derinSecenekler, derinCevapla, derinSoruAdaylari, derinSoruSor } from './zevk.js';
+import { kancaTara, kancaSecenekleri, kancaHamlesi } from './kanca.js';
 
 const sinir = (x, a, b) => Math.max(a, Math.min(b, x));
 const kucukBas = s => s ? s[0].toLocaleLowerCase('tr') + s.slice(1) : s;
@@ -141,7 +142,9 @@ function soyle(durum, veri, n, k, grup, rng, ctxEk = {}, tur = 'konusma') {
   const t = sozSec(durum, k, havuzu(grup, n, veri.npc.sohbet), rng, veri.npc.sohbet.hafiza);
   if (!t) return [];
   const ctx = { durum, veri, baglam: { degisken: degiskenler(durum, veri, n, rng, ctxEk) } };
-  return metinCoz(t, rng, ctx).map(p => tur === 'konusma' ? { tur: 'konusma', konusan: n.hitapAdi, metin: agizla(p.metin, n, veri, rng) } : { ...p, tur });
+  const l = metinCoz(t, rng, ctx).map(p => tur === 'konusma' ? { tur: 'konusma', konusan: n.hitapAdi, metin: agizla(p.metin, n, veri, rng) } : { ...p, tur });
+  kancaTara(durum, veri, n, k, l.map(p => p.metin).join(' ')); // söylediği bir şey konuşmayı açıyor mu (3.21)
+  return l;
 }
 const anlat = (durum, veri, n, k, grup, rng, ctxEk = {}) => soyle(durum, veri, n, k, grup, rng, ctxEk, 'anlati');
 
@@ -174,6 +177,33 @@ function oturumBaslat(durum, id, mekan, kalan) {
   durum.sohbet = { npc: id, mekan: mekan.id, kalan, kullanilan: {}, bekleyen: null, bas: durum.zaman.dakika };
 }
 export const oturumBitir = durum => { delete durum.sohbet; };
+
+// Ev arkadaşı (3.21): yanına taşınan kişiyle evde konuşulur. Evde mi: iş saatlerinde (hafta içi 09–18) değilse, gece 01–07 uyuyorsa yok
+const evMekani = durum => ({ id: 'ev', ad: 'ev', tur: 'ev', semt: durum.ev?.semt, kalabalik: {} });
+export function evArkadasiEvde(durum, veri) {
+  const e = durum.evArkadasi;
+  if (!e || durum.konum?.mekan !== 'ev' || gunNo(durum.zaman.dakika) < e.gun) return false;
+  const n = kisiGuncel(durum, veri, e.id);
+  if (!n || n.yok) return false;
+  const sa = gunDakikasi(durum.zaman.dakika) / 60, hg = tarihAl(durum.zaman.baslangic, durum.zaman.dakika).getUTCDay();
+  if (sa >= 1 && sa < 7) return false;
+  if (n.durum === 'calisiyor' && hg >= 1 && hg <= 5 && sa >= 9 && sa < 18) return false;
+  return true;
+}
+export function evdeKonus(durum, veri, rng) {
+  const e = durum.evArkadasi, sb = veri.npc.sohbet;
+  if (!evArkadasiEvde(durum, veri)) return { tamam: false, sebep: 'Şu an evde değil.' };
+  const k = durum.npcler[e.id], n = kisiGuncel(durum, veri, e.id);
+  const p = [{ tur: 'secim', metin: `${ek(n.hitapAdi, 'le')} konuş` }];
+  zamanGecir(durum, sb.sure.otur, 'normal', veri.sim);
+  oturumBaslat(durum, e.id, evMekani(durum), sabir(veri, n, k) + 2);
+  durum.sohbet.evde = true;
+  k.sonGorus = durum.zaman.dakika;
+  if ((k.iliski.gerginlik ?? 0) >= sb.gerginlikEsigi) { gerginKarsilama(durum, veri, rng, n, k, p, ARACLAR); return { tamam: true, paragraflar: p }; }
+  p.push(...soyle(durum, veri, n, k, sb.selam.yakin, rng));
+  aksiyonKaydet(durum, 'evde:' + e.id);
+  return { tamam: true, paragraflar: p };
+}
 
 // Olaydan buluşmaya (3.17): "Hemen yanına git" gibi seçeneklerde gerçekten onunla bir yerdesin ve konuşabilirsin.
 // Mekan: onun semtinde şu an açık, istenen türde bir yer (yoksa şehirde); sure dakika boyunca orada kalır.
@@ -450,6 +480,7 @@ export function oturumGecerli(durum, veri) {
   const o = durum.sohbet;
   if (!o || durum.konum?.mekan !== o.mekan) return false;
   if (o.bulusma) return durum.zaman.dakika < o.bulusma; // seni çağırdı, buluştunuz (3.17): o kalkana kadar orada
+  if (o.evde) return evArkadasiEvde(durum, veri); // ev arkadaşın (3.21)
   const m = mekanBul(veri.dunya, o.mekan);
   const kal = m.kalabalik?.[dilim(durum.zaman.dakika).id] ?? 0;
   return mekandakiler(durum, veri, m, kal).includes(o.npc);
@@ -600,7 +631,9 @@ export function sohbetKonulari(durum, veri) {
   if (o.bekleyen?.tur === 'ask') return askSecenekler(durum, veri);
   if (o.bekleyen) {
     const def = soruTanimi(veri, o.bekleyen);
-    return (def?.cevaplar || []).filter(c => !c.kosul || kosulTutar(durum, veri, n, k, c.kosul)).map(c => ({ konu: 'cevap:' + c.id, ad: c.ad, dakika: sb.sure.cevap }));
+    const l = (def?.cevaplar || []).filter(c => !c.kosul || kosulTutar(durum, veri, n, k, c.kosul)).map(c => ({ konu: 'cevap:' + c.id, ad: c.ad, dakika: sb.sure.cevap }));
+    // Derdini anlatınca ona özel teklifler de cevap olur (3.21)
+    return o.bekleyen.id === 'dert_tepki' ? [...kancaSecenekleri(durum, veri, n, k).filter(x => !x.konu.endsWith(':takip')), ...l] : l;
   }
   const yak = k.iliski?.yakinlik ?? 0, gun = gunNo(durum.zaman.dakika);
   const liste = [];
@@ -627,14 +660,15 @@ export function sohbetKonulari(durum, veri) {
   const bitir = liste.findIndex(x => x.konu === 'bitir');
   const yer = Math.max(1, Math.min(veri.npc.zevk?.gosterim.oturumBasi ?? 0, 12 - liste.length));
   liste.splice(bitir >= 0 ? bitir : liste.length, 0, ...derinKonular(durum, veri, n, k, yer));
-  return liste;
+  // Az önce söylediği bir şeye özel cevaplar en başta (3.21); menü taşmasın diye en çok 4
+  return [...kancaSecenekleri(durum, veri, n, k).slice(0, 4), ...liste];
 }
 
 export function sohbetHamlesi(durum, veri, rng, konu) {
   const o = durum.sohbet;
   if (!o) return { tamam: false, sebep: 'Kimseyle konuşmuyorsun.' };
   const sb = veri.npc.sohbet;
-  const mekan = mekanBul(veri.dunya, o.mekan);
+  const mekan = o.evde ? evMekani(durum) : mekanBul(veri.dunya, o.mekan);
   const id = o.npc, k = durum.npcler[id], n = kisiGuncel(durum, veri, id);
   if (!oturumGecerli(durum, veri)) { oturumBitir(durum); return { tamam: false, sebep: `${n.hitapAdi} artık burada değil.` }; }
   const fl = !o.bekleyen || o.bekleyen.tur === 'flortMenu' ? flortHamleleri(durum, veri, n, k) : [];
@@ -652,6 +686,20 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
       : o.bekleyen?.tur === 'ask' ? askCevapla(durum, veri, rng, n, k, konu.slice(8), p, ARACLAR)
         : cevapla(durum, veri, rng, n, k, konu.slice(6), p);
     if (!s.tamam) return s;
+    aksiyonKaydet(durum, 'sohbet:' + konu, { npc: id });
+    return { tamam: true, paragraflar: p };
+  }
+
+  if (konu.startsWith('kanca:')) {
+    const y = kancaSecenekleri(durum, veri, n, k).find(x => x.konu === konu);
+    const p = [{ tur: 'secim', metin: y.ad.replace(/^"|"$/g, '') }];
+    zamanGecir(durum, y.dakika, 'dinlenme', veri.sim);
+    o.kullanilan[konu] = 1;
+    if (o.bekleyen?.id === 'dert_tepki') o.bekleyen = null;
+    k.sonGorus = durum.zaman.dakika;
+    const flort = flortUygun(durum, veri, n) && !flortEngeli(durum, veri, n);
+    kancaHamlesi(durum, veri, rng, n, k, konu, p, ARACLAR, { ig: flort ? ilgi(durum, veri, n, k) : 0, flort });
+    if (durum.sohbet) durum.sohbet.kalan -= 1;
     aksiyonKaydet(durum, 'sohbet:' + konu, { npc: id });
     return { tamam: true, paragraflar: p };
   }
@@ -723,7 +771,9 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
     else {
       p.push(...anlat(durum, veri, n, k, sb.dert.giris, rng));
       p.push(...beden(durum, veri, n, k, rng, 'huzun'));
-      p.push({ tur: 'konusma', konusan: n.hitapAdi, metin: agizla(rng.sec(d.soz ?? [d.metin]), n, veri, rng) });
+      const dertSozu = agizla(rng.sec(d.soz ?? [d.metin]), n, veri, rng);
+      p.push({ tur: 'konusma', konusan: n.hitapAdi, metin: dertSozu });
+      kancaTara(durum, veri, n, k, dertSozu, n.dert);
       k.bilinen.dert = true; yakinlikEkle(ar(...sb.yakinlik.dertDinlemek));
       k.iliski.guven = (k.iliski.guven ?? 0) + 2;
       k.anilar.push({ zaman: durum.zaman.dakika, metin: 'derdini dinledin' });

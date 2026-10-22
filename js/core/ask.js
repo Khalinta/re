@@ -65,7 +65,8 @@ export function sonucSec(durum, k, n, sonuclar, s, rng, tarz, ek = {}) {
     if (x.partnerYok && partner) continue;
     if (x.ilkOpucuk && k.ilkOpucuk !== undefined) continue;
     if (x.randevuYok && k.randevu >= gunNo(durum.zaman.dakika)) continue;
-    const w = (x.a ?? 1) + (x.b ?? 0) * s / 10 + (x.tarz?.[tarz] ?? 0) + (partner ? x.partner ?? 0 : 0) + (x.israrEk ?? 0) * (ek.israr ?? 0);
+    if (x.flortKosul && !ek.flort) continue;
+    const w = (x.a ?? 1) + (x.b ?? 0) * s / 10 + (x.tarz?.[tarz] ?? 0) + (partner ? x.partner ?? 0 : 0) + (x.israrEk ?? 0) * (ek.israr ?? 0) + (x.iliski?.[k.iliskiTuru] ?? 0);
     if (w > 0) adaylar.push({ id, agirlik: w });
   }
   return adaylar.length ? rng.agirlikliSec(adaylar).id : null;

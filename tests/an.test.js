@@ -154,3 +154,24 @@ test('az önce kırdıysan "özür dilerim" çıkar; dedikoduda o kişinin adıy
   hepsiTemiz(s);
   assert.ok(s.paragraflar.some(p => p.metin.includes("Kemal'e")), s.paragraflar.map(p => p.metin).join(' | '));
 });
+
+test('eve bıraktığın kişi o gece hiçbir mekanda yok, sabah yine çıkabilir; aynı saatlerde iki yerde birden görülmez', () => {
+  let t = null;
+  for (let i = 0; i < 40 && !t; i++) {
+    const x = oturum('GITTI' + i, 'kizil_bar', 23);
+    if (!x) continue;
+    sohbetHamlesi(x.d, veri, x.r, 'an:birak');
+    if (x.k.gitti) t = x;
+  }
+  assert.ok(t, 'eve bırakılmadı');
+  const bar = mekanBul(dunya, 'kizil_bar');
+  for (const dk of [t.d.zaman.dakika + 30, t.d.zaman.dakika + 180]) {
+    t.d.zaman.dakika = dk;
+    assert.ok(!mekandakiler(t.d, veri, bar, 3).includes(t.id));
+  }
+  assert.ok(t.k.gitti <= (Math.floor(t.saat / 1440) + 1) * 1440 + 8 * 60 + 1);
+  // sonYer: aynı gün ve dilimde başka bir mekanda değil
+  const k = t.k; delete k.gitti;
+  k.sonYer = { mekan: 'baska_mekan', gun: gunNo(t.d.zaman.dakika), dilim: dilim(t.d.zaman.dakika).id };
+  assert.ok(!mekandakiler(t.d, veri, bar, 3).includes(t.id));
+});

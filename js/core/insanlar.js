@@ -61,7 +61,14 @@ export function mekandakiler(durum, veri, m, kalabalik) {
     if (!liste.includes(id)) liste.push(id);
   }
   // Şehirden taşınan ya da vefat eden tanıdıklar artık görülmez (3.6)
-  const sonuc = liste.filter(id => !durum.npcler?.[id]?.degisim?.yok);
+  // 3.23: eve bıraktığın, kalkıp giden kişi bir süre hiçbir yerde yok; bu dilimde başka bir yerde gördüğün kişi burada değil
+  const simdi = durum.zaman.dakika;
+  const sonuc = liste.filter(id => {
+    const k = durum.npcler?.[id];
+    if (!k) return true;
+    if (k.degisim?.yok || (k.gitti && k.gitti > simdi)) return false;
+    return !(k.sonYer && k.sonYer.gun === gun && k.sonYer.dilim === dl && k.sonYer.mekan !== m.id);
+  });
   return kalabalik === 0 ? sonuc.filter(id => id === sahip) : sonuc;
 }
 

@@ -100,11 +100,13 @@ export function ozelUygula(durum, veri, rng, n, k, ozel = [], p, ar, s = 0) {
       p.push({ tur: 'sistem', metin: `Yarın akşam ${n.hitapAdi} ile buluşacaksın` });
     } else if (o === 'cik') {
       const olay = partner ? 'birlikte_gece_gizli' : 'birlikte_gece';
+      k.gitti = durum.zaman.dakika + 14 * 60; // gece seninle; ertesi gün ortalarda
       durum.zamanlayicilar.unshift({ zaman: durum.zaman.dakika, olay, baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi, cinsiyet: n.cinsiyet } } } });
       if (partner) { k.iliski.risk = (k.iliski.risk ?? 0) + 2; k.gizli = true; }
       delete durum.sohbet;
     } else if (o === 'kalkar' || o === 'senKalk') {
       k.ayrildi = { zaman: durum.zaman.dakika, kim: o === 'kalkar' ? 'o' : 'sen' };
+      if (o === 'kalkar') k.gitti = durum.zaman.dakika + 90;
       delete durum.sohbet;
     } else if (o === 'pecete') {
       // Arar mı? Kimse bilmez: ilgisi yüksekse çoğunlukla, düşükse ara sıra
@@ -207,6 +209,7 @@ export function askHamlesi(durum, veri, rng, n, k, konu, ig, p, ar) {
       anlat(partner ? X.cik.gizli : X.cik.evet);
       // Aynı gece: sohbetten hemen sonra olay (vakti gelmiş zamanlayıcı)
       const olay = partner ? 'birlikte_gece_gizli' : 'birlikte_gece';
+      k.gitti = durum.zaman.dakika + 14 * 60; // gece seninle; ertesi gün ortalarda
       durum.zamanlayicilar.unshift({ zaman: durum.zaman.dakika, olay, baglam: { npc: { kisi: n.id }, degisken: { kisi: { ad: n.hitapAdi, cinsiyet: n.cinsiyet } } } });
       if (partner) { k.iliski.risk = (k.iliski.risk ?? 0) + 2; k.gizli = true; }
       arzuEkle(k, 6);

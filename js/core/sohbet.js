@@ -183,6 +183,8 @@ const sabir = (veri, n, k) => {
 
 function oturumBaslat(durum, id, mekan, kalan) {
   durum.sohbet = { npc: id, mekan: mekan.id, kalan, kullanilan: {}, bekleyen: null, bas: durum.zaman.dakika };
+  const k = durum.npcler?.[id];
+  if (k && mekan.id !== 'ev') k.sonYer = { mekan: mekan.id, gun: gunNo(durum.zaman.dakika), dilim: dilim(durum.zaman.dakika).id };
 }
 export const oturumBitir = durum => { delete durum.sohbet; };
 
@@ -869,6 +871,7 @@ export function sohbetHamlesi(durum, veri, rng, konu) {
     p.push(...soyle(durum, veri, n, k, sb.bitir.o, rng));
     p.push({ tur: 'sistem', metin: sb.sabirBitti.replace('{s.ad}', n.hitapAdi) });
     k.ayrildi = { zaman: durum.zaman.dakika, kim: 'o' };
+    k.gitti = durum.zaman.dakika + 90; // kalkıp gitti; bir buçuk saat ortalarda yok
     oturumBitir(durum);
   } else if (durum.sohbet && soruOlabilir && !o.bekleyen) {
     // Karşılıklılık: meraklı ve dışadönük olan daha çok sorar
@@ -1009,7 +1012,7 @@ function numaraIsrar(durum, veri, rng, n, k, ig, p) {
   }
   k.iliski.gerginlik = (k.iliski.gerginlik ?? 0) + 2;
   k.iliski.cekim = (k.iliski.cekim ?? 0) - 3;
-  if (id === 'kalkti') { k.ayrildi = { zaman: durum.zaman.dakika, kim: 'o' }; oturumBitir(durum); }
+  if (id === 'kalkti') { k.ayrildi = { zaman: durum.zaman.dakika, kim: 'o' }; k.gitti = durum.zaman.dakika + 90; oturumBitir(durum); }
   return false;
 }
 

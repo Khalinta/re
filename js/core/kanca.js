@@ -174,6 +174,7 @@ export function kancaHamlesi(durum, veri, rng, n, k, konu, p, ar, { ig = 0, flor
       k.ayrildi = { zaman: durum.zaman.dakika, kim: 'sen' };
       delete durum.sohbet;
       durum.konum = { semt: n.semt, mekan: null };
+      k.gitti = durum.zaman.dakika - gunDakikasi(durum.zaman.dakika) + (gunDakikasi(durum.zaman.dakika) >= 12 * 60 ? 1440 : 0) + 8 * 60; // evinde; sabaha kadar ortalarda yok
       k.anilar.push({ zaman: durum.zaman.dakika, metin: 'gece onu eve bıraktın' });
     } else genel.push(oz); // randevu, numara, cik, senKalk...
   }

@@ -8,6 +8,9 @@ import { hataPaneli } from '../../hata.js';
 import { yediDokunusKur } from '../../dev/panel.js';
 import { ayarlar as yzAyar, ayarDegistir as yzDegistir, etkin as yzEtkin, harcama, YZ_ETKIN } from '../../yz/ayar.js';
 import { MODELLER, SAGLAYICILAR } from '../../core/yz.js';
+import * as oyun from '../../oyun.js';
+import { bilgiGoster } from '../panel.js';
+import { para as paraYaz } from '../../core/format.js';
 
 function segment(anahtar, etiket) {
   const grup = h('div', { class: 'segment', role: 'radiogroup', 'aria-label': etiket });
@@ -59,6 +62,20 @@ function yzBolumu() {
   return kap;
 }
 
+// Deneme için para (kullanıcı isteği, 2026-10-22): iş ve para sistemi (Faz 4) gelene kadar oyunu denerken
+function paraBolumu() {
+  const ekle = t => {
+    if (!oyun.durumAl()) { bilgiGoster('Para ekle', 'Önce bir oyun başlat.'); return; }
+    oyun.gelistiriciDegistir(d => { d.para += t; }, `+${paraYaz(t)} eklendi (deneme)`);
+    bilgiGoster('Para eklendi', `Cebinde artık ${paraYaz(oyun.durumAl().para)} var.`);
+  };
+  return h('div', { class: 'kart' },
+    h('p', { class: 'soluk kucuk' }, 'Oyunu denerken kullanman için. İş ve para sistemi gelince kaldırılacak.'),
+    h('div', { class: 'dugme-yigini' },
+      h('button', { class: 'dugme', onclick: () => ekle(1000) }, '+1.000 ₺'),
+      h('button', { class: 'dugme', onclick: () => ekle(10000) }, '+10.000 ₺')));
+}
+
 // Sürüm satırı: 7 kez dokununca gizli geliştirici paneli açılır
 function surumSatiri() {
   const alt = h('span', { class: 'satir-alt' }, OYUN_SURUMU);
@@ -81,6 +98,8 @@ export const dahaFazlaEkrani = {
       h('p', { class: 'ornek-metin' }, 'Örnek: Çınaraltı Kahvesi\'nde çay 15 ₺. Sabahın köründe bile kalabalık.'),
       YZ_ETKIN ? h('h2', { class: 'bolum-baslik' }, 'Yapay zekâ sohbeti') : null,
       YZ_ETKIN ? yzBolumu() : null,
+      h('h2', { class: 'bolum-baslik' }, 'Deneme: para ekle'),
+      paraBolumu(),
       h('h2', { class: 'bolum-baslik' }, 'Kayıtlar'),
       h('div', { class: 'kart-liste' },
         h('button', { class: 'satir', onclick: () => kayitlariGoster() },
